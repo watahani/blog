@@ -1,17 +1,17 @@
 ---
-title: YubiKey PIV 機能で SSH 接続する(OpenSC編)
+title: Putty CAC で SSH に YubiKey を使う(OpenSC編)
 date: 2018-02-02 21:44:28
 tags:
 ---
 
-# YubiKey PIV 機能で SSH 接続する
+# Putty CAC で SSH に YubiKey を使う(OpenSC編)
 
 ## 概要
 
 YubiKey 4 の PIV 機能を利用して SSH 接続を試してみる。
-YubiKey の PIV(Smart Card) 機能と一口でいっても OpenSC などで実装される PKCS#11 と、 Windows の CAPI で利用できる minidriver 経由の API アクセスの2つの機能があるようです。
+YubiKey には PIV(Smart Card) 機能があり、 OpenSC などで実装される PKCS#11 と、 Windows の CAPI で利用できる minidriver 経由の API アクセスの2つの機能が利用できる。
 
-今回は Windows 環境で PKCS#11 と CAPI を利用できる Putty CAC と OpenSC を利用して SSH 接続を試してみる。
+Windows 環境で PKCS#11 と CAPI を利用できる Putty CAC を利用して SSH 接続を試してみる。今回は OpenSC のほうを試す。
 
 Linux, Mac 環境については [Yubico 公式サイト](https://developers.yubico.com/PIV/Guides/SSH_with_PIV_and_PKCS11.html)に解説があるのでそちらを参照
 
@@ -28,10 +28,11 @@ CAPI を利用して SSH もできるので、時間があればまた次回。
 ## お品書き
 
 * 各種ツールのインストール
+* キーペア(証明書)の作成
 * OpenSC を利用して SSH
 * 注意
 
-## 下準備
+## 下ごしらえ
 
 ### Putty CAC のインストール
 
@@ -53,7 +54,7 @@ GitHub の[リリースページ](https://github.com/OpenSC/OpenSC/releases/tag/
 
 インストール終了後 `%SystemRoot%\System32\opensc-pkcs11.dll` が作成されていればOK
 
-## 実食
+## 調理
 
 ### キーペアの生成
 
@@ -155,6 +156,8 @@ ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDwrrmmy
 > echo "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbm..." >> ~./ssh/authorized_keys
 ```
 
+## 実食
+
 あとは putty に戻って接続できるかテストする。
 
 {% asset_img lena.bmp 2018-02-02_21h37_11.png %}
@@ -175,4 +178,3 @@ PIN 入れて…
 Yubico PIV Tool で作成した証明書が入った YubiKey を利用して
 CAPI 経由で証明書を発行すると、警告なしに上書きされる。
 minidriver とは併用しないようにしよう。
-
