@@ -8,10 +8,14 @@ tags:
 
 ## 概要
 
-YubiKey 4 の PIV 機能を利用して SSH 接続を試します。
-YubiKey の PIV(Smart Card) 機能と一口でいっても OpenSC などで実装される PKCS#11 と、 Windows の CAPI で利用できる minidriver API の2つの機能があるようです。
+YubiKey 4 の PIV 機能を利用して SSH 接続を試してみる。
+YubiKey の PIV(Smart Card) 機能と一口でいっても OpenSC などで実装される PKCS#11 と、 Windows の CAPI で利用できる minidriver 経由の API アクセスの2つの機能があるようです。
 
-今回は Windows 環境で PKCS#11 と CAPI を利用できる Putty CAC と OpenSC を利用して SSH 接続を試してみる。CAPI を利用して SSH もできるので、時間があればまた次回。
+今回は Windows 環境で PKCS#11 と CAPI を利用できる Putty CAC と OpenSC を利用して SSH 接続を試してみる。
+
+Linux, Mac 環境については [Yubico 公式サイト](https://developers.yubico.com/PIV/Guides/SSH_with_PIV_and_PKCS11.html)に解説があるのでそちらを参照
+
+CAPI を利用して SSH もできるので、時間があればまた次回。
 
 ## 環境
 
@@ -27,7 +31,7 @@ YubiKey の PIV(Smart Card) 機能と一口でいっても OpenSC などで実�
 * OpenSC を利用して SSH
 * 注意
 
-## 実食
+## 下準備
 
 ### Putty CAC のインストール
 
@@ -49,6 +53,8 @@ GitHub の[リリースページ](https://github.com/OpenSC/OpenSC/releases/tag/
 
 インストール終了後 `%SystemRoot%\System32\opensc-pkcs11.dll` が作成されていればOK
 
+## 実食
+
 ### キーペアの生成
 
 Yubico PIV Manager を起動する。
@@ -57,13 +63,13 @@ Yubico PIV Manager を起動する。
 
 {% asset_img lena.bmp 2018-02-01_08h54_48.png %}
 
-[Management key](https://developers.yubico.com/yubikey-piv-manager/PIN_and_Management_Key.html) は一般的な利用では Use PIN as key でよいだろう。
+[Management key](https://developers.yubico.com/yubikey-piv-manager/PIN_and_Management_Key.html) は一般的な利用では Use PIN as key でいいと思う。
 
 PIN の設定が終われば `certificates` をクリックして証明書一覧を開く。
 
 {% asset_img lena.bmp 2018-02-02_20h33_31.png %}
 
-スロットが 9a, 9c, 9d, 9e とあり、それぞれ Authentication, Sign, Key Management, Card Authentication ように [割り振られている](https://developers.yubico.com/PIV/Introduction/Certificate_slots.html) らしいが、SSH接続用にキーペアを使う分にはどのスロットを使っても同じ。
+スロットが 9a, 9c, 9d, 9e とあり、それぞれ [Authentication, Sign, Key Management, Card Authentication ように 割り振られている](https://developers.yubico.com/PIV/Introduction/Certificate_slots.html) らしいが、SSH接続用にキーペアを使う分にはどのスロットを使っても同じ。
 
 とりあえず、 9a スロットと 9c スロットに SSH 用のキーを作成してみる。
 まずは `Authentication` タブで `Generate new key` を選択する。
@@ -143,7 +149,7 @@ putty CAC を起動する。[Putty CAC](https://risacher.org/putty-cac/) のペ�
 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDwrrmmyS/tvPdZ/i9oe6HT7+Z7h+/+FuLqQFDVq+5+Yj3lo6mkK35R3sYLvCHWIKVnL/gv5pEX3YCmzikPUZJc= PKCS:2f05561a3cde0620a7ba6edfddae6b73a757d12e=C:\Windows\System32\opensc-pkcs11.dll2f05561a3cde0620a7ba6edfddae6b73a757d12e CN=user1 sever1
 ```
 
-するとこんな感じで、 openssh 形式の公開鍵が出力されるので サーバーの authorized_keys に追加する。
+このように openssh 形式の公開鍵が出力されるので サーバーの authorized_keys に追加する。
 
 ```sh
 > echo "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbm..." >> ~./ssh/authorized_keys
@@ -153,7 +159,11 @@ ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDwrrmmy
 
 {% asset_img lena.bmp 2018-02-02_21h37_11.png %}
 
+ユーザ名入れて…
+
 {% asset_img lena.bmp 2018-02-02_21h37_37.png %}
+
+PIN 入れて…
 
 {% asset_img lena.bmp 2018-02-02_21h37_43.png %}
 
