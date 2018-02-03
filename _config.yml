@@ -7,7 +7,7 @@ title: enjoy struggling
 subtitle: 技術メモとか料理ネタとか
 description:
 author: watahani
-language: japanese
+language: jp
 timezone: Asia/tokyo
 
 # URL
@@ -16,7 +16,6 @@ url: http://blog.haniyama.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
-
 # Directory
 source_dir: source
 public_dir: public
