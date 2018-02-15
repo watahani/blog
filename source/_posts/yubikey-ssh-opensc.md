@@ -118,6 +118,12 @@ PIN tries left: 3
 
 あとは Export certificate で証明書を export できるので、そこから公開鍵を作成して openssh 形式に変換すればいいのだが、ssh-keygen コマンドが Windows 環境だとうまく動かなかった。Linux 上ではうまくいったので手順だけメモっておく。
 
+> 2018-02-09 追記
+> Windows 環境でも pkcs15-tool で、証明書が RSA ならうまくいった。
+> OpenSC のインストールフォルダにある toolsフォルダ以下にある pkcs15-tool を利用して
+> pkcs15-tool.exe --read-ssh-key 1
+> 今回は証明書をECDSA(楕円曲線署名)で作ってみたので↑はうまくいかなかった…。
+
 今回は後述する putty CAC の機能で変換する。
 
 ```sh
