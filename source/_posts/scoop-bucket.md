@@ -51,8 +51,7 @@ versions
 
 このままだと何の役にも立たないので、 bucket に manifest file を追加します。
 
-試しに YubiKey の personailazion tools をインストールしてみます。
-
+試しに Yubico の [YubiKey personailazion tools(CLI)](https://www.yubico.com/support/knowledge-base/categories/articles/yubikey-personalization-tools/) をインストールしてみます。
 
 yubikey-personailation-tool.json
 
@@ -123,7 +122,7 @@ scoop には bucket の manifest を自動更新する機能があります。
 * アップデートURL
 
 `url` に `checkver` で検索した $version を変数としてダウンロードURLを記述します。
-checkver の `re` に `(?<variable-name> regex)` のように記述することで、 `$variable-name` のような変数を利用することも可能です。
+checkver の `re` に `(?<variable-name> regex)` のように記述することで、 `$variable-name` のような[変数を利用することも可能](https://github.com/82p/scoop-yubico-bucket/blob/494d3a9df627642cd5df62cf219aef090dfe52ae/yubihsm2-sdk.json#L19)です。
 
 ```json
     "autoupdate": {
