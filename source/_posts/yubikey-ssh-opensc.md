@@ -1,7 +1,7 @@
 ---
 title: Putty CAC で SSH に YubiKey を使う(OpenSC編)
 date: 2018-02-02 21:44:28
-tags:
+tags: YubiKey
 ---
 
 # Putty CAC で SSH に YubiKey を使う(OpenSC編)
