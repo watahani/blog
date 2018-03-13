@@ -1,7 +1,9 @@
 ---
 title: scoop bucket を作成する
 date: 2018-03-12 20:12:44
-tags: scoop,Windows,YubiKey
+tags: 
+  - "scoop"
+  - "YubiKey"
 ---
 
 # scoop bucket を作成する
