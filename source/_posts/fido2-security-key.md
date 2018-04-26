@@ -6,14 +6,16 @@ tags:
  - FIDO
 ---
 
-## 届いた
+## FIDO2 対応のキー
+
+届いた
 
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">FIDO2 対応の Security Key 届いた <a href="https://t.co/8taKRfWlrP">pic.twitter.com/8taKRfWlrP</a></p>&mdash; 82 (@watahani) <a href="https://twitter.com/watahani/status/989460163420569600?ref_src=twsrc%5Etfw">2018年4月26日</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ## FIDO2 とは
 
-FIDO U2F および UAF を拡張した認証標準で、まあ要は [WebAuthn](https://www.w3.org/TR/webauthn/) のこと。
+FIDO U2F および UAF を拡張した認証標準で、まあ要は [WebAuthn](https://www.w3.org/TR/webauthn/) と [CTAP](https://fidoalliance.org/specs/fido-v2.0-rd-20161004/fido-client-to-authenticator-protocol-v2.0-rd-20161004.html) のこと。
 
 さっと中身をナナメ読みすると、 FIDO U2F の sign する ClientData にもっといろいろ突っ込めるようにしたような規格（まだちゃんと読んでない…）
 通信容量削減のため CBOR とかいうバイト配列のデータに、RPやチャレンジ以外のデータも色々突っ込んで Token Binding やら IDの代わりにしたりできるっぽい。
@@ -31,19 +33,17 @@ FIDO U2F および UAF を拡張した認証標準で、まあ要は [WebAuthn](
 厚さも重さもほぼ変わらず。
 旧 Security Key とはキーチェーンの穴がプラか金属部分が出ているかと、謎の "2" の刻印以外はおぼ同じ。
 
-ただし、古いキーも最近のロットはじゃキーチェーンに金属が入っているので、実質　"2" の刻印以外は見た目は変わらない。
+ただし、古いキーも最近のロットはキーチェーンに金属が入っているので、実質　"2" の刻印以外は見た目は変わらない。
 爪でこするぐらいじゃ消え無さそうだった(笑) さすがにレーザー刻印なのかな？
 
-## とりあえず使ってみる
+## とりあえず使ってみる (WebAuthn)
 
 とりあえず触ってみる。
 
-まずは、Yubico のサンプルサーバー と Firefox Nightly でテスト
+まずは、Yubico のサンプルサーバー と Firefox Nightly で WebAuthn のテスト
+> WebAuthn のデモは [ここ](https://webauthn.io/) とか [ここ](http://webauthn.bin.coffee/) とかでも
 
 <https://github.com/Yubico/python-fido2/tree/master/examples/server>
-
-
->requirement.txt に Windows環境だと何か足らないものがあったが忘れた…
 
 ```ps1
 > git clone https://github.com/Yubico/python-fido2.git
@@ -93,14 +93,19 @@ AttestationObject: AttestationObject(fmt: 'fido-u2f', auth_data: AuthenticatorDa
 REGISTERED CREDENTIAL: AttestedCredentialData(aaguid: h'00000000000000000000000000000000', credential_id: h'f9c62b17c868223f619223f7f705be4b29b314b7b237073389319d922cc61ce5d913b1ec68a9da6917cb362ce9ed0623d4d5f0a3d4b7b21db661b2628b6d7e0e', public_key: {1: 2, 3: -7, -1: 1, -2: b'\xc0\x83\xe0Z\xd4t\xfd\tr\xc5\xb7\xe5g\xe3\x0cd\x81\x82{\xf7\xe6\xa8*\x92\x83\x89\xb0\xf7a\xfc@\x15', -3: b'\x1e\x18[\xb2T\x17@7\xdf\x1f\x9c\xd5\x07\xb5+Egg$;\x179\xbdB\xe3\xed\x84\x7fT\xad\xf6\xb4'}
 ```
 
+ふむふむ… あれ？
+
+aaguid が空だし、fmtが…
+
 `fmt: 'fido-u2f'` 
 
-U2F でしか動かないんかーい！
+<h4>ってまだ U2F でしか動かないんかーい！</h4>
 
 ブラウザの実装の問題なのか、サーバーのAPI呼び出し方法の問題なのか、よくわかんない。
-多分前者。
 
-## とりあえず使ってみる2
+多分前者？
+
+## とりあえず使ってみる (CTAP)
 
 せっかく届いたので寝る前に FIDO2 らしいことをしたい。なので、同じく Yubico の python製の FIDO Client を試してみる。
 examples ディレクトリ直下の get_info.py を叩くと、 CTAP で規定されたキーで利用できる認証方法のデータが返ってくる。
@@ -112,7 +117,7 @@ DEVICE INFO: Info(versions: ['U2F_V2', 'FIDO_2_0'], extensions: ['hmac-secret'],
 WINK sent!
 ```
 
-このキーは `U2F_V2` と `FIDO_2_0` に対応していて、 オプションとして、 
+このキーは `U2F_V2` と `FIDO_2_0` に対応していて、 オプションとして、 以下が使えることがわかる。
 
 * `rk`: True  Resident Key キー情報を保存する領域がある
 * `up`: True   User presence ユーザの存在確認が必要か、要はタッチが必要か
