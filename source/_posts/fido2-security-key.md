@@ -6,19 +6,19 @@ tags:
  - FIDO
 ---
 
-## FIDO2 対応のキー
+## FIDO 2.0 対応のキー
 
 届いた。 [Security Key by Yubico](https://www.yubico.com/product/security-key-by-yubico/) という名前らしい。
 
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">FIDO2 対応の Security Key 届いた <a href="https://t.co/8taKRfWlrP">pic.twitter.com/8taKRfWlrP</a></p>&mdash; 82 (@watahani) <a href="https://twitter.com/watahani/status/989460163420569600?ref_src=twsrc%5Etfw">2018年4月26日</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-## FIDO2 とは
+## FIDO 2.0 とは
 
 FIDO U2F および UAF を拡張した認証標準で、まあ要は [WebAuthn](https://www.w3.org/TR/webauthn/) と [CTAP](https://fidoalliance.org/specs/fido-v2.0-rd-20161004/fido-client-to-authenticator-protocol-v2.0-rd-20161004.html) のこと。
 
 さっと中身をナナメ読みすると、 FIDO U2F の sign する ClientData にもっといろいろ突っ込めるようにしたような規格（まだちゃんと読んでない…）
-通信容量削減のため CBOR とかいうバイト配列のデータに、RPやチャレンジ以外のデータも色々突っ込んで Token Binding やら IDの代わりにしたりできるっぽい。
+通信容量削減のため CBOR とかいうバイト配列のデータに、RPやチャレンジ以外のデータも色々突っ込んで ~~Token Binding やら IDの代わりにしたりできるっぽい。~~
 
 また PIN や biometrics 要求を Authenticator に投げられるようになってることにより、 U2F が2段階認証だったのが、FIDO2 だと **PIN + デバイス** だったり、**指紋 + デバイス** だったりで本当の意味でパスワードフリーになっている。
 
@@ -136,3 +136,22 @@ WINK sent!
 Pythonのコード追っていくと、PINの設定やPINを使った sign などもできそうだけれど、今日はここまで。
 
 かえって寝ないとGWが迎えられない…。
+
+---
+
+### 2018年4月27日 追記
+
+Windows Hello のPCログインで使えるようになるらしい。
+（ Azure AD および、個人アカウント）
+
+[Big news in our drive to eliminate passwords: FIDO2 / WebAuthn Reaches Candidate Recommendation status! – Enterprise Mobility + Security](https://cloudblogs.microsoft.com/enterprisemobility/2018/04/12/big-news-in-our-drive-to-eliminate-passwords-fido2-webauthn-reaches-candidate-recommendation-status/)
+
+>both personal Microsoft accounts and organizational identities based on Azure Active Directory
+
+ただし、Insider Preview にも出ておらず、以下から申し込みをした企業向けに、試用版がとどくかもって感じらしい。
+
+[Online Survey | Built with Qualtrics Experience Management™](https://microsoft.qualtrics.com/SE/?SID=SV_brWqzOWHstHbdGd&Q_JFE=0)
+
+Yubico の公式動画は以下
+
+<iframe width="854" height="480" src="https://www.youtube.com/embed/wl479T2t6eo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
