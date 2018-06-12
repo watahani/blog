@@ -94,7 +94,7 @@ Digital Signiture のタブでも同様に行う。
 終了すれば、 `yubico-piv-tool.exe` で 以下のコマンドを叩けば 2 つの証明書が入っていることが確認できる。
 (`yubico-piv-tool.exe` は PIV Manager のインストールフォルダにある)
 
-```sh
+```bash
 >yubico-piv-tool.exe -a status
 
 CHUID:  3019d4e739da739ced39ce739d836858210842108421384210c3f5341072734954600b79360e9ac8846ccfa77d350832303330303130313e00fe00
@@ -126,7 +126,7 @@ PIN tries left: 3
 
 今回は後述する putty CAC の機能で変換する。
 
-```sh
+```bash
 # 証明書から公開鍵を切り出し
 >  openssl x509 -pubkey -noout -in cert.pem > pubkey.pem
 
@@ -158,7 +158,7 @@ ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDwrrmmy
 
 このように openssh 形式の公開鍵が出力されるので サーバーの authorized_keys に追加する。
 
-```sh
+```bash
 > echo "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbm..." >> ~./ssh/authorized_keys
 ```
 

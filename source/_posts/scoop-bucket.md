@@ -24,7 +24,7 @@ tags:
 
 bucket は scoop のアプリケーションリストで、実態は Git リポジトリと manifest file です。とりあえず、最もシンプルな bucket を作成して、使用感を確かめてみます。
 
-```ps1
+```bash
 > mkdir my-bucket
 > cd my-bucket
 > git init
@@ -35,7 +35,7 @@ bucket は scoop のアプリケーションリストで、実態は Git リポ�
 
 これで bucket は出来上がりです。早速、 scoop に追加してみましょう。
 
-```ps1
+```bash
 > scoop bucket add my-bucket .
 Checking repo... ok
 The my-bucket bucket was added successfully.
@@ -56,6 +56,7 @@ versions
 yubikey-personailation-tool.json
 
 ```json
+
 {
     "homepage": "https://www.yubico.com/support/knowledge-base/categories/articles/yubikey-personalization-tools/",
     "version": "1.18.0",
@@ -77,18 +78,22 @@ yubikey-personailation-tool.json
         "bin\\ykpersonalize.exe"
     ]
 }
+
 ```
 
 コミット＾＾～
 
-```ps1
+```bash
+
 > git add .
 > git commit -m "add yubikey-personalizaion-tool"
+
 ```
 
 scoop 側からは、
 
-```ps1
+```bash
+
 > scoop update
 > scoop search yubikey
 'my-bucket' bucket:
@@ -97,6 +102,7 @@ scoop 側からは、
 > ykpersonalize -h
 Usage: ykpersonalize [options]
 ...
+
 ```
 
 使えますね。
@@ -155,7 +161,7 @@ checkver の `re` に `(?<variable-name> regex)` のように記述すること�
 こんな感じで manifest を更新したところで、自動アップデートをしてみます。
 自動アップデート事態は [scoop 本家](https://github.com/lukesampson/scoop.git) のスクリプトを利用します。
 
-```ps1
+```bash
 > git submodule add https://github.com/lukesampson/scoop.git scooop
 > .\scooop\bin\checkver.ps1 * -dir . -u
 
@@ -179,7 +185,7 @@ Writing updated yubikey-personalization-tool manifest
 
 こんな感じで使えます。
 
-```ps1
+```bash
 > scoop bucket add yubico-tool https://github.com/82p/scoop-yubico-bucket.git
 > scoop install yubikey-personalization-tool
 > ykinfo -s

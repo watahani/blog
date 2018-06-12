@@ -45,7 +45,7 @@ FIDO U2F および UAF を拡張した認証標準で、まあ要は [WebAuthn](
 
 <https://github.com/Yubico/python-fido2/tree/master/examples/server>
 
-```ps1
+```bash
 > git clone https://github.com/Yubico/python-fido2.git
 > cd .\python-fido2\server\
 > python -m venv .venv
@@ -110,7 +110,7 @@ aaguid が空だし、fmtが…
 せっかく届いたので寝る前に FIDO2 らしいことをしたい。なので、同じく Yubico の python製の FIDO Client を試してみる。
 examples ディレクトリ直下の get_info.py を叩くと、 CTAP で規定されたキーで利用できる認証方法のデータが返ってくる。
 
-```ps1
+```bash
 >  python .\get_info.py
 CONNECT: CtapHidDevice(b'\\\\?\\hid#vid_1050&pid_0120#7&1a9dc5a8&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}\x00')
 DEVICE INFO: Info(versions: ['U2F_V2', 'FIDO_2_0'], extensions: ['hmac-secret'], aaguid: h'f8a011f38c0a4d15800617111f9edc7d', options: {'rk': True, 'up': True, 'plat': False, 'clientPin': False}, max_message_size: 1200, pin_protocols: [1])
@@ -126,7 +126,7 @@ WINK sent!
 
 ちなみに U2F のキーだと CBOR 送れねーぞって怒られる。
 
-```ps1
+```bash
 >python .\get_info.py
 CONNECT: CtapHidDevice(b'\\\\?\\hid#vid_1050&pid_0407&mi_01#8&109b7fa4&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}\x00')
 Device does not support CBOR
