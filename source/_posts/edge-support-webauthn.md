@@ -14,15 +14,21 @@ tags:
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr">Single Factor Login using Security Key by Yubico <a href="https://twitter.com/hashtag/yubikey?src=hash&amp;ref_src=twsrc%5Etfw">#yubikey</a> <a href="https://twitter.com/hashtag/webauthn?src=hash&amp;ref_src=twsrc%5Etfw">#webauthn</a><a href="https://t.co/7rUjkoUmdK">https://t.co/7rUjkoUmdK</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a href="https://twitter.com/watahani/status/1008280543933263872?ref_src=twsrc%5Etfw">2018年6月17日</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-どうも、先日DMM英会話の退会を忘れていて、4万ほど失った [@watahani](https://twitter.com/watahani) です。かなしい。
+どうも、先日DMM英会話の退会を忘れていて、4万円ほど失った [@watahani](https://twitter.com/watahani) です。かなしい。
 
-さて、先日 `Insider Preview Build 17682` で WebAuthN のサポートがされたと聞いて、とりあえずは [webauthn.org](https://webauthn.org) で使えることまでは試したけれど
+さて、先日 `Insider Preview Build 17682` で WebAuthN のサポートがされたと聞いて、とりあえずは [webauthn.org](https://webauthn.org) で使えることまでは試しました。
+
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">試してみた（url張り間違えた)<a href="https://t.co/c3SzRaqHsA">https://t.co/c3SzRaqHsA</a><a href="https://t.co/UpTAmRJZ4l">https://t.co/UpTAmRJZ4l</a> <a href="https://t.co/TLMYH8E5c2">https://t.co/TLMYH8E5c2</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a href="https://twitter.com/watahani/status/1007628354067951616?ref_src=twsrc%5Etfw">2018年6月15日</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+WebAuthN自体動くことは分かったけど、
 
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr">Edge support resident key?</p>&mdash; 82@FIDO2勉強会？ (@watahani) <a href="https://twitter.com/watahani/status/1007627182817009664?ref_src=twsrc%5Etfw">2018年6月15日</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 Resident Key のサポートとかいろいろ気になるよね…？
-ということで調べてみた。
+
+ということで調べてみました。
 
 ## Resident Key とは？
 
@@ -40,13 +46,13 @@ FIDO2.0 から新しく追加された機能で、要はキーの中にユーザ
 [![](https://developers.yubico.com/FIDO2/index__2.png)](https://developers.yubico.com/FIDO2/)
 
 
-今回は、 Security Key by Yubico を利用
+今回は、 Security Key by Yubico を利用しました。
 
 <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=82p-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B07BYSB7FK&linkId=8a19153a421eb5ce6735b868823cdfbe"></iframe>
 
 ## U2F と FIDO2 の違い
 
-ゼロからコードを書くスペックは無いので、<https://github.com/fido-alliance/webauthn-demo> をベースに改造を加えてみる。
+ゼロからコードを書くスキルは無いので、<https://github.com/fido-alliance/webauthn-demo> をベースに改造を加えてみる。
 
 ### 認証部分
 
@@ -130,11 +136,12 @@ WebAuthN 部分については、まず登録時に Resident Key が登録でき
     ...
  ```
 
-ただ、このままだと無限にキーを登録し続けられるので、実際には aaguid などから、キーがすでに登録済みか調べて除外するなどする必要があると思う。
+ただ、このままだと無限にキーを登録し続けられてしまう。実際には aaguid などから、キーがすでに登録済みか調べて除外するなどする必要があると思う。
 
-> と思ったけど、 aaguid を `excludeCredentials` には追加できない ので、ユーザが重複登録してしまわないようにするにはサーバーに送ってから登録情報を見て登録済みならはじくとかかなあ…
+> と思ったけど、 aaguid を `excludeCredentials` には追加できない ので、ユーザが重複登録してしまわないようにするにはサーバーに送ってから登録情報を見て登録済みならはじくとかかなあ…。
+>それだとキー自体に登録してしまってから送っちゃうしだめか…
 
-次に認証時だが、これも簡単で credentials.get オプションに渡す allowCredentials を空にすればいい。
+次に認証時だけど、これも簡単で credentials.get オプションに渡す allowCredentials を空にすればいい。
 
 ```js
 let publicKey = {
@@ -145,9 +152,9 @@ return navigator.credentials.get({publicKey});
 
 当然 CredentialID 等はいらないのでこれでOK。
 
-しかし、 U2F では Challenge と ユーザを紐づけて管理していたが、セッションなどと紐づけて保存しておかなくてはならなくなった。
+U2F では Challenge と ユーザを紐づけて管理していたが、FIDO2 の One Factor Authentication の場合、セッションなどと紐づけて保存しておかなくてはならなくなった。
 
-また、サーバー側には CredentialID が送られるため、どのユーザがログインしようとしているかは CredentialID から逆引きする機構が必要になる。
+また、サーバー側には CredentialID のみが送られるため、どのユーザがログインしようとしているかは CredentialID から逆引きする機構が必要になる。
 
 ```js
 +let getUsernameFromCredentialID = function(credentialId){
@@ -157,7 +164,7 @@ return navigator.credentials.get({publicKey});
 +        authenticators.forEach((authenticator) => {
 +            if(authenticator.credID === credentialId){
 +                matchedUsername = username;
-+            }            
++            }
 +        })
 +    })
 +    return matchedUsername;
@@ -169,6 +176,7 @@ return navigator.credentials.get({publicKey});
 ## 実際の動作
 
 実際に Edge で動作確認をしてみる。
+
 ### Resister
 
 まずは、登録作業。
@@ -177,25 +185,29 @@ return navigator.credentials.get({publicKey});
 
 どうも Edge では User Verify (PINの入力) は必須らしく、PIN 設定していないキーでも関らず PIN の設定をしろと言われてしまう。
 
-まあ One Factor Authentication するには PIN なり、指紋なりで保護しないとだめなのはわかる。けど、認証レベルによってタップでログインして、重要な情報を変更するときのみ PIN の入力する…みたいな使い方は出来なさそう。
+One Factor Authentication するには PIN なり、指紋なりで保護しないとだめなのはわかる。けど、認証レベルによってタップでログインして、重要な情報を変更するときのみ PIN の入力する…みたいな使い方は出来なさそう。
 
 {% asset_img lena.bmp 02_touch.png %}
 
 User Verification の後は User Presence のためにタッチする。
-多分、生体認証などのキーでは User Verification は User Presence な動作を必要とするので、もう一度タッチしなくていいのかと思うけど、実機が無いのでわからない。誰か試してみて。
+
+多分、生体認証などのキーでは User Verification は User Presence な動作を必要とするまず。つまりもう一度タッチしなくていいのかと思うけど、実機が無いのでわからない。誰か試してみてほしい。
+
+{% asset_img lena.bmp 03_loggedin.png %}
+
+ともあれ、タッチまでして登録完了。
+
 
 ### Assertion
 
 次にログインの場合。先ほども言った通り、`Credential ID` 等はキーに保存できるため `allowCredentials` を空にして、`getAssertion` を呼べばよい。
 
-{% asset_img lena.bmp 03_loggedin.png %}
-
 PIN を入力すると、キーが与えられた `challenge` に対し、保存している Credentials すべてに対応する `attestationResponse` を Edge に返す。
 
 {% asset_img lena.bmp 04_pin.png %}
 
-Credential が一つしかない場合、自動でログインするらしい。
-うーん、正直どのユーザでログインしようとしているかは表示してほしい。
+Edge は Credential が一つしかない場合、自動でログインするらしい。
+正直どのユーザでログインしようとしているかは表示してほしい。
 
 {% asset_img lena.bmp 05_loggedin.png %}
 
@@ -211,13 +223,13 @@ Credential が複数ある場合はユーザリストが表示される。
 
 ## 雑感
 
-ソースはここに置いておいた
+ソースはここに置いておいた。
 
 <https://github.com/HWataru/webauthn-demo/tree/fido2-support>
 
 キーの登録自体は動画の通りうまく動いたけども、実際の運用には重複登録への対策や、他のブラウザごとの実装などがどうなるかなど、検討しないといけないことは色々あると感じた。
 
-正直キーだけで Web認証のすべてを行うのは難しいと思う。実際には PC や スマホの platform Authenticator や、フェデレーションなどを利用していく必要があるだろう。
+正直キーだけで Web認証のすべてを行うのは難しいと思う。実際には PC や スマホの platform Authenticator を利用したり、何かしらの IdP にのみキーを登録して、フェデレーションなどを利用していく必要があるだろう。
 
 何より DMM 英会話で失った 4万円が重くボディーブローのように響いてきてつらたん。
 
