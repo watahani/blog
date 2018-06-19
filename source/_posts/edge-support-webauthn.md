@@ -56,22 +56,56 @@ FIDO2.0 から新しく追加された機能で、要はキーの中にユーザ
 
 ### 認証部分
 
+> 2018-06-19 Attestation を認証部分と書いてしまっていたので修正
+
 認証部分に関して、Yubico の Security Key は `fido-u2f` ではなく `packed` で動くので認証部分を追加する。
 
-Extension がない場合、 signature は
+UV も検証したほうがいいかもだけど、ほかのブラウザがどういう方針で行くのか不明なのでとりあえずそのまま
+
+```js
+    }else if(authr.fmt === 'packed') { //別にこれ fido-u2f と分ける必要ない、というか attestation ない場合もあるので...
+        let authrDataStruct  = parseGetAssertAuthData(authenticatorData);
+
+        if(!(authrDataStruct.flags & U2F_USER_PRESENTED)) //FIDO2 の場合は UP に加え、UV をチェックすべき(0x05)
+            throw new Error('User was NOT presented durring authentication!');
+
+        let clientDataHash   = hash(base64url.toBuffer(webAuthnResponse.response.clientDataJSON))
+        let signatureBase    = Buffer.concat(
+            [
+                authrDataStruct.rpIdHash, 
+                authrDataStruct.flagsBuf, 
+                authrDataStruct.counterBuf,
+                clientDataHash
+            ]
+        );
+
+        let publicKey = ASN1toPEM(base64url.toBuffer(authr.publicKey));
+        let signature = base64url.toBuffer(webAuthnResponse.response.signature);
+
+        response.verified = verifySignature(signature, signatureBase, publicKey)
+
+        if(response.verified) {
+            if(response.counter <= authr.counter)
+                throw new Error('Authr counter did not increase!');
+
+            authr.counter = authrDataStruct.counter
+        }
+    }
+```
+
+Attestation Data の検証に関しては、Extension がない場合、
 
 * RP ID Hash
-* Flags 
-* Counter 
+* Flags
+* Counter
 * aaguid,
-* Credential ID Length 
-* Credential ID 
+* Credential ID Length
+* Credential ID
 * Public Key(CBOR)
 * Client Data Hash
 
 に対して行う。あとは U2F と一緒っぽい。
 
-UV も検証したほうがいいかもだけど、ほかのブラウザがどういう方針で行くのか不明なのでとりあえずそのまま
 
 ```js
 + (ctapMakeCredResp.fmt === 'packed'){
