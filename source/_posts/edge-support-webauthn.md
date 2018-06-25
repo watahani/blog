@@ -9,6 +9,8 @@ tags:
     - FIDO2
 ---
 
+> update 2018-06-25 userHandle に関して追記
+
 ## とりあえず動画をみれば大体わかる
 
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr">Single Factor Login using Security Key by Yubico <a href="https://twitter.com/hashtag/yubikey?src=hash&amp;ref_src=twsrc%5Etfw">#yubikey</a> <a href="https://twitter.com/hashtag/webauthn?src=hash&amp;ref_src=twsrc%5Etfw">#webauthn</a><a href="https://t.co/7rUjkoUmdK">https://t.co/7rUjkoUmdK</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a href="https://twitter.com/watahani/status/1008280543933263872?ref_src=twsrc%5Etfw">2018年6月17日</a></blockquote>
@@ -189,6 +191,10 @@ return navigator.credentials.get({publicKey});
 U2F では Challenge と ユーザを紐づけて管理していたが、FIDO2 の One Factor Authentication の場合、セッションなどと紐づけて保存しておかなくてはならなくなった。
 
 また、サーバー側には CredentialID のみが送られるため、どのユーザがログインしようとしているかは CredentialID から逆引きする機構が必要になる。
+
+> 2018-06-25 
+> Edgeの実装を確認していると getAssertion のレスポンス内に含まれる `user handle` 内に、 `user id` が含まれていた。
+> スペックでは nullable なので、使えたら使う？ってスタンスでよいのかなあ…。要調査。
 
 ```js
 +let getUsernameFromCredentialID = function(credentialId){
