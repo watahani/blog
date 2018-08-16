@@ -10,7 +10,7 @@ tags:
 
 # WebAuthn もくもく会
 
-実は土曜日に [WebAuthnもくもく会](https://fido2-workshop.connpass.com/event/95298/)　というものを企画して、来ていただいた2人と議論したり、各自もくもくしたりしてました。
+実は土曜日に [WebAuthnもくもく会](https://fido2-workshop.connpass.com/event/95298/) というものを企画して、来ていただいた2人と議論したり、各自もくもくしたりしてました。
 <!--more -->
 
 当日なんだかんだで色々とお話ができたので、忘れないうちに話したことをまとめようとこのブログを書き始めました。
@@ -25,7 +25,7 @@ tags:
 
 最近仕事で FIDOまわりをさわる時間がなかったこと、いろいろと**フラストレーション**がたまってたこと。**なんかやってやるぞという気持ちになった**ことなど…
 
-よくわからないことが重なり、一人でもいいからと思いつつ、コッソリ connpass にイベント張ってみたところ、なんと参加してくださった人がいて、圧倒的感謝以外ありえない。
+よくわからないことが重なり、一人でもいいからと思いつつ、[コッソリ connpass にイベント張ってみた](https://fido2-workshop.connpass.com/event/95298/)ところ、なんと参加してくださった人がいて、圧倒的感謝以外ありえない。
 
 先に言いたいことを言っておくと、 FIDO 周りの技術的な議論って足りていないと思っていて、例えば
 
@@ -33,9 +33,9 @@ tags:
 - Authenticator ロストしたときの復旧方法だとか
 - Federation サービスとの連携だとか（FAPIでは議論されてるけど、IDサービス系とかEnterpriseだとかの標準とか）
 
-みたいなこと。そんなことを話せるようになればいいなあと思っています。
+みたいなこと。
 
-今回は  **もくもく会** ですので、作業中心でしたけれども、雑談交じりにいろいろと議論できたこともあったのでまとめてみます。
+今回は  **もくもく会** ですので、作業中心でしたけれども、雑談交じりに議論できたこともあったのでまとめてみます。
 
 ## FIDO 関連で、今なにが動くか的なこと
 
@@ -83,11 +83,11 @@ Extensions も無視すれば、マジで簡単なので今度のもくもく会
 - User Verification Method Extension (uvm)
 - Biometric Authenticator Performance Bounds Extension (biometricPerfBounds)
 
-Authenticator が返す Extensions は Authenticator の署名がつくが、Client が返す Extensions は署名が付かず、`credentials.create()` や `credentials.get()` の戻り値で `getClientExtensionResults` で取得できること。
+Authenticator が返す Extensions は Authenticator の署名がつくが、Client が返す Extensions は署名が付かず、`credentials.create()` や `credentials.get()` の戻り値に含まれる `getClientExtensionResults` メソッドで取得できること。
 
 ほとんどの Extensions は Authenticator 側でも Client 側でも実装して良さそうだとこと。
 
-ということは location Extensions なんかは Authenticator が返してもいいし、 Client が返しても良い。その場合は、署名が付いてる Authenticator 側のを優先するのかなぁ？
+ということは Location Extensions なんかは Authenticator が返してもいいし、 Client が返しても良い。その場合は、署名が付いてる Authenticator 側のを優先するのかなぁ？
 
 で、そんな話をしていると Location Extension を Authenticator が返すときってあるんですかね？という話になって
 
@@ -103,7 +103,7 @@ Authenticator が返す Extensions は Authenticator の署名がつくが、Cli
 
 つまりは、 PC ログインするときに スマホが FIDO 対応の Authenticator になって、CTAP で PC と通信（BLE or NFC）して、 YubiKey みたいな外部 Authenticator として動けばいいよねって話。
 
-ただ、実際のユースケース次第では UAF で十分だとも思ったり、UAF としても 外部 Authenticator としても動くような Client 作れないかなあ（Google 先生が作ってくれないかなあ）みたいな、夢の話もしてました。
+ただ、実際のユースケース次第では FIDO2 の Internal Authenticator として動けば十分だとも思ったり、Internal Authenticator や UAF としても動くし、 外部 Authenticator としても動くような Client 作れないかなあ（Google 先生が作ってくれないかなあ）みたいな、夢の話もしてました。
 
 ## Server Requirements and Transport Binding Profile なる文書について
 
@@ -173,7 +173,7 @@ Authenticator が返す Extensions は Authenticator の署名がつくが、Cli
     }
 ```
 
-皆でナナメ読みした結果
+私がナナメ読みした結果
 
 > This document contains a non-normative, proposed REST API for FIDO2 servers. While this interface is not required, it is the interface that is used for the FIDO2 conformance test tools so that servers can receive and send messages in a standard way for those messages to be validated by the conformance test tools.
 
