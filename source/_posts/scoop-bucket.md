@@ -12,6 +12,8 @@ tags:
 
 そこで今回はオレオレ scoop bucket を作成してみようと思います。
 
+<!--more -->
+
 何事も同じですが、 [公式ドキュメント](https://github.com/lukesampson/scoop/wiki/App-Manifests) が参考になります。
 
 ## お品書き

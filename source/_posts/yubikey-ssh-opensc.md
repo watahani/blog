@@ -9,7 +9,9 @@ tags: YubiKey
 ## 概要
 
 YubiKey 4 の PIV 機能を利用して SSH 接続を試してみる。
+<!--more -->
 YubiKey には PIV(Smart Card) 機能があり、 OpenSC などで実装される PKCS#11 と、 Windows の CAPI で利用できる minidriver 経由の API アクセスの2つの機能が利用できる。
+
 
 Windows 環境で PKCS#11 と CAPI を利用できる Putty CAC を利用して SSH 接続を試してみる。今回は OpenSC のほうを試す。
 

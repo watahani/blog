@@ -13,6 +13,8 @@ tags:
 
 ## とりあえず動画をみれば大体わかる
 
+<!--more -->
+
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr">Single Factor Login using Security Key by Yubico <a href="https://twitter.com/hashtag/yubikey?src=hash&amp;ref_src=twsrc%5Etfw">#yubikey</a> <a href="https://twitter.com/hashtag/webauthn?src=hash&amp;ref_src=twsrc%5Etfw">#webauthn</a><a href="https://t.co/7rUjkoUmdK">https://t.co/7rUjkoUmdK</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a href="https://twitter.com/watahani/status/1008280543933263872?ref_src=twsrc%5Etfw">2018年6月17日</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 

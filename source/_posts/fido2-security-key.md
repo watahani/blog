@@ -10,6 +10,8 @@ tags:
 
 届いた。 [Security Key by Yubico](https://www.yubico.com/product/security-key-by-yubico/) という名前らしい。
 
+<!--more -->
+
 <blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">FIDO2 対応の Security Key 届いた <a href="https://t.co/8taKRfWlrP">pic.twitter.com/8taKRfWlrP</a></p>&mdash; 82 (@watahani) <a href="https://twitter.com/watahani/status/989460163420569600?ref_src=twsrc%5Etfw">2018年4月26日</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
