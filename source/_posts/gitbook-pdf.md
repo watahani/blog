@@ -97,9 +97,10 @@ module.exports = {
         "pdf": "styles/pdf.css"
     },
     "pdf": {
-        "fontFamily": "IPAGothic"
+        "fontFamily": "IPAGothic",
         //勉強会で紹介された noto font も入れてみたので好きなほうを
-        //"fontFamily": "NotoSans-Bold"
+        //"fontFamily": "NotoSans-Bold",
+        "paperSize": "b5"
     },
     "language": "ja"
 };
@@ -114,7 +115,8 @@ docker run --rm hwataru/gitbook-pdf gitbook pdf
 
 IPAGothic だとこんな感じのPDFが出来上がります。
 
-{% asset_img lena.bmp pdf.png %}
+{% asset_img lena.bmp pdfb5.png %}
+
+>さっそく誤字しとるやんけ…（）
 
 以上！
-
