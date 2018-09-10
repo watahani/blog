@@ -1,3 +1,3 @@
-[submodule "theme/hexo-theme-laughing"]
-	path = theme/hexo-theme-laughing
+[submodule "themes/hexo-theme-laughing"]
+	path = themes/hexo-theme-laughing
 	url = https://gitlab.development.yubion.com/haniyama_wataru/hexo-theme-laughing-jp.git
