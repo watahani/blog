@@ -32,10 +32,20 @@ FIOD2 Security Key に関しては、FIDO2 の Security Key つかったユー�
 ## Microsoft Ignite What's new for Windows Hello for Business
 <https://myignite.techcommunity.microsoft.com/sessions/64572#ignite-html-anchor>
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/FxDx2yk05Nw" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 二つ目は、 Windows Hello for Business で、Windows Hello の PIN/生体認証,もしくは FIDO2 Security Key で Azure AD に参加した Windows 10 マシンにログインできるようになったという話。
 
 Enterprise 向けに `Security Key` がやたら強調されていた。完全にスマートカードの Azure AD 版だよね、コレ。
-Feiten のキーの指紋認証も動くようになっていて、PIN 入れるのだるい勢としてはかなり気になった。
+
+デモでは Yubico の YubiKey 5 NFC と Feitian の指紋認証のUSB Authenticator が登場していた。
+Feitian のキーの指紋認証も動くようになっていて、PIN 入れるのだるい勢としてはかなり気になった。
+
+{% asset_img lena.bmp cap_keys.png %}
+
+以前早期体験プログラムがあるらしいと聞いたことがあったが、 "Getting to a world without passwords" のセッション同様、Emirates 航空なんかがユーザーとして試していたらしい。Emirates のでっけえ飛行機乗りたい。
+
+{% asset_img lena.bmp cap_users.png %}
 
 ロードマップとしては来年頭(Q1) にパブリックプレビューで使えるようになるらしい。ここら辺も前評判通りだな。
 
