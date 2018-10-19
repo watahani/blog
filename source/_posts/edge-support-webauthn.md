@@ -10,6 +10,7 @@ tags:
 ---
 
 > update 2018-06-25 userHandle に関して追記
+> 2018-10-20　この記事より詳細な記事書きました [webauthn における ResidentKey について](/2018/10/19/webauthn-residentkey/)
 
 ## とりあえず動画をみれば大体わかる
 
@@ -226,6 +227,11 @@ U2F では Challenge と ユーザを紐づけて管理していたが、FIDO2 �
 {% asset_img lena.bmp 01_pin.png %}
 
 どうも Edge では User Verify (PINの入力) は必須らしく、PIN 設定していないキーでも関らず PIN の設定をしろと言われてしまう。
+
+> 追記： User Verification はデフォルトで "preffered" です。
+> UV が不要であれば "discourage" オプションの指定が必要です。
+> 詳しくは は [webauthn における ResidentKey について](/2018/10/19/webauthn-residentkey/)
+
 
 One Factor Authentication するには PIN なり、指紋なりで保護しないとだめなのはわかる。けど、認証レベルによってタップでログインして、重要な情報を変更するときのみ PIN の入力する…みたいな使い方は出来なさそう。
 
