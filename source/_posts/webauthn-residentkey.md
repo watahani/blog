@@ -89,13 +89,12 @@ tags:
 
 |ResidentKey|User Verificaiton|platform|例|
 |---|---|---|---|
-|〇|〇|〇|スマホ・PCの生体 or PIN|
-|×|〇|〇|ID/Pass + スマホ・PCの生体 or PIN|
-|〇|〇|×|YubiKeyなどの外部デバイス(生体 or PIN)|
-|〇|×|×|YubiKeyなどの外部デバイス(タッチのみ)|
-|×|〇|×|ID/Pass + YubiKeyなどの外部デバイス(生体 or PIN)|
-|×|×|×|ID/Pass + YubiKeyなどの外部デバイス(タッチのみ)|
-|×|〇|×|ID/Pass + YubiKeyなどの外部デバイス(タッチのみ)|
+|〇|〇|internal|スマホ・PCの生体 or PIN|
+|×|〇|internal|ID/Pass + スマホ・PCの生体 or PIN|
+|〇|〇|external|YubiKeyなどの外部デバイス(生体 or PIN)|
+|〇|×|external|YubiKeyなどの外部デバイス(タッチのみ)|
+|×|〇|external|ID/Pass + YubiKeyなどの外部デバイス(生体 or PIN)|
+|×|×|external|ID/Pass + YubiKeyなどの外部デバイス(タッチのみ)|
 
 分かりにくいｗ
 
