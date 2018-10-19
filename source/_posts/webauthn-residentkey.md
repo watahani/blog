@@ -88,7 +88,7 @@ tags:
 なんとなく表にまとめるとこんな具合だと思う。
 
 |ResidentKey|User Verificaiton|platform|例|
-|---|---|---|---|
+|:---:|:---:|:---:|:---|
 |〇|〇|internal|スマホ・PCの生体 or PIN|
 |×|〇|internal|ID/Pass + スマホ・PCの生体 or PIN|
 |〇|〇|external|YubiKeyなどの外部デバイス(生体 or PIN)|
