@@ -152,7 +152,7 @@ navigator.credentials.create({
 
 これはどういう話かというと、
 
-ただし、それは Authenticator が一度も UV オプションを設定していなかった場合のみで、platform の Authenticator は、基本 UV が必須なので、オプションがオフでも UV のアクションが必須になる。
+User Presence だけの認証ができるのは Authenticator が一度も UV オプションを設定していなかった場合（あるいは対応していない場合）のみで、platform の Authenticator は、基本 UV が必須なので、オプションがオフでも UV のアクションが必須になる。
 
 というのも、 userVerification のオプションは "required", "preffered', "discourage" で、つまり "必須", "あれば", "なくてもいい" で、"なしで" のオプションがない。
 
