@@ -1,5 +1,5 @@
 ---
-title: Webauthn における ResidentKey について
+title: Webauthn における ResidentKey と UserVerification について
 date: 2018-10-19 22:12:53
 tags:
     - WebAuthn
