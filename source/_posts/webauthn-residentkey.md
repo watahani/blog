@@ -7,12 +7,12 @@ tags:
     - FIDO2
 ---
 
-以前、Insider Preview の Edge で Web Authentication API が動くようになったとき、Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)という記事を書いた。
+以前、「Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)」という記事を書いた。
 
 <!-- more -->
 
 
-- これ: [Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)](/2018/06/17/edge-support-webauthn/) 
+- これ: [Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)](/2018/06/17/edge-support-webauthn/)
 
 ありがたいことに、結構な方に見ていただいて、あの記事参考になったよと直接言っていただいたり、fidcon で話すことになったり。
 
