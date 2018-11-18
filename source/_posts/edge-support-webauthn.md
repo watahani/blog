@@ -3,7 +3,7 @@ title: Edge が WebAuthN をサポートしたらしいので色々試してみ�
 date: 2018-06-17 20:43:25
 tags:
     - YubiKey
-    - WebAuthN
+    - WebAuthn
     - CTAP2
     - FIDO
     - FIDO2
