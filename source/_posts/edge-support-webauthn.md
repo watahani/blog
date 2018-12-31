@@ -193,11 +193,12 @@ return navigator.credentials.get({publicKey});
 
 U2F では Challenge と ユーザを紐づけて管理していたが、FIDO2 の One Factor Authentication の場合、セッションなどと紐づけて保存しておかなくてはならなくなった。
 
-また、サーバー側には CredentialID のみが送られるため、どのユーザがログインしようとしているかは CredentialID から逆引きする機構が必要になる。
+~~また、サーバー側には CredentialID のみが送られるため、どのユーザがログインしようとしているかは CredentialID から逆引きする機構が必要になる。~~
 
 > 2018-06-25 
 > Edgeの実装を確認していると getAssertion のレスポンス内に含まれる `user handle` 内に、 `user id` が含まれていた。
 > スペックでは nullable なので、使えたら使う？ってスタンスでよいのかなあ…。要調査。
+
 
 ```js
 +let getUsernameFromCredentialID = function(credentialId){
@@ -214,7 +215,10 @@ U2F では Challenge と ユーザを紐づけて管理していたが、FIDO2 �
 +}
 ```
 
-うーん…。
+> 追記し忘れていたけれども [CTAP2 のスペック](https://fidoalliance.org/specs/fido-v2.0-rd-20180702/fido-client-to-authenticator-protocol-v2.0-rd-20180702.html#authenticatorGetAssertion) に
+> `FIDO devices - device resident credentials: For device resident keys on FIDO devices, at least user "id" is mandatory.`
+> とあるので、Resident Key においては必ず UserHandle が帰ってくると考えてよいと思う
+> ということで上記のコードは不要なハズ
 
 ## 実際の動作
 
