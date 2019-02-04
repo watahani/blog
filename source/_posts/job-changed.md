@@ -39,6 +39,13 @@ tags:
 
 チームは良い雰囲気で自由にできる環境だったが、そんな周りの環境もあり、前に進んでいる感覚が得られなかったのだと思う。
 
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">新年初出社</p>&mdash; 82 (@watahani) <a href="https://twitter.com/watahani/status/1083544349537755136?ref_src=twsrc%5Etfw">January 11, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">そして年内最後の出社😅</p>&mdash; 82 (@watahani) <a href="https://twitter.com/watahani/status/1083544938619461637?ref_src=twsrc%5Etfw">January 11, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
 ## 転職しました
 
 で、11月ぐらいに仕事が一区切りついて、転職活動してました。
@@ -51,11 +58,14 @@ tags:
 進路も色々考えたのですが、ぶっちゃけ給与につられて今の会社に入りました。いや、もっといろいろ理由はありますが、お金イズ大事。
 2週間ぐらいで使えねーとか言われて解雇されるんじゃないかとかビクビクしてたんですが、今のところ解雇される気配はないのでどうやらうまくやって行けそうです。
 
+<blockquote class="twitter-tweet" data-lang="en"><p lang="ja" dir="ltr">ひとまず出社成功はしている</p>&mdash; 82 (@watahani) <a href="https://twitter.com/watahani/status/1085008073893109760?ref_src=twsrc%5Etfw">January 15, 2019</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 ## 2019年
 
 正月も有休消化でがっつり休んでドローンを飛ばしたり、スノーボードいって膝壊したりして全然活動できていません。
 
-{% asset_img lena.bmp drone.jpg %}
+{% asset_img lena.bmp drone.png %}
 
 が、今年も [fido2-workshop](https://fido2-workshop.connpass.com/) の活動やアウトプットをしていきます。
 
