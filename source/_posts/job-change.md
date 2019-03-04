@@ -75,6 +75,8 @@ FIDO 関連でいうと、 [SoloKey](https://solokeys.com/) かったのと、[A
 
 <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=82p-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=4798159298&linkId=d34a62e9838d8026a15adba2cd1d1e45"></iframe>
 
+2018年は東京転勤や多くの方との出会いで大きな転機となった年でしたが、2019年も転職から始まり、人生の大きな節目になる予感がしてます。
+
 そんなこんなで今年もどうぞよろしくお願いいたします。
 
 {% asset_img lena.bmp keys.jpg %}
