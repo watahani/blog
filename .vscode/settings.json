@@ -1,3 +1,4 @@
 {
-    "markdown-preview-enhanced.revealjsTheme": "beige.css"
+    "markdown-preview-enhanced.revealjsTheme": "beige.css",
+    "editor.tabSize": 2
 }
