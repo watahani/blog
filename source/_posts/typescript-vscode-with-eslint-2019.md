@@ -17,10 +17,10 @@ tags:
 ## 環境
 
 - Windows 10
-- Node 12 ぐらい
+- Node 11 ぐらい
 - TypeScript 3.x ぐらい
 
-## メモ
+## TypeScript と ts-node
 
 ひとまず TypeScript を入れる。ts のまま動かすために ts-node も入れる。
 
@@ -63,6 +63,8 @@ index.ts を npm start で動かせるように `package.json` に追加
   },
 ```
 
+## VS Code のデバッグ環境
+
 VS Code でデバッグしたいので `.vscode/launch.json` を書く。これは [GitHub の issue](https://github.com/TypeStrong/ts-node/issues/46#issuecomment-437758378) からコピペ。
 
 ```json
@@ -83,6 +85,8 @@ VS Code でデバッグしたいので `.vscode/launch.json` を書く。これ�
     ]
 }
 ```
+
+## コードの自動整形
 
 初心者たるものコードの整形は機械任せにすべき、かどうかはわからんけど面倒なので機械任せにしとく。以前は tslint を使っていたように思うが、最近は eslint 使っとけばいいらしい。
 このあたりの設定は [VSCodeでESLint+@typescript-eslint+Prettierを導入する - Qiita](https://qiita.com/madono/items/a134e904e891c5cb1d20) から。
@@ -108,7 +112,31 @@ VS Code でデバッグしたいので `.vscode/launch.json` を書く。これ�
   }
 ```
 
-VS Code に eslint のプラグインを入れて、VS Code の `settings.json` に `eslint.validate` の設定を追加する。
+`.eslintrc` も必要だけど、マジでなんもわからん。コピペ。
+
+```json
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "env": { "browser": true, "node": true, "es6": true },
+  "parserOptions": {
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+  }
+}
+```
+
+自動整形と警告表示ができるように、VS Code に eslint のプラグインを入れて、VS Code の `settings.json` に `eslint.validate` の設定を追加する。
 
 ```json
     "eslint.enable": true,
@@ -124,6 +152,8 @@ VS Code に eslint のプラグインを入れて、VS Code の `settings.json` 
 
 {% asset_img lena.bmp vscode-settings-json.png %}
 
-あとは、`scr/index.js` 書いて、保存すれば整形、 F5 押せばデバッグ始まる。
+あとは、`scr/index.ts` 書いて、保存すれば整形、 F5 押せばデバッグ始まる。
 
 {% asset_img lena.bmp vscode-debug.png %}
+
+- https://github.com/watahani/authlete-handson
