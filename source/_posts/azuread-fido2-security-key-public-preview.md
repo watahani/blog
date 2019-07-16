@@ -1,6 +1,6 @@
 ---
 title: Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー
-date: 2019-07-10 20:05:43
+date: 2019-07-15 02:20:43
 tags:
   - Azure
   - YubiKey
@@ -118,14 +118,16 @@ Security Key でのサインインを有効化するためのポリシーを設�
 
 レジストリは多分 `HKEY_LOCAL_MACHINE\Software\Microsoft\Policies\PassportForWork\SecurityKey` の `"UseSecurityKeyForSignin"=dword00000001` あたりを設定してるっぽいけど細かくは調べてないし、余計な事せずマニュアル通りにやろうということで。
 
-3 はだれか試してちょ。
+~~3 はだれか試してちょ。~~ [試している記事があった](https://qiita.com/murasamelabo/items/8a1bd6f04d71e550c6cf#%E6%96%B9%E6%B3%952--windows-%E6%A7%8B%E6%88%90%E3%83%87%E3%82%B6%E3%82%A4%E3%83%8A%E3%83%BC%E3%81%A7%E3%81%AE%E8%A8%AD%E5%AE%9A)
 
 ## クライアント側の設定
 
 前提として Windows 10 マシンで Azure AD Join する必要がある。
 Intune のポリシーが当たっていれば、MFA と Hello for Business の PIN の設定も走るはず。(Intune を利用しない場合に Hello for Business セットアップする方法はよく知らない)
 
-その後、<https://myprofile.microsoft.com> に Edge でアクセスしてセキュリティキーを登録するのだが、http からリダイレクト設定が行われていないらしく、ちゃんとスキーマまで入力しないとアクセスできなかったりするので注意。(直接 <https://mysignins.microsoft.com/security-info> に飛んだほうが良いかも。)
+その後、<https://myprofile.microsoft.com> に Edge でアクセスしてセキュリティキーを登録するの ~~だが、http からリダイレクト設定が行われていないらしく、ちゃんとスキーマまで入力しないとアクセスできなかったりするので注意。(直接 <https://mysignins.microsoft.com/security-info> に飛んだほうが良いかも。)~~
+
+> 2019-07-16 現在、myprofile.microsoft.com にアクセスで特に問題なさげ
 
 Authentication Methods の設定が反映されていればセキュリティ設定で Security Key を追加すれば完了。
 
@@ -182,6 +184,8 @@ Flag は 0x85 なので 10000101 ってことは…、えーっと UP, UV, ED �
 ## 所感
 
 細かいところはともかく、とにかく Public Preview がきてくれてうれしい。
+
+最近発表された[Windows 10 のパスワード無効化](https://blogs.windows.com/windowsexperience/2019/07/10/announcing-windows-10-insider-preview-build-18936/)と組み合わせることで、デバイスセットアップさえ済んでしまえば、ユーザーがパスワードを利用するシーンを根絶できる…カモネ。
 
 設定も (Azure AD の反映に時間がかかることを除いては) 簡単で、セットアップも特に引っかかるところはなかったが、いくつか気になることがあったのでざっとまとめておく。
 
