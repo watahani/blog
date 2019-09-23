@@ -6,7 +6,7 @@ tags:
   - Azure
 ---
 
-今日は Azure AD B2C を OIDC な IdP である Yahoo! ID をつなげてみよう、というお話。
+今日は Azure AD B2C を OIDC な IdP である Yahoo! ID とつなげてみよう、というお話。
 
 ## Azure AD B2C とは
 
@@ -16,7 +16,7 @@ Microsoft が提供する Auth0 みたいなサービス。
 
 アプリケーションへの認証を Google や Facebook, Twitter といったソーシャル アカウントで行うために、Azure AD B2C というテナントに、複数の IdP を連携させることができる。
 
-具体的には B2C 側が、連携する IdP から id_token やら userinfo を引っ張ってきて、良しなに登録してくれるって感じ。
+具体的には B2C 側が、連携する IdP から id_token やら userinfo を引っ張ってきて、良しなにユーザーを登録・認証してくれるって感じ。
 様々な IdP に対応していて、アプリケーション側は、Azure AD B2C から発行されるトークンだけ見てればいいので色々楽ですよ、というやつですね。タブンネ。
 
 ## だめでしたー
@@ -92,7 +92,7 @@ B2C のサインイン ページから Yahoo! へは以下のリクエストが�
 
 ```http
 https://auth.login.yahoo.co.jp/yconnect/v2/authorization?
-  client_id=dj00aiZpPUVmN1QwZFJPTG9acSZzPWNvbnN1bWVyc2VjcmV0Jng9NjY-&
+  client_id=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx&
   redirect_uri=https%3a%2f%2fyourdomain.b2clogin.com%2fyourdomain.onmicrosoft.com%2foauth2%2fauthresp&
   response_type=code&
   scope=openid+profile+email&
