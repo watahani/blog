@@ -1,5 +1,5 @@
 ---
-title: Azure AD B2C を Yahoo! ID 連携しようとして失敗した話
+title: Azure AD B2C に Yahoo! ID を連携しようとして失敗した話
 date: 2019-09-23 20:28:11
 tags:
   - OIDC
