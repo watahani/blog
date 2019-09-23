@@ -122,6 +122,11 @@ https://jwt.ms/#
 
 ということで、B2C がリクエストに投げる response_mode を指定している部分が悪そうだというのが分かる。実際、Yahoo! ID に投げる Authorize Request から response_mode を消してやるとうまく動く。
 
+respones_mode 自体は OAuth の[OAuth 2.0 Multiple Response Type Encoding Practices](https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html) で、AuthZ レスポンスをどこに返すかを指定するパラメータらしい。
+@TakahikoKawasaki さんの [OAuth & OpenID Connect 関連仕様まとめ - Qiita](https://qiita.com/TakahikoKawasaki/items/185d34814eb9f7ac7ef3#13-%E5%BF%9C%E7%AD%94%E3%83%A2%E3%83%BC%E3%83%89-response_mode) が非常にわかりやすかった。
+
+とはいえ、必須のパラメータではないので B2C のパラメータとしては消せてもいい気がするけど…。
+
 ### カスタムポリシーで試す
 
 Azure B2C が response_mode を絶対入れてリクエストを送るのがダメなので、色々できるカスタムポリシーで試してみる。
@@ -189,6 +194,11 @@ ClaimsProvider を記述した PolicyId が、callback URL になるらしく、
 ```
 
 しかし B2C からの AuthZ リクエストから response_mode が消えることはなかった…。かなしい。
+なお、response_mode を消したり、値を空にすると、デフォルトの `form_post` になる。
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">MSさんJS苦手 &amp; SAML脳らしくて、id_token直で返して欲しいくせにfragmentは使いたくないとか言いおってな、出してきおったんや、form_postを。そんな経緯で出来たパラメーターやから、MSさんには必須かもしれん。</p>&mdash; nov matake (@nov) <a href="https://twitter.com/nov/status/1176051340339843072?ref_src=twsrc%5Etfw">September 23, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+なるほど？
 
 ということで、現在のところ Yahoo! ID を Azure B2C と連携することはできないようです。まる。
 
