@@ -123,7 +123,10 @@ Security Key でのサインインを有効化するためのポリシーを設�
 ## クライアント側の設定
 
 前提として Windows 10 マシンで Azure AD Join する必要がある。
-Intune のポリシーが当たっていれば、MFA と Hello for Business の PIN の設定も走るはず。(Intune を利用しない場合に Hello for Business セットアップする方法はよく知らない)
+
+~~Intune のポリシーが当たっていれば、MFA と Hello for Business の PIN の設定も走るはず。(Intune を利用しない場合に Hello for Business セットアップする方法はよく知らない)~~
+
+Hello for Business の有効化は必須ではないとのこと。
 
 その後、<https://myprofile.microsoft.com> に Edge でアクセスしてセキュリティキーを登録するの ~~だが、http からリダイレクト設定が行われていないらしく、ちゃんとスキーマまで入力しないとアクセスできなかったりするので注意。(直接 <https://mysignins.microsoft.com/security-info> に飛んだほうが良いかも。)~~
 
