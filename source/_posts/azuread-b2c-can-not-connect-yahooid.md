@@ -24,6 +24,8 @@ Microsoft が提供する Auth0 みたいなサービス。
 タイトルにある通り、結論から言うと連携できなかった。
 失敗した理由としては Yahoo! ID が response_mode=query のパラメータを読み込んでくれなかった (※ B2C が response_mode を省略してくれなかった) からなのだけど、いろいろ手順も残しておきたいのでブログにまとめようと思う。
 
+> 追記: カスタム ポリシーで OAuth プロファイルで作成すればいけた。
+
 ## 失敗手順
 
 細かい手順は省略しているので、各自ドキュメント等よんで調べてください。
@@ -200,7 +202,13 @@ ClaimsProvider を記述した PolicyId が、callback URL になるらしく、
 
 なるほど？
 
-ということで、現在のところ Yahoo! ID を Azure B2C と連携することはできないようです。まる。
+ということで、現在のところ Yahoo! ID を Azure B2C と連携することは ~~できないようです。まる。~~ 
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Azure AD B2CのProtocol設定とパラメータの受付が若干クセが強いからOAuth2指定でもscopeにopenidを指定すればOpenID Connectとして動いてくれる&amp;response_mode問題も解決する</p>&mdash; Naohiro Fujie (@phr_eidentity) <a href="https://twitter.com/phr_eidentity/status/1176194980886396928?ref_src=twsrc%5Etfw">September 23, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+ということで、カスタム ポリシーならいけました。
+
+<script src="https://gist.github.com/watahani/6ee0ffff0f4879b760ba5ab171df7430.js"></script>
 
 ## 参考
 
