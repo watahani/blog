@@ -48,8 +48,7 @@ FIDO2.0 から新しく追加された機能で、要はキーの中にユーザ
 
 キーの中に Challenge へのサインに必要な情報をキャッシュしておくことで、次回以降のログインに User 情報を入力する必要なくログインができる。
 
-[![](https://developers.yubico.com/FIDO2/index__2.png)](https://developers.yubico.com/FIDO2/)
-
+![](https://developers.yubico.com/FIDO2/index__2.png)](https://developers.yubico.com/FIDO2/)
 
 今回は、 Security Key by Yubico を利用しました。
 
