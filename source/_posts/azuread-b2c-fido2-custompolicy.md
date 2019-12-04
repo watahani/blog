@@ -1,6 +1,6 @@
 ---
 title: Azure B2C の FIDO2 サンプルを動かす
-date: 2019-12-01 15:29:00
+date: 2019-12-06 01:29:00
 tags:
   - Azure
   - OAuth
@@ -9,16 +9,20 @@ tags:
 
 この記事は[認証認可アドベントカレンダー](https://qiita.com/advent-calendar/2019/identity) の6日目の記事です。
 
-- 内容: Azure AD B2C に WebAuthn によるパスワードレス サインインを実装するサンプルを動かしてみた
-- 動機: やっぱ OIDC ネタと FIDO ネタが多いから、**どっちも絡めたやつを書けばめっちゃウケるのでは？**
+動機: やっぱ OIDC ネタと FIDO ネタが多いから、**どっちも絡めたやつを書けばめっちゃウケるのでは？**
+→ Azure AD B2C に WebAuthn によるパスワードレス サインインを実装するサンプルあったなあ…
 
-苦し紛れにネタをひねり出した結果、くっそニッチな記事になってしまった。そして、最近 Azure しか触ってないから、Azure ネタなんや… すまんやで。
+と、苦し紛れにネタをひねり出した結果、くっそニッチな記事になってしまった。
 
 <!-- more -->
 
+改めて読み直してみても、テーマを Azure B2C にしてしまったことで B2C を触ったことある人で、かつ FIDO に興味ある人という、 **読者 を狭めてしまっている** が、頑張って書いたのでもし全部試したという酔狂な人が (@phr_eidentity 以外で) 居たらフィードバックヨロ。
+
+最近 Azure しか触ってないから、Azure ネタなんや… すまんやで。
+
 ## Azure AD B2C
 
-さて Azure AD B2C は、Twitter や Facebook, その他の OpenID Provider を統合し、Azure AD B2C 独自の Id Token, Access Token を発行することが出来る。要は Auth0 的なサービス。(本ブログ二度目)
+Azure AD B2C とは、Twitter や Facebook, その他の OpenID Provider を統合し、Azure AD B2C 独自の Id Token, Access Token を発行することが出来る。要は Auth0 的なサービス。(本ブログ二度目)
 
 組み込みポリシーと呼ばれる既定のプロファイルで、複数の IdP と接続して、サインインフローを作れる。
 OIDC のプロバイダーを接続するときのクセが強かったりするのだが、カスタム プロバイダーを追加することで、外部の OP を接続できるし、デフォルトの機能も最低限必要なものはそろってる。
@@ -27,7 +31,7 @@ OIDC のプロバイダーを接続するときのクセが強かったりする
 
 ## 注意
 
-あらかじめ注意をしておくと、カスタム ポリシーを弄るのはかなりつらい作業で、メンテナンスも大変なのでできることなら組み込みのポリシーを利用することを **強くオススメします**。
+あらかじめ注意をしておくと、カスタム ポリシーを弄るのはかなりつらい作業で、メンテナンスも大変なのでできることなら組み込みのポリシーを利用することを **強くオススメする**。
 
 B2C のカスタム ポリシーはマジでなんでも出来てしまうので、中身がわかってないとなぜ動かないのか全くわからなくなる。
 
@@ -42,14 +46,24 @@ B2C のカスタム ポリシーはマジでなんでも出来てしまうので
 
 個人的な意見を追加するなら、ID だけでなく XML のプロフェッショナルである必要があると思う。
 
+また、本記事ではカスタム ポリシーのチュートリアルについては解説しない。
+各自公式ドキュメント等で確認してほしい。
+
 ## カスタム ポリシー
 
-カスタムポリシーに限った話ではないが、ポリシー (ユーザーフロー) はユーザーの入力をもとにクレームを構築し、最終的にトークンを払い出す。
+カスタム ポリシーとは何ぞや。
+Azure AD B2C は、ソーシャルアカウントと連携し、Azure AD B2C 独自の Id Token, Access Token を発行することが出来る。
 
-ユーザーの入力は、ID/パスワードであったり、他の OP から返却される ID トークンかもしれない。
-それらの入力から claim を取り出し、変換したり、外部 API で Validation したりして、最終的にトークンを作成し B2C の秘密鍵で署名する。
+その際各種 IdP と claim のやり取りを行い、検証し、変換し、任意のクレームを構築し、最終的にトークンを払い出す。
 
-claim の変換規則や、保存先、ユーザーの入力フォーム、それらのすべては **カスタム ポリシーと呼ばれる XML に保存されている。**
+その際には様々なデータが入力される。
+ユーザーの入力ID/パスワードであったり、ニックネーム、他の IdP から返却されるトークンかもしれない。
+
+それらの入力から claim を取り出し、変換したり、外部 API で Validation したりして、最終的にトークンを作成し B2C の秘密鍵で署名するのが Azure B2C のキモ。
+
+この claim の変換規則や、保存先、ユーザーの入力フォーム、それらのすべてを自由にカスタマイズできるのが、カスタム ポリシーである。
+
+そして設定は **すべて XML に保存されている。**
 
 そう…… **XML** に保存されているのだ。
 
@@ -88,12 +102,14 @@ ID/Password でサインインするユーザーに、FIDO2 の Authenticator �
 
 詳しくは [ief-wiki](https://github.com/azure-ad-b2c/ief-wiki/wiki/Policy-structure) などを参照して欲しいが、カスタム ポリシーの XML は先ほど作成した `TrustFrameworkBase.xml` を継承して、拡張属性などを定義する。最終的に継承された Extension の内容すべてを統合して、B2C のポリシーが完成する。
 
+> IEF は dentity Experience Framework の略
+
 今回の場合は `TrustFrameworkBase.xml` > `TrustFrameworkExtensions` > `FIDOExtensions.xml` と継承されている。
 `FIDORegistration.xml` と `FIDOSignUpOrSignin.xml` は、継承され統合された `FIDOExtensions.xml` を参照する。
 
 `FIDOExtensions.xml` に定義されていない設定は、継承元のどこかに記述されているはずなので、気力があれば継承元のポリシーを覗いてみよう。
 
-で、今回は `FIDOExtensions.xml` のみを編集するのだが、編集する前に事前準備が必要なので順にやっていく。
+今回は `FIDOExtensions.xml` のみを編集する。ただし、編集する前に事前準備が必要なので順にやっていく。
 
 ### 事前準備 1. FIDO2 サーバーの作成
 
@@ -107,13 +123,13 @@ ID/Password でサインインするユーザーに、FIDO2 の Authenticator �
 ホントは Azure Function とかに載せようとしたけど使い方わからなくて断念。
 Azure AppService とかも使ったことないので、now.sh にデプロイした。
 
-注意点としては、最終的に WebAuthn が動くのは B2C のログイン画面、つまり `https://yourtenant.b2clogin.com` 上なので、rpId も `yourtenant.b2clogin.com` とする。
+注意点としては、最終的に WebAuthn が動くのは B2C のログイン画面、つまり `https://yourtenant.b2clogin.com` 上なので、rpId も `yourtenant.b2clogin.com` にしなければならないこと。
 
-- fido.js 内
+- fido.js ファイル内の以下の部分を修正する
 
-```js
-// const hostname = process.env.HOSTNAME || "localhost";
-const hostname = "yourtenant.b2clogin.com";
+```diff
+- const hostname = process.env.HOSTNAME || "localhost";
++ const hostname = "yourtenant.b2clogin.com";
 ```
 
 now.sh にデプロイするために、`now.json` を以下のように作成する。
@@ -124,12 +140,13 @@ now.sh にデプロイするために、`now.json` を以下のように作成�
 
 {% asset_img .bmp nowsh.png %}
 
+> now.sh が v2 にバージョンアップしていて困ったが [Now でクラウドの複雑さから解放されよう、今すぐに - Qiita](https://qiita.com/aggre/items/f0cb9f8b8e8c54768e50) あたりを参考にした
+
 `https://source-code.username.now.sh` とかでデプロイされるので `https://source-code.username.now.sh/challenge` にブラウザでアクセスしてチャレンジが返れば OK。
 
 URL は後で使うのでメモっておく。
 
-なお、後述するユーザーデータの保存先の関係上、sign count はチェックしていない。
-
+なお、後述するユーザーデータの保存先の関係上、WebAuthn の sign count はチェックしていない。
 
 ### 事前準備 2. 静的ファイルのホスト
 
@@ -179,7 +196,7 @@ Admin Consent を完了させる。
 
 {% asset_img lena.bmp extensions.png %}
 
-この細切れのデータを、FIDOExtensions.xml でつないでいく。XML で…。
+この細切れのコンポーネントを、FIDOExtensions.xml でつないでいく。XML で…。
 
 ### UserJourneys
 
@@ -252,6 +269,7 @@ Admin Consent を完了させる。
 ```
 
 OrchestrationStep の 1 ~ 4 までは通常の認証フローなので今回はスキップ。
+いつか解説記事を書けたらかくかも。
 
 5 が API のアクセスを実行する部分。
 
@@ -619,17 +637,85 @@ XML の編集は以上で終了。
 <OrchestrationStep Order="8" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
 ```
 
-ここまで集めた Claims を Jwt 形式にして sign してアプリに送信します。
+ここまで集めた Claims を Jwt 形式にして sign してアプリに送信するだけ。
 
 
-諸々飛ばしたところはありますが、ひとまず XML の作成は完了したので B2C にポリシーをアップしましょう。
+諸々飛ばしたところはありますが、ひとまず XML の作成は完了したので B2C にポリシーをアップしよう。
 アップできなければエラーメッセージを確認し、頑張って直してください...。
 
 
-ここまでやり遂げたあなたなら、先ほどの図も理解できますね。
-
-素晴らしい！ XML が世界を回していることを実感します。
+さて、ここまでやり遂げたあなたなら、先ほどの図も理解できるはずですね。
 
 {% asset_img lena.bmp b2ccomponent.png %}
 
+素晴らしい！ XML が世界を回していることを実感しますね!?
 
+## 動作確認
+
+最後に動作確認をして、実際の動きを確かめてみる。
+
+### レジストレーション フロー
+
+Authenticator の登録には、既存の資格情報 (ここではパスワード) を入力する。
+実際に運用するなら、MFA を突破した後のほうがいいけど、これ以上 XML は弄りたくないので。
+
+登録の前には、再度資格情報が必要という警告を表示して
+
+{% asset_img lena.bmp b2c_01.png %}
+
+資格情報を入れて
+{% asset_img lena.bmp b2c_02.png %}
+
+Platform Authenticator か Cross-Platform Authenticator かを選ぶ。
+今回は SoloKey を使うので Cross-Platform Authenticator。
+
+{% asset_img lena.bmp b2c_03.png %}
+
+Attestation 要求しているので警告がでて、いつもの。
+
+{% asset_img lena.bmp b2c_04.png %}
+
+id_token が発行される。
+
+{% asset_img lena.bmp b2c_05.png %}
+
+### サインイン フロー
+
+サインインの際は、FIDO ボタンをクリックして
+
+{% asset_img lena.bmp b2c_06.png %}
+
+Authenticate ボタンで js が呼ばれて
+{% asset_img lena.bmp b2c_07.png %}
+
+い つ も の
+{% asset_img lena.bmp b2c_08.png %}
+
+id_token が発行される。
+{% asset_img lena.bmp b2c_09.png %}
+
+Debug ボタンで hidden 状態の form を表示することができる。
+{% asset_img lena.bmp b2c_10.png %}
+
+WebAuthn の公開鍵についてはユーザーの拡張属性に保存されている。
+なんでか Azure AD B2C テナントは Microsoft Graph API をサポートしていない (使えるけど) ので、Azure AD Graph を叩いて確認する。
+
+サインインしたユーザー情報を取得すると、確かに公開鍵が保存されている。
+
+- Azure AD Graph Explorer
+  https://graphexplorer.azurewebsites.net/#
+
+
+{% asset_img lena.bmp extensionsvalue.png %}
+
+
+## まとめ
+
+今回は Azure AD B2C に FIDO2 を組み込むサンプルを動かしてみた。
+XML を読み解くのは果てしなくつらい作業だったが、動いているのを見るといとおしく感じてくるから不思議である。
+
+XML のつながりを辿るのは果てしなくつらい作業だが、クレームの変換や検証、Azure AD への書き込みや読み込みなど、非常にプリミティブな動作をなんとなく体験できる面白いオモチャなので、興味がある人は触ってみてほしい。
+
+ただ、XML を弄るのは果てしなくつらい作業なので、私はしばらく見たくない。
+
+明日の Advent Calendar は
