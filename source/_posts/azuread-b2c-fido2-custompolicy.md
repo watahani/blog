@@ -18,8 +18,6 @@ tags:
 
 改めて読み直してみても、テーマを Azure B2C にしてしまったことで B2C を触ったことある人で、かつ FIDO に興味ある人という、 **読者 を狭めてしまっている** が、頑張って書いたのでもし全部試したという酔狂な人が (ふじえさん以外で) 居たらフィードバックヨロ。
 
-最近 Azure しか触ってないから、Azure ネタなんや… すまんやで。
-
 ## Azure AD B2C
 
 Azure AD B2C とは、Twitter や Facebook, その他の OpenID Provider を統合し、Azure AD B2C 独自の Id Token, Access Token を発行することが出来る。要は Auth0 的なサービス。(本ブログ二度目)
@@ -80,6 +78,8 @@ ID/Password でサインインするユーザーに、FIDO2 の Authenticator �
 
 ![](https://raw.githubusercontent.com/azure-ad-b2c/samples/master/policies/fido2/media/registration-user-flow.png)
 
+![](https://github.com/azure-ad-b2c/samples/blob/master/policies/fido2/media/authentication-user-flow.png?raw=true)
+
 ## 事前準備
 
 残念ながら、このポリシー、これだけでは動かない。
@@ -94,6 +94,9 @@ ID/Password でサインインするユーザーに、FIDO2 の Authenticator �
 <https://docs.microsoft.com/ja-jp/azure/active-directory-b2c/active-directory-b2c-get-started-custom?tabs=applications>
 
 たいていの人はここで XML を見て昇天する。心を強く持ってほしい。
+
+XML の編集は [Azure AD B2C の VS Code 拡張](https://marketplace.visualstudio.com/items?itemName=AzureADB2CTools.aadb2c) を入れると、少しは楽になる。
+是非入れよう。
 
 ## FIDO2 のカスタムポリシー
 
