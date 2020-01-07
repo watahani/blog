@@ -65,6 +65,10 @@ Azure AD B2C は、ソーシャルアカウントと連携し、Azure AD B2C 独
 
 そう…… **XML** に保存されているのだ。
 
+サンプルを動かすのに必要な知識は、 以下のブログにまとめられていて、実際に一つのサンプルを動かしてみたのが、今回の記事である。
+
+- [冴えないCustom Policyの育て方 | ブチザッキ](https://blog.azure.moe/2019/11/22/%e5%86%b4%e3%81%88%e3%81%aa%e3%81%84custom-policy%e3%81%ae%e8%82%b2%e3%81%a6%e6%96%b9/)
+
 ## 今回動かすサンプル
 
 今回動かすサンプルはこちら。
@@ -76,8 +80,10 @@ ID/Password でサインインするユーザーに、FIDO2 の Authenticator �
 
 最終的な動きはこんな感じ。
 
+初期登録して
 ![](https://raw.githubusercontent.com/azure-ad-b2c/samples/master/policies/fido2/media/registration-user-flow.png)
 
+認証する。
 ![](https://github.com/azure-ad-b2c/samples/blob/master/policies/fido2/media/authentication-user-flow.png?raw=true)
 
 ## 事前準備
