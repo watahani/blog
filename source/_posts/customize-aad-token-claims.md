@@ -1,5 +1,5 @@
 ---
-title: Azure AD で OAuth/OIDC のトークンをカスタマイズする
+title: Azure AD で OAuth/OIDC トークンのクレームをカスタマイズする
 date: 2020-02-16 18:24:36
 tags:
   - Azure AD
