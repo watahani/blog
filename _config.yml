@@ -82,7 +82,10 @@ theme: hexo-theme-laughing
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:watahani/blog.git
+  branch: gh-pages
+  message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }} [skip ci]"
 
 # pwa:
 #   manifest:
@@ -125,16 +128,6 @@ generator_amp:
     width: 1024
     height: 800
   warningLog: false
-
-toc:
-  maxdepth: 3
-  class: toc
-  slugify: transliteration
-  decodeEntities: false
-  anchor:
-    position: after
-    symbol: '#'
-    style: header-anchor
 
 feed:
   type: atom
