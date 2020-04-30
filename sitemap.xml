@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/</loc>
+    
+    <lastmod>2020-04-30T15:12:39.837Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/</loc>
     
     <lastmod>2020-02-16T09:39:36.009Z</lastmod>
@@ -107,14 +114,14 @@
   </url>
   
   <url>
-    <loc>http://blog.haniyama.com/2018/03/15/shiritori/</loc>
+    <loc>http://blog.haniyama.com/2018/03/12/scoop-bucket/</loc>
     
     <lastmod>2019-09-09T11:12:52.748Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.haniyama.com/2018/03/12/scoop-bucket/</loc>
+    <loc>http://blog.haniyama.com/2018/03/15/shiritori/</loc>
     
     <lastmod>2019-09-09T11:12:52.748Z</lastmod>
     
@@ -149,14 +156,14 @@
   </url>
   
   <url>
-    <loc>http://blog.haniyama.com/2018/04/26/fido2-security-key/</loc>
+    <loc>http://blog.haniyama.com/2018/07/23/fido-webauthn-mokumoku/</loc>
     
     <lastmod>2019-09-09T11:12:52.715Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://blog.haniyama.com/2018/07/23/fido-webauthn-mokumoku/</loc>
+    <loc>http://blog.haniyama.com/2018/04/26/fido2-security-key/</loc>
     
     <lastmod>2019-09-09T11:12:52.715Z</lastmod>
     
