@@ -47,6 +47,11 @@ async function uploadToBlob(fileName) {
 
   return await blockBlobClient.upload(data, data.length, options);
 }
+
+uploadToBlob(fileName)
+  .then((result) => console.log(result))
+  .catch((e) => console.error(e));
+
 ```
 
 ポイントは mime で Content-Type を判別して、blobContentType に突っ込む、ってこれ普通に node やってる人からしたあたりまえなのかな。公式サンプル無いのなんでなんだろ… すごい悩んだ。
@@ -78,10 +83,14 @@ async function uploadFolderToBlob() {
     })
   );
 }
+
+uploadFolderToBlob()
+  .then((results) => console.log(results))
+  .catch((e) => console.error(e));
 ```
 
-`Promise.all()` で Promise のリストを包んでやるのがポイント。相変わらず同期処理の書き方が分かってないので、いつもググりながら書いてる。
-fileName が `./path/to/file` みたくなっても、いい感じにアップロードしてくれるらしい。
+`Promise.all()` で Promise のリストを包んでやるのがポイント。相変わらず非同期処理の書き方が分かってないので、いつもググりながら書いてる。
+試した感じ fileName が `./path/to/file` みたくなっても、いい感じにアップロードしてくれるらしい。
 (上記の例だと `$web/path/to/file` にアップロードされる)
 
 今年も 1/3 が終わってしまった。そろそろ Azure AD B2C のカスタム ポリシーのまとめネタを書きたいけど、相変わらず全然わからんのでちょいネタでブログ更新。
