@@ -2,31 +2,31 @@
 <html ⚡>
   <head>
     <meta charset="utf-8">
-    <link rel="canonical" href="http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/" >
-    <title>Azure Storage Blob に Content-Type 付きでアップロードする - enjoy struggling</title>
+    <link rel="canonical" href="http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/" >
+    <title>Azure AD の SAP 向け Authorize Code Flow with PKCE (MSAL.js 2.x) - enjoy struggling</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     
-    <meta property="og:title" content="Azure Storage Blob に Content-Type 付きでアップロードする">
+    <meta property="og:title" content="Azure AD の SAP 向け Authorize Code Flow with PKCE (MSAL.js 2.x)">
 	<meta property="og:type" content="article">
-	<meta property="og:url" content="http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/">
+	<meta property="og:url" content="http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/">
 	
-		<meta property="og:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
+		<meta property="og:image" content="http://blog.haniyama.com\2020\06\02\aad-spa-auth-code-grant-with-pkce\app-registration-new-redirect-uri.png">
 	
 	<meta property="og:site_name" content="enjoy struggling">
 	
-		<meta property="og:description" content="&lt;p&gt;半年に 1 回ぐらい Azure Storage Blob を触るんだけど、毎回 Content-Type をセットするのを忘れてハマっている。&lt;br&gt;今回は nodejs で書いたので、忘れないようにメモ。&lt;/p&gt;
-&lt;p&gt;パッケージとして &lt;code&gt;@azure/storage-blob&lt;/code&gt; を使う。あとファイル検索のために &lt;code&gt;glob&lt;/code&gt; もつかう。&lt;/p&gt;">
+		<meta property="og:description" content="&lt;p&gt;Authorize Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
+&lt;h2 id=&#34;Azure-ポータルのアプリの登録画面&#34;&gt;&lt;a href=&#34;#Azure-ポータルのアプリの登録画面&#34; class=&#34;headerlink&#34; title=&#34;Azure ポータルのアプリの登録画面&#34;&gt;&lt;/a&gt;Azure ポータルのアプリの登録画面&lt;/h2&gt;&lt;p&gt;Azure AD のアプリ登録の画面がアップデートしており、リダイレクト URI の登録に SPA が追加されていた。&lt;/p&gt;">
 	
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="enjoy struggling">
-	<meta name="twitter:url" content="http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/">
-	<meta name="twitter:title" content="Azure Storage Blob に Content-Type 付きでアップロードする - enjoy struggling">
+	<meta name="twitter:url" content="http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/">
+	<meta name="twitter:title" content="Azure AD の SAP 向け Authorize Code Flow with PKCE (MSAL.js 2.x) - enjoy struggling">
 	
-		<meta name="twitter:description" content="&lt;p&gt;半年に 1 回ぐらい Azure Storage Blob を触るんだけど、毎回 Content-Type をセットするのを忘れてハマっている。&lt;br&gt;今回は nodejs で書いたので、忘れないようにメモ。&lt;/p&gt;
-&lt;p&gt;パッケージとして &lt;code&gt;@azure/storage-blob&lt;/code&gt; を使う。あとファイル検索のために &lt;code&gt;glob&lt;/code&gt; もつかう。&lt;/p&gt;">
+		<meta name="twitter:description" content="&lt;p&gt;Authorize Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
+&lt;h2 id=&#34;Azure-ポータルのアプリの登録画面&#34;&gt;&lt;a href=&#34;#Azure-ポータルのアプリの登録画面&#34; class=&#34;headerlink&#34; title=&#34;Azure ポータルのアプリの登録画面&#34;&gt;&lt;/a&gt;Azure ポータルのアプリの登録画面&lt;/h2&gt;&lt;p&gt;Azure AD のアプリ登録の画面がアップデートしており、リダイレクト URI の登録に SPA が追加されていた。&lt;/p&gt;">
 	
     
-    	<meta name="twitter:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
+    	<meta name="twitter:image" content="http://blog.haniyama.com\2020\06\02\aad-spa-auth-code-grant-with-pkce\app-registration-new-redirect-uri.png">
 	
 	
 	
@@ -51,23 +51,23 @@
 		{
 			"@context": "http://schema.org",
 			"@type": "BlogPosting",
-			"headline": "Azure Storage Blob に Content-Type 付きでアップロードする",
+			"headline": "Azure AD の SAP 向け Authorize Code Flow with PKCE (MSAL.js 2.x)",
 			
-			"description": "&lt;p&gt;半年に 1 回ぐらい Azure Storage Blob を触るんだけど、毎回 Content-Type をセットするのを忘れてハマっている。&lt;br&gt;今回は nodejs で書いたので、忘れないようにメモ。&lt;/p&gt;
-&lt;p&gt;パッケージとして &lt;code&gt;@azure/storage-blob&lt;/code&gt; を使う。あとファイル検索のために &lt;code&gt;glob&lt;/code&gt; もつかう。&lt;/p&gt;",
+			"description": "&lt;p&gt;Authorize Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
+&lt;h2 id=&#34;Azure-ポータルのアプリの登録画面&#34;&gt;&lt;a href=&#34;#Azure-ポータルのアプリの登録画面&#34; class=&#34;headerlink&#34; title=&#34;Azure ポータルのアプリの登録画面&#34;&gt;&lt;/a&gt;Azure ポータルのアプリの登録画面&lt;/h2&gt;&lt;p&gt;Azure AD のアプリ登録の画面がアップデートしており、リダイレクト URI の登録に SPA が追加されていた。&lt;/p&gt;",
 			
 			"mainEntityOfPage":{
 			    "@type":"WebPage",
-			    "@id":"http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/"
+			    "@id":"http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/"
 			},
-			"datePublished": "2020-04-30T13:15:38.000Z",
-			"dateModified": "2020-05-01T01:13:59.229Z",
+			"datePublished": "2020-06-02T09:23:00.000Z",
+			"dateModified": "2020-06-02T09:23:40.177Z",
 			
 			"image": {
 				"@type": "ImageObject",
-				"url": "\amp-dist\sample\sample-substituteTitleImage.png",
-				"width" : "1024",
-				"height" : "800"
+				"url": "http://blog.haniyama.com\2020\06\02\aad-spa-auth-code-grant-with-pkce\app-registration-new-redirect-uri.png",
+				"width" : "1383",
+				"height" : "875"
 			},
 			
 			"author": {
@@ -1773,7 +1773,7 @@ h6.categories {
   	<!-- container -->
   	<div id="container">
 	  	<div id="main">
-		    <article id="post-azure-storage-blob-content-type-nodejs" class="post">
+		    <article id="post-aad-spa-auth-code-grant-with-pkce" class="post">
 		    
 		   		<!-- categories and bread crumb -->
 		    	
@@ -1786,7 +1786,7 @@ h6.categories {
 						
 			          	<div class="header-thumb flx">
 			          		<div class="thumbImg-w circle">
-			          			<amp-img class="thumbImg" layout="fixed" width="128" height="100" src="\amp-dist\sample\sample-substituteTitleImage.png">
+			          			<amp-img class="thumbImg" layout="fixed" width="158" height="100" src="http://blog.haniyama.com\2020\06\02\aad-spa-auth-code-grant-with-pkce\app-registration-new-redirect-uri.png">
 			          			</amp-img>
 			          		</div>
 			          	</div>
@@ -1795,7 +1795,7 @@ h6.categories {
 			            <div class="header-cap flx">
 							
 							  <h1 class="article-title entry-title" itemprop="name">
-							    <a href="http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/" target="_blank" itemprop="url">Azure Storage Blob に Content-Type 付きでアップロードする</a>
+							    <a href="http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/" target="_blank" itemprop="url">Azure AD の SAP 向け Authorize Code Flow with PKCE (MSAL.js 2.x)</a>
 							  </h1>
 							
 						</div>
@@ -1805,7 +1805,7 @@ h6.categories {
 					<div class="entry-meta-header">
 						<span class="meta-elements date">
 							<span class="fa fa-fw fa-clock-o"></span>
-							<time datetime="2020-04-30" itemprop="datePublished">2020.04.30</time>
+							<time datetime="2020-06-02" itemprop="datePublished">2020.06.02</time>
 						</span>
 					</div>
 				</div>
@@ -1822,78 +1822,196 @@ h6.categories {
                     
                     
 			    	<!-- content -->
-			  		<p>&#x534A;&#x5E74;&#x306B; 1 &#x56DE;&#x3050;&#x3089;&#x3044; Azure Storage Blob &#x3092;&#x89E6;&#x308B;&#x3093;&#x3060;&#x3051;&#x3069;&#x3001;&#x6BCE;&#x56DE; Content-Type &#x3092;&#x30BB;&#x30C3;&#x30C8;&#x3059;&#x308B;&#x306E;&#x3092;&#x5FD8;&#x308C;&#x3066;&#x30CF;&#x30DE;&#x3063;&#x3066;&#x3044;&#x308B;&#x3002;<br>&#x4ECA;&#x56DE;&#x306F; nodejs &#x3067;&#x66F8;&#x3044;&#x305F;&#x306E;&#x3067;&#x3001;&#x5FD8;&#x308C;&#x306A;&#x3044;&#x3088;&#x3046;&#x306B;&#x30E1;&#x30E2;&#x3002;</p>
-<p>&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x3068;&#x3057;&#x3066; <code>@azure/storage-blob</code> &#x3092;&#x4F7F;&#x3046;&#x3002;&#x3042;&#x3068;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x691C;&#x7D22;&#x306E;&#x305F;&#x3081;&#x306B; <code>glob</code> &#x3082;&#x3064;&#x304B;&#x3046;&#x3002;</p>
+			  		<p>Authorize Code Flow with PKCE &#x306B;&#x5BFE;&#x5FDC;&#x3057;&#x305F; MSAL.js 2.x &#x304C;&#x30D7;&#x30EC;&#x30D3;&#x30E5;&#x30FC;&#x3067;&#x30EA;&#x30EA;&#x30FC;&#x30B9;&#x3055;&#x308C;&#x3066;&#x3044;&#x305F;&#x306E;&#x3067;&#x3001;&#x89E6;&#x3063;&#x3066;&#x307F;&#x305F;&#x30E1;&#x30E2;&#x3002;</p>
+<h2 id="Azure-&#x30DD;&#x30FC;&#x30BF;&#x30EB;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;&#x753B;&#x9762;"><a href="#Azure-&#x30DD;&#x30FC;&#x30BF;&#x30EB;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;&#x753B;&#x9762;" class="headerlink" title="Azure &#x30DD;&#x30FC;&#x30BF;&#x30EB;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;&#x753B;&#x9762;"></a>Azure &#x30DD;&#x30FC;&#x30BF;&#x30EB;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;&#x753B;&#x9762;</h2><p>Azure AD &#x306E;&#x30A2;&#x30D7;&#x30EA;&#x767B;&#x9332;&#x306E;&#x753B;&#x9762;&#x304C;&#x30A2;&#x30C3;&#x30D7;&#x30C7;&#x30FC;&#x30C8;&#x3057;&#x3066;&#x304A;&#x308A;&#x3001;&#x30EA;&#x30C0;&#x30A4;&#x30EC;&#x30AF;&#x30C8; URI &#x306E;&#x767B;&#x9332;&#x306B; SPA &#x304C;&#x8FFD;&#x52A0;&#x3055;&#x308C;&#x3066;&#x3044;&#x305F;&#x3002;</p>
 <a id="more"></a>
-<pre class=" language-js"><code class="language-js">npm install <span class="token operator">-</span>S @azure<span class="token operator">/</span>storage<span class="token operator">-</span>blob glob
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-new-redirect-uri.png" width="1383" height="875" layout="responsive"></amp-img></div>
+<p>&#x30AF;&#x30EA;&#x30C3;&#x30AF;&#x3059;&#x308B;&#x3068;&#x3053;&#x3093;&#x306A;&#x8868;&#x793A;&#x304C;&#x3002;</p>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-spa.png" width="578" height="817" layout="responsive"></amp-img></div>
+<blockquote>
+<p>&#x6700;&#x65B0;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x306E; MSAL.js &#x3067;&#x306F;&#x3001;PKCE &#x3068; CORS &#x3067;&#x8A8D;&#x8A3C;&#x30B3;&#x30FC;&#x30C9; &#x30D5;&#x30ED;&#x30FC;&#x304C;&#x4F7F;&#x7528;&#x3055;&#x308C;&#x307E;&#x3059;&#x3002;</p>
+</blockquote>
+<blockquote>
+<p>&#x30EA;&#x30C0;&#x30A4;&#x30EC;&#x30AF;&#x30C8; URI &#x306F;&#x3001;PKCE &#x3067;&#x306E;&#x627F;&#x8A8D;&#x30B3;&#x30FC;&#x30C9; &#x30D5;&#x30ED;&#x30FC;&#x306E;&#x5BFE;&#x8C61;&#x3068;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+</blockquote>
+<p>&#x5C11;&#x3057;&#x308F;&#x304B;&#x308A;&#x8F9B;&#x3044;&#x304C;&#x3001;&#x65E2;&#x5B9A;&#x3067;&#x306F; MSAL.js 2.0 &#x3092;&#x5229;&#x7528;&#x3057;&#x305F;&#x627F;&#x8A8D;&#x30B3;&#x30FC;&#x30C9; &#x30D5;&#x30ED;&#x30FC; (Authorize Code Flow) with <a href="https://tools.ietf.org/html/rfc7636" target="_blank" rel="noopener">PKCE</a> &#x3092;&#x5229;&#x7528;&#x3059;&#x308B;&#x8A2D;&#x5B9A;&#x306B;&#x306A;&#x3063;&#x305F;&#x3068;&#x306E;&#x3053;&#x3068;&#x3089;&#x3057;&#x3044;&#x3002;</p>
+<p>&#x3082;&#x3061;&#x308D;&#x3093;&#x6697;&#x9ED9;&#x306E;&#x4ED8;&#x4E0E;&#x306B;&#x30C1;&#x30A7;&#x30C3;&#x30AF;&#x3092;&#x5165;&#x308C;&#x308B;&#x3053;&#x3068;&#x3067;&#x3001;&#x5F15;&#x304D;&#x7D9A;&#x304D; Implicit Flow &#x3082;&#x5229;&#x7528;&#x3067;&#x304D;&#x308B;&#x3002;</p>
+<h2 id="MSAL-js-2-0"><a href="#MSAL-js-2-0" class="headerlink" title="MSAL.js 2.0"></a>MSAL.js 2.0</h2><p>Microsoft &#x304C; SPA &#x5411;&#x3051;&#x306B;&#x63D0;&#x4F9B;&#x3057;&#x3066;&#x3044;&#x308B; JavaScript &#x5411;&#x3051;&#x306E;&#x8A8D;&#x8A3C;&#x30E9;&#x30A4;&#x30D6;&#x30E9;&#x30EA;&#x3068;&#x3057;&#x3066;&#x306F;&#x4EE5;&#x4E0B;&#x306E; 3 &#x3064;&#x304C;&#x3042;&#x308B;&#x3002;&#x306A;&#x304A; ADAL &#x306F;&#x3001;&#x53E4;&#x3044;&#x30A8;&#x30F3;&#x30C9;&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x3092;&#x5229;&#x7528;&#x3057;&#x3066;&#x3044;&#x308B;&#x305F;&#x3081;&#x3001;&#x65B0;&#x898F;&#x3067;&#x958B;&#x767A;&#x3059;&#x308B;&#x5834;&#x5408;&#x306B;&#x306F;&#x9078;&#x629E;&#x80A2;&#x304B;&#x3089;&#x5916;&#x305D;&#x3046;&#x3002;</p>
+<ul>
+<li>Authorize Code Grant &#x3092;&#x5229;&#x7528;&#x3059;&#x308B; <a href="https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-browser" target="_blank" rel="noopener">MSAL.js 2.x</a></li>
+<li>Implicit Flow &#x3092;&#x5229;&#x7528;&#x3059;&#x308B; <a href="https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-core" target="_blank" rel="noopener">MSAL.js 1.x</a>  </li>
+<li>Implicit Flow (v1 &#x30A8;&#x30F3;&#x30C9;&#x30DD;&#x30A4;&#x30F3;&#x30C8;) &#x3092;&#x5229;&#x7528;&#x3059;&#x308B; ADAL.js</li>
+</ul>
+<p>&#x4ECA;&#x51FA;&#x3066;&#x3044;&#x308B; MSAL.js &#x95A2;&#x9023;&#x306E;&#x8A18;&#x4E8B;&#x306F; 1.x &#x7CFB;&#x306E;&#x3082;&#x306E;&#x304C;&#x307B;&#x3068;&#x3093;&#x3069;&#x3060;&#x304C;&#x3001;&#x4ECA;&#x5F8C;&#x306F; 1.x &#x7CFB;&#x306A;&#x306E;&#x304B;&#x3001;2.x &#x7CFB;&#x306A;&#x306E;&#x304B;&#x3057;&#x3063;&#x304B;&#x308A;&#x898B;&#x6975;&#x3081;&#x3066;&#x8AAD;&#x3080;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308B;&#x3002;</p>
+<h2 id="&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x3092;&#x52D5;&#x304B;&#x3059;"><a href="#&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x3092;&#x52D5;&#x304B;&#x3059;" class="headerlink" title="&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x3092;&#x52D5;&#x304B;&#x3059;"></a>&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x3092;&#x52D5;&#x304B;&#x3059;</h2><p>&#x30A2;&#x30D7;&#x30EA;&#x767B;&#x9332;&#x753B;&#x9762;&#x304C;&#x66F4;&#x65B0;&#x3055;&#x308C;&#x3001;&#x30B5;&#x30F3;&#x30D7;&#x30EB; &#x30B3;&#x30FC;&#x30C9;&#x3092;&#x81EA;&#x52D5;&#x751F;&#x6210;&#x3057;&#x3066;&#x304F;&#x308C;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x3063;&#x305F;&#x3002;&#x3081;&#x3063;&#x3061;&#x3083;&#x697D;&#x306B;&#x52D5;&#x304F;&#x3002;&#x3059;&#x3054;&#x3044;&#x4FBF;&#x5229;&#x3002;</p>
+<p>&#x30AF;&#x30A4;&#x30C3;&#x30AF;&#x30B9;&#x30BF;&#x30FC;&#x30C8;&#x304B;&#x3089;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x3092;&#x4F5C;&#x308B;&#x3002;</p>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-quick-start.png" width="1105" height="875" layout="responsive"></amp-img></div>
+<blockquote>
+<p>&#x30B7;&#x30F3;&#x30B0;&#x30EB;&#x30DA;&#x30FC;&#x30B8; &#x30A2;&#x30D7;&#x30EA;&#x30B1;&#x30FC;&#x30B7;&#x30E7;&#x30F3; (SPA) &gt; JavaScript (&#x8A8D;&#x8A3C;&#x30B3;&#x30FC;&#x30C9; &#x30D5;&#x30ED;&#x30FC;) &#x3092;&#x9078;&#x629E;</p>
+</blockquote>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-quick-start-spa.png" width="540" height="382" layout="responsive"></amp-img></div>
+<blockquote>
+<p>&#x65E2;&#x5B9A;&#x3067; Code Grant &#x3092;&#x63A8;&#x3057;&#x3066;&#x306F;&#x3044;&#x308B;&#x3051;&#x3069;&#x3001;&#x3042;&#x304F;&#x307E;&#x3067; MSAL.js 2.x &#x306F;&#x30D7;&#x30EC;&#x30D3;&#x30E5;&#x30FC;</p>
+</blockquote>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-quick-start-notice.png" width="764" height="361" layout="responsive"></amp-img></div>
+<p>&#x3042;&#x3068;&#x306F;&#x624B;&#x9806;&#x901A;&#x308A;&#x306B;&#x30DC;&#x30BF;&#x30F3;&#x3092;&#x30DD;&#x30C1;&#x30DD;&#x30C1;&#x3057;&#x3066;&#x3044;&#x304F;&#x3068;&#x3001;&#x30A2;&#x30D7;&#x30EA;&#x767B;&#x9332;&#x306E;&#x8A2D;&#x5B9A;&#x5909;&#x66F4;&#x3092;&#x884C;&#x3044;&#x3001;client_id &#x306A;&#x3069;&#x3092;&#x57CB;&#x3081;&#x8FBC;&#x3093;&#x3060;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x304C;&#x30C0;&#x30A6;&#x30F3;&#x30ED;&#x30FC;&#x30C9;&#x3067;&#x304D;&#x308B;&#x3002;</p>
+<p> <code>&#x3053;&#x308C;&#x3089;&#x306E;&#x5909;&#x66F4;&#x3092;&#x884C;&#x3044;&#x307E;&#x3059;</code> &#x3092;&#x30AF;&#x30EA;&#x30C3;&#x30AF;&#x3057;&#x3066;&#x3001;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x8A2D;&#x5B9A;&#x3092;&#x66F4;&#x65B0;&#x3057;&#x305F;&#x306E;&#x3061;&#x3001;&#x30B3;&#x30FC;&#x30C9;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x3092;&#x30C0;&#x30A6;&#x30F3;&#x30ED;&#x30FC;&#x30C9;&#x3059;&#x308B;&#x3002;</p>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-quick-start-download-sample.png" width="766" height="364" layout="responsive"></amp-img></div>
+<p>&#x81EA;&#x52D5;&#x3067;&#x8A2D;&#x5B9A;&#x3055;&#x308C;&#x308B;&#x5185;&#x5BB9;&#x306F;&#x3053;&#x3093;&#x306A;&#x611F;&#x3058;</p>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-settings-auth.png" width="1239" height="855" layout="responsive"></amp-img></div>
+<p>&#x30DE;&#x30CB;&#x30D5;&#x30A7;&#x30B9;&#x30C8;&#x306B;&#x306F;&#x3001;<code>type: &quot;spa&quot;</code> &#x3068;&#x3057;&#x3066;&#x767B;&#x9332;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x3002;</p>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-settings-manifest.png" width="911" height="214" layout="responsive"></amp-img></div>
+<p>&#x30C0;&#x30A6;&#x30F3;&#x30ED;&#x30FC;&#x30C9;&#x3057;&#x305F;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x3092;&#x89E3;&#x51CD;&#x3057;&#x3066;&#x3001;npm install &amp;&amp; npm start &#x3092;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x3068; <a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a> &#x3067;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x304C;&#x52D5;&#x304F;&#x3002;</p>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/sample-top.png" width="913" height="613" layout="responsive"></amp-img></div>
+<h2 id="&#x8A8D;&#x8A3C;&#x306E;&#x6D41;&#x308C;"><a href="#&#x8A8D;&#x8A3C;&#x306E;&#x6D41;&#x308C;" class="headerlink" title="&#x8A8D;&#x8A3C;&#x306E;&#x6D41;&#x308C;"></a>&#x8A8D;&#x8A3C;&#x306E;&#x6D41;&#x308C;</h2><p>Sign In &#x3092;&#x30AF;&#x30EA;&#x30C3;&#x30AF;&#x3059;&#x308B;&#x3053;&#x3068;&#x3067;&#x3001;Authorize Endpoint &#x306B;&#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x304C;&#x98DB;&#x3076;&#x3002;</p>
+<p>&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x306F;&#x30DE;&#x30EB;&#x30C1; &#x30C6;&#x30CA;&#x30F3;&#x30C8;&#x30A2;&#x30D7;&#x30EA;&#x306A;&#x306E;&#x3067;&#x3001;organizations &#x30A8;&#x30F3;&#x30C9;&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x306B;&#x5BFE;&#x3057;&#x8A8D;&#x8A3C;&#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x3092;&#x9001;&#x4FE1;&#x3059;&#x308B;&#x3002;</p>
+<pre class=" language-http"><code class="language-http"><span class="token header-name keyword">https:</span>//login.microsoftonline.com/organizations/oauth2/v2.0/authorize?
+
+response_type=code&amp;
+scope=openid%20profile%20user.read%20offline_access&amp;
+client_id=47a5a26f-13c5-4f59-84f8-6a57b8ede039&amp;
+redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&amp;
+state=d57b6054-1930-422d-b707-fe840584790c&amp;
+nonce=2babda35-58fd-4d5c-9381-ed174e9214d3&amp;
+client_info=1&amp;
+x-client-SKU=MSAL.JS&amp;
+x-client-Ver=1.0.0-beta.0&amp;
+code_challenge=ZhDtcgD2hU8bRjD1Qpvhcrvm-J38iUvkovNdbbc3o0w&amp;
+code_challenge_method=S256&amp;
+client-request-id=303fc61d-7bbe-4f25-8430-5d11b7b5240f&amp;
+response_mode=fragment&amp;
+sso_reload=true
 </code></pre>
-<p>&#x3068;&#x308A;&#x3042;&#x3048;&#x305A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x30A2;&#x30C3;&#x30D7;&#x30ED;&#x30FC;&#x30C9;&#x3059;&#x308B;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x3002;</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> mime <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;mime&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token punctuation">{</span> BlobServiceClient <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;@azure/storage-blob&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x306F;&#x3001;code_challenge &#x3068; code_challenge_method &#x304C;&#x542B;&#x307E;&#x308C;&#x3066;&#x3044;&#x308B;&#x3053;&#x3068;&#x3002;</p>
+<blockquote>
+<p>code_challenge=ZhDtcgD2hU8bRjD1Qpvhcrvm-J38iUvkovNdbbc3o0w</p>
+</blockquote>
+<p>&#x30B5;&#x30A4;&#x30F3;&#x30A4;&#x30F3; &amp; Consent &#x5F8C;&#x3001;code &#x304C;&#x8FD4;&#x5374;&#x3055;&#x308C;&#x308B;</p>
+<pre class=" language-http"><code class="language-http"><span class="token header-name keyword">http:</span>//localhost:3000/#
 
-<span class="token keyword">const</span> AZURE_STORAGE_CONNECTION_STRING <span class="token operator">=</span> <span class="token string">&quot;DefaultEndpointsProtocol=https;AccountName=xxxx;AccountKey=xxxxx;EndpointSuffix=core.windows.net&quot;</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> fileName <span class="token operator">=</span> <span class="token string">&quot;./file.html&quot;</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> containerName <span class="token operator">=</span> <span class="token string">&quot;$web&quot;</span><span class="token punctuation">;</span>
+code=0.ASsArFzjubin3UihAruhjq...&amp;
+client_info=eyJ1aWQiOiIxMTc1MGFiZS1kOWE2LTQ3MTYtOTdiNS03N2I0MzBjOGFmNjUiLCJ1dGlkIjoiYjllMzVjYWMtYTdiOC00OGRkLWExMDItYmJhMThlYWNhNTI0In0&amp;
+state=0bf48805-be5d-404f-9f9a-c31fc321a292&amp;
+session_state=c1f74a08-8442-486c-bb75-107298d6dc7e
+</code></pre>
+<p>token &#x30A8;&#x30F3;&#x30C9;&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x3078;&#x306E; POST &#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x306B;&#x306F; code_verifier &#x3092;&#x4ED8;&#x4E0E;&#x3059;&#x308B;&#x3002;</p>
+<pre class=" language-http"><code class="language-http"><span class="token request-line"><span class="token property">POST</span> https://login.microsoftonline.com/organizations/oauth2/v2.0/token HTTP/1.1</span>
+<span class="token header-name keyword">Host:</span> login.microsoftonline.com
+<span class="token header-name keyword">Connection:</span> keep-alive
+<span class="token header-name keyword">Content-Length:</span> 1052
+<span class="token header-name keyword">User-Agent:</span> Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36
+<span class="token header-name keyword">content-type:</span> application/x-www-form-urlencoded
+<span class="token header-name keyword">Accept:</span> */*
+<span class="token header-name keyword">Origin:</span> http://localhost:3000
+<span class="token header-name keyword">Sec-Fetch-Site:</span> cross-site
+<span class="token header-name keyword">Sec-Fetch-Mode:</span> cors
+<span class="token header-name keyword">Sec-Fetch-Dest:</span> empty
+<span class="token header-name keyword">Referer:</span> http://localhost:3000/
+<span class="token header-name keyword">Accept-Encoding:</span> gzip, deflate, br
+<span class="token header-name keyword">Accept-Language:</span> en-US,en;q=0.9,ja-CA;q=0.8,ja;q=0.7
 
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">uploadToBlob</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> blobServiceClient <span class="token operator">=</span> <span class="token keyword">await</span> BlobServiceClient<span class="token punctuation">.</span><span class="token function">fromConnectionString</span><span class="token punctuation">(</span>
-    AZURE_STORAGE_CONNECTION_STRING
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+client_id=47a5a26f-13c5-4f59-84f8-6a57b8ede039&amp;
+scope=openid%20profile%20user.read%20offline_access&amp;
+redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&amp;
+code=0.ASsArFzjubin3UihAruhjqylJG...&amp;
+code_verifier=NUJGSXpNM1VEazlHVW9vYXRWb0o5RDJSTXI2Q1l3WGI&amp;
+grant_type=authorization_code
+</code></pre>
+<p>code_verifier &#x306E;&#x5024;&#x3092;&#x3001;SHA256 &#x3067;&#x30CF;&#x30C3;&#x30B7;&#x30E5;&#x3092;&#x53D6;&#x308B;&#x3068;&#x3001;code_challenge &#x306E;&#x5024;&#x3068;&#x4E00;&#x81F4;&#x3059;&#x308B;&#x306F;&#x305A;&#x3002;</p>
+<pre class=" language-powershell"><code class="language-powershell"> ConvertFrom<span class="token operator">-</span>CodeVerifier <span class="token operator">-</span> <span class="token string">&apos;NUJGSXpNM1VEazlHVW9vYXRWb0o5RDJSTXI2Q1l3WGI&apos;</span>
+<span class="token comment" spellcheck="true"># ZhDtcgD2hU8bRjD1Qpvhcrvm-J38iUvkovNdbbc3o0w</span>
+</code></pre>
+<p>code_verifier &#x304B;&#x3089; code_challenge &#x3092;&#x8A08;&#x7B97;&#x3059;&#x308B;&#x95A2;&#x6570;&#x306F;&#x3053;&#x3093;&#x306A;&#x611F;&#x3058;&#x3002;</p>
 
-  <span class="token keyword">const</span> containerClient <span class="token operator">=</span> <span class="token keyword">await</span> blobServiceClient<span class="token punctuation">.</span><span class="token function">getContainerClient</span><span class="token punctuation">(</span>
-    containerName
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">const</span> blockBlobClient <span class="token operator">=</span> containerClient<span class="token punctuation">.</span><span class="token function">getBlockBlobClient</span><span class="token punctuation">(</span><span class="token string">&quot;file.html&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> data <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> contentType <span class="token operator">=</span> mime<span class="token punctuation">.</span><span class="token function">getType</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span>
-    blobHTTPHeaders<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-      blobContentType<span class="token punctuation">:</span> contentType<span class="token punctuation">,</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-  <span class="token keyword">return</span> <span class="token keyword">await</span> blockBlobClient<span class="token punctuation">.</span><span class="token function">upload</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> data<span class="token punctuation">.</span>length<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h2 id="&#x30A8;&#x30E9;&#x30FC;&#x3092;&#x767A;&#x751F;&#x3055;&#x305B;&#x3066;&#x307F;&#x305F;&#x30E1;&#x30E2;"><a href="#&#x30A8;&#x30E9;&#x30FC;&#x3092;&#x767A;&#x751F;&#x3055;&#x305B;&#x3066;&#x307F;&#x305F;&#x30E1;&#x30E2;" class="headerlink" title="&#x30A8;&#x30E9;&#x30FC;&#x3092;&#x767A;&#x751F;&#x3055;&#x305B;&#x3066;&#x307F;&#x305F;&#x30E1;&#x30E2;"></a>&#x30A8;&#x30E9;&#x30FC;&#x3092;&#x767A;&#x751F;&#x3055;&#x305B;&#x3066;&#x307F;&#x305F;&#x30E1;&#x30E2;</h2><h3 id="AADSTS50148-&#x30A8;&#x30E9;&#x30FC;"><a href="#AADSTS50148-&#x30A8;&#x30E9;&#x30FC;" class="headerlink" title="AADSTS50148 &#x30A8;&#x30E9;&#x30FC;"></a>AADSTS50148 &#x30A8;&#x30E9;&#x30FC;</h3><p>&#x30C8;&#x30FC;&#x30AF;&#x30F3; &#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x3092; code_verifier &#x3092;&#x6D88;&#x3057;&#x305F;&#x308A;&#x3001;&#x9593;&#x9055;&#x3048;&#x305F;&#x308A;&#x3057;&#x3066;&#x9001;&#x3063;&#x3066;&#x307F;&#x308B;&#x3002;&#x6012;&#x3089;&#x308C;&#x308B;&#x3002;</p>
+<pre class=" language-js"><code class="language-js">u<span class="token operator">=</span><span class="token string">&apos;https://login.microsoftonline.com/organizations/oauth2/v2.0/token&apos;</span>
+data <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;client_id&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;47a5a26f-13c5-4f59-84f8-6a57b8ede039&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;scope&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;openid&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;grant_type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;authorization_code&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;redirect_uri&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;http://localhost:3000/&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;code&quot;</span><span class="token punctuation">:</span> code
+  <span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> urlEncodedDataPairs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> name <span class="token keyword">in</span> data <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    urlEncodedDataPairs<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span> name <span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&apos;=&apos;</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span> data<span class="token punctuation">[</span>name<span class="token punctuation">]</span> <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+urlEncodedData <span class="token operator">=</span> urlEncodedDataPairs<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span> <span class="token string">&apos;&amp;&apos;</span> <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span> <span class="token regex">/%20/g</span><span class="token punctuation">,</span> <span class="token string">&apos;+&apos;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+request<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span> <span class="token string">&apos;load&apos;</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+request<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">&quot;POST&quot;</span><span class="token punctuation">,</span>u<span class="token punctuation">)</span>
+request<span class="token punctuation">.</span><span class="token function">setRequestHeader</span><span class="token punctuation">(</span> <span class="token string">&apos;Content-Type&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;application/x-www-form-urlencoded&apos;</span> <span class="token punctuation">)</span>
+
+request<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>urlEncodedData<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">//{&quot;error&quot;:&quot;invalid_grant&quot;,&quot;error_description&quot;:&quot;AADSTS50148: The code_verifier does not match the code_challenge supplied in the authorization request for PKCE.\r\nTrace ID: 5c4218e1-fa34-4609-bdb6-f3a63a918200\r\nCorrelation ID: 6957aeea-d8fd-43b7-bf3f-79c2a3654bde\r\nTimestamp: 2020-06-02 08:00:46Z&quot;,&quot;error_codes&quot;:[50148],&quot;timestamp&quot;:&quot;2020-06-02 08:00:46Z&quot;,&quot;trace_id&quot;:&quot;5c4218e1-fa34-4609-bdb6-f3a63a918200&quot;,&quot;correlation_id&quot;:&quot;6957aeea-d8fd-43b7-bf3f-79c2a3654bde&quot;,&quot;error_uri&quot;:&quot;https://login.microsoftonline.com/error?code=50148&quot;}</span>
+</code></pre>
+<h3 id="AADSTS900144-&#x30A8;&#x30E9;&#x30FC;"><a href="#AADSTS900144-&#x30A8;&#x30E9;&#x30FC;" class="headerlink" title="AADSTS900144 &#x30A8;&#x30E9;&#x30FC;"></a>AADSTS900144 &#x30A8;&#x30E9;&#x30FC;</h3><p>code_challenge &#x304C;&#x306A;&#x3044; AuthZ &#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x3092;&#x9001;&#x3063;&#x3066;&#x307F;&#x308B;&#x3068; AADSTS900144 &#x30A8;&#x30E9;&#x30FC;&#x304C;&#x767A;&#x751F;&#x3059;&#x308B;&#x3002;</p>
+<pre class=" language-http"><code class="language-http"><span class="token header-name keyword">https:</span>//login.microsoftonline.com/organizations/oauth2/v2.0/authorize?
+
+response_type=code&amp;
+scope=openid%20profile%20user.read%20offline_access&amp;
+client_id=47a5a26f-13c5-4f59-84f8-6a57b8ede039&amp;
+redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&amp;
+state=d57b6054-1930-422d-b707-fe840584790c&amp;
+nonce=2babda35-58fd-4d5c-9381-ed174e9214d3&amp;
+response_mode=fragment
+</code></pre>
+<div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/AADSTS900144.png" width="788" height="343" layout="responsive"></amp-img></div>
+<h3 id="AADSTS9002327-&#x30A8;&#x30E9;&#x30FC;"><a href="#AADSTS9002327-&#x30A8;&#x30E9;&#x30FC;" class="headerlink" title="AADSTS9002327 &#x30A8;&#x30E9;&#x30FC;"></a>AADSTS9002327 &#x30A8;&#x30E9;&#x30FC;</h3><p>Code &#x3092;&#x53D6;&#x5F97;&#x3057;&#x3066;&#x3001;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x30FC;&#x306E; XHR &#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001;PowerShell &#x306A;&#x3069;&#x3067;&#x30EA;&#x30AF;&#x30A8;&#x30B9;&#x30C8;&#x3092;&#x9001;&#x4FE1;&#x3057;&#x3066;&#x307F;&#x308B;&#x3068;&#x3001;AADSTS9002327 &#x30A8;&#x30E9;&#x30FC;&#x304C;&#x767A;&#x751F;&#x3059;&#x308B;&#x3002;&#x3069;&#x3053;&#x898B;&#x3066;&#x308B;&#x3093;&#x3060;&#x308D;&#x3001;&#x3042;&#x3093;&#x307E;&#x691C;&#x8A3C;&#x3057;&#x3066;&#x306A;&#x3044;&#x3002;</p>
+<pre class=" language-powershell"><code class="language-powershell"><span class="token variable">$clientId</span> = <span class="token string">&apos;47a5a26f-13c5-4f59-84f8-6a57b8ede039&apos;</span>
+<span class="token variable">$redirectUri</span>=<span class="token string">&apos;https://localhost:3000/&apos;</span>
+<span class="token variable">$tenantId</span> = <span class="token string">&quot;organization&quot;</span>
+<span class="token variable">$tokenEndpont</span> = <span class="token string">&quot;https://login.microsoftonline.com/<span class="token variable">$tenantId</span>/oauth2/v2.0/token&quot;</span>
+<span class="token variable">$scope</span> = <span class="token string">&quot;openid profile user.read offline_access&quot;</span>
+
+<span class="token variable">$code</span>=<span class="token string">&apos;0.ASsArFzjubin3Ui...&apos;</span>
+<span class="token variable">$codeVerifier</span> = <span class="token string">&apos;NUJGSXpNM1VEazlHVW9vYXRWb0o5RDJSTXI2Q1l3WGI&apos;</span>
+
+<span class="token variable">$postParams</span> = @<span class="token punctuation">{</span>
+    client_id = <span class="token variable">$clientId</span><span class="token punctuation">;</span>
+    redirect_uri=<span class="token variable">$redirectUri</span><span class="token punctuation">;</span>
+    grant_type = <span class="token string">&apos;authorization_code&apos;</span><span class="token punctuation">;</span>
+    scope = <span class="token variable">$scope</span><span class="token punctuation">;</span>
+    code=<span class="token variable">$code</span><span class="token punctuation">;</span>
+    code_verifier=<span class="token variable">$codeVerifier</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
-<span class="token function">uploadToBlob</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span>
-  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
-  <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$body</span> = <span class="token punctuation">(</span><span class="token function">Invoke-WebRequest</span> <span class="token operator">-</span>Uri <span class="token variable">$tokenEndpont</span> <span class="token operator">-</span>Method POST <span class="token operator">-</span>Body <span class="token variable">$postParams</span><span class="token punctuation">)</span> <span class="token punctuation">|</span> <span class="token function">ConvertFrom-Json</span>
 
+<span class="token comment" spellcheck="true">#Invoke-WebRequest : {&quot;error&quot;:&quot;invalid_request&quot;,&quot;error_description&quot;:&quot;AADSTS9002327: Tokens issued for the &apos;Single-Page Application&apos; client-type may only be redeemed via cross-origin requests.\r\nTrace ID: c739...</span>
 </code></pre>
-<p>&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x306F; mime &#x3067; Content-Type &#x3092;&#x5224;&#x5225;&#x3057;&#x3066;&#x3001;blobContentType &#x306B;&#x7A81;&#x3063;&#x8FBC;&#x3080;&#x3001;&#x3063;&#x3066;&#x3053;&#x308C;&#x666E;&#x901A;&#x306B; node &#x3084;&#x3063;&#x3066;&#x308B;&#x4EBA;&#x304B;&#x3089;&#x3057;&#x305F;&#x3042;&#x305F;&#x308A;&#x307E;&#x3048;&#x306A;&#x306E;&#x304B;&#x306A;&#x3002;&#x516C;&#x5F0F;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x7121;&#x3044;&#x306E;&#x306A;&#x3093;&#x3067;&#x306A;&#x3093;&#x3060;&#x308D;&#x2026; &#x3059;&#x3054;&#x3044;&#x60A9;&#x3093;&#x3060;&#x3002;</p>
-<p>&#x307E;&#x3068;&#x3081;&#x3066;&#x30A2;&#x30C3;&#x30D7;&#x30ED;&#x30FC;&#x30C9;&#x3059;&#x308B;&#x6642;&#x306F; glob &#x4F7F;&#x3063;&#x3066;&#x3053;&#x3093;&#x306A;&#x611F;&#x3058;&#x3002;</p>
-<pre class=" language-js"><code class="language-js"><span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">uploadFolderToBlob</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> blobServiceClient <span class="token operator">=</span> <span class="token keyword">await</span> BlobServiceClient<span class="token punctuation">.</span><span class="token function">fromConnectionString</span><span class="token punctuation">(</span>
-    AZURE_STORAGE_CONNECTION_STRING
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h3 id="&#x304A;&#x307E;&#x3051;-AADSTS50076-&#x30A8;&#x30E9;&#x30FC;"><a href="#&#x304A;&#x307E;&#x3051;-AADSTS50076-&#x30A8;&#x30E9;&#x30FC;" class="headerlink" title="(&#x304A;&#x307E;&#x3051;) AADSTS50076 &#x30A8;&#x30E9;&#x30FC;"></a>(&#x304A;&#x307E;&#x3051;) AADSTS50076 &#x30A8;&#x30E9;&#x30FC;</h3><p>IP &#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x304C;&#x3063;&#x3064;&#x308A;&#x9055;&#x3046;&#x3068;&#x3053;&#x304B;&#x3089;&#x30EA;&#x30D5;&#x30EC;&#x30C3;&#x30B7;&#x30E5;&#x30C8;&#x30FC;&#x30AF;&#x30F3;&#x4F7F;&#x3063;&#x3066;&#x307F;&#x308B;&#x3068;&#x3001;AADSTS50076 &#x30A8;&#x30E9;&#x30FC;&#x304C;&#x767A;&#x751F;&#x3057;&#x305F;&#x3002;AIP &#x304C;&#x6709;&#x52B9;&#x3058;&#x3083;&#x306A;&#x3044;&#x3068;&#x51FA;&#x306A;&#x3044;&#x3063;&#x307D;&#x3044;&#x3002;</p>
+<pre class=" language-js"><code class="language-js">u<span class="token operator">=</span><span class="token string">&apos;https://login.microsoftonline.com/organizations/oauth2/v2.0/token&apos;</span>
+data <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">&quot;scope&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;openid&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;grant_type&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;refresh_token&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;redirect_uri&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;http://localhost:3000/&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;refresh_token&quot;</span><span class="token punctuation">:</span> refresh_token
+  <span class="token punctuation">}</span>
 
-  <span class="token keyword">const</span> containerClient <span class="token operator">=</span> <span class="token keyword">await</span> blobServiceClient<span class="token punctuation">.</span><span class="token function">getContainerClient</span><span class="token punctuation">(</span>
-    containerName
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span>
-    <span class="token function">glob</span><span class="token punctuation">(</span><span class="token string">&quot;./public/**/*.*&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> nodir<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> sync<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">async</span> <span class="token punctuation">(</span>fileName<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
-      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">const</span> blockBlobClient <span class="token operator">=</span> containerClient<span class="token punctuation">.</span><span class="token function">getBlockBlobClient</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">const</span> data <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">const</span> contentType <span class="token operator">=</span> mime<span class="token punctuation">.</span><span class="token function">getType</span><span class="token punctuation">(</span>fileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token keyword">const</span> options <span class="token operator">=</span> <span class="token punctuation">{</span>
-        blobHTTPHeaders<span class="token punctuation">:</span> <span class="token punctuation">{</span>
-          blobContentType<span class="token punctuation">:</span> contentType<span class="token punctuation">,</span>
-        <span class="token punctuation">}</span><span class="token punctuation">,</span>
-      <span class="token punctuation">}</span><span class="token punctuation">;</span>
-      <span class="token keyword">return</span> <span class="token keyword">await</span> blockBlobClient<span class="token punctuation">.</span><span class="token function">upload</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> data<span class="token punctuation">.</span>length<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> urlEncodedDataPairs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> name <span class="token keyword">in</span> data <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    urlEncodedDataPairs<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span> name <span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&apos;=&apos;</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span> data<span class="token punctuation">[</span>name<span class="token punctuation">]</span> <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
+urlEncodedData <span class="token operator">=</span> urlEncodedDataPairs<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span> <span class="token string">&apos;&amp;&apos;</span> <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span> <span class="token regex">/%20/g</span><span class="token punctuation">,</span> <span class="token string">&apos;+&apos;</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token function">uploadFolderToBlob</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><span class="token punctuation">)</span>
-  <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+request<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span> <span class="token string">&apos;load&apos;</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+request<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">&quot;POST&quot;</span><span class="token punctuation">,</span>u<span class="token punctuation">)</span>
+request<span class="token punctuation">.</span><span class="token function">setRequestHeader</span><span class="token punctuation">(</span> <span class="token string">&apos;Content-Type&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;application/x-www-form-urlencoded&apos;</span> <span class="token punctuation">)</span>
+
+request<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>urlEncodedData<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// {&quot;error&quot;:&quot;invalid_grant&quot;,&quot;error_description&quot;:&quot;AADSTS50076: Due to a configuration change made by your administrator, or because you moved to a new location, you must use multi-factor authentication to access &apos;00000003-0000-0000-c000-000000000000&apos;.\r\nTrace ID: 4fa9c1ce...</span>
 </code></pre>
-<p><code>Promise.all()</code> &#x3067; Promise &#x306E;&#x30EA;&#x30B9;&#x30C8;&#x3092;&#x5305;&#x3093;&#x3067;&#x3084;&#x308B;&#x306E;&#x304C;&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x3002;&#x76F8;&#x5909;&#x308F;&#x3089;&#x305A;&#x975E;&#x540C;&#x671F;&#x51E6;&#x7406;&#x306E;&#x66F8;&#x304D;&#x65B9;&#x304C;&#x5206;&#x304B;&#x3063;&#x3066;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;&#x3044;&#x3064;&#x3082;&#x30B0;&#x30B0;&#x308A;&#x306A;&#x304C;&#x3089;&#x66F8;&#x3044;&#x3066;&#x308B;&#x3002;<br>&#x8A66;&#x3057;&#x305F;&#x611F;&#x3058; fileName &#x304C; <code>./path/to/file</code> &#x307F;&#x305F;&#x304F;&#x306A;&#x3063;&#x3066;&#x3082;&#x3001;&#x3044;&#x3044;&#x611F;&#x3058;&#x306B;&#x30A2;&#x30C3;&#x30D7;&#x30ED;&#x30FC;&#x30C9;&#x3057;&#x3066;&#x304F;&#x308C;&#x308B;&#x3089;&#x3057;&#x3044;&#x3002;<br>(&#x4E0A;&#x8A18;&#x306E;&#x4F8B;&#x3060;&#x3068; <code>$web/path/to/file</code> &#x306B;&#x30A2;&#x30C3;&#x30D7;&#x30ED;&#x30FC;&#x30C9;&#x3055;&#x308C;&#x308B;)</p>
-<p>&#x4ECA;&#x5E74;&#x3082; 1/3 &#x304C;&#x7D42;&#x308F;&#x3063;&#x3066;&#x3057;&#x307E;&#x3063;&#x305F;&#x3002;&#x305D;&#x308D;&#x305D;&#x308D; Azure AD B2C &#x306E;&#x30AB;&#x30B9;&#x30BF;&#x30E0; &#x30DD;&#x30EA;&#x30B7;&#x30FC;&#x306E;&#x307E;&#x3068;&#x3081;&#x30CD;&#x30BF;&#x3092;&#x66F8;&#x304D;&#x305F;&#x3044;&#x3051;&#x3069;&#x3001;&#x76F8;&#x5909;&#x308F;&#x3089;&#x305A;&#x5168;&#x7136;&#x308F;&#x304B;&#x3089;&#x3093;&#x306E;&#x3067;&#x3061;&#x3087;&#x3044;&#x30CD;&#x30BF;&#x3067;&#x30D6;&#x30ED;&#x30B0;&#x66F4;&#x65B0;&#x3002;</p>
 
 			  		
 			  		<!-- google Adsense -->
@@ -1927,8 +2045,8 @@ h6.categories {
 					    		</li>
 							
 					    		<li class="article-tag-list-item">
-					    			<a class="article-tag-list-link" href="/tags/javascript/">
-					    				javascript
+					    			<a class="article-tag-list-link" href="/tags/OAuth/">
+					    				OAuth
 					    			</a>
 					    		</li>
 							
