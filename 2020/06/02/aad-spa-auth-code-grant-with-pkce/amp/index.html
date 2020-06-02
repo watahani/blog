@@ -14,7 +14,7 @@
 	
 	<meta property="og:site_name" content="enjoy struggling">
 	
-		<meta property="og:description" content="&lt;p&gt;Authorize Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
+		<meta property="og:description" content="&lt;p&gt;Authorization Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
 &lt;h2 id=&#34;Azure-ポータルのアプリの登録画面&#34;&gt;&lt;a href=&#34;#Azure-ポータルのアプリの登録画面&#34; class=&#34;headerlink&#34; title=&#34;Azure ポータルのアプリの登録画面&#34;&gt;&lt;/a&gt;Azure ポータルのアプリの登録画面&lt;/h2&gt;&lt;p&gt;Azure AD のアプリ登録の画面がアップデートしており、リダイレクト URI の登録に SPA が追加されていた。&lt;/p&gt;">
 	
 	<meta name="twitter:card" content="summary_large_image" />
@@ -22,7 +22,7 @@
 	<meta name="twitter:url" content="http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/">
 	<meta name="twitter:title" content="Azure AD の SPA 向け Authorize Code Flow with PKCE (MSAL.js 2.x) - enjoy struggling">
 	
-		<meta name="twitter:description" content="&lt;p&gt;Authorize Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
+		<meta name="twitter:description" content="&lt;p&gt;Authorization Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
 &lt;h2 id=&#34;Azure-ポータルのアプリの登録画面&#34;&gt;&lt;a href=&#34;#Azure-ポータルのアプリの登録画面&#34; class=&#34;headerlink&#34; title=&#34;Azure ポータルのアプリの登録画面&#34;&gt;&lt;/a&gt;Azure ポータルのアプリの登録画面&lt;/h2&gt;&lt;p&gt;Azure AD のアプリ登録の画面がアップデートしており、リダイレクト URI の登録に SPA が追加されていた。&lt;/p&gt;">
 	
     
@@ -53,7 +53,7 @@
 			"@type": "BlogPosting",
 			"headline": "Azure AD の SPA 向け Authorize Code Flow with PKCE (MSAL.js 2.x)",
 			
-			"description": "&lt;p&gt;Authorize Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
+			"description": "&lt;p&gt;Authorization Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。&lt;/p&gt;
 &lt;h2 id=&#34;Azure-ポータルのアプリの登録画面&#34;&gt;&lt;a href=&#34;#Azure-ポータルのアプリの登録画面&#34; class=&#34;headerlink&#34; title=&#34;Azure ポータルのアプリの登録画面&#34;&gt;&lt;/a&gt;Azure ポータルのアプリの登録画面&lt;/h2&gt;&lt;p&gt;Azure AD のアプリ登録の画面がアップデートしており、リダイレクト URI の登録に SPA が追加されていた。&lt;/p&gt;",
 			
 			"mainEntityOfPage":{
@@ -61,7 +61,7 @@
 			    "@id":"http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/"
 			},
 			"datePublished": "2020-06-02T09:23:00.000Z",
-			"dateModified": "2020-06-02T09:31:05.804Z",
+			"dateModified": "2020-06-02T09:42:06.093Z",
 			
 			"image": {
 				"@type": "ImageObject",
@@ -1822,7 +1822,7 @@ h6.categories {
                     
                     
 			    	<!-- content -->
-			  		<p>Authorize Code Flow with PKCE &#x306B;&#x5BFE;&#x5FDC;&#x3057;&#x305F; MSAL.js 2.x &#x304C;&#x30D7;&#x30EC;&#x30D3;&#x30E5;&#x30FC;&#x3067;&#x30EA;&#x30EA;&#x30FC;&#x30B9;&#x3055;&#x308C;&#x3066;&#x3044;&#x305F;&#x306E;&#x3067;&#x3001;&#x89E6;&#x3063;&#x3066;&#x307F;&#x305F;&#x30E1;&#x30E2;&#x3002;</p>
+			  		<p>Authorization Code Flow with PKCE &#x306B;&#x5BFE;&#x5FDC;&#x3057;&#x305F; MSAL.js 2.x &#x304C;&#x30D7;&#x30EC;&#x30D3;&#x30E5;&#x30FC;&#x3067;&#x30EA;&#x30EA;&#x30FC;&#x30B9;&#x3055;&#x308C;&#x3066;&#x3044;&#x305F;&#x306E;&#x3067;&#x3001;&#x89E6;&#x3063;&#x3066;&#x307F;&#x305F;&#x30E1;&#x30E2;&#x3002;</p>
 <h2 id="Azure-&#x30DD;&#x30FC;&#x30BF;&#x30EB;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;&#x753B;&#x9762;"><a href="#Azure-&#x30DD;&#x30FC;&#x30BF;&#x30EB;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;&#x753B;&#x9762;" class="headerlink" title="Azure &#x30DD;&#x30FC;&#x30BF;&#x30EB;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;&#x753B;&#x9762;"></a>Azure &#x30DD;&#x30FC;&#x30BF;&#x30EB;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;&#x753B;&#x9762;</h2><p>Azure AD &#x306E;&#x30A2;&#x30D7;&#x30EA;&#x767B;&#x9332;&#x306E;&#x753B;&#x9762;&#x304C;&#x30A2;&#x30C3;&#x30D7;&#x30C7;&#x30FC;&#x30C8;&#x3057;&#x3066;&#x304A;&#x308A;&#x3001;&#x30EA;&#x30C0;&#x30A4;&#x30EC;&#x30AF;&#x30C8; URI &#x306E;&#x767B;&#x9332;&#x306B; SPA &#x304C;&#x8FFD;&#x52A0;&#x3055;&#x308C;&#x3066;&#x3044;&#x305F;&#x3002;</p>
 <a id="more"></a>
 <div class="amp-img-wrapper"><amp-img src="/2020/06/02/aad-spa-auth-code-grant-with-pkce/app-registration-new-redirect-uri.png" width="1383" height="875" layout="responsive"></amp-img></div>
