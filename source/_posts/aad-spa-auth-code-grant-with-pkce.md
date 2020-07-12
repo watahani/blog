@@ -1,12 +1,12 @@
 ---
-title: Azure AD の SAP 向け Authorize Code Flow with PKCE (MSAL.js 2.x) 
+title: Azure AD の SPA 向け Authorize Code Flow with PKCE (MSAL.js 2.x) 
 date: 2020-06-02 18:23:00
 tags:
   - Azure
   - OAuth
 ---
 
-Authorize Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。
+Authorization Code Flow with PKCE に対応した MSAL.js 2.x がプレビューでリリースされていたので、触ってみたメモ。
 
 ## Azure ポータルのアプリの登録画面
 
