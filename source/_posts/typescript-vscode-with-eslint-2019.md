@@ -150,10 +150,10 @@ VS Code でデバッグしたいので `.vscode/launch.json` を書く。これ�
 
 最近 VS Code の設定ファイルを開こうとすると、GUI で開いちゃって json で開けないなーと思ってたけど、このボタンで json 形式で開けた。
 
-{% asset_img lena.bmp vscode-settings-json.png %}
+![](./typescript-vscode-with-eslint-2019/vscode-settings-json.png)
 
 あとは、`scr/index.ts` 書いて、保存すれば整形、 F5 押せばデバッグ始まる。
 
-{% asset_img lena.bmp vscode-debug.png %}
+![](./typescript-vscode-with-eslint-2019/vscode-debug.png)
 
 - https://github.com/watahani/authlete-handson

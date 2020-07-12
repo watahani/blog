@@ -25,7 +25,7 @@ tags:
 
 FIOD2 Security Key に関しては、FIDO2 の Security Key つかったユーザネームレス・パスワードレスのログインデモをしてた。
 
-{% asset_img lena.bmp cap1.png %}
+![](./ms-ignite-2018/cap1.png)
 
 とりあえずロードマップとしては 10月のアップデートから Microsoft Account で使えるようにってことなので、来月のアップデートからパーソナルアカウントでは試せるようになるらしい。楽しみ。
 
@@ -41,17 +41,17 @@ Enterprise 向けに `Security Key` がやたら強調されていた。完全�
 デモでは Yubico の YubiKey 5 NFC と Feitian の指紋認証のUSB Authenticator が登場していた。
 Feitian のキーの指紋認証も動くようになっていて、PIN 入れるのだるい勢としてはかなり気になった。
 
-{% asset_img lena.bmp cap_keys.png %}
+![](./ms-ignite-2018/cap_keys.png)
 
 以前早期体験プログラムがあるらしいと聞いたことがあったが、 "Getting to a world without passwords" のセッション同様、Emirates 航空なんかがユーザーとして試していたらしい。Emirates のでっけえ飛行機乗りたい。
 
-{% asset_img lena.bmp cap_users.png %}
+![](./ms-ignite-2018/cap_users.png)
 
 ロードマップとしては来年頭(~~Q1~~ Q2) にパブリックプレビューで使えるようになるらしい。ここら辺も前評判通りだな。
 
 ハイブリット環境下、ローカルリソースにも使えるぞ。Virtual Smart Card は Deprecate だ乗り換えろ
 
-{% asset_img lena.bmp cap2.png %}
+![](./ms-ignite-2018/cap2.png)
 
 って話が印象的だった。
 

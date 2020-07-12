@@ -26,11 +26,11 @@ tags: builderscon イベント
 
 ## Day 1
 
-{% asset_img lena.bmp day1.png %}
+![](./builderscon-2018/day1.png)
 
 ## Day 2
 
-{% asset_img lena.bmp day2.png %}
+![](./builderscon-2018/day2.png)
 
 タイムテーブルはこのぐらい詰まってたほうが見やすいよね。[issue](https://github.com/builderscon/conf.builderscon.io/issues) に上げておきたい。けど英語で上げるの面倒だなあ。
 
@@ -68,7 +68,7 @@ https://github.com/h3poteto/whalebird-desktop/tree/master/.github/ISSUE_TEMPLATE
 
 `.github/ISSUE_TEMPLATE/` に Markdown のファイルを置いておけば、 issue 立てるときにテンプレートが読み込まれるらしい。
 
-{% asset_img lena.bmp issue_template.png %}
+![](./builderscon-2018/issue_template.png)
 
 普段使いしている Gitlab でも同様に `.gitlab/issue_templates/` に Markdown のファイルを置いておけばテンプレートを使えるようなので早速試してみたい。知らなかったー。
 

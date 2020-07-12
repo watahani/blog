@@ -27,7 +27,7 @@ Windows 10 向けの [Firefoxでの WebAuthn 対応](https://forest.watch.impres
 - Simplifying your app’s user sign-in and authentication using the Microsoft identity platform
   - https://mybuild.techcommunity.microsoft.com/sessions/77028
 
-{% asset_img lena.bmp aad-quicstart.png %}
+![](./windows-hello-fido2-certification/aad-quicstart.png)
 
 MSAL ライブラリ使った OIDC のサンプル作成だけど、公式ドキュメントがわかり辛いのに、Quickstart のドキュメントはすごいわかりやすそうで草。
 

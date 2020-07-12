@@ -147,7 +147,7 @@ now.sh にデプロイするために、`now.json` を以下のように作成�
 
 後は、`npm install -g now` して `now` でデプロイ完了。
 
-{% asset_img .bmp nowsh.png %}
+![](./azuread-b2c-fido2-custompolicy/nowsh.png)
 
 > now.sh が v2 にバージョンアップしていて困ったが [Now でクラウドの複雑さから解放されよう、今すぐに - Qiita](https://qiita.com/aggre/items/f0cb9f8b8e8c54768e50) あたりを参考にした
 
@@ -165,7 +165,7 @@ Azure B2C では外部の HTML テンプレートを JavaScript でフェッチ�
 
 今回は、カスタム HTML 上で Authenticator からのレスポンスをフォームに詰めて、次のフローに流す。
 
-{% asset_img .bmp b2chtml.png %}
+![](./azuread-b2c-fido2-custompolicy/b2chtml.png)
 
 適当に gist でも GitHub のリポジトリでも CORS が許可されている場所であればどこでも適当にアップロードにしていい。
 
@@ -191,11 +191,11 @@ Custom Policy の練習のためにこうなってるのだと言い聞かせて
 
 画面はこんな感じ。
 
-{% asset_img lena.bmp appreg.png %}
+![](./azuread-b2c-fido2-custompolicy/appreg.png)
 
 Admin Consent を完了させる。
 
-{% asset_img lena.bmp apppermission.png %}
+![](./azuread-b2c-fido2-custompolicy/apppermission.png)
 
 で作成したアプリのオブジェクト ID と アプリケーション ID をメモっておく。
 
@@ -203,7 +203,7 @@ Admin Consent を完了させる。
 
 ここまでの手順を完了した酔狂な人がいた場合、以下のような状態になっているはずである。
 
-{% asset_img lena.bmp extensions.png %}
+![](./azuread-b2c-fido2-custompolicy/extensions.png)
 
 この細切れのコンポーネントを、FIDOExtensions.xml でつないでいく。XML で…。
 
@@ -655,7 +655,7 @@ XML の編集は以上で終了。
 
 さて、ここまでやり遂げたあなたなら、先ほどの図も理解できるはずですね。
 
-{% asset_img lena.bmp b2ccomponent.png %}
+![](./azuread-b2c-fido2-custompolicy/b2ccomponent.png)
 
 素晴らしい！ XML が世界を回していることを実感しますね!?
 
@@ -670,41 +670,41 @@ Authenticator の登録には、既存の資格情報 (ここではパスワー�
 
 登録の前には、再度資格情報が必要という警告を表示して
 
-{% asset_img lena.bmp b2c_01.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_01.png)
 
 資格情報を入れて
-{% asset_img lena.bmp b2c_02.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_02.png)
 
 Platform Authenticator か Cross-Platform Authenticator かを選ぶ。
 今回は SoloKey を使うので Cross-Platform Authenticator。
 
-{% asset_img lena.bmp b2c_03.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_03.png)
 
 Attestation 要求しているので警告がでて、いつもの。
 
-{% asset_img lena.bmp b2c_04.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_04.png)
 
 id_token が発行される。
 
-{% asset_img lena.bmp b2c_05.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_05.png)
 
 ### サインイン フロー
 
 サインインの際は、FIDO ボタンをクリックして
 
-{% asset_img lena.bmp b2c_06.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_06.png)
 
 Authenticate ボタンで js が呼ばれて
-{% asset_img lena.bmp b2c_07.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_07.png)
 
 い つ も の
-{% asset_img lena.bmp b2c_08.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_08.png)
 
 id_token が発行される。
-{% asset_img lena.bmp b2c_09.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_09.png)
 
 Debug ボタンで hidden 状態の form を表示することができる。
-{% asset_img lena.bmp b2c_10.png %}
+![](./azuread-b2c-fido2-custompolicy/b2c_10.png)
 
 WebAuthn の公開鍵についてはユーザーの拡張属性に保存されている。
 なんでか Azure AD B2C テナントは Microsoft Graph API をサポートしていない (使えるけど) ので、Azure AD Graph を叩いて確認する。
@@ -715,7 +715,7 @@ WebAuthn の公開鍵についてはユーザーの拡張属性に保存され�
   https://graphexplorer.azurewebsites.net/#
 
 
-{% asset_img lena.bmp extensionsvalue.png %}
+![](./azuread-b2c-fido2-custompolicy/extensionsvalue.png)
 
 
 ## まとめ

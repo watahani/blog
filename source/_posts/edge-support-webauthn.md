@@ -227,7 +227,7 @@ U2F では Challenge と ユーザを紐づけて管理していたが、FIDO2 �
 
 まずは、登録作業。
 
-{% asset_img lena.bmp 01_pin.png %}
+![](./edge-support-webauthn/01_pin.png)
 
 どうも Edge では User Verify (PINの入力) は必須らしく、PIN 設定していないキーでも関らず PIN の設定をしろと言われてしまう。
 
@@ -238,13 +238,13 @@ U2F では Challenge と ユーザを紐づけて管理していたが、FIDO2 �
 
 One Factor Authentication するには PIN なり、指紋なりで保護しないとだめなのはわかる。けど、認証レベルによってタップでログインして、重要な情報を変更するときのみ PIN の入力する…みたいな使い方は出来なさそう。
 
-{% asset_img lena.bmp 02_touch.png %}
+![](./edge-support-webauthn/02_touch.png)
 
 User Verification の後は User Presence のためにタッチする。
 
 多分、生体認証などのキーでは User Verification は User Presence な動作を必要とするまず。つまりもう一度タッチしなくていいのかと思うけど、実機が無いのでわからない。誰か試してみてほしい。
 
-{% asset_img lena.bmp 03_loggedin.png %}
+![](./edge-support-webauthn/03_loggedin.png)
 
 ともあれ、タッチまでして登録完了。
 
@@ -255,16 +255,16 @@ User Verification の後は User Presence のためにタッチする。
 
 PIN を入力すると、キーが与えられた `challenge` に対し、保存している Credentials すべてに対応する `attestationResponse` を Edge に返す。
 
-{% asset_img lena.bmp 04_pin.png %}
+![](./edge-support-webauthn/04_pin.png)
 
 Edge は Credential が一つしかない場合、自動でログインするらしい。
 正直どのユーザでログインしようとしているかは表示してほしい。
 
-{% asset_img lena.bmp 05_loggedin.png %}
+![](./edge-support-webauthn/05_loggedin.png)
 
 Credential が複数ある場合はユーザリストが表示される。
 
-{% asset_img lena.bmp 06_credentials.png %}
+![](./edge-support-webauthn/06_credentials.png)
 
 ちなみに 25 ユーザほど登録した時点で、キーの登録容量が足りなくなった。
 

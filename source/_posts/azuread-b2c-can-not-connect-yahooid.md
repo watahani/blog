@@ -40,7 +40,7 @@ Microsoft が提供する Auth0 みたいなサービス。
 
 Authorize Code Flow を動かすので、アプリケーションは "サーバーサイド（Yahoo! ID連携 v2）" を選んで、あとは適当に入力する。
 
-{% asset_img lena.bmp callback.png %}
+![](./azuread-b2c-can-not-connect-yahooid/callback.png)
 
 コールバック URL には、後述するが以下の 2 つを追加しておく。
 
@@ -62,7 +62,7 @@ OIDC の場合メタデータ URL を指定すればほぼ完了。Yahoo! ID の
 
 あとはクレームのマッピングを [Yahoo! ID の UserInfo API のドキュメント](https://developer.yahoo.co.jp/yconnect/v2/userinfo.html) をみて適当に決める。
 
-{% asset_img lena.bmp custom-oidc-provider.png %}
+![](./azuread-b2c-can-not-connect-yahooid/custom-oidc-provider.png)
 
 手順はこれだけで OK。
 
@@ -78,13 +78,13 @@ Azure AD B2C を IdP として利用するアプリの登録。略。
 
 作成したユーザー フローを選択し、`今すぐ実行` を選択する。
 
-{% asset_img lena.bmp run-flow.png %}
+![](./azuread-b2c-can-not-connect-yahooid/run-flow.png)
 
 ### 結果
 
 'Error: invalid_request,Error Description: response_mode is invalid.'
 
-{% asset_img lena.bmp result.png %}
+![](./azuread-b2c-can-not-connect-yahooid/result.png)
 
 初めに書いた通り、結論から言うと動かなかった。なぜうまく動かないのか、もう少し詳細にみてみる。
 

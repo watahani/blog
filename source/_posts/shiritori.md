@@ -13,7 +13,7 @@ tags:
 あまりに暇になると、たまによくする **「変則しりとり」** があり、あんまり人に紹介したことなかったなあと思うので紹介します。
 
 
-{% asset_img lena.bmp pet_kotoba_oshieru_oumu.png %}
+![](./shiritori/pet_kotoba_oshieru_oumu.png)
 
 ## 変則しりとりのルール
 

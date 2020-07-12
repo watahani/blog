@@ -65,7 +65,7 @@ tags:
 
 正月も有休消化でがっつり休んでドローンを飛ばしたり、スノーボードいって膝壊したりして全然活動できていません。
 
-{% asset_img lena.bmp drone.png %}
+![](./job-change/drone.png)
 
 が、今年も [fido2-workshop](https://fido2-workshop.connpass.com/) の活動やアウトプットをしていきます。
 
@@ -79,4 +79,4 @@ FIDO 関連でいうと、 [SoloKey](https://solokeys.com/) かったのと、[A
 
 そんなこんなで今年もどうぞよろしくお願いいたします。
 
-{% asset_img lena.bmp keys.jpg %}
+![](./job-change/keys.jpg)

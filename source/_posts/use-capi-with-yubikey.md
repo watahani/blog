@@ -83,11 +83,11 @@ yubico-piv-tool -s9c -i pkcs12.pfx -KPKCS12 -a set-chuid -a import-key -a import
 さて、インポートしたキーは何かしらに使える。CNG経由で利用するアプリケーションといえば、VPN や ダイアルアップの認証だが
 残念ながら、証明書を使えるVPNサーバー等を持っていないので前回同様 `putty-cac` を利用する。
 
-{% asset_img lena.bmp putty-capi.png %}
+![](./use-capi-with-yubikey/putty-capi.png)
 
 CAPI を選んで…
 
-{% asset_img lena.bmp cng.png %}
+![](./use-capi-with-yubikey/cng.png)
 
 YubiKey に格納した証明書を選んで…
 
@@ -112,6 +112,6 @@ end
 
 OpenSC の dll を使った場合とは異なり、Windows標準な感じのPINを入れる画面が出てくる。
 
-{% asset_img lena.bmp credentials.png %}
+![](./use-capi-with-yubikey/credentials.png)
 
 これは結構素敵。

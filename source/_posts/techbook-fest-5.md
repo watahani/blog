@@ -48,7 +48,7 @@ Tシャツもお揃いなのだ。
 
 ともかく突貫工事で技術書を仕上げ、当日、こんな中身のない本を買いに来るやつがいるのか…とドキドキしながら待っていたら
 
-{% asset_img lena.bmp slack_cap.png %}
+![](./techbook-fest-5/slack_cap.png)
 
 まじか。
 

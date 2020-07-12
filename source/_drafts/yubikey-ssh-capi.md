@@ -23,26 +23,26 @@ date: 2018-02-08 16:04:52
 前回作成した証明書を CAPI 経由で使えるように Windows の 証明書サービス(`Win` + `R` で `certmgr.msc` と入れると起動する奴)に登録する。
 
 
-{% asset_img lena.bmp 2018-02-09_16h31_37.png %}
+![](./yubikey-ssh-capi/2018-02-09_16h31_37.png)
 これ↑
 
 まず PIV Manager を起動し、証明書を Export する。
 この際拡張子を crt とすると、Windows の Certificate Manager が読める。
 （PEMで出力された証明書の拡張子を crt に変えてもよい）
 
-{% asset_img lena.bmp 2018-02-09_16h38_17.png %}
+![](./yubikey-ssh-capi/2018-02-09_16h38_17.png)
 
 出力された crt ファイルをダブルクリックして証明書のインストールを選択する。
 証明書に利用目的などが書いていないので、手動で個人証明書に登録する。
 
-{% asset_img lena.bmp 2018-02-09_16h44_30.gif %}
+![](./yubikey-ssh-capi/2018-02-09_16h44_30.gif)
 
 ### CAPI経由で SSH 接続
 
 あとは前回同様 putty を起動して前回 Connection > SSH > Certificate を開き、今回は CAPI を選択。
 Windowsの証明書ストアに保存された証明書がずらーっと出てくるが、今回作成した証明書を選択する。
 
-{% asset_img lena.bmp 2018-02-09_16h50_47.png %}
+![](./yubikey-ssh-capi/2018-02-09_16h50_47.png)
 
 前回登録していれば不要だが、 Copy To Clipboad で公開鍵を取得し、 authorized_keys にでも追加しておく。
 

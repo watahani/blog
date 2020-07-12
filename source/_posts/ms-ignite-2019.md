@@ -63,7 +63,7 @@ Azure AD Connect の最新版 + Win10 の Insider Build + ドメコンへのパ�
 
 フローはこんな感じ
 
-{% asset_img lena.bmp auth-flow.png %}
+![](./ms-ignite-2019/auth-flow.png)
 
 - (0) Azure AD Connect で Kerberos Server keys をクラウドにもっていく
 - WebAuthn で認証
@@ -80,9 +80,9 @@ Azure AD Connect の最新版 + Win10 の Insider Build + ドメコンへのパ�
 
 あとは、Windows と CTAP2 の統合。
 
-{% asset_img lena.bmp winconf.png %}
+![](./ms-ignite-2019/winconf.png)
 
-{% asset_img lena.bmp winconffinger.png %}
+![](./ms-ignite-2019/winconffinger.png)
 
 指紋や PIN の設定を Windows の設定から行えるようになったとのこと。デモでは失敗してたけど。
 
@@ -90,9 +90,9 @@ Biometrics 系の API って標準化されてるんかな。この辺最近追�
 
 ### まとめ
 
-{% asset_img lena.bmp funnel.png %}
+![](./ms-ignite-2019/funnel.png)
 
-{% asset_img lena.bmp roadmap.png %}
+![](./ms-ignite-2019/roadmap.png)
 
 
 パスワードレスへ移行するための道筋的なのはこっち
@@ -102,7 +102,7 @@ Biometrics 系の API って標準化されてるんかな。この辺最近追�
 
 デバイスのアップデートサイクルに合わせて TPM 使えるマシンにしろとか、MSAL 使った OIDC の認証に切り替えろ見たいな話しをしていたと思う。(ちゃんと聞いてない)
 
-{% asset_img lena.bmp passwordlessjourney.png %}
+![](./ms-ignite-2019/passwordlessjourney.png)
 
 ## BRK2261 Empower firstline worker productivity from day one
 
@@ -110,7 +110,7 @@ Biometrics 系の API って標準化されてるんかな。この辺最近追�
 
 AAD 新機能のセッションみてちょっと気になったので。
 
-{% asset_img lena.bmp firstlineworker.png %}
+![](./ms-ignite-2019/firstlineworker.png)
 
 FirstLine Worker って言葉を知らなかったんだけど、小売店や製造業の、店舗従業員や作業員といった意味らしい。
 
@@ -121,11 +121,11 @@ MS シフト管理ツールまで持ってるんか…。Staff Hub とか聞い�
 は、置いといて、プロビジョニングして使い始めてもらうっていう文脈で、管理者が設定した電話番号にワンタイム パスコード送ってサインインができるという機能。
 Y!っぽいあれですね。
 
-{% asset_img lena.bmp workday-provisioning.png %}
+![](./ms-ignite-2019/workday-provisioning.png)
 
 HR システムからユーザーをプロビジョニングして、Teams のチャネルに自動招待。あと電話番号も登録。
 
-{% asset_img lena.bmp signin-with-phone-number.png %}
+![](./ms-ignite-2019/signin-with-phone-number.png)
 
 ユーザーは自分の電話番号でサインインするだけ。
 

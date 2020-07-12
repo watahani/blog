@@ -41,7 +41,7 @@ MS Graph で取得できる情報もあると思うが、アプリ側で Graph �
 トークンに属性を追加するにはアプリのマニフェストを編集する必要があったが、最近 Azure ポータル上の GUI でできるようになった。
 具体的には `Azure Active Directory` > `アプリの登録` > 対象アプリの `トークン構成 (プレビュー)` から、追加のクレームを選択する。
 
-{% asset_img lena.bmp optional-claims.png %}
+![](./customize-aad-token-claims/optional-claims.png)
 
 とりあえず、全部選択して ID トークンを発行してみたが、デバイス登録しなければ取得できない属性やオンプレからの同期属性もあり、クラウド ユーザーで取得できたのはこれだけ。
 
@@ -80,7 +80,7 @@ MS Graph で取得できる情報もあると思うが、アプリ側で Graph �
 
 Azure AD で所属しているセキュリティ グループを追加することもできる。
 
-{% asset_img lena.bmp groups-claims.png %}
+![](./customize-aad-token-claims/groups-claims.png)
 
 ID トークンに出力されるグループはこんな感じ。
 
@@ -129,7 +129,7 @@ Add-AzureADServicePrincipalPolicy -Id $sp.ObjectId -RefObjectId  $policy.Id
 
 ポリシーを割り当てた状態で、ID トークンを取得しようとすると、AADSTS50146 エラーが発生する。
 
-{% asset_img lena.bmp claim-mapping-error.png %}
+![](./customize-aad-token-claims/claim-mapping-error.png)
 
 >AADSTS50146: This application is required to be configured with an application-specific signing key. It is either not configured with one, or the key has expired or is not yet valid.
 
@@ -139,7 +139,7 @@ Add-AzureADServicePrincipalPolicy -Id $sp.ObjectId -RefObjectId  $policy.Id
   "acceptMappedClaims": true,
 ```
 
-{% asset_img lena.bmp accesptmappedclaims.png %}
+![](./customize-aad-token-claims/accesptmappedclaims.png)
 
 上記を設定を、ID トークンを発行すると、UPN が name 属性として出力された。
 
@@ -167,11 +167,11 @@ Add-AzureADServicePrincipalPolicy -Id $sp.ObjectId -RefObjectId  $policy.Id
 適当に Web API (RBAC Web API) を作成し、スコープとして File.Write を作る。
 ユーザーが Consent できるように、さっき作ったアプリを承認済みクライアントに登録する。
 
-{% asset_img lena.bmp api-scope.png %}
+![](./customize-aad-token-claims/api-scope.png)
 
 ロールは適当に管理者による書き込みと、一般ユーザーによる書き込みをイメージして Write_Ad_Admin と Write を設定。
 
-{% asset_img lena.bmp api-manifest.png %}
+![](./customize-aad-token-claims/api-manifest.png)
 
 ```json
 "appRoles": [
@@ -208,7 +208,7 @@ Add-AzureADServicePrincipalPolicy -Id $sp.ObjectId -RefObjectId  $policy.Id
 そして、対象のアプリでユーザーを割り当てる。
 エンタープライズ アプリケーションから `RBAC Web API` を選択し、ユーザーとグループからロールを割り当てる。
 
-{% asset_img lena.bmp assign-group.png %}
+![](./customize-aad-token-claims/assign-group.png)
 
 残念ながら、ロールを割り当てる MS Graph API は存在しないので、このあたりの制御をアプリで行う場合は特定のグループを割り当てておいて、それぞれのグループにユーザーを割り当てるなど工夫が必要そう。
 

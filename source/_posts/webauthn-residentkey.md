@@ -68,13 +68,13 @@ tags:
 
 まあ、とにかく **CredentialId** が認証の際に必要だったわけ。
 
-{% asset_img lena.bmp u2fbase.png %}
+![](./webauthn-residentkey/u2fbase.png)
 
 それだとパスワードレス認証にならないので WebAuthn では ResidentKey といって、**CredentialId** をキーに保存しておける仕組みを作った。実際には user や rp の情報も一緒に保存するので、RP の情報や、ユーザ情報も保存される。
 
 そのおかげて、 RP だけ与えられた際に、RPの情報や保存されたユーザ情報で、ユーザはどの Credential を利用しようとしているかが理解できる。
 
-{% asset_img lena.bmp 06_credentials.png %}
+![](./webauthn-residentkey/06_credentials.png)
 
 ## User Verification
 

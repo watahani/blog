@@ -63,11 +63,11 @@ tags:
 
 `Azure Active Directory` > `ユーザー設定` > `Manage feature preview settings`
 
-{% asset_img lena.bmp user-feature-preview.png %}
+![](./azuread-fido2-security-key-public-preview/user-feature-preview.png)
 
 ひとまず All User で設定したが、管理者 + 対象ユーザーのみ指定すればよい気がする。
 
-{% asset_img lena.bmp user-feature-target.png %}
+![](./azuread-fido2-security-key-public-preview/user-feature-target.png)
 
 最大のつまずきポイントは、この設定の反映に丸一日以上かかることがある、ということ。スキューバダイビングなどをしながらゆっくり待とう。
 
@@ -81,7 +81,7 @@ tags:
 
 丸一日ぐらい待てば、 `Azure Active Directory` > `認証方法` > `認証方法ポリシー (プレビュー)` に FIDO2 セキュリティキーが表示される。
 
-{% asset_img lena.bmp authentication-methods.png %}
+![](./azuread-fido2-security-key-public-preview/authentication-methods.png)
 
 有効化して、対象ユーザーを適当に設定して完了。
 
@@ -102,7 +102,7 @@ Security Key でのサインインを有効化するためのポリシーを設�
 
 1 のテナント全体の設定は、`Intune` > `デバイスの登録` > `Windows の登録` > `Windows Hello for Business` > `プロパティ` > `設定` で、`サインインのセキュリティ キーを使用` を有効に
 
-{% asset_img lena.bmp enable-securitykey-in-intune.png %}
+![](./azuread-fido2-security-key-public-preview/enable-securitykey-in-intune.png)
 
 2 のポリシーでグループに適用するには、 `Intune` > `デバイスの構成` > `プロファイル` で新しいプロファイルを作成。
 
@@ -114,7 +114,7 @@ Security Key でのサインインを有効化するためのポリシーを設�
 
 なお、Intune のプロファイル降ってくるのに 1 時間ぐらいかかった。
 
-{% asset_img lena.bmp enable-securitykey-in-intune-profile.png %}
+![](./azuread-fido2-security-key-public-preview/enable-securitykey-in-intune-profile.png)
 
 レジストリは多分 `HKEY_LOCAL_MACHINE\Software\Microsoft\Policies\PassportForWork\SecurityKey` の `"UseSecurityKeyForSignin"=dword00000001` あたりを設定してるっぽいけど細かくは調べてないし、余計な事せずマニュアル通りにやろうということで。
 
@@ -134,11 +134,11 @@ Hello for Business の有効化は必須ではないとのこと。
 
 Authentication Methods の設定が反映されていればセキュリティ設定で Security Key を追加すれば完了。
 
-{% asset_img lena.bmp add-securitykey.png %}
+![](./azuread-fido2-security-key-public-preview/add-securitykey.png)
 
 サインインするときは、Security Key を選択して YubiKey の場合は PIN 入れてタッチ。
 
-{% asset_img lena.bmp securitykey-cp.png %}
+![](./azuread-fido2-security-key-public-preview/securitykey-cp.png)
 
 セキュリティキーに複数の Credential が入っていても、最後に登録された (というより、多分レスポンスの中の一つ目の、かな。) ユーザーでしかサインインできないようであった。
 
@@ -148,7 +148,7 @@ Web のサインインももちろんできる。
 
 その時は複数ユーザーが入っていた場合、もちろん選択可能であった。
 
-{% asset_img lena.bmp cred-selector.png %}
+![](./azuread-fido2-security-key-public-preview/cred-selector.png)
 
 ## ちょっと分析
 
@@ -161,7 +161,7 @@ CTAP のログはイベントビューア `アプリケーションとサービ�
 
 たとえば GetAssertion のレスポンスは 1104 なので、こんな感じでログがある。
 
-{% asset_img lena.bmp event-1104.png %}
+![](./azuread-fido2-security-key-public-preview/event-1104.png)
 
 CBOR の中身はこんな感じ
 

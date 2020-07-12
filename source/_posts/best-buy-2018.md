@@ -13,7 +13,7 @@ tags: 雑記
 
 ## これ
 
-{% asset_img lena.bmp card-case.jpg %}
+![](./best-buy-2018/card-case.jpg)
 
 定期券ケース。コイツを買ってから一度も遅刻をしてない。
 

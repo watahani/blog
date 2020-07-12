@@ -27,10 +27,10 @@ MSA って何やねんって思ったけど、要はAzure ADじゃない、個�
 
 次に [MS のサポートページ](https://support.microsoft.com/en-us/help/4463210/windows-10-sign-in-microsoft-account-windows-hello-security-key) に従って登録してみる。Microsoft Account でログインしてから
 
-{% asset_img lena.bmp security-options.png %}
+![](./msa-login-with-securitykey/security-options.png)
 アカウントの[追加のセキュリティオプションページ](https://account.live.com/proofs/manage/additional)にアクセスして、
 
-{% asset_img lena.bmp secop-ja.png %}
+![](./msa-login-with-securitykey/secop-ja.png)
 
 が、無い！
 
@@ -38,7 +38,7 @@ MSA って何やねんって思ったけど、要はAzure ADじゃない、個�
 
 しかし大体こういうときは**言語を英語にすればええんやで**と、私のゴーストが囁くのでおもむろに URL のパラメーター `mkt=ja-JP` を `mkt=en-US` に差し替える。
 
-{% asset_img lena.bmp secop-en.png %}
+![](./msa-login-with-securitykey/secop-en.png)
 
 https://account.live.com/proofs/manage/additional?mkt=en-US
 
@@ -50,12 +50,12 @@ https://account.live.com/proofs/manage/additional?mkt=en-US
 
 USBもしくはNFCに対応しているらしい（BLEは未対応）
 
-{% asset_img lena.bmp setup-yubikey.png %}
+![](./msa-login-with-securitykey/setup-yubikey.png)
 
 キーを挿入すると、PIN を設定しろと表示される。User Verification は必須らしい。
 ちなみに `rp.id` は `login.microsoft.com` なのかな？
 
-{% asset_img lena.bmp enter-pin.png %}
+![](./msa-login-with-securitykey/enter-pin.png)
 
 PIN を設定して YubiKey に2回タッチすると登録完了。
 
@@ -63,9 +63,9 @@ PIN を設定して YubiKey に2回タッチすると登録完了。
 
 この状態でログアウトするとログイン画面に見慣れない表示が…
 
-{% asset_img lena.bmp login-option.png %}
+![](./msa-login-with-securitykey/login-option.png)
 
-{% asset_img lena.bmp login-with-yubikey.png %}
+![](./msa-login-with-securitykey/login-with-yubikey.png)
 
 ログイン完了！
 

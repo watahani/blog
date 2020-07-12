@@ -28,7 +28,7 @@ FIDO U2F および UAF を拡張した認証標準で、まあ要は [WebAuthn](
 
 ## 見た感じ
 
-{% asset_img lena.bmp keys.jpg %}
+![](./fido2-security-key/keys.jpg)
 
 左から、YubiKey4、Security Key by Yubico, Security Key(U2Fのみ対応のもの)
 
@@ -81,11 +81,11 @@ Now navigate to https://localhost:5000 in a supported web browser.
 
 アクセスして register を押すと
 
-{% asset_img lena.bmp webauthn1.png %}
+![](./fido2-security-key/webauthn1.png)
 
 WebAuthn のダイアログが出て…
 
-{% asset_img lena.bmp webauthn2.png %}
+![](./fido2-security-key/webauthn2.png)
 
 Keyにタッチするとサーバーログに認証データが出てくる。
 

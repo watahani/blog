@@ -13,7 +13,7 @@ tags:
 
 <!--more -->
 
-{% asset_img lena.bmp circle-layout.png %}
+![](./gitbook-pdf/circle-layout.png)
 
 私は WebAuthentication API については、日本国内では割と詳しいほうだと思います。でも、その中で一番プログラムをかけない人だと思います。
 
@@ -115,7 +115,7 @@ docker run --rm hwataru/gitbook-pdf gitbook pdf
 
 IPAGothic だとこんな感じのPDFが出来上がります。
 
-{% asset_img lena.bmp pdfb5.png %}
+![](./gitbook-pdf/pdfb5.png)
 
 >さっそく誤字しとるやんけ…（）
 

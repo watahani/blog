@@ -66,20 +66,20 @@ Yubico PIV Manager を起動する。
 未使用の YubiKey を指した場合、PIN の変更を促されるので、適当に設定する。
 忘れた場合どうしようもないので忘れないように。
 
-{% asset_img lena.bmp 2018-02-01_08h54_48.png %}
+![](./yubikey-ssh-opensc/2018-02-01_08h54_48.png)
 
 [Management key](https://developers.yubico.com/yubikey-piv-manager/PIN_and_Management_Key.html) は一般的な利用では Use PIN as key でいいと思う。
 
 PIN の設定が終われば `certificates` をクリックして証明書一覧を開く。
 
-{% asset_img lena.bmp 2018-02-02_20h33_31.png %}
+![](./yubikey-ssh-opensc/2018-02-02_20h33_31.png)
 
 スロットが 9a, 9c, 9d, 9e とあり、それぞれ [Authentication, Sign, Key Management, Card Authentication ように 割り振られている](https://developers.yubico.com/PIV/Introduction/Certificate_slots.html) らしいが、SSH接続用にキーペアを使う分にはどのスロットを使っても同じ。
 
 とりあえず、 9a スロットと 9c スロットに SSH 用のキーを作成してみる。
 まずは `Authentication` タブで `Generate new key` を選択する。
 
-{% asset_img lena.bmp 2018-02-02_21h14_17.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h14_17.png)
 
 `self-signed certificate` を選択
 SSH 接続に利用するだけなので、サブジェクト名などは不要ですが
@@ -87,11 +87,11 @@ SSH 接続に利用するだけなので、サブジェクト名などは不要�
 
 あとは PIN 入力して OK を押せば YubiKey 内でキーペアの生成が行われる。
 
-{% asset_img lena.bmp 2018-02-02_21h14_32.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h14_32.png)
 
 生成された証明書はこんな感じで表示される。
 
-{% asset_img lena.bmp 2018-02-02_21h14_39.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h14_39.png)
 
 Digital Signiture のタブでも同様に行う。
 
@@ -142,16 +142,16 @@ PIN tries left: 3
 
 putty CAC を起動する。[Putty CAC](https://risacher.org/putty-cac/) のページにもあるが、左の `Connection` > `Certificate`  を選択し `Set PKCS Cert` で dll を選択するダイアログが出たら `%SystemRoot%\System32\opensc-pkcs11.dll` を選択する。
 
-{% asset_img lena.bmp 2018-02-02_21h07_55.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h07_55.png)
 
 すると Windows のよく見る証明書選択ダイアログが出てくる。
 デフォルトで 9a スロットの証明書が表示されるが、その他をクリックすると YubiKey に入っている証明書すべてが表示される。サブジェクト名をつけないとここで判別に困る。
 
-{% asset_img lena.bmp 2018-02-02_21h27_34.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h27_34.png)
 
 使いたい証明書を選択して OK を押す。
 
-{% asset_img lena.bmp 2018-02-02_21h29_42.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h29_42.png)
 
 証明書が読み込まれるので `Copy To Clipboard` を選択する。
 コピペされた内容は以下のような感じ
@@ -170,15 +170,15 @@ ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDwrrmmy
 
 あとは putty に戻って接続できるかテストする。
 
-{% asset_img lena.bmp 2018-02-02_21h37_11.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h37_11.png)
 
 ユーザ名入れて…
 
-{% asset_img lena.bmp 2018-02-02_21h37_37.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h37_37.png)
 
 PIN 入れて…
 
-{% asset_img lena.bmp 2018-02-02_21h37_43.png %}
+![](./yubikey-ssh-opensc/2018-02-02_21h37_43.png)
 
 ログイン完了！
 
