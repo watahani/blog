@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://blog.haniyama.com/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_09.png">
 <meta property="og:image" content="http://blog.haniyama.com/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_10.png">
 <meta property="og:image" content="http://blog.haniyama.com/2019/12/06/azuread-b2c-fido2-custompolicy/extensionsvalue.png">
-<meta property="og:updated_time" content="2020-01-12T03:24:27.979Z">
+<meta property="og:updated_time" content="2020-07-12T10:31:52.139Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Azure B2C の FIDO2 サンプルを動かす">
 <meta name="twitter:description" content="この記事は認証認可アドベントカレンダー の6日目の記事です。 動機: やっぱ OIDC ネタと FIDO ネタが多いから、どっちも絡めたやつを書けばめっちゃウケるのでは？→ Azure AD B2C に WebAuthn によるパスワードレス サインインを実装するサンプルあったなあ… と、苦し紛れにネタをひねり出した結果、くっそニッチな記事になってしまった。">
@@ -97,7 +97,7 @@
 <script src="https://gist.github.com/watahani/1169bdea01979e888dbe1e18b8c35982.js"></script>
 
 <p>後は、<code>npm install -g now</code> して <code>now</code> でデプロイ完了。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/nowsh.png" class=".bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/nowsh.png" alt=""></p>
 <blockquote>
 <p>now.sh が v2 にバージョンアップしていて困ったが <a href="https://qiita.com/aggre/items/f0cb9f8b8e8c54768e50" target="_blank" rel="noopener">Now でクラウドの複雑さから解放されよう、今すぐに - Qiita</a> あたりを参考にした</p>
 </blockquote>
@@ -107,7 +107,7 @@
 <h3 id="事前準備-2-静的ファイルのホスト"><a href="#事前準備-2-静的ファイルのホスト" class="headerlink" title="事前準備 2. 静的ファイルのホスト"></a>事前準備 2. 静的ファイルのホスト</h3><p>WebAuthn のキーを登録/認証するための、カスタム サインインページのための静的 HTML をアップロードする。</p>
 <p>Azure B2C では外部の HTML テンプレートを JavaScript でフェッチして、必要なフォームを埋め込んで表示する。</p>
 <p>今回は、カスタム HTML 上で Authenticator からのレスポンスをフォームに詰めて、次のフローに流す。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2chtml.png" class=".bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2chtml.png" alt=""></p>
 <p>適当に gist でも GitHub のリポジトリでも CORS が許可されている場所であればどこでも適当にアップロードにしていい。</p>
 <p><a href="https://gist.githubusercontent.com/watahani/f94a8362a4cc075a67254eb403c9c1c7/raw/e83697aa603d0c11b78d9f503b4885ac84695601/self-asserted.html" target="_blank" rel="noopener">https://gist.githubusercontent.com/watahani/f94a8362a4cc075a67254eb403c9c1c7/raw/e83697aa603d0c11b78d9f503b4885ac84695601/self-asserted.html</a><br><a href="https://gist.githubusercontent.com/watahani/a49bec0c38ad1e2540b829ee4121d8ba/raw/dc5eaa4c36b80459980eae312861fac7339b269c/welcome.html" target="_blank" rel="noopener">https://gist.githubusercontent.com/watahani/a49bec0c38ad1e2540b829ee4121d8ba/raw/dc5eaa4c36b80459980eae312861fac7339b269c/welcome.html</a></p>
 <p>URL は後で使うのでメモっておく。</p>
@@ -119,12 +119,12 @@
 <p>何をやっているか簡単に説明すると、ユーザー属性を保存 &amp; 読み書きするアプリケーションを作成し、カスタムポリシー内で WebAuthn の情報を保存できるようにしている。</p>
 <p>アプリの登録で登録する。アプリの名前は <code>WebApp-GraphAPI-FIDO2-Extensions</code> とした。</p>
 <p>画面はこんな感じ。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/appreg.png" class="lena.bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/appreg.png" alt=""></p>
 <p>Admin Consent を完了させる。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/apppermission.png" class="lena.bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/apppermission.png" alt=""></p>
 <p>で作成したアプリのオブジェクト ID と アプリケーション ID をメモっておく。</p>
 <h2 id="FIDOExtensions-xml-の編集"><a href="#FIDOExtensions-xml-の編集" class="headerlink" title="FIDOExtensions.xml の編集"></a>FIDOExtensions.xml の編集</h2><p>ここまでの手順を完了した酔狂な人がいた場合、以下のような状態になっているはずである。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/extensions.png" class="lena.bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/extensions.png" alt=""></p>
 <p>この細切れのコンポーネントを、FIDOExtensions.xml でつないでいく。XML で…。</p>
 <h3 id="UserJourneys"><a href="#UserJourneys" class="headerlink" title="UserJourneys"></a>UserJourneys</h3><p>どんどん認証認可の話が関係なってきているが、先に進みます。</p>
 <p>ユーザーのフローについては、UserJourneys と呼ばれるタグに定義されており、UserJourneys は大抵 Extensions か、SignInSignUp の定義ファイルにある。</p>
@@ -490,31 +490,31 @@
 <p>ここまで集めた Claims を Jwt 形式にして sign してアプリに送信するだけ。</p>
 <p>諸々飛ばしたところはありますが、ひとまず XML の作成は完了したので B2C にポリシーをアップしよう。<br>アップできなければエラーメッセージを確認し、頑張って直してください…。</p>
 <p>さて、ここまでやり遂げたあなたなら、先ほどの図も理解できるはずですね。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2ccomponent.png" class="lena.bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2ccomponent.png" alt=""></p>
 <p>素晴らしい！ XML が世界を回していることを実感しますね!?</p>
 <h2 id="動作確認"><a href="#動作確認" class="headerlink" title="動作確認"></a>動作確認</h2><p>最後に動作確認をして、実際の動きを確かめてみる。</p>
 <h3 id="レジストレーション-フロー"><a href="#レジストレーション-フロー" class="headerlink" title="レジストレーション フロー"></a>レジストレーション フロー</h3><p>Authenticator の登録には、既存の資格情報 (ここではパスワード) を入力する。<br>実際に運用するなら、MFA を突破した後のほうがいいけど、これ以上 XML は弄りたくないので。</p>
 <p>登録の前には、再度資格情報が必要という警告を表示して</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_01.png" class="lena.bmp">
-<p>資格情報を入れて<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_02.png" class="lena.bmp"></p>
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_01.png" alt=""></p>
+<p>資格情報を入れて<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_02.png" alt=""></p>
 <p>Platform Authenticator か Cross-Platform Authenticator かを選ぶ。<br>今回は SoloKey を使うので Cross-Platform Authenticator。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_03.png" class="lena.bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_03.png" alt=""></p>
 <p>Attestation 要求しているので警告がでて、いつもの。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_04.png" class="lena.bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_04.png" alt=""></p>
 <p>id_token が発行される。</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_05.png" class="lena.bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_05.png" alt=""></p>
 <h3 id="サインイン-フロー"><a href="#サインイン-フロー" class="headerlink" title="サインイン フロー"></a>サインイン フロー</h3><p>サインインの際は、FIDO ボタンをクリックして</p>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_06.png" class="lena.bmp">
-<p>Authenticate ボタンで js が呼ばれて<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_07.png" class="lena.bmp"></p>
-<p>い つ も の<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_08.png" class="lena.bmp"></p>
-<p>id_token が発行される。<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_09.png" class="lena.bmp"></p>
-<p>Debug ボタンで hidden 状態の form を表示することができる。<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_10.png" class="lena.bmp"></p>
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_06.png" alt=""></p>
+<p>Authenticate ボタンで js が呼ばれて<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_07.png" alt=""></p>
+<p>い つ も の<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_08.png" alt=""></p>
+<p>id_token が発行される。<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_09.png" alt=""></p>
+<p>Debug ボタンで hidden 状態の form を表示することができる。<br><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/b2c_10.png" alt=""></p>
 <p>WebAuthn の公開鍵についてはユーザーの拡張属性に保存されている。<br>なんでか Azure AD B2C テナントは Microsoft Graph API をサポートしていない (使えるけど) ので、Azure AD Graph を叩いて確認する。</p>
 <p>サインインしたユーザー情報を取得すると、確かに公開鍵が保存されている。</p>
 <ul>
 <li>Azure AD Graph Explorer<br><a href="https://graphexplorer.azurewebsites.net/#" target="_blank" rel="noopener">https://graphexplorer.azurewebsites.net/#</a></li>
 </ul>
-<img src="/2019/12/06/azuread-b2c-fido2-custompolicy/extensionsvalue.png" class="lena.bmp">
+<p><img src="/2019/12/06/azuread-b2c-fido2-custompolicy/extensionsvalue.png" alt=""></p>
 <h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>今回は Azure AD B2C に FIDO2 を組み込むサンプルを動かしてみた。<br>XML を読み解くのは果てしなくつらい作業だったが、動いているのを見るといとおしく感じてくるから不思議である。</p>
 <p>ここまで色々いじれ (てしまえ) る OP は中々なく、XML のつながりを辿るのは果てしなくつらい作業だが、クレームの変換や検証、Azure AD への書き込みや読み込みなど、非常にプリミティブな動作をなんとなく体験できる面白いオモチャなので、興味がある人は触ってみてほしい。</p>
 <p>ただ、XML を弄るのは果てしなくつらい作業なので、私はしばらく見たくない。以上。</p>

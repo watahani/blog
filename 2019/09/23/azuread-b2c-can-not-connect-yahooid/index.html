@@ -10,7 +10,7 @@
 <meta property="og:image" content="http://blog.haniyama.com/2019/09/23/azuread-b2c-can-not-connect-yahooid/custom-oidc-provider.png">
 <meta property="og:image" content="http://blog.haniyama.com/2019/09/23/azuread-b2c-can-not-connect-yahooid/run-flow.png">
 <meta property="og:image" content="http://blog.haniyama.com/2019/09/23/azuread-b2c-can-not-connect-yahooid/result.png">
-<meta property="og:updated_time" content="2019-09-24T12:29:20.274Z">
+<meta property="og:updated_time" content="2020-07-12T10:31:52.130Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Azure AD B2C に Yahoo! ID を連携しようとして失敗した話">
 <meta name="twitter:description" content="今日は Azure AD B2C を OIDC な IdP である Yahoo! ID とつなげてみよう、というお話。 Azure AD B2C とはMicrosoft が提供する Auth0 みたいなサービス。">
@@ -28,7 +28,7 @@
 <h3 id="B2C-テナントを作る"><a href="#B2C-テナントを作る" class="headerlink" title="B2C テナントを作る"></a>B2C テナントを作る</h3><p>略。</p>
 <h3 id="Yahoo-ID-を利用するアプリの登録"><a href="#Yahoo-ID-を利用するアプリの登録" class="headerlink" title="Yahoo! ID を利用するアプリの登録"></a>Yahoo! ID を利用するアプリの登録</h3><p><a href="https://developer.yahoo.co.jp/start/" target="_blank" rel="noopener">ご利用ガイド - Yahoo!デベロッパーネットワーク</a> に、step by step で手順があるので、その通りにアプリを登録する。</p>
 <p>Authorize Code Flow を動かすので、アプリケーションは “サーバーサイド（Yahoo! ID連携 v2）” を選んで、あとは適当に入力する。</p>
-<img src="/2019/09/23/azuread-b2c-can-not-connect-yahooid/callback.png" class="lena.bmp">
+<p><img src="/2019/09/23/azuread-b2c-can-not-connect-yahooid/callback.png" alt=""></p>
 <p>コールバック URL には、後述するが以下の 2 つを追加しておく。</p>
 <ul>
 <li><a href="https://yourdomain.b2clogin.com/yourdomain.onmicrosoft.com/oauth2/authresp" target="_blank" rel="noopener">https://yourdomain.b2clogin.com/yourdomain.onmicrosoft.com/oauth2/authresp</a></li>
@@ -42,14 +42,14 @@
 </ul>
 <p>クライアント ID とクライアント シークレットは、アプリを作ったときに払い出されたものを。スコープは<code>openid profile email</code>、<br>応答の種類は <code>code</code>、応答モードは <code>query</code>、ドメインのヒントは、アプリケーションが B2C に対して認証リクエスト投げるときに利用するものだと思うので適当で OK。</p>
 <p>あとはクレームのマッピングを <a href="https://developer.yahoo.co.jp/yconnect/v2/userinfo.html" target="_blank" rel="noopener">Yahoo! ID の UserInfo API のドキュメント</a> をみて適当に決める。</p>
-<img src="/2019/09/23/azuread-b2c-can-not-connect-yahooid/custom-oidc-provider.png" class="lena.bmp">
+<p><img src="/2019/09/23/azuread-b2c-can-not-connect-yahooid/custom-oidc-provider.png" alt=""></p>
 <p>手順はこれだけで OK。</p>
 <h3 id="ユーザーフローの作成"><a href="#ユーザーフローの作成" class="headerlink" title="ユーザーフローの作成"></a>ユーザーフローの作成</h3><p><code>ユーザー フロー</code> &gt; <code>新しいユーザー フロー</code> &gt; <code>サインアップとサインイン</code> から、新しいサインアップとサインインフローを作成し、IdP として先ほど登録した OIDC プロバイダー (Yahoo!) を選ぶ。クレームの要求は適当に設定して保存する。</p>
 <h3 id="アプリの登録"><a href="#アプリの登録" class="headerlink" title="アプリの登録"></a>アプリの登録</h3><p>Azure AD B2C を IdP として利用するアプリの登録。略。</p>
 <h3 id="作成したユーザー-フローのテスト"><a href="#作成したユーザー-フローのテスト" class="headerlink" title="作成したユーザー フローのテスト"></a>作成したユーザー フローのテスト</h3><p>作成したユーザー フローを選択し、<code>今すぐ実行</code> を選択する。</p>
-<img src="/2019/09/23/azuread-b2c-can-not-connect-yahooid/run-flow.png" class="lena.bmp">
+<p><img src="/2019/09/23/azuread-b2c-can-not-connect-yahooid/run-flow.png" alt=""></p>
 <h3 id="結果"><a href="#結果" class="headerlink" title="結果"></a>結果</h3><p>‘Error: invalid_request,Error Description: response_mode is invalid.’</p>
-<img src="/2019/09/23/azuread-b2c-can-not-connect-yahooid/result.png" class="lena.bmp">
+<p><img src="/2019/09/23/azuread-b2c-can-not-connect-yahooid/result.png" alt=""></p>
 <p>初めに書いた通り、結論から言うと動かなかった。なぜうまく動かないのか、もう少し詳細にみてみる。</p>
 <p>Chrome の <a href="https://chrome.google.com/webstore/detail/redirect-path/aomidfkchockcldhbkggjokdkkebmdll" target="_blank" rel="noopener">Redirect Path</a> という拡張を利用して、サインイン時のリダイレクトの動きを見てみた。</p>
 <p>B2C のサインイン ページから Yahoo! へは以下のリクエストが送られていた。</p>

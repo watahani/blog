@@ -13,7 +13,7 @@
 <meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/04_pin.png">
 <meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/05_loggedin.png">
 <meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/06_credentials.png">
-<meta property="og:updated_time" content="2020-01-12T03:24:28.013Z">
+<meta property="og:updated_time" content="2020-07-12T10:31:52.187Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)">
 <meta name="twitter:description" content="update 2018-06-25 userHandle に関して追記2018-10-20　この記事より詳細な記事書きました webauthn における ResidentKey について  とりあえず動画をみれば大体わかる">
@@ -184,24 +184,24 @@
 </blockquote>
 <h2 id="実際の動作"><a href="#実際の動作" class="headerlink" title="実際の動作"></a>実際の動作</h2><p>実際に Edge で動作確認をしてみる。</p>
 <h3 id="Resister"><a href="#Resister" class="headerlink" title="Resister"></a>Resister</h3><p>まずは、登録作業。</p>
-<img src="/2018/06/17/edge-support-webauthn/01_pin.png" class="lena.bmp">
+<p><img src="/2018/06/17/edge-support-webauthn/01_pin.png" alt=""></p>
 <p>どうも Edge では User Verify (PINの入力) は必須らしく、PIN 設定していないキーでも関らず PIN の設定をしろと言われてしまう。</p>
 <blockquote>
 <p>追記： User Verification はデフォルトで “preffered” です。<br>UV が不要であれば “discourage” オプションの指定が必要です。<br>詳しくは は <a href="/2018/10/19/webauthn-residentkey/">webauthn における ResidentKey について</a></p>
 </blockquote>
 <p>One Factor Authentication するには PIN なり、指紋なりで保護しないとだめなのはわかる。けど、認証レベルによってタップでログインして、重要な情報を変更するときのみ PIN の入力する…みたいな使い方は出来なさそう。</p>
-<img src="/2018/06/17/edge-support-webauthn/02_touch.png" class="lena.bmp">
+<p><img src="/2018/06/17/edge-support-webauthn/02_touch.png" alt=""></p>
 <p>User Verification の後は User Presence のためにタッチする。</p>
 <p>多分、生体認証などのキーでは User Verification は User Presence な動作を必要とするまず。つまりもう一度タッチしなくていいのかと思うけど、実機が無いのでわからない。誰か試してみてほしい。</p>
-<img src="/2018/06/17/edge-support-webauthn/03_loggedin.png" class="lena.bmp">
+<p><img src="/2018/06/17/edge-support-webauthn/03_loggedin.png" alt=""></p>
 <p>ともあれ、タッチまでして登録完了。</p>
 <h3 id="Assertion"><a href="#Assertion" class="headerlink" title="Assertion"></a>Assertion</h3><p>次にログインの場合。先ほども言った通り、<code>Credential ID</code> 等はキーに保存できるため <code>allowCredentials</code> を空にして、<code>getAssertion</code> を呼べばよい。</p>
 <p>PIN を入力すると、キーが与えられた <code>challenge</code> に対し、保存している Credentials すべてに対応する <code>attestationResponse</code> を Edge に返す。</p>
-<img src="/2018/06/17/edge-support-webauthn/04_pin.png" class="lena.bmp">
+<p><img src="/2018/06/17/edge-support-webauthn/04_pin.png" alt=""></p>
 <p>Edge は Credential が一つしかない場合、自動でログインするらしい。<br>正直どのユーザでログインしようとしているかは表示してほしい。</p>
-<img src="/2018/06/17/edge-support-webauthn/05_loggedin.png" class="lena.bmp">
+<p><img src="/2018/06/17/edge-support-webauthn/05_loggedin.png" alt=""></p>
 <p>Credential が複数ある場合はユーザリストが表示される。</p>
-<img src="/2018/06/17/edge-support-webauthn/06_credentials.png" class="lena.bmp">
+<p><img src="/2018/06/17/edge-support-webauthn/06_credentials.png" alt=""></p>
 <p>ちなみに 25 ユーザほど登録した時点で、キーの登録容量が足りなくなった。</p>
 <p><blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">FIDO2 の residentKey 試してたらもう入らんくなった <a href="https://t.co/xNLZxnO2nc" target="_blank" rel="noopener">pic.twitter.com/xNLZxnO2nc</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a href="https://twitter.com/watahani/status/1008228775723560960?ref_src=twsrc%5Etfw" target="_blank" rel="noopener">2018年6月17日</a></blockquote></p>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

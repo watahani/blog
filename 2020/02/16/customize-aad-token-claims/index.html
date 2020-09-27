@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="ja"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="Azure AD が発行するトークンをカスタマイズする方法を少し調べたのでメモ。 トークンのカスタマイズそもそも Azure AD のトークンのカスタマイズをする理由としては大きく分けると以下の 2 つだと思う。  連携アプリに対して発行する ID トークン の属性を追加・既存の属性をカスタマイズする。 Azure AD に登録した Web API を利用する用に アクセス トークン をカスタマイ">
-<meta name="keywords" content="Azure AD,OAuth,OIDC">
+<meta name="keywords" content="Azure AD,OIDC,OAuth">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Azure AD で OAuth&#x2F;OIDC トークンのクレームをカスタマイズする">
 <meta property="og:url" content="http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/index.html">
@@ -9,10 +9,11 @@
 <meta property="og:image" content="http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/optional-claims.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/groups-claims.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/claim-mapping-error.png">
+<meta property="og:image" content="http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/accesptmappedclaims.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/api-scope.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/api-manifest.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/assign-group.png">
-<meta property="og:updated_time" content="2020-02-16T09:39:36.009Z">
+<meta property="og:updated_time" content="2020-07-12T10:31:52.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Azure AD で OAuth&#x2F;OIDC トークンのクレームをカスタマイズする">
 <meta name="twitter:description" content="Azure AD が発行するトークンをカスタマイズする方法を少し調べたのでメモ。 トークンのカスタマイズそもそも Azure AD のトークンのカスタマイズをする理由としては大きく分けると以下の 2 つだと思う。  連携アプリに対して発行する ID トークン の属性を追加・既存の属性をカスタマイズする。 Azure AD に登録した Web API を利用する用に アクセス トークン をカスタマイ">
@@ -30,7 +31,7 @@
 <p>あまりに情報を詰め込みすぎると、query で送る場合は URL クエリーの長さ制限に引っかかるのでその点は気を付けたほうが良さそう。<br>設定の仕方自体は ID トークン、アクセス トークン共に大きく差はないはずだけど、すべて検証したわけじゃないのでどっかに罠があるかも。</p>
 <h2 id="トークン-の属性を追加・既存の属性をカスタマイズする"><a href="#トークン-の属性を追加・既存の属性をカスタマイズする" class="headerlink" title="トークン の属性を追加・既存の属性をカスタマイズする"></a>トークン の属性を追加・既存の属性をカスタマイズする</h2><h3 id="属性を追加する"><a href="#属性を追加する" class="headerlink" title="属性を追加する"></a>属性を追加する</h3><p>参考: <a href="https://docs.microsoft.com/ja-jp/azure/active-directory/develop/active-directory-optional-claims" target="_blank" rel="noopener">Azure AD アプリに省略可能な要求を提供する - Microsoft identity platform | Microsoft Docs</a></p>
 <p>トークンに属性を追加するにはアプリのマニフェストを編集する必要があったが、最近 Azure ポータル上の GUI でできるようになった。<br>具体的には <code>Azure Active Directory</code> &gt; <code>アプリの登録</code> &gt; 対象アプリの <code>トークン構成 (プレビュー)</code> から、追加のクレームを選択する。</p>
-<img src="/2020/02/16/customize-aad-token-claims/optional-claims.png" class="lena.bmp">
+<p><img src="/2020/02/16/customize-aad-token-claims/optional-claims.png" alt=""></p>
 <p>とりあえず、全部選択して ID トークンを発行してみたが、デバイス登録しなければ取得できない属性やオンプレからの同期属性もあり、クラウド ユーザーで取得できたのはこれだけ。</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
   <span class="token property">"aud"</span><span class="token operator">:</span> <span class="token string">"815680bb-ebc9-4e5f-a594-f2c55b83bb27"</span><span class="token punctuation">,</span>
@@ -61,7 +62,7 @@
 </code></pre>
 <p>簡単ですね。</p>
 <h3 id="グループをクレームに含める"><a href="#グループをクレームに含める" class="headerlink" title="グループをクレームに含める"></a>グループをクレームに含める</h3><p>Azure AD で所属しているセキュリティ グループを追加することもできる。</p>
-<img src="/2020/02/16/customize-aad-token-claims/groups-claims.png" class="lena.bmp">
+<p><img src="/2020/02/16/customize-aad-token-claims/groups-claims.png" alt=""></p>
 <p>ID トークンに出力されるグループはこんな感じ。</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
     <span class="token property">"groups"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
@@ -91,14 +92,14 @@ Add<span class="token operator">-</span>AzureADServicePrincipalPolicy <span clas
 <p>なんでもかんでもカスタマイズできるのではなく、基本要求セットと呼ばれるクレームのみ変更でき、必須クレームや、<a href="https://docs.microsoft.com/ja-jp/azure/active-directory/develop/active-directory-claims-mapping#table-1-json-web-token-jwt-restricted-claim-set" target="_blank" rel="noopener">制限付き要求セット</a>は変更できない。</p>
 <p>上記コマンドサンプルの例を考えようと思ったが、オンプレの属性を name などの属性にいれるぐらいしか使いどころが思いつかなかった。</p>
 <p>ポリシーを割り当てた状態で、ID トークンを取得しようとすると、AADSTS50146 エラーが発生する。</p>
-<img src="/2020/02/16/customize-aad-token-claims/claim-mapping-error.png" class="lena.bmp">
+<p><img src="/2020/02/16/customize-aad-token-claims/claim-mapping-error.png" alt=""></p>
 <blockquote>
 <p>AADSTS50146: This application is required to be configured with an application-specific signing key. It is either not configured with one, or the key has expired or is not yet valid.</p>
 </blockquote>
 <p>文字通りに読めば、アプリ独自の署名用キーをアップロードするひつようがある (し、アップロードすることで解消もできる) が、マニフェストに以下を追加することでも回避できる。</p>
 <pre class=" language-json"><code class="language-json">  <span class="token property">"acceptMappedClaims"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
 </code></pre>
-
+<p><img src="/2020/02/16/customize-aad-token-claims/accesptmappedclaims.png" alt=""></p>
 <p>上記を設定を、ID トークンを発行すると、UPN が name 属性として出力された。</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
   <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"example@watahani.com"</span>
@@ -111,9 +112,9 @@ Add<span class="token operator">-</span>AzureADServicePrincipalPolicy <span clas
 <p>上記の記事の通りなのだが、アプリのマニフェスト、あるいはサービス プリンシパルにロールを定義し、ユーザーに割り当てることができる。<br>アプリ自身のロールに加え、Web API として公開したアプリケーションに対しても権限を設定でき、RBAC による API の管理にも利用できる。</p>
 <p>今回はアプリから、Web API を叩く想定で、新しい Web API を登録して、ロールを作成した。</p>
 <h3 id="Web-API-の作成"><a href="#Web-API-の作成" class="headerlink" title="Web API の作成"></a>Web API の作成</h3><p>適当に Web API (RBAC Web API) を作成し、スコープとして File.Write を作る。<br>ユーザーが Consent できるように、さっき作ったアプリを承認済みクライアントに登録する。</p>
-<img src="/2020/02/16/customize-aad-token-claims/api-scope.png" class="lena.bmp">
+<p><img src="/2020/02/16/customize-aad-token-claims/api-scope.png" alt=""></p>
 <p>ロールは適当に管理者による書き込みと、一般ユーザーによる書き込みをイメージして Write_Ad_Admin と Write を設定。</p>
-<img src="/2020/02/16/customize-aad-token-claims/api-manifest.png" class="lena.bmp">
+<p><img src="/2020/02/16/customize-aad-token-claims/api-manifest.png" alt=""></p>
 <pre class=" language-json"><code class="language-json"><span class="token property">"appRoles"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
   <span class="token punctuation">{</span>
     <span class="token property">"allowedMemberTypes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
@@ -143,7 +144,7 @@ Add<span class="token operator">-</span>AzureADServicePrincipalPolicy <span clas
 <span class="token punctuation">]</span><span class="token punctuation">,</span>
 </code></pre>
 <h3 id="ロールの割り当て"><a href="#ロールの割り当て" class="headerlink" title="ロールの割り当て"></a>ロールの割り当て</h3><p>そして、対象のアプリでユーザーを割り当てる。<br>エンタープライズ アプリケーションから <code>RBAC Web API</code> を選択し、ユーザーとグループからロールを割り当てる。</p>
-<img src="/2020/02/16/customize-aad-token-claims/assign-group.png" class="lena.bmp">
+<p><img src="/2020/02/16/customize-aad-token-claims/assign-group.png" alt=""></p>
 <p>残念ながら、ロールを割り当てる MS Graph API は存在しないので、このあたりの制御をアプリで行う場合は特定のグループを割り当てておいて、それぞれのグループにユーザーを割り当てるなど工夫が必要そう。</p>
 <blockquote>
 <p>あれ、じゃあグループをそのままロールとして扱ってしまえば良いのでは…？</p>
@@ -184,7 +185,7 @@ client_id=815680bb-ebc9-4e5f-a594-f2c55b83bb27
 <p>ということで、ベストプラクティスについてはちょっと誰かが教えてくれることを期待しつつ、ロールが明確になっている会社ほど、こういった RBAC な制御を利用しやすいのかなあと、組織論的なことも少し考えた。</p>
 <p>以前 OpenID Summit に参加したときにも感じたが、ID厨の技術を追っていくには、現実世界の問題についても深く理解する必要もありそうなので、何か手を付けれるところから学習を始めたいところ。</p>
 <p>でも今日はポケモンHOME で 6V メタモン輸送せないかんので、このへんで。</p>
-<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\11\24\ms-ignite-2019\" title="Microsoft Ignite 2019 メモ" rel="bookmark">Microsoft Ignite 2019 メモ</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\06\02\aad-spa-auth-code-grant-with-pkce\" title="Azure AD の SPA 向け Authorize Code Flow with PKCE (MSAL.js 2.x)" rel="bookmark">Azure AD の SPA 向け Authorize Code Flow with PKCE (MSAL.js 2.x)</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\12\06\azuread-b2c-fido2-custompolicy\" title="Azure B2C の FIDO2 サンプルを動かす" rel="bookmark">Azure B2C の FIDO2 サンプルを動かす</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\09\23\azuread-b2c-can-not-connect-yahooid\" title="Azure AD B2C に Yahoo! ID を連携しようとして失敗した話" rel="bookmark">Azure AD B2C に Yahoo! ID を連携しようとして失敗した話</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-AD/">Azure AD</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OIDC/">OIDC</a><span class="tag-list-count">2</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2020/04/30/azure-storage-blob-content-type-nodejs/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2019/12/06/azuread-b2c-fido2-custompolicy/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2020 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\11\24\ms-ignite-2019\" title="Microsoft Ignite 2019 メモ" rel="bookmark">Microsoft Ignite 2019 メモ</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\09\27\aad-external-identity-api-connector\" title="Azure AD External Identity Self SignUp API Connector" rel="bookmark">Azure AD External Identity Self SignUp API Connector</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\09\23\azuread-b2c-can-not-connect-yahooid\" title="Azure AD B2C に Yahoo! ID を連携しようとして失敗した話" rel="bookmark">Azure AD B2C に Yahoo! ID を連携しようとして失敗した話</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\06\02\aad-spa-auth-code-grant-with-pkce\" title="Azure AD の SPA 向け Authorize Code Flow with PKCE (MSAL.js 2.x)" rel="bookmark">Azure AD の SPA 向け Authorize Code Flow with PKCE (MSAL.js 2.x)</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\12\06\azuread-b2c-fido2-custompolicy\" title="Azure B2C の FIDO2 サンプルを動かす" rel="bookmark">Azure B2C の FIDO2 サンプルを動かす</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-AD/">Azure AD</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OAuth/">OAuth</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OIDC/">OIDC</a><span class="tag-list-count">2</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2020/04/30/azure-storage-blob-content-type-nodejs/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2019/12/06/azuread-b2c-fido2-custompolicy/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2020 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
 window.onload = function () {
   wrap.className += ' done';
 }</script></body></html>

@@ -15,7 +15,7 @@
 <meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/firstlineworker.png">
 <meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/workday-provisioning.png">
 <meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/signin-with-phone-number.png">
-<meta property="og:updated_time" content="2020-02-16T05:22:37.302Z">
+<meta property="og:updated_time" content="2020-07-12T10:31:52.262Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Microsoft Ignite 2019 メモ">
 <meta name="twitter:description" content="Microsoft Ignite 2019 が今年も開催されてましたね。 今年もセキュリティキーに関してアップデートがあったけど、ポケモン剣盾で時間とられて、余裕ないので雑にメモ。 孵化あまり、だれか交換しましょう。">
@@ -73,7 +73,7 @@
 <p>Hybrid 環境での FIDO2 セキュリティキーのデプロイ。2020年の始めにパブリック プレビューの予定。</p>
 <p>Azure AD Connect の最新版 + Win10 の Insider Build + ドメコンへのパッチが必要らしい。</p>
 <p>フローはこんな感じ</p>
-<img src="/2019/11/24/ms-ignite-2019/auth-flow.png" class="lena.bmp">
+<p><img src="/2019/11/24/ms-ignite-2019/auth-flow.png" alt=""></p>
 <ul>
 <li>(0) Azure AD Connect で Kerberos Server keys をクラウドにもっていく</li>
 <li>WebAuthn で認証</li>
@@ -86,32 +86,32 @@
 <p>あとは Kerberos Server keys を組織の外に同期するって、どの程度のインパクトなのかよくわからん。</p>
 <p>そして動かんくなったときのデバッグつらそうｗ</p>
 <p>あとは、Windows と CTAP2 の統合。</p>
-<img src="/2019/11/24/ms-ignite-2019/winconf.png" class="lena.bmp">
-<img src="/2019/11/24/ms-ignite-2019/winconffinger.png" class="lena.bmp">
+<p><img src="/2019/11/24/ms-ignite-2019/winconf.png" alt=""></p>
+<p><img src="/2019/11/24/ms-ignite-2019/winconffinger.png" alt=""></p>
 <p>指紋や PIN の設定を Windows の設定から行えるようになったとのこと。デモでは失敗してたけど。</p>
 <p>Biometrics 系の API って標準化されてるんかな。この辺最近追ってないのでわからん。</p>
-<h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><img src="/2019/11/24/ms-ignite-2019/funnel.png" class="lena.bmp">
-<img src="/2019/11/24/ms-ignite-2019/roadmap.png" class="lena.bmp">
+<h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p><img src="/2019/11/24/ms-ignite-2019/funnel.png" alt=""></p>
+<p><img src="/2019/11/24/ms-ignite-2019/roadmap.png" alt=""></p>
 <p>パスワードレスへ移行するための道筋的なのはこっち</p>
 <ul>
 <li>THR3076 Get the most out of passwordless authentication and avoid pitfalls<br><a href="https://myignite.techcommunity.microsoft.com/sessions/81735?source=sessions" target="_blank" rel="noopener">https://myignite.techcommunity.microsoft.com/sessions/81735?source=sessions</a></li>
 </ul>
 <p>デバイスのアップデートサイクルに合わせて TPM 使えるマシンにしろとか、MSAL 使った OIDC の認証に切り替えろ見たいな話しをしていたと思う。(ちゃんと聞いてない)</p>
-<img src="/2019/11/24/ms-ignite-2019/passwordlessjourney.png" class="lena.bmp">
+<p><img src="/2019/11/24/ms-ignite-2019/passwordlessjourney.png" alt=""></p>
 <h2 id="BRK2261-Empower-firstline-worker-productivity-from-day-one"><a href="#BRK2261-Empower-firstline-worker-productivity-from-day-one" class="headerlink" title="BRK2261 Empower firstline worker productivity from day one"></a>BRK2261 Empower firstline worker productivity from day one</h2><p><a href="https://myignite.techcommunity.microsoft.com/sessions/81630?source=sessions" target="_blank" rel="noopener">https://myignite.techcommunity.microsoft.com/sessions/81630?source=sessions</a></p>
 <p>AAD 新機能のセッションみてちょっと気になったので。</p>
-<img src="/2019/11/24/ms-ignite-2019/firstlineworker.png" class="lena.bmp">
+<p><img src="/2019/11/24/ms-ignite-2019/firstlineworker.png" alt=""></p>
 <p>FirstLine Worker って言葉を知らなかったんだけど、小売店や製造業の、店舗従業員や作業員といった意味らしい。</p>
 <p>そういった人たちにも、Teams やら Shift (Staff Hub の後継) を使ってもらって、仕事効率高めようという話。</p>
 <p>MS シフト管理ツールまで持ってるんか…。Staff Hub とか聞いたことなかったわ。</p>
 <p>は、置いといて、プロビジョニングして使い始めてもらうっていう文脈で、管理者が設定した電話番号にワンタイム パスコード送ってサインインができるという機能。<br>Y!っぽいあれですね。</p>
-<img src="/2019/11/24/ms-ignite-2019/workday-provisioning.png" class="lena.bmp">
+<p><img src="/2019/11/24/ms-ignite-2019/workday-provisioning.png" alt=""></p>
 <p>HR システムからユーザーをプロビジョニングして、Teams のチャネルに自動招待。あと電話番号も登録。</p>
-<img src="/2019/11/24/ms-ignite-2019/signin-with-phone-number.png" class="lena.bmp">
+<p><img src="/2019/11/24/ms-ignite-2019/signin-with-phone-number.png" alt=""></p>
 <p>ユーザーは自分の電話番号でサインインするだけ。</p>
 <p>複数の組織に所属してたらどうなるんだろうとか、気になるところはあるけど、パスワード リセットのヘルプセンターの管理するよりずっといいんじゃないでしょうか。</p>
 <p>今日はヒバニーの孵化作業があるので、ここまで。</p>
-<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\12\18\best-buy-2018\" title="BEST BUY 2018" rel="bookmark">BEST BUY 2018</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\02\04\job-change\" title="転職しました" rel="bookmark">転職しました</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\11\21\msa-login-with-securitykey\" title="Microsoft Account FIDO2 対応キーでログイン可能に" rel="bookmark">Microsoft Account FIDO2 対応キーでログイン可能に</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\05\07\windows-hello-fido2-certification\" title="Windows Hello が FIDO2 Certificate を取得" rel="bookmark">Windows Hello が FIDO2 Certificate を取得</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\02\16\customize-aad-token-claims\" title="Azure AD で OAuth/OIDC トークンのクレームをカスタマイズする" rel="bookmark">Azure AD で OAuth/OIDC トークンのクレームをカスタマイズする</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-AD/">Azure AD</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft/">Microsoft</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/雑記/">雑記</a><span class="tag-list-count">3</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2019/12/06/azuread-b2c-fido2-custompolicy/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2019/09/23/azuread-b2c-can-not-connect-yahooid/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2020 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\12\18\best-buy-2018\" title="BEST BUY 2018" rel="bookmark">BEST BUY 2018</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\02\04\job-change\" title="転職しました" rel="bookmark">転職しました</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\11\21\msa-login-with-securitykey\" title="Microsoft Account FIDO2 対応キーでログイン可能に" rel="bookmark">Microsoft Account FIDO2 対応キーでログイン可能に</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\05\07\windows-hello-fido2-certification\" title="Windows Hello が FIDO2 Certificate を取得" rel="bookmark">Windows Hello が FIDO2 Certificate を取得</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\09\27\aad-external-identity-api-connector\" title="Azure AD External Identity Self SignUp API Connector" rel="bookmark">Azure AD External Identity Self SignUp API Connector</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-AD/">Azure AD</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft/">Microsoft</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/雑記/">雑記</a><span class="tag-list-count">3</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2019/12/06/azuread-b2c-fido2-custompolicy/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2019/09/23/azuread-b2c-can-not-connect-yahooid/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2020 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
 window.onload = function () {
   wrap.className += ' done';
 }</script></body></html>

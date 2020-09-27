@@ -13,7 +13,7 @@
 <meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/enter-pin.png">
 <meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/login-option.png">
 <meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/login-with-yubikey.png">
-<meta property="og:updated_time" content="2019-09-09T11:12:52.738Z">
+<meta property="og:updated_time" content="2020-07-12T10:31:52.269Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Microsoft Account FIDO2 対応キーでログイン可能に">
 <meta name="twitter:description" content="Password-less Login with the YubiKey 5 Comes to Microsoft Accounts | Yubico  来たか！ ということで、MSA(Microsoft Account) で FIDO2/WebAuthn 対応の YubiKey 5 or Security Key by Yubico でログイン可能になったらしいので早速試してみた。">
@@ -30,24 +30,23 @@
 
 <p>1809… うっ、アタマが…</p>
 <p>次に <a href="https://support.microsoft.com/en-us/help/4463210/windows-10-sign-in-microsoft-account-windows-hello-security-key" target="_blank" rel="noopener">MS のサポートページ</a> に従って登録してみる。Microsoft Account でログインしてから</p>
-<img src="/2018/11/21/msa-login-with-securitykey/security-options.png" class="lena.bmp">
-<p>アカウントの<a href="https://account.live.com/proofs/manage/additional" target="_blank" rel="noopener">追加のセキュリティオプションページ</a>にアクセスして、</p>
-<img src="/2018/11/21/msa-login-with-securitykey/secop-ja.png" class="lena.bmp">
+<p><img src="/2018/11/21/msa-login-with-securitykey/security-options.png" alt=""><br>アカウントの<a href="https://account.live.com/proofs/manage/additional" target="_blank" rel="noopener">追加のセキュリティオプションページ</a>にアクセスして、</p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/secop-ja.png" alt=""></p>
 <p>が、無い！</p>
 <p>日本サポートはまだなのか…。</p>
 <p>しかし大体こういうときは<strong>言語を英語にすればええんやで</strong>と、私のゴーストが囁くのでおもむろに URL のパラメーター <code>mkt=ja-JP</code> を <code>mkt=en-US</code> に差し替える。</p>
-<img src="/2018/11/21/msa-login-with-securitykey/secop-en.png" class="lena.bmp">
+<p><img src="/2018/11/21/msa-login-with-securitykey/secop-en.png" alt=""></p>
 <p><a href="https://account.live.com/proofs/manage/additional?mkt=en-US" target="_blank" rel="noopener">https://account.live.com/proofs/manage/additional?mkt=en-US</a></p>
 <p>登録できそうやね。</p>
 <h2 id="登録"><a href="#登録" class="headerlink" title="登録"></a>登録</h2><p>早速登録してみる。</p>
 <p>USBもしくはNFCに対応しているらしい（BLEは未対応）</p>
-<img src="/2018/11/21/msa-login-with-securitykey/setup-yubikey.png" class="lena.bmp">
+<p><img src="/2018/11/21/msa-login-with-securitykey/setup-yubikey.png" alt=""></p>
 <p>キーを挿入すると、PIN を設定しろと表示される。User Verification は必須らしい。<br>ちなみに <code>rp.id</code> は <code>login.microsoft.com</code> なのかな？</p>
-<img src="/2018/11/21/msa-login-with-securitykey/enter-pin.png" class="lena.bmp">
+<p><img src="/2018/11/21/msa-login-with-securitykey/enter-pin.png" alt=""></p>
 <p>PIN を設定して YubiKey に2回タッチすると登録完了。</p>
 <h2 id="ログイン"><a href="#ログイン" class="headerlink" title="ログイン"></a>ログイン</h2><p>この状態でログアウトするとログイン画面に見慣れない表示が…</p>
-<img src="/2018/11/21/msa-login-with-securitykey/login-option.png" class="lena.bmp">
-<img src="/2018/11/21/msa-login-with-securitykey/login-with-yubikey.png" class="lena.bmp">
+<p><img src="/2018/11/21/msa-login-with-securitykey/login-option.png" alt=""></p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/login-with-yubikey.png" alt=""></p>
 <p>ログイン完了！</p>
 <h2 id="雑感"><a href="#雑感" class="headerlink" title="雑感"></a>雑感</h2><p>まだ MSA のみ対応なのと、Edge のみなので使い始める人は少ないだろうけど確かに登録＆ログインできた。<br>Yahoo!アカウントの  FIDO2 対応の時もそうだが、自分が関わってるコミュニティの新機能発表は、すごく興奮する。</p>
 <p>と同時に、何か自分もビジネスにかかわらないとなーと漠然とした焦りを感じる。</p>

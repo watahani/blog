@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_11.png">
 <meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_37.png">
 <meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_43.png">
-<meta property="og:updated_time" content="2019-09-09T11:12:52.774Z">
+<meta property="og:updated_time" content="2020-07-12T10:31:52.388Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Putty CAC で SSH に YubiKey を使う(OpenSC編)">
 <meta name="twitter:description" content="Putty CAC で SSH に YubiKey を使う(OpenSC編)概要YubiKey 4 の PIV 機能を利用して SSH 接続を試してみる。">
@@ -46,18 +46,18 @@
 <h3 id="OpenSC"><a href="#OpenSC" class="headerlink" title="OpenSC"></a>OpenSC</h3><p>OpenSC は OSS の PKCS#11 の実装らしい。<br>今回は Putty CAC を利用するので dll ファイルだけあればいい。<br>GitHub の<a href="https://github.com/OpenSC/OpenSC/releases/tag/0.17.0" target="_blank" rel="noopener">リリースページ</a>からダウンロードしてインストールする。</p>
 <p>インストール終了後 <code>%SystemRoot%\System32\opensc-pkcs11.dll</code> が作成されていればOK</p>
 <h2 id="調理"><a href="#調理" class="headerlink" title="調理"></a>調理</h2><h3 id="キーペアの生成"><a href="#キーペアの生成" class="headerlink" title="キーペアの生成"></a>キーペアの生成</h3><p>Yubico PIV Manager を起動する。<br>未使用の YubiKey を指した場合、PIN の変更を促されるので、適当に設定する。<br>忘れた場合どうしようもないので忘れないように。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-01_08h54_48.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-01_08h54_48.png" alt=""></p>
 <p><a href="https://developers.yubico.com/yubikey-piv-manager/PIN_and_Management_Key.html" target="_blank" rel="noopener">Management key</a> は一般的な利用では Use PIN as key でいいと思う。</p>
 <p>PIN の設定が終われば <code>certificates</code> をクリックして証明書一覧を開く。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_20h33_31.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_20h33_31.png" alt=""></p>
 <p>スロットが 9a, 9c, 9d, 9e とあり、それぞれ <a href="https://developers.yubico.com/PIV/Introduction/Certificate_slots.html" target="_blank" rel="noopener">Authentication, Sign, Key Management, Card Authentication ように 割り振られている</a> らしいが、SSH接続用にキーペアを使う分にはどのスロットを使っても同じ。</p>
 <p>とりあえず、 9a スロットと 9c スロットに SSH 用のキーを作成してみる。<br>まずは <code>Authentication</code> タブで <code>Generate new key</code> を選択する。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_17.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_17.png" alt=""></p>
 <p><code>self-signed certificate</code> を選択<br>SSH 接続に利用するだけなので、サブジェクト名などは不要ですが<br>まあ、ユーザ名やサーバー名でも付けときましょう。</p>
 <p>あとは PIN 入力して OK を押せば YubiKey 内でキーペアの生成が行われる。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_32.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_32.png" alt=""></p>
 <p>生成された証明書はこんな感じで表示される。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_39.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_39.png" alt=""></p>
 <p>Digital Signiture のタブでも同様に行う。</p>
 <p>終了すれば、 <code>yubico-piv-tool.exe</code> で 以下のコマンドを叩けば 2 つの証明書が入っていることが確認できる。<br>(<code>yubico-piv-tool.exe</code> は PIV Manager のインストールフォルダにある)</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token operator">></span>yubico-piv-tool.exe -a status
@@ -92,11 +92,11 @@ PIN tries left: 3
 <span class="token operator">></span> ssh-keygen -f pub1key.pem -i <span class="token operator">>></span> ~/.ssh/authorized_keys
 </code></pre>
 <h3 id="putty-で-OpenSC-を利用して公開鍵を取得する"><a href="#putty-で-OpenSC-を利用して公開鍵を取得する" class="headerlink" title="putty で OpenSC を利用して公開鍵を取得する"></a>putty で OpenSC を利用して公開鍵を取得する</h3><p>putty CAC を起動する。<a href="https://risacher.org/putty-cac/" target="_blank" rel="noopener">Putty CAC</a> のページにもあるが、左の <code>Connection</code> &gt; <code>Certificate</code>  を選択し <code>Set PKCS Cert</code> で dll を選択するダイアログが出たら <code>%SystemRoot%\System32\opensc-pkcs11.dll</code> を選択する。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h07_55.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h07_55.png" alt=""></p>
 <p>すると Windows のよく見る証明書選択ダイアログが出てくる。<br>デフォルトで 9a スロットの証明書が表示されるが、その他をクリックすると YubiKey に入っている証明書すべてが表示される。サブジェクト名をつけないとここで判別に困る。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h27_34.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h27_34.png" alt=""></p>
 <p>使いたい証明書を選択して OK を押す。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h29_42.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h29_42.png" alt=""></p>
 <p>証明書が読み込まれるので <code>Copy To Clipboard</code> を選択する。<br>コピペされた内容は以下のような感じ</p>
 <pre class=" language-ssh"><code class="language-ssh">ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDwrrmmyS/tvPdZ/i9oe6HT7+Z7h+/+FuLqQFDVq+5+Yj3lo6mkK35R3sYLvCHWIKVnL/gv5pEX3YCmzikPUZJc= PKCS:2f05561a3cde0620a7ba6edfddae6b73a757d12e=C:\Windows\System32\opensc-pkcs11.dll2f05561a3cde0620a7ba6edfddae6b73a757d12e CN=user1 sever1
 </code></pre>
@@ -104,11 +104,11 @@ PIN tries left: 3
 <pre class=" language-bash"><code class="language-bash"><span class="token operator">></span> <span class="token keyword">echo</span> <span class="token string">"ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbm..."</span> <span class="token operator">>></span> ~./ssh/authorized_keys
 </code></pre>
 <h2 id="実食"><a href="#実食" class="headerlink" title="実食"></a>実食</h2><p>あとは putty に戻って接続できるかテストする。</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_11.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_11.png" alt=""></p>
 <p>ユーザ名入れて…</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_37.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_37.png" alt=""></p>
 <p>PIN 入れて…</p>
-<img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_43.png" class="lena.bmp">
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_43.png" alt=""></p>
 <p>ログイン完了！</p>
 <h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>Yubico PIV Tool で作成した証明書が入った YubiKey を利用して<br>CAPI 経由で証明書を発行すると、警告なしに上書きされる。<br>minidriver とは併用しないようにしよう。</p>
 <div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\09\09\lost-securiykeys\" title="セキュリティキーをなくしたのでリカバリ方法を実践してみる" rel="bookmark">セキュリティキーをなくしたのでリカバリ方法を実践してみる</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\09\28\ms-ignite-2018\" title="雑感 Microsoft Ignite What's new for Windows Hello for Business" rel="bookmark">雑感 Microsoft Ignite What's new for Windows Hello for Business</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\03\12\scoop-bucket\" title="scoop bucket を作成する" rel="bookmark">scoop bucket を作成する</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\07\01\use-capi-with-yubikey\" title="YubiKey を CNG(CAPI) 経由で使う" rel="bookmark">YubiKey を CNG(CAPI) 経由で使う</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\07\15\azuread-fido2-security-key-public-preview\" title="Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー" rel="bookmark">Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/YubiKey/">YubiKey</a><span class="tag-list-count">9</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2018/03/12/scoop-bucket/"><i class="icon icon-arror-left"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2020 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');

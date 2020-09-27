@@ -2,198 +2,205 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/</loc>
+    <loc>http://blog.haniyama.com/2020/09/27/aad-external-identity-api-connector/</loc>
     
-    <lastmod>2020-06-02T09:42:06.093Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/</loc>
-    
-    <lastmod>2020-05-01T01:13:59.229Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/</loc>
-    
-    <lastmod>2020-02-16T09:39:36.009Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2019/11/24/ms-ignite-2019/</loc>
-    
-    <lastmod>2020-02-16T05:22:37.302Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2018/06/17/edge-support-webauthn/</loc>
-    
-    <lastmod>2020-01-12T03:24:28.013Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2019/12/06/azuread-b2c-fido2-custompolicy/</loc>
-    
-    <lastmod>2020-01-12T03:24:27.979Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2019/07/15/azuread-fido2-security-key-public-preview/</loc>
-    
-    <lastmod>2019-11-24T00:50:53.291Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2019/09/23/azuread-b2c-can-not-connect-yahooid/</loc>
-    
-    <lastmod>2019-09-24T12:29:20.274Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2019/09/09/lost-securiykeys/</loc>
-    
-    <lastmod>2019-09-23T11:52:49.691Z</lastmod>
+    <lastmod>2020-09-27T13:32:17.774Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/</loc>
     
-    <lastmod>2019-09-09T11:12:52.774Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.388Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2019/05/07/windows-hello-fido2-certification/</loc>
     
-    <lastmod>2019-09-09T11:12:52.771Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.370Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/10/19/webauthn-residentkey/</loc>
     
-    <lastmod>2019-09-09T11:12:52.769Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.357Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/11/19/webauthn-attestation/</loc>
     
-    <lastmod>2019-09-09T11:12:52.765Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.345Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/07/01/use-capi-with-yubikey/</loc>
     
-    <lastmod>2019-09-09T11:12:52.760Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.336Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2019/06/15/typescript-vscode-with-eslint-2019/</loc>
     
-    <lastmod>2019-09-09T11:12:52.757Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.317Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2019/03/09/techbook-fest-6/</loc>
     
-    <lastmod>2019-09-09T11:12:52.755Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.305Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/10/13/techbook-fest-5/</loc>
     
-    <lastmod>2019-09-09T11:12:52.752Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2018/03/12/scoop-bucket/</loc>
-    
-    <lastmod>2019-09-09T11:12:52.748Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.298Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/03/15/shiritori/</loc>
     
-    <lastmod>2019-09-09T11:12:52.748Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.289Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2018/03/12/scoop-bucket/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.278Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/</loc>
     
-    <lastmod>2019-09-09T11:12:52.738Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.269Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2019/11/24/ms-ignite-2019/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.262Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/09/28/ms-ignite-2018/</loc>
     
-    <lastmod>2019-09-09T11:12:52.732Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.253Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2019/09/09/lost-securiykeys/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.241Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2019/02/04/job-change/</loc>
     
-    <lastmod>2019-09-09T11:12:52.726Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.234Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/08/19/gitbook-pdf/</loc>
     
-    <lastmod>2019-09-09T11:12:52.721Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2018/07/23/fido-webauthn-mokumoku/</loc>
-    
-    <lastmod>2019-09-09T11:12:52.715Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.226Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/04/26/fido2-security-key/</loc>
     
-    <lastmod>2019-09-09T11:12:52.715Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.219Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2018/07/23/fido-webauthn-mokumoku/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.209Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/10/08/fidcon-201810/</loc>
     
-    <lastmod>2019-09-09T11:12:52.714Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.199Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2018/06/17/edge-support-webauthn/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.187Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.174Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/09/12/builderscon-2018/</loc>
     
-    <lastmod>2019-09-09T11:12:52.699Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.165Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/12/18/best-buy-2018/</loc>
     
-    <lastmod>2019-09-09T11:12:52.695Z</lastmod>
+    <lastmod>2020-07-12T10:31:52.156Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2019/07/15/azuread-fido2-security-key-public-preview/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.147Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2019/12/06/azuread-b2c-fido2-custompolicy/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.139Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2019/09/23/azuread-b2c-can-not-connect-yahooid/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.130Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.120Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2020/06/02/aad-spa-auth-code-grant-with-pkce/</loc>
+    
+    <lastmod>2020-07-12T10:31:52.111Z</lastmod>
     
   </url>
   
