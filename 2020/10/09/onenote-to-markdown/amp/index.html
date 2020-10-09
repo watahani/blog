@@ -2,37 +2,35 @@
 <html ⚡>
   <head>
     <meta charset="utf-8">
-    <link rel="canonical" href="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/" >
-    <title>Microsoft Account FIDO2 対応キーでログイン可能に - enjoy struggling</title>
+    <link rel="canonical" href="http://blog.haniyama.com/2020/10/09/onenote-to-markdown/" >
+    <title>OneNote から Markdown に変換メモ - enjoy struggling</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     
-    <meta property="og:title" content="Microsoft Account FIDO2 対応キーでログイン可能に">
+    <meta property="og:title" content="OneNote から Markdown に変換メモ">
 	<meta property="og:type" content="article">
-	<meta property="og:url" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/">
+	<meta property="og:url" content="http://blog.haniyama.com/2020/10/09/onenote-to-markdown/">
 	
-		<meta property="og:image" content="http://blog.haniyama.com\2018\11\21\msa-login-with-securitykey\security-options.png">
+		<meta property="og:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
 	
 	<meta property="og:site_name" content="enjoy struggling">
 	
-		<meta property="og:description" content="&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.yubico.com/2018/11/password-less-login-with-the-yubikey-5-comes-to-microsoft-accounts/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Password-less Login with the YubiKey 5 Comes to Microsoft Accounts | Yubico&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;来たか！&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;ということで、MSA(Microsoft Account) で FIDO2/WebAuthn 対応の YubiKey 5 or Security Key by Yubico でログイン可能になったらしいので早速試してみた。&lt;/p&gt;">
+		<meta property="og:description" content="&lt;p&gt;OneNote から Markdown に変換する必要があったので手順をメモ。&lt;/p&gt;
+&lt;p&gt;もともとは @azu さんの &lt;a href=&#34;https://efcl.info/2020/05/2/2020/10/09/onenote-to-markdown/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OneNoteのデータを画像付きのMarkdownにexportする | Web Scratch&lt;/a&gt; を試そうと思ったけど、企業の OneNote では上手く動かなかったので、以下の gist を参考に pandoc で変換した。&lt;/p&gt;
+&lt;p&gt;参考: &lt;a href=&#34;https://gist.github.com/heardk/ded40b72056cee33abb18f3724e0a580&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://gist.github.com/heardk/ded40b72056cee33abb18f3724e0a580&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;数ページを変換するだけだったので、これで済んだけど、大量にするときは、別の方法のほうがいいかもしれない。&lt;/p&gt;">
 	
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="enjoy struggling">
-	<meta name="twitter:url" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/">
-	<meta name="twitter:title" content="Microsoft Account FIDO2 対応キーでログイン可能に - enjoy struggling">
+	<meta name="twitter:url" content="http://blog.haniyama.com/2020/10/09/onenote-to-markdown/">
+	<meta name="twitter:title" content="OneNote から Markdown に変換メモ - enjoy struggling">
 	
-		<meta name="twitter:description" content="&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.yubico.com/2018/11/password-less-login-with-the-yubikey-5-comes-to-microsoft-accounts/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Password-less Login with the YubiKey 5 Comes to Microsoft Accounts | Yubico&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;来たか！&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;ということで、MSA(Microsoft Account) で FIDO2/WebAuthn 対応の YubiKey 5 or Security Key by Yubico でログイン可能になったらしいので早速試してみた。&lt;/p&gt;">
+		<meta name="twitter:description" content="&lt;p&gt;OneNote から Markdown に変換する必要があったので手順をメモ。&lt;/p&gt;
+&lt;p&gt;もともとは @azu さんの &lt;a href=&#34;https://efcl.info/2020/05/2/2020/10/09/onenote-to-markdown/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OneNoteのデータを画像付きのMarkdownにexportする | Web Scratch&lt;/a&gt; を試そうと思ったけど、企業の OneNote では上手く動かなかったので、以下の gist を参考に pandoc で変換した。&lt;/p&gt;
+&lt;p&gt;参考: &lt;a href=&#34;https://gist.github.com/heardk/ded40b72056cee33abb18f3724e0a580&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://gist.github.com/heardk/ded40b72056cee33abb18f3724e0a580&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;数ページを変換するだけだったので、これで済んだけど、大量にするときは、別の方法のほうがいいかもしれない。&lt;/p&gt;">
 	
     
-    	<meta name="twitter:image" content="http://blog.haniyama.com\2018\11\21\msa-login-with-securitykey\security-options.png">
+    	<meta name="twitter:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
 	
 	
 	
@@ -50,8 +48,6 @@
     
     
     
-    <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
-    
     
     
     <script async src="https://cdn.ampproject.org/v0.js"></script>
@@ -59,26 +55,25 @@
 		{
 			"@context": "http://schema.org",
 			"@type": "BlogPosting",
-			"headline": "Microsoft Account FIDO2 対応キーでログイン可能に",
+			"headline": "OneNote から Markdown に変換メモ",
 			
-			"description": "&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.yubico.com/2018/11/password-less-login-with-the-yubikey-5-comes-to-microsoft-accounts/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Password-less Login with the YubiKey 5 Comes to Microsoft Accounts | Yubico&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;来たか！&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;ということで、MSA(Microsoft Account) で FIDO2/WebAuthn 対応の YubiKey 5 or Security Key by Yubico でログイン可能になったらしいので早速試してみた。&lt;/p&gt;",
+			"description": "&lt;p&gt;OneNote から Markdown に変換する必要があったので手順をメモ。&lt;/p&gt;
+&lt;p&gt;もともとは @azu さんの &lt;a href=&#34;https://efcl.info/2020/05/2/2020/10/09/onenote-to-markdown/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;OneNoteのデータを画像付きのMarkdownにexportする | Web Scratch&lt;/a&gt; を試そうと思ったけど、企業の OneNote では上手く動かなかったので、以下の gist を参考に pandoc で変換した。&lt;/p&gt;
+&lt;p&gt;参考: &lt;a href=&#34;https://gist.github.com/heardk/ded40b72056cee33abb18f3724e0a580&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://gist.github.com/heardk/ded40b72056cee33abb18f3724e0a580&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;数ページを変換するだけだったので、これで済んだけど、大量にするときは、別の方法のほうがいいかもしれない。&lt;/p&gt;",
 			
 			"mainEntityOfPage":{
 			    "@type":"WebPage",
-			    "@id":"http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/"
+			    "@id":"http://blog.haniyama.com/2020/10/09/onenote-to-markdown/"
 			},
-			"datePublished": "2018-11-20T23:43:23.000Z",
-			"dateModified": "2020-07-12T10:31:52.269Z",
+			"datePublished": "2020-10-09T13:05:24.000Z",
+			"dateModified": "2020-10-09T13:33:04.900Z",
 			
 			"image": {
 				"@type": "ImageObject",
-				"url": "http://blog.haniyama.com\2018\11\21\msa-login-with-securitykey\security-options.png",
-				"width" : "1205",
-				"height" : "639"
+				"url": "\amp-dist\sample\sample-substituteTitleImage.png",
+				"width" : "1024",
+				"height" : "800"
 			},
 			
 			"author": {
@@ -1784,7 +1779,7 @@ h6.categories {
   	<!-- container -->
   	<div id="container">
 	  	<div id="main">
-		    <article id="post-msa-login-with-securitykey" class="post">
+		    <article id="post-onenote-to-markdown" class="post">
 		    
 		   		<!-- categories and bread crumb -->
 		    	
@@ -1797,7 +1792,7 @@ h6.categories {
 						
 			          	<div class="header-thumb flx">
 			          		<div class="thumbImg-w circle">
-			          			<amp-img class="thumbImg" layout="fixed" width="188" height="100" src="http://blog.haniyama.com\2018\11\21\msa-login-with-securitykey\security-options.png">
+			          			<amp-img class="thumbImg" layout="fixed" width="128" height="100" src="\amp-dist\sample\sample-substituteTitleImage.png">
 			          			</amp-img>
 			          		</div>
 			          	</div>
@@ -1806,7 +1801,7 @@ h6.categories {
 			            <div class="header-cap flx">
 							
 							  <h1 class="article-title entry-title" itemprop="name">
-							    <a href="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/" target="_blank" itemprop="url">Microsoft Account FIDO2 対応キーでログイン可能に</a>
+							    <a href="http://blog.haniyama.com/2020/10/09/onenote-to-markdown/" target="_blank" itemprop="url">OneNote から Markdown に変換メモ</a>
 							  </h1>
 							
 						</div>
@@ -1816,7 +1811,7 @@ h6.categories {
 					<div class="entry-meta-header">
 						<span class="meta-elements date">
 							<span class="fa fa-fw fa-clock-o"></span>
-							<time datetime="2018-11-21" itemprop="datePublished">2018.11.20</time>
+							<time datetime="2020-10-09" itemprop="datePublished">2020.10.09</time>
 						</span>
 					</div>
 				</div>
@@ -1833,40 +1828,34 @@ h6.categories {
                     
                     
 			    	<!-- content -->
-			  		<ul>
-<li><a href="https://www.yubico.com/2018/11/password-less-login-with-the-yubikey-5-comes-to-microsoft-accounts/" target="_blank" rel="noopener">Password-less Login with the YubiKey 5 Comes to Microsoft Accounts | Yubico</a></li>
-</ul>
-<p><strong>&#x6765;&#x305F;&#x304B;&#xFF01;</strong></p>
-<p>&#x3068;&#x3044;&#x3046;&#x3053;&#x3068;&#x3067;&#x3001;MSA(Microsoft Account) &#x3067; FIDO2/WebAuthn &#x5BFE;&#x5FDC;&#x306E; YubiKey 5 or Security Key by Yubico &#x3067;&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x53EF;&#x80FD;&#x306B;&#x306A;&#x3063;&#x305F;&#x3089;&#x3057;&#x3044;&#x306E;&#x3067;&#x65E9;&#x901F;&#x8A66;&#x3057;&#x3066;&#x307F;&#x305F;&#x3002;</p>
+			  		<p>OneNote &#x304B;&#x3089; Markdown &#x306B;&#x5909;&#x63DB;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x3063;&#x305F;&#x306E;&#x3067;&#x624B;&#x9806;&#x3092;&#x30E1;&#x30E2;&#x3002;</p>
+<p>&#x3082;&#x3068;&#x3082;&#x3068;&#x306F; @azu &#x3055;&#x3093;&#x306E; <a href="https://efcl.info/2020/05/2/2020/10/09/onenote-to-markdown/" target="_blank" rel="noopener">OneNote&#x306E;&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x753B;&#x50CF;&#x4ED8;&#x304D;&#x306E;Markdown&#x306B;export&#x3059;&#x308B; | Web Scratch</a> &#x3092;&#x8A66;&#x305D;&#x3046;&#x3068;&#x601D;&#x3063;&#x305F;&#x3051;&#x3069;&#x3001;&#x4F01;&#x696D;&#x306E; OneNote &#x3067;&#x306F;&#x4E0A;&#x624B;&#x304F;&#x52D5;&#x304B;&#x306A;&#x304B;&#x3063;&#x305F;&#x306E;&#x3067;&#x3001;&#x4EE5;&#x4E0B;&#x306E; gist &#x3092;&#x53C2;&#x8003;&#x306B; pandoc &#x3067;&#x5909;&#x63DB;&#x3057;&#x305F;&#x3002;</p>
+<p>&#x53C2;&#x8003;: <a href="https://gist.github.com/heardk/ded40b72056cee33abb18f3724e0a580" target="_blank" rel="noopener">https://gist.github.com/heardk/ded40b72056cee33abb18f3724e0a580</a></p>
+<p>&#x6570;&#x30DA;&#x30FC;&#x30B8;&#x3092;&#x5909;&#x63DB;&#x3059;&#x308B;&#x3060;&#x3051;&#x3060;&#x3063;&#x305F;&#x306E;&#x3067;&#x3001;&#x3053;&#x308C;&#x3067;&#x6E08;&#x3093;&#x3060;&#x3051;&#x3069;&#x3001;&#x5927;&#x91CF;&#x306B;&#x3059;&#x308B;&#x3068;&#x304D;&#x306F;&#x3001;&#x5225;&#x306E;&#x65B9;&#x6CD5;&#x306E;&#x307B;&#x3046;&#x304C;&#x3044;&#x3044;&#x304B;&#x3082;&#x3057;&#x308C;&#x306A;&#x3044;&#x3002;</p>
 <a id="more"></a>
-<p>MSA &#x3063;&#x3066;&#x4F55;&#x3084;&#x306D;&#x3093;&#x3063;&#x3066;&#x601D;&#x3063;&#x305F;&#x3051;&#x3069;&#x3001;&#x8981;&#x306F;Azure AD&#x3058;&#x3083;&#x306A;&#x3044;&#x3001;&#x500B;&#x4EBA;&#x30A2;&#x30AB;&#x30A6;&#x30F3;&#x30C8;&#x3063;&#x3066;&#x3053;&#x3068;&#x3089;&#x3057;&#x3044;&#x3002;&#x30BF;&#x30D6;&#x30F3;&#x30CD;&#x3002;</p>
-<h2 id="&#x30A2;&#x30AB;&#x30A6;&#x30F3;&#x30C8;&#x30DA;&#x30FC;&#x30B8;&#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9;"><a href="#&#x30A2;&#x30AB;&#x30A6;&#x30F3;&#x30C8;&#x30DA;&#x30FC;&#x30B8;&#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9;" class="headerlink" title="&#x30A2;&#x30AB;&#x30A6;&#x30F3;&#x30C8;&#x30DA;&#x30FC;&#x30B8;&#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9;"></a>&#x30A2;&#x30AB;&#x30A6;&#x30F3;&#x30C8;&#x30DA;&#x30FC;&#x30B8;&#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9;</h2><p>&#x307E;&#x305A;&#x306F;&#x304A;&#x624B;&#x5143;&#x306B; Windows10 versions1809 &#x3068; Edge &#x3001;YubiKey 5 &#x30B7;&#x30EA;&#x30FC;&#x30BA;&#x304B; Security Key by Yubico(2&#x3063;&#x3066;&#x523B;&#x5370;&#x304C;&#x3042;&#x308B;&#x3084;&#x3064;&#xFF09; &#x3092;&#x7528;&#x610F;&#x3002;</p>
-<amp-iframe height="600" sandbox="allow-scripts allow-same-origin allow-popups" layout="fixed-height" frameborder="0" src="https://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=000000&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=82p-22&amp;o=9&amp;p=8&amp;l=as4&amp;m=amazon&amp;f=ifr&amp;ref=as_ss_li_til&amp;asins=B07BYSB7FK&amp;linkId=8a19153a421eb5ce6735b868823cdfbe"><amp-img layout="fill" src="\amp-dist\sample\sample-placeholder.png" placeholder></amp-img></amp-iframe>
-
-<p>1809&#x2026; &#x3046;&#x3063;&#x3001;&#x30A2;&#x30BF;&#x30DE;&#x304C;&#x2026;</p>
-<p>&#x6B21;&#x306B; <a href="https://support.microsoft.com/en-us/help/4463210/windows-10-sign-in-microsoft-account-windows-hello-security-key" target="_blank" rel="noopener">MS &#x306E;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x30DA;&#x30FC;&#x30B8;</a> &#x306B;&#x5F93;&#x3063;&#x3066;&#x767B;&#x9332;&#x3057;&#x3066;&#x307F;&#x308B;&#x3002;Microsoft Account &#x3067;&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x3057;&#x3066;&#x304B;&#x3089;</p>
-<div class="amp-img-wrapper"><amp-img src="/2018/11/21/msa-login-with-securitykey/security-options.png" width="1205" height="639" layout="responsive"></amp-img></div><br>&#x30A2;&#x30AB;&#x30A6;&#x30F3;&#x30C8;&#x306E;<a href="https://account.live.com/proofs/manage/additional" target="_blank" rel="noopener">&#x8FFD;&#x52A0;&#x306E;&#x30BB;&#x30AD;&#x30E5;&#x30EA;&#x30C6;&#x30A3;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x30DA;&#x30FC;&#x30B8;</a>&#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3057;&#x3066;&#x3001;
-<div class="amp-img-wrapper"><amp-img src="/2018/11/21/msa-login-with-securitykey/secop-ja.png" width="1282" height="854" layout="responsive"></amp-img></div>
-<p>&#x304C;&#x3001;&#x7121;&#x3044;&#xFF01;</p>
-<p>&#x65E5;&#x672C;&#x30B5;&#x30DD;&#x30FC;&#x30C8;&#x306F;&#x307E;&#x3060;&#x306A;&#x306E;&#x304B;&#x2026;&#x3002;</p>
-<p>&#x3057;&#x304B;&#x3057;&#x5927;&#x4F53;&#x3053;&#x3046;&#x3044;&#x3046;&#x3068;&#x304D;&#x306F;<strong>&#x8A00;&#x8A9E;&#x3092;&#x82F1;&#x8A9E;&#x306B;&#x3059;&#x308C;&#x3070;&#x3048;&#x3048;&#x3093;&#x3084;&#x3067;</strong>&#x3068;&#x3001;&#x79C1;&#x306E;&#x30B4;&#x30FC;&#x30B9;&#x30C8;&#x304C;&#x56C1;&#x304F;&#x306E;&#x3067;&#x304A;&#x3082;&#x3080;&#x308D;&#x306B; URL &#x306E;&#x30D1;&#x30E9;&#x30E1;&#x30FC;&#x30BF;&#x30FC; <code>mkt=ja-JP</code> &#x3092; <code>mkt=en-US</code> &#x306B;&#x5DEE;&#x3057;&#x66FF;&#x3048;&#x308B;&#x3002;</p>
-<div class="amp-img-wrapper"><amp-img src="/2018/11/21/msa-login-with-securitykey/secop-en.png" width="1282" height="854" layout="responsive"></amp-img></div>
-<p><a href="https://account.live.com/proofs/manage/additional?mkt=en-US" target="_blank" rel="noopener">https://account.live.com/proofs/manage/additional?mkt=en-US</a></p>
-<p>&#x767B;&#x9332;&#x3067;&#x304D;&#x305D;&#x3046;&#x3084;&#x306D;&#x3002;</p>
-<h2 id="&#x767B;&#x9332;"><a href="#&#x767B;&#x9332;" class="headerlink" title="&#x767B;&#x9332;"></a>&#x767B;&#x9332;</h2><p>&#x65E9;&#x901F;&#x767B;&#x9332;&#x3057;&#x3066;&#x307F;&#x308B;&#x3002;</p>
-<p>USB&#x3082;&#x3057;&#x304F;&#x306F;NFC&#x306B;&#x5BFE;&#x5FDC;&#x3057;&#x3066;&#x3044;&#x308B;&#x3089;&#x3057;&#x3044;&#xFF08;BLE&#x306F;&#x672A;&#x5BFE;&#x5FDC;&#xFF09;</p>
-<div class="amp-img-wrapper"><amp-img src="/2018/11/21/msa-login-with-securitykey/setup-yubikey.png" width="935" height="615" layout="responsive"></amp-img></div>
-<p>&#x30AD;&#x30FC;&#x3092;&#x633F;&#x5165;&#x3059;&#x308B;&#x3068;&#x3001;PIN &#x3092;&#x8A2D;&#x5B9A;&#x3057;&#x308D;&#x3068;&#x8868;&#x793A;&#x3055;&#x308C;&#x308B;&#x3002;User Verification &#x306F;&#x5FC5;&#x9808;&#x3089;&#x3057;&#x3044;&#x3002;<br>&#x3061;&#x306A;&#x307F;&#x306B; <code>rp.id</code> &#x306F; <code>login.microsoft.com</code> &#x306A;&#x306E;&#x304B;&#x306A;&#xFF1F;</p>
-<div class="amp-img-wrapper"><amp-img src="/2018/11/21/msa-login-with-securitykey/enter-pin.png" width="469" height="430" layout="responsive"></amp-img></div>
-<p>PIN &#x3092;&#x8A2D;&#x5B9A;&#x3057;&#x3066; YubiKey &#x306B;2&#x56DE;&#x30BF;&#x30C3;&#x30C1;&#x3059;&#x308B;&#x3068;&#x767B;&#x9332;&#x5B8C;&#x4E86;&#x3002;</p>
-<h2 id="&#x30ED;&#x30B0;&#x30A4;&#x30F3;"><a href="#&#x30ED;&#x30B0;&#x30A4;&#x30F3;" class="headerlink" title="&#x30ED;&#x30B0;&#x30A4;&#x30F3;"></a>&#x30ED;&#x30B0;&#x30A4;&#x30F3;</h2><p>&#x3053;&#x306E;&#x72B6;&#x614B;&#x3067;&#x30ED;&#x30B0;&#x30A2;&#x30A6;&#x30C8;&#x3059;&#x308B;&#x3068;&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x753B;&#x9762;&#x306B;&#x898B;&#x6163;&#x308C;&#x306A;&#x3044;&#x8868;&#x793A;&#x304C;&#x2026;</p>
-<div class="amp-img-wrapper"><amp-img src="/2018/11/21/msa-login-with-securitykey/login-option.png" width="381" height="306" layout="responsive"></amp-img></div>
-<div class="amp-img-wrapper"><amp-img src="/2018/11/21/msa-login-with-securitykey/login-with-yubikey.png" width="410" height="401" layout="responsive"></amp-img></div>
-<p>&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x5B8C;&#x4E86;&#xFF01;</p>
-<h2 id="&#x96D1;&#x611F;"><a href="#&#x96D1;&#x611F;" class="headerlink" title="&#x96D1;&#x611F;"></a>&#x96D1;&#x611F;</h2><p>&#x307E;&#x3060; MSA &#x306E;&#x307F;&#x5BFE;&#x5FDC;&#x306A;&#x306E;&#x3068;&#x3001;Edge &#x306E;&#x307F;&#x306A;&#x306E;&#x3067;&#x4F7F;&#x3044;&#x59CB;&#x3081;&#x308B;&#x4EBA;&#x306F;&#x5C11;&#x306A;&#x3044;&#x3060;&#x308D;&#x3046;&#x3051;&#x3069;&#x78BA;&#x304B;&#x306B;&#x767B;&#x9332;&#xFF06;&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x3067;&#x304D;&#x305F;&#x3002;<br>Yahoo!&#x30A2;&#x30AB;&#x30A6;&#x30F3;&#x30C8;&#x306E;  FIDO2 &#x5BFE;&#x5FDC;&#x306E;&#x6642;&#x3082;&#x305D;&#x3046;&#x3060;&#x304C;&#x3001;&#x81EA;&#x5206;&#x304C;&#x95A2;&#x308F;&#x3063;&#x3066;&#x308B;&#x30B3;&#x30DF;&#x30E5;&#x30CB;&#x30C6;&#x30A3;&#x306E;&#x65B0;&#x6A5F;&#x80FD;&#x767A;&#x8868;&#x306F;&#x3001;&#x3059;&#x3054;&#x304F;&#x8208;&#x596E;&#x3059;&#x308B;&#x3002;</p>
-<p>&#x3068;&#x540C;&#x6642;&#x306B;&#x3001;&#x4F55;&#x304B;&#x81EA;&#x5206;&#x3082;&#x30D3;&#x30B8;&#x30CD;&#x30B9;&#x306B;&#x304B;&#x304B;&#x308F;&#x3089;&#x306A;&#x3044;&#x3068;&#x306A;&#x30FC;&#x3068;&#x6F20;&#x7136;&#x3068;&#x3057;&#x305F;&#x7126;&#x308A;&#x3092;&#x611F;&#x3058;&#x308B;&#x3002;</p>
-<p>&#x3067;&#x3082;&#x3001;&#x3068;&#x308A;&#x3042;&#x3048;&#x305A;&#x4ECA;&#x65E5;&#x306F;&#x901F;&#x5831;&#x3063;&#x3066;&#x3053;&#x3068;&#x3067;</p>
-<p>&#x3044;&#x3058;&#x3087;&#x3046;&#x3002;</p>
+<ol>
+<li>OneNote 2016 &#x3067;&#x3001;OneNote &#x306E;&#x30DA;&#x30FC;&#x30B8;&#x304B;&#x3089; Word &#x306B;&#x5909;&#x63DB;&#x3059;&#x308B;&#x3002; (Store &#x7248;&#x3067;&#x3069;&#x3046;&#x3084;&#x308B;&#x304B;&#x306F;&#x77E5;&#x3089;&#x306A;&#x3044;)</li>
+<li>pandoc &#x3092;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;</li>
+</ol>
+<pre class=" language-sh"><code class="language-sh">scoop install pandoc
+</code></pre>
+<ol start="3">
+<li>&#x4EE5;&#x4E0B;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x5909;&#x63DB;</li>
+</ol>
+<pre class=" language-sh"><code class="language-sh">pandoc.exe -f docx -t markdown_strict -i word.docx -o &quot;word.md&quot; --wrap=none --atx-headers
+</code></pre>
+<ol start="4">
+<li>Word &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x304B;&#x3089;&#x753B;&#x50CF;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x53D6;&#x308A;&#x51FA;&#x3057;</li>
+</ol>
+<pre class=" language-ps1"><code class="language-ps1">7z x .\seo.docx -otmp
+mv tmp\word\media .\media
+rm -Recurse -Force .\tmp
+</code></pre>
+<ol start="5">
+<li>&#x753B;&#x50CF;&#x30BF;&#x30B0;&#x3092;&#x5909;&#x63DB;</li>
+</ol>
+<p><code>&lt;img src=&quot;media/(.+?)&quot; .+? /&gt;</code> =&gt; <code>![<amp-mathml layout="container" inline data-formula="\[1](./media/\]"></amp-mathml>1)</code></p>
+<p>&#x5F8C;&#x306F;&#x4F53;&#x88C1;&#x3092;&#x6574;&#x3048;&#x3066;&#x5B8C;&#x4E86;&#x3002;</p>
 
 			  		
 			  		<!-- google Adsense -->
@@ -1894,20 +1883,8 @@ h6.categories {
 						<ul class="article-tag-list">
 							
 					    		<li class="article-tag-list-item">
-					    			<a class="article-tag-list-link" href="/tags/WebAuthn/">
-					    				WebAuthn
-					    			</a>
-					    		</li>
-							
-					    		<li class="article-tag-list-item">
-					    			<a class="article-tag-list-link" href="/tags/Microsoft/">
-					    				Microsoft
-					    			</a>
-					    		</li>
-							
-					    		<li class="article-tag-list-item">
-					    			<a class="article-tag-list-link" href="/tags/FIDO2/">
-					    				FIDO2
+					    			<a class="article-tag-list-link" href="/tags/雑記/">
+					    				雑記
 					    			</a>
 					    		</li>
 							
