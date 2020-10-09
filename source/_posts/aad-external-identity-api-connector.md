@@ -10,6 +10,9 @@ Azure AD の B2B 機能、つまり、社外ユーザーとのコラボレーシ
 
 <!-- more  -->
 
+- 公式ドキュメント: [Add API connectors to self-service sign-up flows - Azure AD | Microsoft Docs](https://docs.microsoft.com/en-us/azure/active-directory/external-identities/self-service-sign-up-add-api-connector)
+- 公式ブログ: [Evolving Azure AD for every user and any identity with External Identities - Microsoft Tech Community](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/evolving-azure-ad-for-every-user-and-any-identity-with-external/ba-p/1257361)
+
 ## セルフサービス サインアップ
 
 とりあえずどういう機能かというと、その名の通り会社のテナントにゲスト ユーザーが自分でサインアップできる機能で、ユーザーがサインアップするためのユーザーフローと、検証の為の API コネクターを組み合わせて構成されている。
