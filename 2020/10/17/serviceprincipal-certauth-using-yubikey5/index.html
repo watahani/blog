@@ -8,14 +8,14 @@
 <meta property="og:locale" content="jp">
 <meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/pose_button_osu.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/newapp.png">
-<meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/cert.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/api-permissions.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/new-selfsigncertificate.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/yubikey-manager.png">
+<meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/cert.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/connect-azuread.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/get-policy.png">
 <meta property="og:image" content="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/disable-policy.png">
-<meta property="og:updated_time" content="2020-10-17T12:40:40.593Z">
+<meta property="og:updated_time" content="2020-10-17T13:03:07.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証する">
 <meta name="twitter:description" content="YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証を試したのでメモ。">
@@ -40,8 +40,6 @@
 <h3 id="アプリの作成"><a href="#アプリの作成" class="headerlink" title="アプリの作成"></a>アプリの作成</h3><p><code>Azure Active Directory</code> &gt; <code>アプリの登録</code> &gt; <code>新しいアプリ</code></p>
 <p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/newapp.png" alt=""></p>
 <p>全てデフォルトで登録。</p>
-<h3 id="証明書のアップロード"><a href="#証明書のアップロード" class="headerlink" title="証明書のアップロード"></a>証明書のアップロード</h3><p><code>証明書とシークレット</code> を選択し、先ほどエクスポートした証明書、 <code>ConditionalAccessUnlocker.cer</code> をアップロードする。</p>
-<p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/cert.png" alt=""></p>
 <h3 id="API-のアクセス許可"><a href="#API-のアクセス許可" class="headerlink" title="API のアクセス許可"></a>API のアクセス許可</h3><p>サービス プリンシパルで条件付きアクセスを操作するには、アプリケーション権限の <code>Policy.Read.All</code>, <code>Policy.ReadWrite.ConditionalAccess</code>, <code>Application.Read.All</code> が必要。</p>
 <p><code>アクセス許可の追加</code> から Microsoft Graph API を選び、「アプリケーション権限」で、上記 3 つの権限を追加する。その後、「&lt;テナント名&gt;にアクセス許可を追加します」をクリックし、Admin Consent を実施する。</p>
 <p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/api-permissions.png" alt=""></p>
@@ -70,6 +68,8 @@ Export<span class="token operator">-</span>Certificate <span class="token operat
 <blockquote>
 <p>Note:<br> この辺動かないときは、もしかするとこの辺のレジストリが設定されているかもしれない。<br><a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/ff404287(v=ws.10)" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/ff404287(v=ws.10)</a></p>
 </blockquote>
+<h3 id="証明書のアップロード"><a href="#証明書のアップロード" class="headerlink" title="証明書のアップロード"></a>証明書のアップロード</h3><p>Azure ポータルに戻って、作ったアプリの <code>証明書とシークレット</code> を選択し、先ほどエクスポートした証明書、 <code>ConditionalAccessUnlocker.cer</code> をアップロードする。</p>
+<p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/cert.png" alt=""></p>
 <h2 id="Azure-AD-PowerShell-Module-で条件付きアクセスを操作"><a href="#Azure-AD-PowerShell-Module-で条件付きアクセスを操作" class="headerlink" title="Azure AD PowerShell Module で条件付きアクセスを操作"></a>Azure AD PowerShell Module で条件付きアクセスを操作</h2><h3 id="PowerShell-Module-のインストール"><a href="#PowerShell-Module-のインストール" class="headerlink" title="PowerShell Module のインストール"></a>PowerShell Module のインストール</h3><p>Azure AD PowerShell Module v2 の Version <code>2.0.2.106</code> 以上をインストールする。</p>
 <pre class=" language-powershell"><code class="language-powershell">Install<span class="token operator">-</span>Module <span class="token operator">-</span>Name AzureAD <span class="token operator">-</span>Force
 </code></pre>
