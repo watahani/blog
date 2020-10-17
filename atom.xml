@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.haniyama.com/"/>
-  <updated>2020-10-09T13:33:04.900Z</updated>
+  <updated>2020-10-17T12:40:40.593Z</updated>
   <id>http://blog.haniyama.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証する</title>
+    <link href="http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/"/>
+    <id>http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/</id>
+    <published>2020-10-17T12:40:24.000Z</published>
+    <updated>2020-10-17T12:40:40.593Z</updated>
+    
+    <content type="html"><![CDATA[<p>YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証を試したのでメモ。</p><a id="more"></a><h2 id="元ネタ"><a href="#元ネタ" class="headerlink" title="元ネタ"></a>元ネタ</h2><p>土曜の昼におきたら EMS 勉強会なるもの TL で盛り上がっているので見ていたら、条件付きアクセスで管理者がロックアウトされて困ったという話があり、こういうのあればいいなーと思ったので作ってみる。</p><p><blockquote class="twitter-tweet"><p lang="ja" dir="ltr">条件付きアクセス Microsoft Graph API で叩けるようになったし、緊急解除ボタンとか作るの楽しそう。<a href="https://twitter.com/hashtag/jpemsug?src=hash&amp;ref_src=twsrc%5Etfw" target="_blank" rel="noopener">#jpemsug</a> <a href="https://t.co/WvVDsaLkLu" target="_blank" rel="noopener">pic.twitter.com/WvVDsaLkLu</a></p>&mdash; 82@はに (@watahani) <a href="https://twitter.com/watahani/status/1317353605867790336?ref_src=twsrc%5Etfw" target="_blank" rel="noopener">October 17, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p><p>緊急解除ボタンを作る。</p><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/pose_button_osu.png" alt="いらすとや"></p><h2 id="問題点"><a href="#問題点" class="headerlink" title="問題点"></a>問題点</h2><p>Microsoft Graph API で <a href="https://docs.microsoft.com/ja-jp/graph/api/resources/conditionalaccesspolicy?view=graph-rest-1.0" target="_blank" rel="noopener">条件付きアクセスが操作</a> できるようになったので、 緊急解除ボタンを作ること自体は簡単なのですが誰でも押せてしまうと困りますね。</p><p>うーん、資格情報を安全に保管できる素敵なデバイスはないかなぁ～？</p><p>証明書を保存できて、手ごろで丈夫なデバイス無いかな～？<br>.<br>.<br>.<br>.</p><p>はい、ありました。</p><iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=82p-22&language=ja_JP&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B07HBD71HL&linkId=f2bf005f94ac048773128cc9c094d7fb"></iframe><blockquote><p>宣伝したので指紋認証のできる YubiKey ください🤤🤤</p></blockquote><h2 id="YubiKey-に保存した証明書で、証明書認証がしたい"><a href="#YubiKey-に保存した証明書で、証明書認証がしたい" class="headerlink" title="YubiKey に保存した証明書で、証明書認証がしたい"></a>YubiKey に保存した証明書で、証明書認証がしたい</h2><p>YubiKey4, YubiKey5 シリーズは、Windows 上でスマートカードとして働く。Windows 10 の場合、minidriver も初めから入っているので、Service Principal の認証もできるんじゃない？と思ってやってみたら簡単にできたので、メモ。</p><h2 id="Azure-AD-に条件付きアクセス解除用のサービスプリンシパル-アプリ-を作る"><a href="#Azure-AD-に条件付きアクセス解除用のサービスプリンシパル-アプリ-を作る" class="headerlink" title="Azure AD に条件付きアクセス解除用のサービスプリンシパル (アプリ) を作る"></a>Azure AD に条件付きアクセス解除用のサービスプリンシパル (アプリ) を作る</h2><p>まずは、条件付きアクセス解除用のサービス プリンシパルを作る。サービスプリンシパルについては<a href="https://qiita.com/watahani/items/1f3f533097b7a15d6698" target="_blank" rel="noopener">以前 Qiita で書いたので</a>さっくりと。</p><h3 id="アプリの作成"><a href="#アプリの作成" class="headerlink" title="アプリの作成"></a>アプリの作成</h3><p><code>Azure Active Directory</code> &gt; <code>アプリの登録</code> &gt; <code>新しいアプリ</code></p><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/newapp.png" alt=""></p><p>全てデフォルトで登録。</p><h3 id="証明書のアップロード"><a href="#証明書のアップロード" class="headerlink" title="証明書のアップロード"></a>証明書のアップロード</h3><p><code>証明書とシークレット</code> を選択し、先ほどエクスポートした証明書、 <code>ConditionalAccessUnlocker.cer</code> をアップロードする。</p><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/cert.png" alt=""></p><h3 id="API-のアクセス許可"><a href="#API-のアクセス許可" class="headerlink" title="API のアクセス許可"></a>API のアクセス許可</h3><p>サービス プリンシパルで条件付きアクセスを操作するには、アプリケーション権限の <code>Policy.Read.All</code>, <code>Policy.ReadWrite.ConditionalAccess</code>, <code>Application.Read.All</code> が必要。</p><p><code>アクセス許可の追加</code> から Microsoft Graph API を選び、「アプリケーション権限」で、上記 3 つの権限を追加する。その後、「&lt;テナント名&gt;にアクセス許可を追加します」をクリックし、Admin Consent を実施する。</p><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/api-permissions.png" alt=""></p><h2 id="YubiKey-のセットアップ"><a href="#YubiKey-のセットアップ" class="headerlink" title="YubiKey のセットアップ"></a>YubiKey のセットアップ</h2><p>その後、おもむろに YubiKey 5 を PC に刺して、以下のコマンドを実行する。</p><pre class=" language-powershell"><code class="language-powershell"><span class="token variable">$currentDate</span> = <span class="token function">Get-Date</span><span class="token variable">$notAfter</span>  = <span class="token variable">$currentDate</span><span class="token punctuation">.</span>AddYears<span class="token punctuation">(</span>10<span class="token punctuation">)</span><span class="token variable">$selfCert</span> = New<span class="token operator">-</span>SelfSignedCertificate <span class="token operator">-</span>CertStoreLocation cert:\CurrentUser\my <span class="token operator">-</span>Subject <span class="token string">"CN=d22351ce-beb5-4e41-8346-3a7d99db934,OU=ConditionalAccessUnlocker"</span>  <span class="token operator">-</span>Provider <span class="token string">"Microsoft Base Smart Card Crypto Provider"</span> <span class="token operator">-</span>KeySpec Signature <span class="token operator">-</span>NotAfter <span class="token variable">$notAfter</span></code></pre><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/new-selfsigncertificate.png" alt="PIN"></p><blockquote><p>証明書の作法はあまり分からないけど、AppId を Subject に入れとけば便利そう。<br>スクリーンショットはテスト中のなので、DNS で設定してる。</p></blockquote><p>PIN を要求されるので、YubiKey 5 の PIN を入れる。Azure AD などで FIDO2 で使っている場合は共通なので、それを入れる。初めて使う場合は好きな PIN を入れる。</p><p>上記コマンドで YubiKey 上に自己証明書が保存される。YubiKey Manager で見るとこんな感じで 9a スロットに証明書が保存されているのが分かる。</p><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/yubikey-manager.png" alt=""></p><p><code>certutil</code> でも確認できる。</p><pre class=" language-powershell"><code class="language-powershell">certutil <span class="token operator">-</span>scinfo</code></pre><p>削除するコマンドもメモっておく。</p><pre class=" language-powershell"><code class="language-powershell"> certutil <span class="token operator">-</span>delkey <span class="token operator">-</span>csp <span class="token string">"Microsoft Base Smart Card Crypto Provider"</span> <span class="token string">"te-4d4c1e9d-2c00-4995-9396-4014ef5a281d"</span> <span class="token comment" spellcheck="true">#キーコンテナ名は -scinfo で出てきたやつ</span></code></pre><p>以下のコマンドで証明書を出力する。</p><pre class=" language-powershell"><code class="language-powershell"><span class="token variable">$cerfile</span> = <span class="token string">".\ConditionalAccessUnlocker.cer"</span>Export<span class="token operator">-</span>Certificate <span class="token operator">-</span>Cert <span class="token variable">$cert</span> <span class="token operator">-</span>FilePath <span class="token variable">$cerfile</span></code></pre><blockquote><p>Note:<br> この辺動かないときは、もしかするとこの辺のレジストリが設定されているかもしれない。<br><a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/ff404287(v=ws.10)" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/ff404287(v=ws.10)</a></p></blockquote><h2 id="Azure-AD-PowerShell-Module-で条件付きアクセスを操作"><a href="#Azure-AD-PowerShell-Module-で条件付きアクセスを操作" class="headerlink" title="Azure AD PowerShell Module で条件付きアクセスを操作"></a>Azure AD PowerShell Module で条件付きアクセスを操作</h2><h3 id="PowerShell-Module-のインストール"><a href="#PowerShell-Module-のインストール" class="headerlink" title="PowerShell Module のインストール"></a>PowerShell Module のインストール</h3><p>Azure AD PowerShell Module v2 の Version <code>2.0.2.106</code> 以上をインストールする。</p><pre class=" language-powershell"><code class="language-powershell">Install<span class="token operator">-</span>Module <span class="token operator">-</span>Name AzureAD <span class="token operator">-</span>Force</code></pre><h3 id="作成したサービス-プリンシパルの権限でサインイン"><a href="#作成したサービス-プリンシパルの権限でサインイン" class="headerlink" title="作成したサービス プリンシパルの権限でサインイン"></a>作成したサービス プリンシパルの権限でサインイン</h3><p>さっき作成した証明書を読み込んで、作成したサービス プリンシパルの権限でサインインする。</p><pre class=" language-powershell"><code class="language-powershell"><span class="token variable">$cert</span> = <span class="token function">Get-ChildItem</span> Cert:\CurrentUser\My\ <span class="token punctuation">|</span> ?<span class="token punctuation">{</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Subject <span class="token operator">-like</span> <span class="token string">"*OU=ConditionalAccessUnlocker*"</span><span class="token punctuation">}</span> <span class="token punctuation">;</span> <span class="token variable">$cert</span><span class="token variable">$appId</span> = <span class="token variable">$cert</span><span class="token punctuation">.</span>Subject<span class="token punctuation">.</span>Split<span class="token punctuation">(</span><span class="token string">","</span><span class="token punctuation">)</span><span class="token punctuation">[</span>0<span class="token punctuation">]</span><span class="token punctuation">.</span>Split<span class="token punctuation">(</span><span class="token string">"="</span><span class="token punctuation">)</span><span class="token punctuation">[</span>1<span class="token punctuation">]</span>Connect<span class="token operator">-</span>AzureAD <span class="token operator">-</span>TenantId <span class="token variable">$tenantId</span> <span class="token operator">-</span>ApplicationId <span class="token variable">$appId</span> <span class="token operator">-</span>CertificateThumbprint <span class="token variable">$cert</span><span class="token punctuation">.</span>Thumbprint</code></pre><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/connect-azuread.png" alt=""></p><p>PIN を聞かれるので、YubiKey の PIN を入力する。</p><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/get-policy.png" alt=""></p><p>サインインできるので、後はポリシーを操作するコマンドをポチポチ叩いて解除すれば…</p><p><img src="/2020/10/17/serviceprincipal-certauth-using-yubikey5/disable-policy.png" alt=""></p><p><strong>あれ… うまく動かない…。</strong> 😅</p><h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>削除は上手く動いたので、緊急時は Remove-AzureADMSConditionalAccessPolicy でブロックされてるポリシーを削除するなりしてください。</p><pre class=" language-powershell"><code class="language-powershell"> Get<span class="token operator">-</span>AzureADMSConditionalAccessPolicy <span class="token punctuation">|</span> <span class="token operator">%</span><span class="token punctuation">{</span> Remove<span class="token operator">-</span>AzureADMSConditionalAccessPolicy <span class="token operator">-</span>PolicyId <span class="token variable">$_</span><span class="token punctuation">.</span>Id<span class="token punctuation">}</span></code></pre><p>これで、緊急時に YubiKey があれば条件付きアクセスを削除してテナントに入れるようになったので、安心して条件付きアクセスの実験が出来ますね。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://github.com/Azure-Samples/azure-ad-conditional-access-apis/tree/main/01-configure/powershell" target="_blank" rel="noopener">azure-ad-conditional-access-apis/01-configure/powershell at main · Azure-Samples/azure-ad-conditional-access-apis</a></li><li><a href="https://docs.microsoft.com/en-us/graph/api/resources/conditionalaccesspolicy?view=graph-rest-1.0" target="_blank" rel="noopener">Use query parameters to customize responses - Microsoft Graph | Microsoft Docs</a></li><li><a href="https://pivkey.zendesk.com/hc/en-us/articles/204519855-Deleting-a-Certificate-and-Keys-using-Certutil" target="_blank" rel="noopener">Deleting a Certificate and Keys using Certutil – Taglio PIVKey</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証を試したのでメモ。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="YubiKey" scheme="http://blog.haniyama.com/tags/YubiKey/"/>
+    
+      <category term="Azure AD" scheme="http://blog.haniyama.com/tags/Azure-AD/"/>
+    
+  </entry>
   
   <entry>
     <title>OneNote から Markdown に変換メモ</title>
@@ -129,11 +151,11 @@
     </summary>
     
     
+      <category term="OAuth" scheme="http://blog.haniyama.com/tags/OAuth/"/>
+    
       <category term="Azure AD" scheme="http://blog.haniyama.com/tags/Azure-AD/"/>
     
       <category term="OIDC" scheme="http://blog.haniyama.com/tags/OIDC/"/>
-    
-      <category term="OAuth" scheme="http://blog.haniyama.com/tags/OAuth/"/>
     
   </entry>
   
@@ -157,9 +179,9 @@
     
       <category term="Azure" scheme="http://blog.haniyama.com/tags/Azure/"/>
     
-      <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
-    
       <category term="OAuth" scheme="http://blog.haniyama.com/tags/OAuth/"/>
+    
+      <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
     
   </entry>
   
@@ -311,9 +333,9 @@
     
       <category term="WebAuthn" scheme="http://blog.haniyama.com/tags/WebAuthn/"/>
     
-      <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
-    
       <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
+    
+      <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
     
   </entry>
   
@@ -404,9 +426,9 @@
     
       <category term="WebAuthn" scheme="http://blog.haniyama.com/tags/WebAuthn/"/>
     
-      <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
-    
       <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
+    
+      <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
     
   </entry>
   
@@ -479,30 +501,6 @@
       <category term="技術書典" scheme="http://blog.haniyama.com/tags/%E6%8A%80%E8%A1%93%E6%9B%B8%E5%85%B8/"/>
     
       <category term="ポエム" scheme="http://blog.haniyama.com/tags/%E3%83%9D%E3%82%A8%E3%83%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>fidcon 勝手に meet up! 振り返り</title>
-    <link href="http://blog.haniyama.com/2018/10/08/fidcon-201810/"/>
-    <id>http://blog.haniyama.com/2018/10/08/fidcon-201810/</id>
-    <published>2018-10-08T10:56:02.000Z</published>
-    <updated>2020-07-12T10:31:52.199Z</updated>
-    
-    <content type="html"><![CDATA[<p>先日 #idcon で <a href="https://fido2-workshop.connpass.com/event/100866/" target="_blank" rel="noopener">#idcon vol.25 fidcon 勝手に Meet up!</a> および、 <a href="https://fido2-workshop.connpass.com/event/100944/" target="_blank" rel="noopener">第3回 WebAuthn もくもく会</a> が開催されました。いちおう運営としてかかわった初めての大きなイベントなので、簡単にふりかえりをば。</p><a id="more"></a><p>と、その前に。終わった後、 #idcon とか #fidcon とかでエゴサしてるのですが、<a href="https://idmlab.eidentity.jp/2018/10/windows-10-october-2018.html" target="_blank" rel="noopener">IdM実験室: Windows 10 October 2018 UpdateのEdgeでWebAuthnを試す</a> しか記事が見つからない。<strong>みんなもっとブログ書いてくれよな！</strong></p><h2 id="良かったこと"><a href="#良かったこと" class="headerlink" title="良かったこと"></a>良かったこと</h2><ul><li>Meet Up!<ul><li>FIDOの基本から実際の API のオプションなどの深い話まで一通りの発表者を集められた</li><li><a href="https://twitter.com/osamum_MS" target="_blank" rel="noopener">@osamu_MS</a> さんや、<a href="https://twitter.com/agektmr" target="_blank" rel="noopener">@agektmr</a> さんが登壇してくれて Microsoft と Google の最新動向を一緒に聞けた</li><li>Windows10 RS5 の公開が奇跡的に重なり、なんかいい感じだった</li><li>技術書典の宣伝ができた</li><li>Slack はある程度役にたった</li><li>個人的に知り合いが増えた</li></ul></li><li>もくもく会<ul><li>FIDO Alliance の テストツール制作者の <a href="https://twitter.com/herrjemand" target="_blank" rel="noopener">Yuriy</a> がたまたま来日しており、QAセッションができた</li><li>テクニカルな話をいろいろと聞け、知らなかったことが知れた</li></ul></li></ul><p><blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/%E6%BB%91%E3%83%83?src=hash&amp;ref_src=twsrc%5Etfw" target="_blank" rel="noopener">#滑ッ</a> 初体験 <a href="https://t.co/UyCFfYIBjP" target="_blank" rel="noopener">https://t.co/UyCFfYIBjP</a></p>&mdash; 82 (@watahani) <a href="https://twitter.com/watahani/status/1047475724204961805?ref_src=twsrc%5Etfw" target="_blank" rel="noopener">2018年10月3日</a></blockquote></p><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><h2 id="悪かったこと"><a href="#悪かったこと" class="headerlink" title="悪かったこと"></a>悪かったこと</h2><ul><li>Meet Up!<ul><li>会場の時間と発表人数があっておらず、一人あたりの発表時間が短くなってしまった。</li><li>当日の会場時刻のアナウンスがうまくいかず、早く来場する方がいた（connpassで公開した後に開催時刻を30分遅らせた）</li><li>イベント当日の案内に「会社名とお名前か connpass の受付番号を呈示…」と言っていたが、connpass の参加者一覧画面に会社名と名前がなかった※</li><li>スタッフとの連携が取れておらず、1名補欠の人を帰してしまった（まあしゃーない）</li><li>Slack の盛り上がりは限定的だった</li></ul></li><li>もくもく会<ul><li>ノープランだった</li><li>WebAuthn を知らない人向けのテーマや教材がなかった</li><li>英語つらい</li></ul></li></ul><blockquote><p>※事前アンケートで答えてもらっていたが、 connpass の一覧には表示されない仕様だった</p></blockquote><h2 id="ほんで？"><a href="#ほんで？" class="headerlink" title="ほんで？"></a>ほんで？</h2><p>もくもく会はホントノープランだった。なんかかんかフォローもあって盛り上がったのは救いだった。そもそも「もくもく会」だからといってテーマを絞らなかったのは失敗で、「WebAuthnのスペック読む会」とか「サーバーサイド実装してみる会」とか、ある程度テーマを決めて人を集めたほうがよかった。初心者向けのコンテンツがないねーって話もあって、Slackが盛り上がってないのも一つ原因かなあと想像してた。<br>次回はどうしようかなー。</p><p>気を付けなきゃなぁと思った点は</p><ul><li>イベント当日は結構アタマ真っ白になる</li><li>伝えないといけない通知事項はスライドなんかに書いておくとよさげ</li><li>イベントの会場になるビルは大体 20時とかにはしまって入れなくなるのでアナウンス必須</li><li>開始時刻の変更はよっぽどのことがない限りやらないほうがいい。メールで通知してもみんな気づかない。</li><li>無料イベントは結構キャンセル出る。キャンセル見込んで申し込み人数増やすべきだった</li></ul><p>みんなが助けてくれたのでイベントの運営は楽しく、とはいえそれなりに疲れた。できることなら仕事とか他の活動とか重ならないように予定を立てたほうがいいね。こればっかりはどうなるかわからないから仕方がないけれど。</p><p>気を使ったこととしては、なるべく Twitter のグループメッセージで、関係者に連絡を行ったこと（当たり前？）。おかげで「これ忘れてない？」的なお助けメッセージが何度か飛んできて本当に助かった。ありがとうIDおにいさんたち。</p><p>ってことで、次回もまたよろしくお願いします。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;先日 #idcon で &lt;a href=&quot;https://fido2-workshop.connpass.com/event/100866/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;#idcon vol.25 fidcon 勝手に Meet up!&lt;/a&gt; および、 &lt;a href=&quot;https://fido2-workshop.connpass.com/event/100944/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;第3回 WebAuthn もくもく会&lt;/a&gt; が開催されました。いちおう運営としてかかわった初めての大きなイベントなので、簡単にふりかえりをば。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="idcon" scheme="http://blog.haniyama.com/tags/idcon/"/>
-    
-      <category term="fidcon" scheme="http://blog.haniyama.com/tags/fidcon/"/>
-    
-      <category term="WebAuthn" scheme="http://blog.haniyama.com/tags/WebAuthn/"/>
     
   </entry>
   

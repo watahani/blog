@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/</loc>
+    
+    <lastmod>2020-10-17T12:40:40.593Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.haniyama.com/2020/09/27/aad-external-identity-api-connector/</loc>
     
     <lastmod>2020-10-09T13:35:48.364Z</lastmod>
