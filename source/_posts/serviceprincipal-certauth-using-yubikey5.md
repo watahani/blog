@@ -54,12 +54,6 @@ YubiKey4, YubiKey5 シリーズは、Windows 上でスマートカードとし�
 
 全てデフォルトで登録。
 
-### 証明書のアップロード
-
-`証明書とシークレット` を選択し、先ほどエクスポートした証明書、 `ConditionalAccessUnlocker.cer` をアップロードする。
-
-![](./serviceprincipal-certauth-using-yubikey5/cert.png)
-
 ### API のアクセス許可
 
 サービス プリンシパルで条件付きアクセスを操作するには、アプリケーション権限の `Policy.Read.All`, `Policy.ReadWrite.ConditionalAccess`, `Application.Read.All` が必要。
@@ -113,6 +107,12 @@ Export-Certificate -Cert $cert -FilePath $cerfile
 >  この辺動かないときは、もしかするとこの辺のレジストリが設定されているかもしれない。
 > <https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/ff404287(v=ws.10)>
 
+### 証明書のアップロード
+
+Azure ポータルに戻って、作ったアプリの `証明書とシークレット` を選択し、先ほどエクスポートした証明書、 `ConditionalAccessUnlocker.cer` をアップロードする。
+
+![](./serviceprincipal-certauth-using-yubikey5/cert.png)
+
 ## Azure AD PowerShell Module で条件付きアクセスを操作
 
 ### PowerShell Module のインストール
@@ -148,10 +148,12 @@ PIN を聞かれるので、YubiKey の PIN を入力する。
 
 ## まとめ
 
-削除は上手く動いたので、緊急時は Remove-AzureADMSConditionalAccessPolicy でブロックされてるポリシーを削除するなりしてください。
+~~削除は上手く動いたので、緊急時は Remove-AzureADMSConditionalAccessPolicy でブロックされてるポリシーを削除するなりしてください。~~
+
+いつの間にか治ってました。
 
 ```powershell
- Get-AzureADMSConditionalAccessPolicy | %{ Remove-AzureADMSConditionalAccessPolicy -PolicyId $_.Id}
+Get-AzureADMSConditionalAccessPolicy | %{ Set-AzureADMSConditionalAccessPolicy -PolicyId $_.Id -State "disabled"}
 ```
 
 これで、緊急時に YubiKey があれば条件付きアクセスを削除してテナントに入れるようになったので、安心して条件付きアクセスの実験が出来ますね。
