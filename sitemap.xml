@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.haniyama.com/2020/12/09/oidc-sse-cape-risc/</loc>
+    
+    <lastmod>2020-12-09T10:48:01.952Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2019/07/15/azuread-fido2-security-key-public-preview/</loc>
+    
+    <lastmod>2020-12-09T10:43:43.150Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/</loc>
+    
+    <lastmod>2020-12-09T10:42:26.241Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.haniyama.com/2020/10/17/serviceprincipal-certauth-using-yubikey5/</loc>
     
-    <lastmod>2020-10-17T13:03:07.022Z</lastmod>
+    <lastmod>2020-12-06T15:00:19.202Z</lastmod>
     
   </url>
   
@@ -163,13 +184,6 @@
   </url>
   
   <url>
-    <loc>http://blog.haniyama.com/2020/02/16/customize-aad-token-claims/</loc>
-    
-    <lastmod>2020-07-12T10:31:52.174Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.haniyama.com/2018/09/12/builderscon-2018/</loc>
     
     <lastmod>2020-07-12T10:31:52.165Z</lastmod>
@@ -180,13 +194,6 @@
     <loc>http://blog.haniyama.com/2018/12/18/best-buy-2018/</loc>
     
     <lastmod>2020-07-12T10:31:52.156Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2019/07/15/azuread-fido2-security-key-public-preview/</loc>
-    
-    <lastmod>2020-07-12T10:31:52.147Z</lastmod>
     
   </url>
   
