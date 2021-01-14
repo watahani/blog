@@ -6,6 +6,7 @@ tags:
   - OAuth
 ---
 
+本記事は [Digital Identity技術勉強会 #iddance Advent Calendar 2020](https://qiita.com/advent-calendar/2020/iddance) 9日めの記事です。
 最近プレビューとして実装された Azure AD の CAE という機能がある。
 
 - [ポリシーとセキュリティのリアル タイムな適用に向けて | Japan Azure Identity Support Blog](https://jpazureid.github.io/blog/azure-active-directory/moving-towards-real-time-policy-and-security-enforcement/)
@@ -138,7 +139,7 @@ events のタイプも[ドラフト](https://openid.net/specs/openid-risc-event-
 
 それぞれのイベントの受信時に RP がとるべき [アクションについてもまとめられている。](https://developers.google.com/identity/protocols/risc#supported_event_types)
 
-### RISC と CAPE の違い
+### RISC と CAEP の違い
 
 ドラフトなどを眺めてみるとどちらかというと RISC は id_token によるユーザー認証の結果発行される RP のセッションを主眼に置いているように見える。
 一方 CAEP はドラフトなどはないので Microsoft のドキュメントからの判断になるが RP のリソースへのアクセス (access_token) を主眼においているように書かれているように見える。
@@ -146,7 +147,7 @@ events のタイプも[ドラフト](https://openid.net/specs/openid-risc-event-
 また、CAEP は名前の通り、継続的なアクセス評価で RISC は侵害された資格情報を利用した横方向の侵害の連鎖の阻止を主目的としているようだ。
 目的が違うのはその通りなのだが、ユーザーの無効化、トークンの破棄、リスクイベントなどは、CAEP と RISC どちらも共通のような気がしておりなんで分かれているのかはイマイチ理解できなかった。
 
-B の機能も CAPE に含むのであればずいぶん話が変わってくるが、公開されている情報からは CAPE の標準化活動については追うことができず、引き続きウォッチしていきたい。このあたり詳しい人いたら Twitter で教えてください。
+B の機能も CAEP に含むのであればずいぶん話が変わってくるが、公開されている情報からは CAEP の標準化活動については追うことができず、引き続きウォッチしていきたい。このあたり詳しい人いたら Twitter で教えてください。
 
 細かい動作はそのうち試したらまたまとめようと思います。
 

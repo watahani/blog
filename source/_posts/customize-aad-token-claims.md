@@ -139,7 +139,7 @@ Add-AzureADServicePrincipalPolicy -Id $sp.ObjectId -RefObjectId  $policy.Id
   "acceptMappedClaims": true,
 ```
 
-![](./customize-aad-token-claims/accesptmappedclaims.png)
+![](./customize-aad-token-claims/acceptmappedclaims.png)
 
 上記を設定を、ID トークンを発行すると、UPN が name 属性として出力された。
 
