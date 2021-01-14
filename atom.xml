@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.haniyama.com/"/>
-  <updated>2020-12-11T15:22:27.817Z</updated>
+  <updated>2021-01-14T14:08:46.604Z</updated>
   <id>http://blog.haniyama.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2021-01-14 めも</title>
+    <link href="http://blog.haniyama.com/2021/01/14/202101/"/>
+    <id>http://blog.haniyama.com/2021/01/14/202101/</id>
+    <published>2021-01-14T14:02:00.000Z</published>
+    <updated>2021-01-14T14:08:46.604Z</updated>
+    
+    <content type="html"><![CDATA[<p>早いもので 2020 年も終わり、新年が明けて半月が過ぎようとしている。ふと気づいたら、転職してちょうど丸 2 年ということに気づいた。</p><p>2020 年の振り返りもできていなかったので、ここいらで 2 年でやったこと、やりたかったこと、できなかったことをまとめていこうと思う。</p><p>特に誰のためになるわけでもなく、いわゆるチラ裏。チラ裏って言葉も死語になったのか全然聞かないっすね。</p><a id="more"></a><h2 id="2019-2020-振り返り"><a href="#2019-2020-振り返り" class="headerlink" title="2019-2020 振り返り"></a>2019-2020 振り返り</h2><p>丸 2 年、サポート エンジニアとして働いた。Non Tech な内容については、業務にかかわるので書きづらかったり纏まってなかったりなので、ひとまずやってきた技術分野についてまとめる。</p><h3 id="WebAuthn"><a href="#WebAuthn" class="headerlink" title="WebAuthn"></a>WebAuthn</h3><p>2019 年は、前職でゴリゴリやってた WebAuthn 関連の活動も続けており、もくもく会を開いたり技術同人誌出したりしていた。WebAuthn のアカウントリカバリーとかについてまとめてたのが、<a href="https://eprint.iacr.org/2020/1004" target="_blank" rel="noopener">Cryptology ePrint</a> になってた。Cryptology ePrint っていうのがイマイチ位置づけがわかってないんだけど、暗号分野におけるそれなりに権威のある論文になってるって感じなんですかね。最近は全然手を付けておらず、停滞気味…。</p><h3 id="Azure-の機能と周辺技術"><a href="#Azure-の機能と周辺技術" class="headerlink" title="Azure の機能と周辺技術"></a>Azure の機能と周辺技術</h3><p>2019 年 1 月時点では、Azure AD について右も左もわからないままだったなあ…。Azure の機能としてメインでゴリゴリやってたのはこのあたり。</p><ul><li>条件付きアクセス ポリシー</li><li>AD FS</li><li>Azure AD アプリケーション プロキシ</li><li>OAuth, OIDC, サービス プリンシパル</li><li>MSAL (.Net/Core/Android/js)</li><li>Azure AD B2C</li></ul><h4 id="条件付きアクセスの動作"><a href="#条件付きアクセスの動作" class="headerlink" title="条件付きアクセスの動作"></a>条件付きアクセスの動作</h4><p>Azure AD の中でもとっつきやすく、検証もしやすい条件付きアクセス ポリシーは現職のチームの中では、入門コンテンツとして存在する感がある。</p><p>しかし、条件付きアクセス ポリシーは Azure AD のコンポーネントのなかで中心となる機能の一つであるため、入門コンテンツとしても、より深い Azure AD の理解のためにもよいコンテンツ (?) だと思う。具体的には、検証を行う中で、テナントやユーザー、グループ、ゲスト ユーザーといった Azure AD の基礎知識を習得していける。また、 Azure AD で保護されたリソース、サービス プリンシパル、OAuth, OpenID Connect といった技術領域まで発展して学習ができるし、興味があれば Office 365 のアクセス制御と連携した学習も可能だと思う。</p><p>泥臭いポリシーの検証や動作確認は辛いこともあるが、条件付きアクセス ポリシーを極めるに当たり、Azure AD のさまざまなコンポーネントを理解できる。</p><p>ということで、Azure AD 勉強する人はぜひ条件付きアクセスから勉強しましょう？</p><h4 id="AD-FS-SAML-WS-Fed-WS-Trust-の基本とログ解析"><a href="#AD-FS-SAML-WS-Fed-WS-Trust-の基本とログ解析" class="headerlink" title="AD FS, SAML, WS-Fed, WS-Trust の基本とログ解析"></a>AD FS, SAML, WS-Fed, WS-Trust の基本とログ解析</h4><p>これはあまり語ることはないが、Windows サーバーをあまり触ったことのなかった私には、オンプレの Active Directory を立てることから勉強だった。いまだにオンプレの AD については知らないことだらけだが、まあ最低限 Kerberos などの認証系の基本的なコンポーネントについては理解ができているつもり。</p><p>SAML については AD FS や Azure AD の動作ベースでプロトコルの概要は理解した。たまーに OASIS の仕様を見に行くことがあったが、枯れた技術なので現状の動作が理解できれば十分だろうと思ってる。WS-Fed, WS-Trust ってのも元気に動いてることを知った。</p><p>AD FS については基礎動作や、基本的なログ解析については学習したが、最近あんまやってないのでほとんど忘れた。</p><h4 id="Azure-AD-Application-Proxy"><a href="#Azure-AD-Application-Proxy" class="headerlink" title="Azure AD Application Proxy"></a>Azure AD Application Proxy</h4><p>意外と厄介なやつで、なんかいろいろ苦労した覚えがある。AD FS とこいつのトラブル シューティングのためにパケット解析の基礎を習得した。あと意外と Web 標準系の RFC などを見る必要があり、その辺の技術が身についた気がする。</p><h3 id="OAuth-OIDC-サービス-プリンシパル"><a href="#OAuth-OIDC-サービス-プリンシパル" class="headerlink" title="OAuth, OIDC, サービス プリンシパル"></a>OAuth, OIDC, サービス プリンシパル</h3><p>2019 年の後半から、2020 年はほとんどこの辺の技術領域ばかり調べてた記憶がある。実際のところは RFC とかは斜め読みしかしておらず、Azure AD の実装しか見ていないのがイマイチなところ。Azure AD の実装にだけはやたら詳しくなったので、<a href="https://qiita.com/watahani/items/1f3f533097b7a15d6698" target="_blank" rel="noopener">Qiita</a> とかチームのブログにポチポチアウトプットしてた。</p><h3 id="Azure-AD-B2C"><a href="#Azure-AD-B2C" class="headerlink" title="Azure AD B2C"></a>Azure AD B2C</h3><p>とにかく苦労したおもひで。とにかく当時はドキュメントが少なく、何をするにしてもエンジニアに聞くみたいな感じだったように思う。(私が始めた時より前はもっと無かったらしいのだが)</p><p>実は Stack Overflow を MS の開発陣がうろついてて、技術的なことは Stack Overflow で纏まってたりする。今はドキュメントも充実してきたので本当にうれしいし、ドキュメント作ってる人にマジ感謝である。とはいえ取っつきづらいところもあるので、その辺はまとめた記事をチームブログに書いたりした。</p><p>カスタム ポリシーは相変わらず非常に難しく、また、実際に要望がないと作ってみようとならないので、最近はさぼり気味。なんか個人宛に仕事くださいw</p><h4 id="MSAL-Net-Core-Android-js-Java"><a href="#MSAL-Net-Core-Android-js-Java" class="headerlink" title="MSAL (.Net/Core/Android/js/Java)"></a>MSAL (.Net/Core/Android/js/Java)</h4><p>MSAL は .Net, .Net Core, Android, msal.js (1.0/2.0), Java なんかを動かした。OIDC のオプションや各種パラメータがどのように実装されているかについては大まかに理解したし、Android の Broker アプリの動作についても大体動作を舐めているが、このあたりは正直各言語やプラットフォームについて理解していないと厳しい部分があり、どこまで極めるかについては要検討。</p><h3 id="英語"><a href="#英語" class="headerlink" title="英語"></a>英語</h3><p>外資系企業に入れば多少はできるようになるやろうと思ったけど、半分は正解。ヒアリングはできるようになったけど、一方で全く喋れん。現職だと喋る機会も少ないので、その辺は自己投資でやっていかないとと思いながらまあ大してできてない。困らないと動かない。</p><p>公式ドキュメントは (個人の観測範囲では) よくなっていると思うが、フィードバックが必要な部分はまだまだあるので英語でゴリゴリ PR 書けるようになりたい。けど、ちょっと英語の公式ドキュメントを各レベルの英語力が無いのが困ってるところ。日本語ならいいんですけどね…。<br>ちょっと英語とは話がそれるが、これは「やらなくても良い」仕事なんだけど、トータルなリターンを考えると「絶対やった方がいい」仕事なので、ドキュメントを直すことによるインセンティブが働くようになればなーと空想してる。</p><h3 id="その他"><a href="#その他" class="headerlink" title="その他"></a>その他</h3><p>個人的な興味の範囲で、暗号技術のすべて、プロフェッショナルSSL/TLS あたりを読んだが、実装レベルで理解していない。暗号技術のすべてを読みながら .Net の勉強がてら実装してみようかなと思っている。ECDSA の周りももう一度再入門したいのだが、全然勉強が進んでおらず、ちょっと独学以外の勉強しようと輪読会なんかもやってたけど、あんまり思い通りにはならなかった。DID とかもそうだけど、実務で直接扱わない分野の勉強が全然進まないのがちょっと課題。強引に実務にする機会がないかは虎視眈々と狙っている。</p><p>あと、チームブログの立ち上げと運用をしているが、コミュニティ活動って建付けなので、ちょっとバランスが難しい。</p><h2 id="2021-年の豊富"><a href="#2021-年の豊富" class="headerlink" title="2021 年の豊富"></a>2021 年の豊富</h2><p>娘が生まれたのでワークライフバランス大事にいきたい。</p><p>真面目な話をすると、サポートの仕事を丸 2 年経験した感想としてもっとプロアクティブに動かないと業務過多で死ぬということ。ブログでのアウトプット以外の情報発信とか共有について、もうちっとロジカルに考えていかないと娘との時間を取れない気がしているので、その辺ますます注力したい。</p><p>しかし、子育ては本当に大変で、世の中のお父さんお母さんには頭が上がらない。たまたま育児休暇とリモートワークで妻と長く過ごすことができて、非常にいい経験になったのでその辺の話もまとめておきたいが、また別の機会に。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;早いもので 2020 年も終わり、新年が明けて半月が過ぎようとしている。ふと気づいたら、転職してちょうど丸 2 年ということに気づいた。&lt;/p&gt;
+&lt;p&gt;2020 年の振り返りもできていなかったので、ここいらで 2 年でやったこと、やりたかったこと、できなかったことをまとめていこうと思う。&lt;/p&gt;
+&lt;p&gt;特に誰のためになるわけでもなく、いわゆるチラ裏。チラ裏って言葉も死語になったのか全然聞かないっすね。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="雑記" scheme="http://blog.haniyama.com/tags/%E9%9B%91%E8%A8%98/"/>
+    
+  </entry>
   
   <entry>
     <title>OpenID Connect の Shared Signals and Events</title>
@@ -59,9 +81,9 @@
     </summary>
     
     
-      <category term="YubiKey" scheme="http://blog.haniyama.com/tags/YubiKey/"/>
-    
       <category term="Azure AD" scheme="http://blog.haniyama.com/tags/Azure-AD/"/>
+    
+      <category term="YubiKey" scheme="http://blog.haniyama.com/tags/YubiKey/"/>
     
   </entry>
   
@@ -206,9 +228,9 @@
     
       <category term="Azure" scheme="http://blog.haniyama.com/tags/Azure/"/>
     
-      <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
-    
       <category term="OAuth" scheme="http://blog.haniyama.com/tags/OAuth/"/>
+    
+      <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
     
   </entry>
   
@@ -230,11 +252,11 @@
     </summary>
     
     
+      <category term="Azure AD" scheme="http://blog.haniyama.com/tags/Azure-AD/"/>
+    
       <category term="雑記" scheme="http://blog.haniyama.com/tags/%E9%9B%91%E8%A8%98/"/>
     
       <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
-    
-      <category term="Azure AD" scheme="http://blog.haniyama.com/tags/Azure-AD/"/>
     
   </entry>
   
@@ -360,9 +382,9 @@
     
       <category term="WebAuthn" scheme="http://blog.haniyama.com/tags/WebAuthn/"/>
     
-      <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
-    
       <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
+    
+      <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
     
   </entry>
   
@@ -385,9 +407,9 @@
     </summary>
     
     
-      <category term="技術書典" scheme="http://blog.haniyama.com/tags/%E6%8A%80%E8%A1%93%E6%9B%B8%E5%85%B8/"/>
-    
       <category term="WebAuthn" scheme="http://blog.haniyama.com/tags/WebAuthn/"/>
+    
+      <category term="技術書典" scheme="http://blog.haniyama.com/tags/%E6%8A%80%E8%A1%93%E6%9B%B8%E5%85%B8/"/>
     
   </entry>
   
@@ -453,9 +475,9 @@
     
       <category term="WebAuthn" scheme="http://blog.haniyama.com/tags/WebAuthn/"/>
     
-      <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
-    
       <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
+    
+      <category term="Microsoft" scheme="http://blog.haniyama.com/tags/Microsoft/"/>
     
   </entry>
   
@@ -480,30 +502,6 @@
       <category term="attestation" scheme="http://blog.haniyama.com/tags/attestation/"/>
     
       <category term="FIDO" scheme="http://blog.haniyama.com/tags/FIDO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Webauthn における ResidentKey と UserVerification について</title>
-    <link href="http://blog.haniyama.com/2018/10/19/webauthn-residentkey/"/>
-    <id>http://blog.haniyama.com/2018/10/19/webauthn-residentkey/</id>
-    <published>2018-10-19T13:12:53.000Z</published>
-    <updated>2020-07-12T10:31:52.357Z</updated>
-    
-    <content type="html"><![CDATA[<p>以前、「Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)」という記事を書いた。</p><a id="more"></a><ul><li>これ: <a href="/2018/06/17/edge-support-webauthn/">Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)</a></li></ul><p>ありがたいことに、結構な方に見ていただいて、あの記事参考になったよと直接言っていただいたり、fidcon で話すことになったり。</p><p>ただ、あの記事は当時私が良く分かっていなかった ResidentKey に関する適当な記述があり、そこで引っ掛かってしまっている方もいるようなので、今更感はあるけど、改めて ResidentKey の話をしようと思う。</p><h2 id="Resident"><a href="#Resident" class="headerlink" title="Resident"></a>Resident</h2><p>私は英語が苦手なので、Resident って何やねんと思ってるのだが、辞書的には</p><blockquote><p>研究社 新英和中辞典での「resident」の意味<br>resident<br>形容詞</p><p>1居住する，在住の.</p><p>2 a 駐在の，住み込みの.<br>  b 専属の.<br>  c 叙述的用法の形容詞 〔前+(代)名〕〔…に〕居住して 〔at，in〕.</p><p>3【動物, 動物学】〈鳥など〉季節的に移動しない (⇔migratory).</p><p>4 叙述的用法の形容詞 〔+in+(代)名〕〈性質・権利など〉〔…に〕内在して，固有で.</p></blockquote><p>ということで、内在しており「移動しない」といった意味がありそう。</p><p>実際にWebAuthn の文脈でも “ResidentKey” には  Authenticator に内在し移動しない <strong>Credential</strong> を保存できるものを指すので、間違ってはいなさそう。<br>では、保存される <strong>Credential</strong> って何なの？っていうのは、WebAuthn のスペックだと、</p><blockquote><p>… public key credential source whose credential private key is stored in the authenticator, client or client device. Such client-side storage requires a resident credential capable authenticator and has the property that the authenticator is able to select the credential private key given only an RP ID, possibly with user assistance (e.g., by providing the user a pick list of credentials scoped to the RP ID).<br>…<br><a href="https://w3c.github.io/webauthn/#resident-credential" target="_blank" rel="noopener">https://w3c.github.io/webauthn/#resident-credential</a></p></blockquote><p>ということで、保存される <strong>Credential</strong> は <strong>public key credential source</strong> らしい。<br><strong>public key credential source</strong> を保存した結果、<strong>RP ID</strong> のみを与えられた場合に、rp に関連する Credential をユーザが選択可能になる、と。</p><p>で <strong><a href="https://w3c.github.io/webauthn/#public-key-credential-source" target="_blank" rel="noopener">public key credential source</a></strong> ってのは</p><ul><li>public key credential source<ul><li>type: public-key.</li><li>CredentialId.</li><li>privateKey</li><li>rpId</li><li>userHandle</li><li>otherUI (user.name, displayName, rp.name ..etc)</li></ul></li></ul><p>のことらしい。</p><p>このあたりは、以前 #fidcon で少し話した通り。</p><p>もともとの U2F ベースの認証だと、認証の際に「どのキーペアか」を示す <strong>CredentialId</strong> を指定してやらないといけないので、事前にユーザーの特定、一般的には ID/Password の認証が必要となってくる。ここではユーザーの特定さえできればよいので、社内システムとか CredentialId が他の利用者に漏れてもいいようなシステムなら、ID 入力(Credential の特定）だけで、全社員分の CredentialId を返すとかでもいいっちゃいいのかもしれないけどふつうは困るので ID/Password 認証とのセットが必要になるだろう。</p><p>まあ、とにかく <strong>CredentialId</strong> が認証の際に必要だったわけ。</p><p><img src="/2018/10/19/webauthn-residentkey/u2fbase.png" alt=""></p><p>それだとパスワードレス認証にならないので WebAuthn では ResidentKey といって、<strong>CredentialId</strong> をキーに保存しておける仕組みを作った。実際には user や rp の情報も一緒に保存するので、RP の情報や、ユーザ情報も保存される。</p><p>そのおかげて、 RP だけ与えられた際に、RPの情報や保存されたユーザ情報で、ユーザはどの Credential を利用しようとしているかが理解できる。</p><p><img src="/2018/10/19/webauthn-residentkey/06_credentials.png" alt=""></p><h2 id="User-Verification"><a href="#User-Verification" class="headerlink" title="User Verification"></a>User Verification</h2><p>で、ここからが前の記事で勘違いしていた部分。</p><p>保存しておいた Credential がタッチで簡単に取り出せては困るので、U2F の際にはなかった User Verification (UV) 本人確認の仕組みがキーに備わっている。</p><p>ただし、これは optional であって必須ではない。</p><p>つまり、User Verification なしでもパスワードレス認証をすることは可能ということ。<br>なんとなく表にまとめるとこんな具合だと思う。</p><table><thead><tr><th style="text-align:center">ResidentKey</th><th style="text-align:center">User Verificaiton</th><th style="text-align:center">platform</th><th style="text-align:left">例</th></tr></thead><tbody><tr><td style="text-align:center">〇</td><td style="text-align:center">〇</td><td style="text-align:center">internal</td><td style="text-align:left">スマホ・PCの生体 or PIN</td></tr><tr><td style="text-align:center">×</td><td style="text-align:center">〇</td><td style="text-align:center">internal</td><td style="text-align:left">ID/Pass + スマホ・PCの生体 or PIN</td></tr><tr><td style="text-align:center">〇</td><td style="text-align:center">〇</td><td style="text-align:center">external</td><td style="text-align:left">YubiKeyなどの外部デバイス(生体 or PIN)</td></tr><tr><td style="text-align:center">〇</td><td style="text-align:center">×</td><td style="text-align:center">external</td><td style="text-align:left">YubiKeyなどの外部デバイス(タッチのみ)</td></tr><tr><td style="text-align:center">×</td><td style="text-align:center">〇</td><td style="text-align:center">external</td><td style="text-align:left">ID/Pass + YubiKeyなどの外部デバイス(生体 or PIN)</td></tr><tr><td style="text-align:center">×</td><td style="text-align:center">×</td><td style="text-align:center">external</td><td style="text-align:left">ID/Pass + YubiKeyなどの外部デバイス(タッチのみ)</td></tr></tbody></table><p>分かりにくいｗ</p><p>以前の記事では、YubiKeyなどの外部デバイスでタッチのみの認証ができなさそうと書いてたけれども ResidentKey のオプションを指定していないだけだった。</p><p>だからと言って、タッチだけでログインできるっていうユースケースどんだけあんねんって話ではある。NFC のタッチだけでログインできるっていうのは PIN の入力や、YubiKey にタッチができないような現場での認証には使えるかもしれないけど。</p><h2 id="User-Verification-の罠"><a href="#User-Verification-の罠" class="headerlink" title="User Verification の罠"></a>User Verification の罠</h2><p>User Verification には少し罠があって、何かというと、上記例から外した</p><table><thead><tr><th>ResidentKey</th><th>User Verificaiton</th><th>platform</th><th>例</th></tr></thead><tbody><tr><td>×</td><td>×</td><td>〇</td><td>ID/Pass + スマホ・PCの生体 or PIN</td></tr></tbody></table><p>だが、スマホや PC で UV がない認証がないけど、これってどうなるの？</p><p>手元の Windows 10 RS5 で</p><pre class=" language-js"><code class="language-js"><span class="token string">"authenticatorSelection"</span><span class="token punctuation">:</span><span class="token punctuation">{</span>    <span class="token string">"authenticatorAttachment"</span><span class="token punctuation">:</span><span class="token string">"platform"</span><span class="token punctuation">,</span>    <span class="token string">"userVerification"</span><span class="token punctuation">:</span><span class="token string">"discouraged"</span><span class="token punctuation">,</span>    <span class="token string">"requireResidentKey"</span><span class="token punctuation">:</span><span class="token boolean">false</span><span class="token punctuation">}</span></code></pre><p>で試してみたけど、PIN や 指紋の入力が必須だった。</p><blockquote><p>手元に RS5 以降の Edge がある人は、以下をコピペしてコンソールに張り付けてみよう。色々試してみると面白いかも。</p></blockquote><pre class=" language-js"><code class="language-js">navigator<span class="token punctuation">.</span>credentials<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>    <span class="token string">"publicKey"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>        <span class="token string">"rp"</span><span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token string">"test"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>            <span class="token string">"user"</span><span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token string">"displayName"</span><span class="token punctuation">:</span><span class="token string">"test"</span><span class="token punctuation">,</span>            <span class="token string">"name"</span><span class="token punctuation">:</span><span class="token string">"test@example.com"</span><span class="token punctuation">,</span>            <span class="token string">"id"</span><span class="token punctuation">:</span><span class="token keyword">new</span> <span class="token class-name">Uint32Array</span><span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">)</span>        <span class="token punctuation">}</span><span class="token punctuation">,</span>        <span class="token string">"challenge"</span><span class="token punctuation">:</span><span class="token keyword">new</span> <span class="token class-name">Uint32Array</span><span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">,</span>        <span class="token string">"pubKeyCredParams"</span><span class="token punctuation">:</span><span class="token punctuation">[</span>            <span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"public-key"</span><span class="token punctuation">,</span><span class="token string">"alg"</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">7</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token string">"type"</span><span class="token punctuation">:</span><span class="token string">"public-key"</span><span class="token punctuation">,</span><span class="token string">"alg"</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">257</span><span class="token punctuation">}</span>        <span class="token punctuation">]</span><span class="token punctuation">,</span>        <span class="token string">"excludeCredentials"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>        <span class="token string">"authenticatorSelection"</span><span class="token punctuation">:</span><span class="token punctuation">{</span>            <span class="token string">"authenticatorAttachment"</span><span class="token punctuation">:</span><span class="token string">"platform"</span><span class="token punctuation">,</span><span class="token string">"userVerification"</span><span class="token punctuation">:</span><span class="token string">"discouraged"</span><span class="token punctuation">,</span>            <span class="token string">"requireResidentKey"</span><span class="token punctuation">:</span><span class="token boolean">false</span><span class="token punctuation">}</span>        <span class="token punctuation">}</span>    <span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre><h2 id="UVをいったん使うと…"><a href="#UVをいったん使うと…" class="headerlink" title="UVをいったん使うと…"></a>UVをいったん使うと…</h2><blockquote><p>User Presence だけの認証は確かにできる。ただし。</p></blockquote><p>これはどういう話かというと、</p><p>User Presence だけの認証ができるのは Authenticator が一度も UV オプションを設定していなかった場合（あるいは対応していない場合）のみで、platform の Authenticator は、基本 UV が必須なので、オプションがオフでも UV のアクションが必須になる。</p><p>というのも、 userVerification のオプションは “required”, “preffered’, “discourage” で、つまり “必須”, “あれば”, “なくてもいい” で、”なしで” のオプションがない。</p><p>これは外部 Authenticator も一緒で、たとえば一旦 PIN を設定した YubiKey は、 User Verification オプションをオフにしても PIN の入力が求められることになる。</p><p>つまり、サービスA でタッチだけでログインしていたとして(discourage)、他のサービスBで UV が必須(required)だったとする。そこで、サービスB に登録するために新しく PIN を設定すると、サービスA でも PIN が必要になるということ。</p><p>そんなんどこに書いてあんねんってのは、CTAP2 の仕様に書いてあったように思うけど、探しても見つからない。</p><p>最近 Silent Auth の話も進んでるから意図的に削られたのか、単に見つけられないだけなのか、前見たってのが勘違いなのか…。</p><p>どなたかこのあたり詳しい人教えてほしい。</p><p>ともかく、こんな話なので、タップでログインしていたユーザーが何かのはずみで PIN を設定してしまうと、PIN ログインが必須になってしまい、二度と解除できなくなってしまう。</p><p>うーん、それってどうなん？<br>そもそも物理キー買う層は User Verification 使うぐらいセキュリティ意識高いから平気って話なのか。それだったらタップだけ(User Presense) な認証は禁止にすりゃいいのに。Key側の設定でオンオフできればいいんだけど。とか。</p><p>個人的にすごく気になってるので、今後もこのあたりの議論を追っていかなきゃなー。</p><p>いじょ。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;以前、「Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)」という記事を書いた。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="WebAuthn" scheme="http://blog.haniyama.com/tags/WebAuthn/"/>
-    
-      <category term="YubiKey" scheme="http://blog.haniyama.com/tags/YubiKey/"/>
-    
-      <category term="FIDO2" scheme="http://blog.haniyama.com/tags/FIDO2/"/>
     
   </entry>
   
