@@ -52,7 +52,7 @@ CORS ポリシーによりブロックされたと出る。リクエスト モ�
 
 さて、CORS はサーバーの応答ヘッダーによりブラウザーが、通信を制御する仕様なので Google に通信を送ったって何も学べないので、適当なサーバーを立てる。
 
-```py
+```python
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import logging
 """
@@ -96,18 +96,17 @@ if __name__ == '__main__':
 ```
 
 python server.py みたいにしたら動く。ThreadingHTTPServer は python 3.7 じゃないと動かないので、それ以上のバージョンを。
-
 あらためて、fetch を試して Python サーバーのログを見る。
 
-```js
+```javascript
 fetch("http://localhost:8080/api")
 Promise {<pending>}
-//Access to fetch at 'http://localhost:8080/api' from origin 'https://blog.haniyama.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.```
+//Access to fetch at 'http://localhost:8080/api' from origin 'https://blog.haniyama.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 ```
 
 Python サーバー側のログはこんなかんじで、リクエストが到達している。つまりレスポンスも返している。
 
-```text
+```log
 INFO:root:GET request,
 Path: /api
 Headers:
@@ -122,7 +121,6 @@ Sec-Fetch-Dest: empty
 Accept-Encoding: gzip, deflate, br
 Accept-Language: ja,en-US;q=0.9,en;q=0.8
 ```
-
 一方でブラウザーの DevTools では、レスポンスの内容は見えない。
 
 ![](./cors/devtools01.png)
@@ -161,7 +159,7 @@ CORS を判定するのは常にブラウザーであり、サーバー側でも
 
 ということでサーバーサイドのコードを修正してみる。
 
-```py
+```python
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import logging
 """
@@ -384,12 +382,13 @@ fetch("http://localhost:8080/api/step3", { method: "POST" , headers: {"Content-T
 fetch("http://localhost:8080/api/step4", { method: "POST" , headers: {"Content-Type": "application/json", "Authorization": "xxxxx"}, credentials: "include", body: JSON.stringify({"name": "watahani"})}).then(r => r.text()).then(data => console.log(data))
 ```
 
-CORS で Cookie 付けたいシチュエーションっていうのが正直よくわかってないのだけど、たぶん API 側の Set-Cookie は 3rd Party Cookie になるので拒否されると認識している。
-なんで、イマイチ使い時がわからないけど `app.example.com` と `api.example.com` で Cookie 共有してて送りたいみたいな時に使うのかな？あとはトラッキング用とか。
+CORS で Cookie 付けたいシチュエーションっていうのが正直よくわかってないのだけど、 `app.example.com` と `api.example.com` で Cookie 共有してて送りたいみたいな時に使うのかな？あとはトラッキング用とか。
+たぶん API 側の Set-Cookie は 3rd Party Cookie になるので拒否されると認識している。
+(手元で試してみた限り Set-Cookie は一切きかない動き？)
 
 ## CORS Step 5 (Access-Control-Expose-Headers)
 
-あまり興味がないのでサクッと。
+あまり興味がないのでサクッと。JavaScript から触れるヘッダーを指定する。
 
 ```diff
         self.send_header("Access-Control-Allow-Origin", "https://blog.haniyama.com")
@@ -432,7 +431,7 @@ var timer = setInterval(f, 1000);
 10 秒間はプリフライトリクエストがキャッシュされるので、プリフライトリクエストが飛ぶのは 10 秒に一回ぐらいになる。
 Edge の DevTool だとプリフライトリクエストがすごくわかりやすいのでお勧め。
 
-![](./cors/devtool02.png)
+![](./cors/devtools02.png)
 
 ということで、CORS について一通り手を動かして勉強してみた。
 CORS はわかったけど、今度はサードパーティ Cookie の動きが良くわからんとなって、1 カ月ほど放置していたが、その辺はまた分かったら書き足すということで。
