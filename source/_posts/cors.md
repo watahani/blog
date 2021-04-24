@@ -95,8 +95,7 @@ if __name__ == '__main__':
         run()
 ```
 
-python server.py みたいにしたら動く。ThreadingHTTPServer は python 3.7 じゃないと動かないので、それ以上のバージョンを。
-あらためて、fetch を試して Python サーバーのログを見る。
+python server.py みたいにしたら動く。ThreadingHTTPServer は python 3.7 じゃないと動かないので、それ以上のバージョンを。あらためて、fetch を試して Python サーバーのログを見る。
 
 ```javascript
 fetch("http://localhost:8080/api")
@@ -104,7 +103,7 @@ Promise {<pending>}
 //Access to fetch at 'http://localhost:8080/api' from origin 'https://blog.haniyama.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 ```
 
-Python サーバー側のログはこんなかんじで、リクエストが到達している。つまりレスポンスも返している。
+Google に送ったリクエストと同じく CORS のエラーが出ている。一方、Python サーバー側のログはこんなかんじで、リクエストが到達している。つまりレスポンスも返している。
 
 ```log
 INFO:root:GET request,
@@ -121,7 +120,8 @@ Sec-Fetch-Dest: empty
 Accept-Encoding: gzip, deflate, br
 Accept-Language: ja,en-US;q=0.9,en;q=0.8
 ```
-一方でブラウザーの DevTools では、レスポンスの内容は見えない。
+
+ブラウザーの DevTools では、レスポンスの内容は見えない。
 
 ![](./cors/devtools01.png)
 
@@ -148,12 +148,11 @@ Accept-Language: ja,en-US;q=0.9,en;q=0.8
 ```
 
 動かしてみればわかるが、ブラウザーはリクエストを送信し、レスポンスを受け取ったが、CORS を成功させるための条件を満たさなかったため、JavaScript へデータは渡さないことを選択した動作となっている。
-
 CORS を判定するのは常にブラウザーであり、サーバー側でも JavaScript 側でもない。そのため、たとえば curl や Invoke-WebRequest など、ブラウザーではない API アクセスは問題なく成功する。
 
 そして CORS を成功させるには、ブラウザーでも JavaScript でもなく、サーバー側を修正する必要がある。
 
-※ ただし私の周りで起こる CORS の問題は、たいていサーバー側が何らかのエッジで、実際に修正ができないパターンのことが多い。
+※ ただし私の周りで起こる CORS の問題は、たいていサーバー側が何らかのエッジで、実際に修正ができないパターンのことが多い。というか仕組みを知っていれば当たり前なのだが、[事前認証が有効な Azure AD アプリケーション プロキシは CORS に対応していない。](https://docs.microsoft.com/ja-jp/azure/active-directory/manage-apps/application-proxy-understand-cors-issues)
 
 ## CORS Step 1 (Access-Control-Allow-Origin)
 
@@ -217,7 +216,7 @@ Promise {<pending>}
 fetch("http://localhost:8080/api/step1").then(r => r.text()).then(data => console.log(data))
 ```
 
-のようにすればレスポンスの内容が見えるはず。
+のようにすればレスポンスの内容が見えるはず。 `Access-Control-Allow-Origin: "*"` ヘッダーは CORS でのアクセスをサーバーがブラウザーに許可するヘッダーということ。
 
 ## CORS Step 2 (Access-Control-Allow-Headers)
 
@@ -267,6 +266,18 @@ fetch("http://localhost:8080/api/step2", { method: "POST" , headers: {"Content-T
 ```diff
 -        self.send_header("Access-Control-Allow-Origin", "*")
 +        self.send_header("Access-Control-Allow-Origin", "https://blog.haniyama.com")
+```
+
+また、OPTIONS リクエストを受け取れるように以下も追加する。
+
+```python
+    def do_OPTIONS(self):
+        logging.info("OPTIONS request,\nPath: %s\nHeaders:\n%s\n",
+                     str(self.path), str(self.headers))
+        self._set_response()
+
+        self.wfile.write("OPTIONS request for {},\n\n with request headers:\n{}".format(
+            self.path, self.headers).encode('utf-8'))
 ```
 
 この状態でもエラーが出る。
