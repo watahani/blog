@@ -210,9 +210,13 @@ Add-AzureADServicePrincipalPolicy -Id $sp.ObjectId -RefObjectId  $policy.Id
 
 ![](./customize-aad-token-claims/assign-group.png)
 
-残念ながら、ロールを割り当てる MS Graph API は存在しないので、このあたりの制御をアプリで行う場合は特定のグループを割り当てておいて、それぞれのグループにユーザーを割り当てるなど工夫が必要そう。
+~~残念ながら、ロールを割り当てる MS Graph API は存在しない~~ ので、このあたりの制御をアプリで行う場合は特定のグループを割り当てておいて、それぞれのグループにユーザーを割り当てるなど工夫が必要そう。
 
-> あれ、じゃあグループをそのままロールとして扱ってしまえば良いのでは…？
+> 追記、いつの間にか API が生えていたのか、気づかなかったのか。
+> https://docs.microsoft.com/ja-jp/graph/api/serviceprincipal-post-approleassignments?view=graph-rest-1.0&tabs=http
+
+> ~~あれ、じゃあグループをそのままロールとして扱ってしまえば良いのでは…？~~
+> グループが 150 を超えるなど、トークンに含み切れない場合があるし、アプリ独自の Role を定義したい場合もあるだろう。
 
 実際にこの API に対するアクセス トークンを取得する。
 
