@@ -27,6 +27,6 @@
   },
   "scripts": {
     "start": "npx hexo s",
-    "deploy": "npx hexo deploy"
+    "deploy": "npx hexo g; npx hexo d"
   }
 }
