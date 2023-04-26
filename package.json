@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.9.0"
+    "version": "6.3.0"
   },
   "dependencies": {
-    "firebase-tools": "^7.0.0",
     "hexo": "^6.3.0",
     "hexo-asset-link": "^2.0.1",
     "hexo-deployer-git": "^4.0.0",
@@ -18,7 +17,7 @@
     "hexo-generator-sitemap": "^1.2.0",
     "hexo-generator-tag": "^0.2.0",
     "hexo-prism-plugin": "^2.3.0",
-    "hexo-related-popular-posts": "^3.0.6",
+    "hexo-related-popular-posts": "^5.0.1",
     "hexo-renderer-ejs": "^0.3.0",
     "hexo-renderer-less": "^1.0.0",
     "hexo-renderer-marked": "^0.3.0",
@@ -27,6 +26,6 @@
   },
   "scripts": {
     "start": "npx hexo s",
-    "deploy": "npx hexo g; npx hexo d"
+    "deploy": "npx hexo generate; npx hexo deploy"
   }
 }
