@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>index</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <style>
+      /*!
+ * reveal.js
+ * http://lab.hakim.se/reveal-js
+ * MIT licensed
+ *
+ * Copyright (C) 2016 Hakim El Hattab, http://hakim.se
+ */
+/*********************************************
+ * RESET STYLES
+ *********************************************/
+html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal iframe,
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6, .reveal p, .reveal blockquote, .reveal pre,
+.reveal a, .reveal abbr, .reveal acronym, .reveal address, .reveal big, .reveal cite, .reveal code,
+.reveal del, .reveal dfn, .reveal em, .reveal img, .reveal ins, .reveal kbd, .reveal q, .reveal s, .reveal samp,
+.reveal small, .reveal strike, .reveal strong, .reveal sub, .reveal sup, .reveal tt, .reveal var,
+.reveal b, .reveal u, .reveal center,
+.reveal dl, .reveal dt, .reveal dd, .reveal ol, .reveal ul, .reveal li,
+.reveal fieldset, .reveal form, .reveal label, .reveal legend,
+.reveal table, .reveal caption, .reveal tbody, .reveal tfoot, .reveal thead, .reveal tr, .reveal th, .reveal td,
+.reveal article, .reveal aside, .reveal canvas, .reveal details, .reveal embed,
+.reveal figure, .reveal figcaption, .reveal footer, .reveal header, .reveal hgroup,
+.reveal menu, .reveal nav, .reveal output, .reveal ruby, .reveal section, .reveal summary,
+.reveal time, .reveal mark, .reveal audio, .reveal video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline; }
+
+.reveal article, .reveal aside, .reveal details, .reveal figcaption, .reveal figure,
+.reveal footer, .reveal header, .reveal hgroup, .reveal menu, .reveal nav, .reveal section {
+  display: block; }
+
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+body {
+  position: relative;
+  line-height: 1;
+  background-color: #fff;
+  color: #000; }
+
+/*********************************************
+ * VIEW FRAGMENTS
+ *********************************************/
+.reveal .slides section .fragment {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all .2s ease;
+          transition: all .2s ease; }
+  .reveal .slides section .fragment.visible {
+    opacity: 1;
+    visibility: inherit; }
+
+.reveal .slides section .fragment.grow {
+  opacity: 1;
+  visibility: inherit; }
+  .reveal .slides section .fragment.grow.visible {
+    -webkit-transform: scale(1.3);
+            transform: scale(1.3); }
+
+.reveal .slides section .fragment.shrink {
+  opacity: 1;
+  visibility: inherit; }
+  .reveal .slides section .fragment.shrink.visible {
+    -webkit-transform: scale(0.7);
+            transform: scale(0.7); }
+
+.reveal .slides section .fragment.zoom-in {
+  -webkit-transform: scale(0.1);
+          transform: scale(0.1); }
+  .reveal .slides section .fragment.zoom-in.visible {
+    -webkit-transform: none;
+            transform: none; }
+
+.reveal .slides section .fragment.fade-out {
+  opacity: 1;
+  visibility: inherit; }
+  .reveal .slides section .fragment.fade-out.visible {
+    opacity: 0;
+    visibility: hidden; }
+
+.reveal .slides section .fragment.semi-fade-out {
+  opacity: 1;
+  visibility: inherit; }
+  .reveal .slides section .fragment.semi-fade-out.visible {
+    opacity: 0.5;
+    visibility: inherit; }
+
+.reveal .slides section .fragment.strike {
+  opacity: 1;
+  visibility: inherit; }
+  .reveal .slides section .fragment.strike.visible {
+    text-decoration: line-through; }
+
+.reveal .slides section .fragment.fade-up {
+  -webkit-transform: translate(0, 20%);
+          transform: translate(0, 20%); }
+  .reveal .slides section .fragment.fade-up.visible {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0); }
+
+.reveal .slides section .fragment.fade-down {
+  -webkit-transform: translate(0, -20%);
+          transform: translate(0, -20%); }
+  .reveal .slides section .fragment.fade-down.visible {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0); }
+
+.reveal .slides section .fragment.fade-right {
+  -webkit-transform: translate(-20%, 0);
+          transform: translate(-20%, 0); }
+  .reveal .slides section .fragment.fade-right.visible {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0); }
+
+.reveal .slides section .fragment.fade-left {
+  -webkit-transform: translate(20%, 0);
+          transform: translate(20%, 0); }
+  .reveal .slides section .fragment.fade-left.visible {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0); }
+
+.reveal .slides section .fragment.current-visible {
+  opacity: 0;
+  visibility: hidden; }
+  .reveal .slides section .fragment.current-visible.current-fragment {
+    opacity: 1;
+    visibility: inherit; }
+
+.reveal .slides section .fragment.highlight-red,
+.reveal .slides section .fragment.highlight-current-red,
+.reveal .slides section .fragment.highlight-green,
+.reveal .slides section .fragment.highlight-current-green,
+.reveal .slides section .fragment.highlight-blue,
+.reveal .slides section .fragment.highlight-current-blue {
+  opacity: 1;
+  visibility: inherit; }
+
+.reveal .slides section .fragment.highlight-red.visible {
+  color: #ff2c2d; }
+
+.reveal .slides section .fragment.highlight-green.visible {
+  color: #17ff2e; }
+
+.reveal .slides section .fragment.highlight-blue.visible {
+  color: #1b91ff; }
+
+.reveal .slides section .fragment.highlight-current-red.current-fragment {
+  color: #ff2c2d; }
+
+.reveal .slides section .fragment.highlight-current-green.current-fragment {
+  color: #17ff2e; }
+
+.reveal .slides section .fragment.highlight-current-blue.current-fragment {
+  color: #1b91ff; }
+
+/*********************************************
+ * DEFAULT ELEMENT STYLES
+ *********************************************/
+/* Fixes issue in Chrome where italic fonts did not appear when printing to PDF */
+.reveal:after {
+  content: '';
+  font-style: italic; }
+
+.reveal iframe {
+  z-index: 1; }
+
+/** Prevents layering issues in certain browser/transition combinations */
+.reveal a {
+  position: relative; }
+
+.reveal .stretch {
+  max-width: none;
+  max-height: none; }
+
+.reveal pre.stretch code {
+  height: 100%;
+  max-height: 100%;
+  box-sizing: border-box; }
+
+/*********************************************
+ * CONTROLS
+ *********************************************/
+.reveal .controls {
+  display: none;
+  position: fixed;
+  width: 110px;
+  height: 110px;
+  z-index: 30;
+  right: 10px;
+  bottom: 10px;
+  -webkit-user-select: none; }
+
+.reveal .controls button {
+  padding: 0;
+  position: absolute;
+  opacity: 0.05;
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  border: 12px solid transparent;
+  -webkit-transform: scale(0.9999);
+          transform: scale(0.9999);
+  -webkit-transition: all 0.2s ease;
+          transition: all 0.2s ease;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent; }
+
+.reveal .controls .enabled {
+  opacity: 0.7;
+  cursor: pointer; }
+
+.reveal .controls .enabled:active {
+  margin-top: 1px; }
+
+.reveal .controls .navigate-left {
+  top: 42px;
+  border-right-width: 22px;
+  border-right-color: #000; }
+
+.reveal .controls .navigate-left.fragmented {
+  opacity: 0.3; }
+
+.reveal .controls .navigate-right {
+  left: 74px;
+  top: 42px;
+  border-left-width: 22px;
+  border-left-color: #000; }
+
+.reveal .controls .navigate-right.fragmented {
+  opacity: 0.3; }
+
+.reveal .controls .navigate-up {
+  left: 42px;
+  border-bottom-width: 22px;
+  border-bottom-color: #000; }
+
+.reveal .controls .navigate-up.fragmented {
+  opacity: 0.3; }
+
+.reveal .controls .navigate-down {
+  left: 42px;
+  top: 74px;
+  border-top-width: 22px;
+  border-top-color: #000; }
+
+.reveal .controls .navigate-down.fragmented {
+  opacity: 0.3; }
+
+/*********************************************
+ * PROGRESS BAR
+ *********************************************/
+.reveal .progress {
+  position: fixed;
+  display: none;
+  height: 3px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.2); }
+
+.reveal .progress:after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 20px;
+  width: 100%;
+  top: -20px; }
+
+.reveal .progress span {
+  display: block;
+  height: 100%;
+  width: 0px;
+  background-color: #000;
+  -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+          transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+/*********************************************
+ * SLIDE NUMBER
+ *********************************************/
+.reveal .slide-number {
+  position: fixed;
+  display: block;
+  right: 8px;
+  bottom: 8px;
+  z-index: 31;
+  font-family: Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 5px; }
+
+.reveal .slide-number-delimiter {
+  margin: 0 3px; }
+
+/*********************************************
+ * SLIDES
+ *********************************************/
+.reveal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -ms-touch-action: none;
+      touch-action: none; }
+
+.reveal .slides {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  overflow: visible;
+  z-index: 1;
+  text-align: center;
+  -webkit-perspective: 600px;
+          perspective: 600px;
+  -webkit-perspective-origin: 50% 40%;
+          perspective-origin: 50% 40%; }
+
+.reveal .slides > section {
+  -ms-perspective: 600px; }
+
+.reveal .slides > section,
+.reveal .slides > section > section {
+  display: none;
+  position: absolute;
+  width: 100%;
+  padding: 20px 0px;
+  z-index: 10;
+  -webkit-transform-style: flat;
+          transform-style: flat;
+  -webkit-transition: -webkit-transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), -webkit-transform 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), visibility 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), opacity 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+          transition: transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), transform 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), visibility 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985), opacity 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+/* Global transition speed settings */
+.reveal[data-transition-speed="fast"] .slides section {
+  -webkit-transition-duration: 400ms;
+          transition-duration: 400ms; }
+
+.reveal[data-transition-speed="slow"] .slides section {
+  -webkit-transition-duration: 1200ms;
+          transition-duration: 1200ms; }
+
+/* Slide-specific transition speed overrides */
+.reveal .slides section[data-transition-speed="fast"] {
+  -webkit-transition-duration: 400ms;
+          transition-duration: 400ms; }
+
+.reveal .slides section[data-transition-speed="slow"] {
+  -webkit-transition-duration: 1200ms;
+          transition-duration: 1200ms; }
+
+.reveal .slides > section.stack {
+  padding-top: 0;
+  padding-bottom: 0; }
+
+.reveal .slides > section.present,
+.reveal .slides > section > section.present {
+  display: block;
+  z-index: 11;
+  opacity: 1; }
+
+.reveal.center,
+.reveal.center .slides,
+.reveal.center .slides section {
+  min-height: 0 !important; }
+
+/* Don't allow interaction with invisible slides */
+.reveal .slides > section.future,
+.reveal .slides > section > section.future,
+.reveal .slides > section.past,
+.reveal .slides > section > section.past {
+  pointer-events: none; }
+
+.reveal.overview .slides > section,
+.reveal.overview .slides > section > section {
+  pointer-events: auto; }
+
+.reveal .slides > section.past,
+.reveal .slides > section.future,
+.reveal .slides > section > section.past,
+.reveal .slides > section > section.future {
+  opacity: 0; }
+
+/*********************************************
+ * Mixins for readability of transitions
+ *********************************************/
+/*********************************************
+ * SLIDE TRANSITION
+ * Aliased 'linear' for backwards compatibility
+ *********************************************/
+.reveal.slide section {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden; }
+
+.reveal .slides > section[data-transition=slide].past,
+.reveal .slides > section[data-transition~=slide-out].past,
+.reveal.slide .slides > section:not([data-transition]).past {
+  -webkit-transform: translate(-150%, 0);
+          transform: translate(-150%, 0); }
+
+.reveal .slides > section[data-transition=slide].future,
+.reveal .slides > section[data-transition~=slide-in].future,
+.reveal.slide .slides > section:not([data-transition]).future {
+  -webkit-transform: translate(150%, 0);
+          transform: translate(150%, 0); }
+
+.reveal .slides > section > section[data-transition=slide].past,
+.reveal .slides > section > section[data-transition~=slide-out].past,
+.reveal.slide .slides > section > section:not([data-transition]).past {
+  -webkit-transform: translate(0, -150%);
+          transform: translate(0, -150%); }
+
+.reveal .slides > section > section[data-transition=slide].future,
+.reveal .slides > section > section[data-transition~=slide-in].future,
+.reveal.slide .slides > section > section:not([data-transition]).future {
+  -webkit-transform: translate(0, 150%);
+          transform: translate(0, 150%); }
+
+.reveal.linear section {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden; }
+
+.reveal .slides > section[data-transition=linear].past,
+.reveal .slides > section[data-transition~=linear-out].past,
+.reveal.linear .slides > section:not([data-transition]).past {
+  -webkit-transform: translate(-150%, 0);
+          transform: translate(-150%, 0); }
+
+.reveal .slides > section[data-transition=linear].future,
+.reveal .slides > section[data-transition~=linear-in].future,
+.reveal.linear .slides > section:not([data-transition]).future {
+  -webkit-transform: translate(150%, 0);
+          transform: translate(150%, 0); }
+
+.reveal .slides > section > section[data-transition=linear].past,
+.reveal .slides > section > section[data-transition~=linear-out].past,
+.reveal.linear .slides > section > section:not([data-transition]).past {
+  -webkit-transform: translate(0, -150%);
+          transform: translate(0, -150%); }
+
+.reveal .slides > section > section[data-transition=linear].future,
+.reveal .slides > section > section[data-transition~=linear-in].future,
+.reveal.linear .slides > section > section:not([data-transition]).future {
+  -webkit-transform: translate(0, 150%);
+          transform: translate(0, 150%); }
+
+/*********************************************
+ * CONVEX TRANSITION
+ * Aliased 'default' for backwards compatibility
+ *********************************************/
+.reveal .slides section[data-transition=default].stack,
+.reveal.default .slides section.stack {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
+
+.reveal .slides > section[data-transition=default].past,
+.reveal .slides > section[data-transition~=default-out].past,
+.reveal.default .slides > section:not([data-transition]).past {
+  -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0); }
+
+.reveal .slides > section[data-transition=default].future,
+.reveal .slides > section[data-transition~=default-in].future,
+.reveal.default .slides > section:not([data-transition]).future {
+  -webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+          transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0); }
+
+.reveal .slides > section > section[data-transition=default].past,
+.reveal .slides > section > section[data-transition~=default-out].past,
+.reveal.default .slides > section > section:not([data-transition]).past {
+  -webkit-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+          transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0); }
+
+.reveal .slides > section > section[data-transition=default].future,
+.reveal .slides > section > section[data-transition~=default-in].future,
+.reveal.default .slides > section > section:not([data-transition]).future {
+  -webkit-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+          transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0); }
+
+.reveal .slides section[data-transition=convex].stack,
+.reveal.convex .slides section.stack {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
+
+.reveal .slides > section[data-transition=convex].past,
+.reveal .slides > section[data-transition~=convex-out].past,
+.reveal.convex .slides > section:not([data-transition]).past {
+  -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0); }
+
+.reveal .slides > section[data-transition=convex].future,
+.reveal .slides > section[data-transition~=convex-in].future,
+.reveal.convex .slides > section:not([data-transition]).future {
+  -webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+          transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0); }
+
+.reveal .slides > section > section[data-transition=convex].past,
+.reveal .slides > section > section[data-transition~=convex-out].past,
+.reveal.convex .slides > section > section:not([data-transition]).past {
+  -webkit-transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0);
+          transform: translate3d(0, -300px, 0) rotateX(70deg) translate3d(0, -300px, 0); }
+
+.reveal .slides > section > section[data-transition=convex].future,
+.reveal .slides > section > section[data-transition~=convex-in].future,
+.reveal.convex .slides > section > section:not([data-transition]).future {
+  -webkit-transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0);
+          transform: translate3d(0, 300px, 0) rotateX(-70deg) translate3d(0, 300px, 0); }
+
+/*********************************************
+ * CONCAVE TRANSITION
+ *********************************************/
+.reveal .slides section[data-transition=concave].stack,
+.reveal.concave .slides section.stack {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
+
+.reveal .slides > section[data-transition=concave].past,
+.reveal .slides > section[data-transition~=concave-out].past,
+.reveal.concave .slides > section:not([data-transition]).past {
+  -webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0); }
+
+.reveal .slides > section[data-transition=concave].future,
+.reveal .slides > section[data-transition~=concave-in].future,
+.reveal.concave .slides > section:not([data-transition]).future {
+  -webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+          transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0); }
+
+.reveal .slides > section > section[data-transition=concave].past,
+.reveal .slides > section > section[data-transition~=concave-out].past,
+.reveal.concave .slides > section > section:not([data-transition]).past {
+  -webkit-transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0);
+          transform: translate3d(0, -80%, 0) rotateX(-70deg) translate3d(0, -80%, 0); }
+
+.reveal .slides > section > section[data-transition=concave].future,
+.reveal .slides > section > section[data-transition~=concave-in].future,
+.reveal.concave .slides > section > section:not([data-transition]).future {
+  -webkit-transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0);
+          transform: translate3d(0, 80%, 0) rotateX(70deg) translate3d(0, 80%, 0); }
+
+/*********************************************
+ * ZOOM TRANSITION
+ *********************************************/
+.reveal .slides section[data-transition=zoom],
+.reveal.zoom .slides section:not([data-transition]) {
+  -webkit-transition-timing-function: ease;
+          transition-timing-function: ease; }
+
+.reveal .slides > section[data-transition=zoom].past,
+.reveal .slides > section[data-transition~=zoom-out].past,
+.reveal.zoom .slides > section:not([data-transition]).past {
+  visibility: hidden;
+  -webkit-transform: scale(16);
+          transform: scale(16); }
+
+.reveal .slides > section[data-transition=zoom].future,
+.reveal .slides > section[data-transition~=zoom-in].future,
+.reveal.zoom .slides > section:not([data-transition]).future {
+  visibility: hidden;
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2); }
+
+.reveal .slides > section > section[data-transition=zoom].past,
+.reveal .slides > section > section[data-transition~=zoom-out].past,
+.reveal.zoom .slides > section > section:not([data-transition]).past {
+  -webkit-transform: translate(0, -150%);
+          transform: translate(0, -150%); }
+
+.reveal .slides > section > section[data-transition=zoom].future,
+.reveal .slides > section > section[data-transition~=zoom-in].future,
+.reveal.zoom .slides > section > section:not([data-transition]).future {
+  -webkit-transform: translate(0, 150%);
+          transform: translate(0, 150%); }
+
+/*********************************************
+ * CUBE TRANSITION
+ *********************************************/
+.reveal.cube .slides {
+  -webkit-perspective: 1300px;
+          perspective: 1300px; }
+
+.reveal.cube .slides section {
+  padding: 30px;
+  min-height: 700px;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  box-sizing: border-box;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
+
+.reveal.center.cube .slides section {
+  min-height: 0; }
+
+.reveal.cube .slides section:not(.stack):before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  -webkit-transform: translateZ(-20px);
+          transform: translateZ(-20px); }
+
+.reveal.cube .slides section:not(.stack):after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 90%;
+  height: 30px;
+  left: 5%;
+  bottom: 0;
+  background: none;
+  z-index: 1;
+  border-radius: 4px;
+  box-shadow: 0px 95px 25px rgba(0, 0, 0, 0.2);
+  -webkit-transform: translateZ(-90px) rotateX(65deg);
+          transform: translateZ(-90px) rotateX(65deg); }
+
+.reveal.cube .slides > section.stack {
+  padding: 0;
+  background: none; }
+
+.reveal.cube .slides > section.past {
+  -webkit-transform-origin: 100% 0%;
+          transform-origin: 100% 0%;
+  -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg);
+          transform: translate3d(-100%, 0, 0) rotateY(-90deg); }
+
+.reveal.cube .slides > section.future {
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
+  -webkit-transform: translate3d(100%, 0, 0) rotateY(90deg);
+          transform: translate3d(100%, 0, 0) rotateY(90deg); }
+
+.reveal.cube .slides > section > section.past {
+  -webkit-transform-origin: 0% 100%;
+          transform-origin: 0% 100%;
+  -webkit-transform: translate3d(0, -100%, 0) rotateX(90deg);
+          transform: translate3d(0, -100%, 0) rotateX(90deg); }
+
+.reveal.cube .slides > section > section.future {
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
+  -webkit-transform: translate3d(0, 100%, 0) rotateX(-90deg);
+          transform: translate3d(0, 100%, 0) rotateX(-90deg); }
+
+/*********************************************
+ * PAGE TRANSITION
+ *********************************************/
+.reveal.page .slides {
+  -webkit-perspective-origin: 0% 50%;
+          perspective-origin: 0% 50%;
+  -webkit-perspective: 3000px;
+          perspective: 3000px; }
+
+.reveal.page .slides section {
+  padding: 30px;
+  min-height: 700px;
+  box-sizing: border-box;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d; }
+
+.reveal.page .slides section.past {
+  z-index: 12; }
+
+.reveal.page .slides section:not(.stack):before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-transform: translateZ(-20px);
+          transform: translateZ(-20px); }
+
+.reveal.page .slides section:not(.stack):after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 90%;
+  height: 30px;
+  left: 5%;
+  bottom: 0;
+  background: none;
+  z-index: 1;
+  border-radius: 4px;
+  box-shadow: 0px 95px 25px rgba(0, 0, 0, 0.2);
+  -webkit-transform: translateZ(-90px) rotateX(65deg); }
+
+.reveal.page .slides > section.stack {
+  padding: 0;
+  background: none; }
+
+.reveal.page .slides > section.past {
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
+  -webkit-transform: translate3d(-40%, 0, 0) rotateY(-80deg);
+          transform: translate3d(-40%, 0, 0) rotateY(-80deg); }
+
+.reveal.page .slides > section.future {
+  -webkit-transform-origin: 100% 0%;
+          transform-origin: 100% 0%;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0); }
+
+.reveal.page .slides > section > section.past {
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
+  -webkit-transform: translate3d(0, -40%, 0) rotateX(80deg);
+          transform: translate3d(0, -40%, 0) rotateX(80deg); }
+
+.reveal.page .slides > section > section.future {
+  -webkit-transform-origin: 0% 100%;
+          transform-origin: 0% 100%;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0); }
+
+/*********************************************
+ * FADE TRANSITION
+ *********************************************/
+.reveal .slides section[data-transition=fade],
+.reveal.fade .slides section:not([data-transition]),
+.reveal.fade .slides > section > section:not([data-transition]) {
+  -webkit-transform: none;
+          transform: none;
+  -webkit-transition: opacity 0.5s;
+          transition: opacity 0.5s; }
+
+.reveal.fade.overview .slides section,
+.reveal.fade.overview .slides > section > section {
+  -webkit-transition: none;
+          transition: none; }
+
+/*********************************************
+ * NO TRANSITION
+ *********************************************/
+.reveal .slides section[data-transition=none],
+.reveal.none .slides section:not([data-transition]) {
+  -webkit-transform: none;
+          transform: none;
+  -webkit-transition: none;
+          transition: none; }
+
+/*********************************************
+ * PAUSED MODE
+ *********************************************/
+.reveal .pause-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 100;
+  -webkit-transition: all 1s ease;
+          transition: all 1s ease; }
+
+.reveal.paused .pause-overlay {
+  visibility: visible;
+  opacity: 1; }
+
+/*********************************************
+ * FALLBACK
+ *********************************************/
+.no-transforms {
+  overflow-y: auto; }
+
+.no-transforms .reveal .slides {
+  position: relative;
+  width: 80%;
+  height: auto !important;
+  top: 0;
+  left: 50%;
+  margin: 0;
+  text-align: center; }
+
+.no-transforms .reveal .controls,
+.no-transforms .reveal .progress {
+  display: none !important; }
+
+.no-transforms .reveal .slides section {
+  display: block !important;
+  opacity: 1 !important;
+  position: relative !important;
+  height: auto;
+  min-height: 0;
+  top: 0;
+  left: -50%;
+  margin: 70px 0;
+  -webkit-transform: none;
+          transform: none; }
+
+.no-transforms .reveal .slides section section {
+  left: 0; }
+
+.reveal .no-transition,
+.reveal .no-transition * {
+  -webkit-transition: none !important;
+          transition: none !important; }
+
+/*********************************************
+ * PER-SLIDE BACKGROUNDS
+ *********************************************/
+.reveal .backgrounds {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  -webkit-perspective: 600px;
+          perspective: 600px; }
+
+.reveal .slide-background {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  background-color: transparent;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-transition: all 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+          transition: all 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+.reveal .slide-background.stack {
+  display: block; }
+
+.reveal .slide-background.present {
+  opacity: 1;
+  visibility: visible; }
+
+.print-pdf .reveal .slide-background {
+  opacity: 1 !important;
+  visibility: visible !important; }
+
+/* Video backgrounds */
+.reveal .slide-background video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  top: 0;
+  left: 0; }
+
+/* Immediate transition style */
+.reveal[data-background-transition=none] > .backgrounds .slide-background,
+.reveal > .backgrounds .slide-background[data-background-transition=none] {
+  -webkit-transition: none;
+          transition: none; }
+
+/* Slide */
+.reveal[data-background-transition=slide] > .backgrounds .slide-background,
+.reveal > .backgrounds .slide-background[data-background-transition=slide] {
+  opacity: 1;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden; }
+
+.reveal[data-background-transition=slide] > .backgrounds .slide-background.past,
+.reveal > .backgrounds .slide-background.past[data-background-transition=slide] {
+  -webkit-transform: translate(-100%, 0);
+          transform: translate(-100%, 0); }
+
+.reveal[data-background-transition=slide] > .backgrounds .slide-background.future,
+.reveal > .backgrounds .slide-background.future[data-background-transition=slide] {
+  -webkit-transform: translate(100%, 0);
+          transform: translate(100%, 0); }
+
+.reveal[data-background-transition=slide] > .backgrounds .slide-background > .slide-background.past,
+.reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=slide] {
+  -webkit-transform: translate(0, -100%);
+          transform: translate(0, -100%); }
+
+.reveal[data-background-transition=slide] > .backgrounds .slide-background > .slide-background.future,
+.reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=slide] {
+  -webkit-transform: translate(0, 100%);
+          transform: translate(0, 100%); }
+
+/* Convex */
+.reveal[data-background-transition=convex] > .backgrounds .slide-background.past,
+.reveal > .backgrounds .slide-background.past[data-background-transition=convex] {
+  opacity: 0;
+  -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0) rotateY(-90deg) translate3d(-100%, 0, 0); }
+
+.reveal[data-background-transition=convex] > .backgrounds .slide-background.future,
+.reveal > .backgrounds .slide-background.future[data-background-transition=convex] {
+  opacity: 0;
+  -webkit-transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0);
+          transform: translate3d(100%, 0, 0) rotateY(90deg) translate3d(100%, 0, 0); }
+
+.reveal[data-background-transition=convex] > .backgrounds .slide-background > .slide-background.past,
+.reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=convex] {
+  opacity: 0;
+  -webkit-transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0);
+          transform: translate3d(0, -100%, 0) rotateX(90deg) translate3d(0, -100%, 0); }
+
+.reveal[data-background-transition=convex] > .backgrounds .slide-background > .slide-background.future,
+.reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=convex] {
+  opacity: 0;
+  -webkit-transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0);
+          transform: translate3d(0, 100%, 0) rotateX(-90deg) translate3d(0, 100%, 0); }
+
+/* Concave */
+.reveal[data-background-transition=concave] > .backgrounds .slide-background.past,
+.reveal > .backgrounds .slide-background.past[data-background-transition=concave] {
+  opacity: 0;
+  -webkit-transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0) rotateY(90deg) translate3d(-100%, 0, 0); }
+
+.reveal[data-background-transition=concave] > .backgrounds .slide-background.future,
+.reveal > .backgrounds .slide-background.future[data-background-transition=concave] {
+  opacity: 0;
+  -webkit-transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0);
+          transform: translate3d(100%, 0, 0) rotateY(-90deg) translate3d(100%, 0, 0); }
+
+.reveal[data-background-transition=concave] > .backgrounds .slide-background > .slide-background.past,
+.reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=concave] {
+  opacity: 0;
+  -webkit-transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0);
+          transform: translate3d(0, -100%, 0) rotateX(-90deg) translate3d(0, -100%, 0); }
+
+.reveal[data-background-transition=concave] > .backgrounds .slide-background > .slide-background.future,
+.reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=concave] {
+  opacity: 0;
+  -webkit-transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0);
+          transform: translate3d(0, 100%, 0) rotateX(90deg) translate3d(0, 100%, 0); }
+
+/* Zoom */
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background,
+.reveal > .backgrounds .slide-background[data-background-transition=zoom] {
+  -webkit-transition-timing-function: ease;
+          transition-timing-function: ease; }
+
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background.past,
+.reveal > .backgrounds .slide-background.past[data-background-transition=zoom] {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: scale(16);
+          transform: scale(16); }
+
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background.future,
+.reveal > .backgrounds .slide-background.future[data-background-transition=zoom] {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2); }
+
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background > .slide-background.past,
+.reveal > .backgrounds .slide-background > .slide-background.past[data-background-transition=zoom] {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: scale(16);
+          transform: scale(16); }
+
+.reveal[data-background-transition=zoom] > .backgrounds .slide-background > .slide-background.future,
+.reveal > .backgrounds .slide-background > .slide-background.future[data-background-transition=zoom] {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2); }
+
+/* Global transition speed settings */
+.reveal[data-transition-speed="fast"] > .backgrounds .slide-background {
+  -webkit-transition-duration: 400ms;
+          transition-duration: 400ms; }
+
+.reveal[data-transition-speed="slow"] > .backgrounds .slide-background {
+  -webkit-transition-duration: 1200ms;
+          transition-duration: 1200ms; }
+
+/*********************************************
+ * OVERVIEW
+ *********************************************/
+.reveal.overview {
+  -webkit-perspective-origin: 50% 50%;
+          perspective-origin: 50% 50%;
+  -webkit-perspective: 700px;
+          perspective: 700px; }
+  .reveal.overview .slides {
+    -moz-transform-style: preserve-3d; }
+  .reveal.overview .slides section {
+    height: 100%;
+    top: 0 !important;
+    opacity: 1 !important;
+    overflow: hidden;
+    visibility: visible !important;
+    cursor: pointer;
+    box-sizing: border-box; }
+  .reveal.overview .slides section:hover,
+  .reveal.overview .slides section.present {
+    outline: 10px solid rgba(150, 150, 150, 0.4);
+    outline-offset: 10px; }
+  .reveal.overview .slides section .fragment {
+    opacity: 1;
+    -webkit-transition: none;
+            transition: none; }
+  .reveal.overview .slides section:after,
+  .reveal.overview .slides section:before {
+    display: none !important; }
+  .reveal.overview .slides > section.stack {
+    padding: 0;
+    top: 0 !important;
+    background: none;
+    outline: none;
+    overflow: visible; }
+  .reveal.overview .backgrounds {
+    -webkit-perspective: inherit;
+            perspective: inherit;
+    -moz-transform-style: preserve-3d; }
+  .reveal.overview .backgrounds .slide-background {
+    opacity: 1;
+    visibility: visible;
+    outline: 10px solid rgba(150, 150, 150, 0.1);
+    outline-offset: 10px; }
+
+.reveal.overview .slides section,
+.reveal.overview-deactivating .slides section {
+  -webkit-transition: none;
+          transition: none; }
+
+.reveal.overview .backgrounds .slide-background,
+.reveal.overview-deactivating .backgrounds .slide-background {
+  -webkit-transition: none;
+          transition: none; }
+
+.reveal.overview-animated .slides {
+  -webkit-transition: -webkit-transform 0.4s ease;
+          transition: transform 0.4s ease; }
+
+/*********************************************
+ * RTL SUPPORT
+ *********************************************/
+.reveal.rtl .slides,
+.reveal.rtl .slides h1,
+.reveal.rtl .slides h2,
+.reveal.rtl .slides h3,
+.reveal.rtl .slides h4,
+.reveal.rtl .slides h5,
+.reveal.rtl .slides h6 {
+  direction: rtl;
+  font-family: sans-serif; }
+
+.reveal.rtl pre,
+.reveal.rtl code {
+  direction: ltr; }
+
+.reveal.rtl ol,
+.reveal.rtl ul {
+  text-align: right; }
+
+.reveal.rtl .progress span {
+  float: right; }
+
+/*********************************************
+ * PARALLAX BACKGROUND
+ *********************************************/
+.reveal.has-parallax-background .backgrounds {
+  -webkit-transition: all 0.8s ease;
+          transition: all 0.8s ease; }
+
+/* Global transition speed settings */
+.reveal.has-parallax-background[data-transition-speed="fast"] .backgrounds {
+  -webkit-transition-duration: 400ms;
+          transition-duration: 400ms; }
+
+.reveal.has-parallax-background[data-transition-speed="slow"] .backgrounds {
+  -webkit-transition-duration: 1200ms;
+          transition-duration: 1200ms; }
+
+/*********************************************
+ * LINK PREVIEW OVERLAY
+ *********************************************/
+.reveal .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all 0.3s ease;
+          transition: all 0.3s ease; }
+
+.reveal .overlay.visible {
+  opacity: 1;
+  visibility: visible; }
+
+.reveal .overlay .spinner {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  z-index: 10;
+  background-image: url(data:image/gif;base64,R0lGODlhIAAgAPMAAJmZmf%2F%2F%2F6%2Bvr8nJybW1tcDAwOjo6Nvb26ioqKOjo7Ozs%2FLy8vz8%2FAAAAAAAAAAAACH%2FC05FVFNDQVBFMi4wAwEAAAAh%2FhpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh%2BQQJCgAAACwAAAAAIAAgAAAE5xDISWlhperN52JLhSSdRgwVo1ICQZRUsiwHpTJT4iowNS8vyW2icCF6k8HMMBkCEDskxTBDAZwuAkkqIfxIQyhBQBFvAQSDITM5VDW6XNE4KagNh6Bgwe60smQUB3d4Rz1ZBApnFASDd0hihh12BkE9kjAJVlycXIg7CQIFA6SlnJ87paqbSKiKoqusnbMdmDC2tXQlkUhziYtyWTxIfy6BE8WJt5YJvpJivxNaGmLHT0VnOgSYf0dZXS7APdpB309RnHOG5gDqXGLDaC457D1zZ%2FV%2FnmOM82XiHRLYKhKP1oZmADdEAAAh%2BQQJCgAAACwAAAAAIAAgAAAE6hDISWlZpOrNp1lGNRSdRpDUolIGw5RUYhhHukqFu8DsrEyqnWThGvAmhVlteBvojpTDDBUEIFwMFBRAmBkSgOrBFZogCASwBDEY%2FCZSg7GSE0gSCjQBMVG023xWBhklAnoEdhQEfyNqMIcKjhRsjEdnezB%2BA4k8gTwJhFuiW4dokXiloUepBAp5qaKpp6%2BHo7aWW54wl7obvEe0kRuoplCGepwSx2jJvqHEmGt6whJpGpfJCHmOoNHKaHx61WiSR92E4lbFoq%2BB6QDtuetcaBPnW6%2BO7wDHpIiK9SaVK5GgV543tzjgGcghAgAh%2BQQJCgAAACwAAAAAIAAgAAAE7hDISSkxpOrN5zFHNWRdhSiVoVLHspRUMoyUakyEe8PTPCATW9A14E0UvuAKMNAZKYUZCiBMuBakSQKG8G2FzUWox2AUtAQFcBKlVQoLgQReZhQlCIJesQXI5B0CBnUMOxMCenoCfTCEWBsJColTMANldx15BGs8B5wlCZ9Po6OJkwmRpnqkqnuSrayqfKmqpLajoiW5HJq7FL1Gr2mMMcKUMIiJgIemy7xZtJsTmsM4xHiKv5KMCXqfyUCJEonXPN2rAOIAmsfB3uPoAK%2B%2BG%2Bw48edZPK%2BM6hLJpQg484enXIdQFSS1u6UhksENEQAAIfkECQoAAAAsAAAAACAAIAAABOcQyEmpGKLqzWcZRVUQnZYg1aBSh2GUVEIQ2aQOE%2BG%2BcD4ntpWkZQj1JIiZIogDFFyHI0UxQwFugMSOFIPJftfVAEoZLBbcLEFhlQiqGp1Vd140AUklUN3eCA51C1EWMzMCezCBBmkxVIVHBWd3HHl9JQOIJSdSnJ0TDKChCwUJjoWMPaGqDKannasMo6WnM562R5YluZRwur0wpgqZE7NKUm%2BFNRPIhjBJxKZteWuIBMN4zRMIVIhffcgojwCF117i4nlLnY5ztRLsnOk%2BaV%2BoJY7V7m76PdkS4trKcdg0Zc0tTcKkRAAAIfkECQoAAAAsAAAAACAAIAAABO4QyEkpKqjqzScpRaVkXZWQEximw1BSCUEIlDohrft6cpKCk5xid5MNJTaAIkekKGQkWyKHkvhKsR7ARmitkAYDYRIbUQRQjWBwJRzChi9CRlBcY1UN4g0%2FVNB0AlcvcAYHRyZPdEQFYV8ccwR5HWxEJ02YmRMLnJ1xCYp0Y5idpQuhopmmC2KgojKasUQDk5BNAwwMOh2RtRq5uQuPZKGIJQIGwAwGf6I0JXMpC8C7kXWDBINFMxS4DKMAWVWAGYsAdNqW5uaRxkSKJOZKaU3tPOBZ4DuK2LATgJhkPJMgTwKCdFjyPHEnKxFCDhEAACH5BAkKAAAALAAAAAAgACAAAATzEMhJaVKp6s2nIkolIJ2WkBShpkVRWqqQrhLSEu9MZJKK9y1ZrqYK9WiClmvoUaF8gIQSNeF1Er4MNFn4SRSDARWroAIETg1iVwuHjYB1kYc1mwruwXKC9gmsJXliGxc%2BXiUCby9ydh1sOSdMkpMTBpaXBzsfhoc5l58Gm5yToAaZhaOUqjkDgCWNHAULCwOLaTmzswadEqggQwgHuQsHIoZCHQMMQgQGubVEcxOPFAcMDAYUA85eWARmfSRQCdcMe0zeP1AAygwLlJtPNAAL19DARdPzBOWSm1brJBi45soRAWQAAkrQIykShQ9wVhHCwCQCACH5BAkKAAAALAAAAAAgACAAAATrEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq%2BE71SRQeyqUToLA7VxF0JDyIQh%2FMVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiRMDjI0Fd30%2FiI2UA5GSS5UDj2l6NoqgOgN4gksEBgYFf0FDqKgHnyZ9OX8HrgYHdHpcHQULXAS2qKpENRg7eAMLC7kTBaixUYFkKAzWAAnLC7FLVxLWDBLKCwaKTULgEwbLA4hJtOkSBNqITT3xEgfLpBtzE%2FjiuL04RGEBgwWhShRgQExHBAAh%2BQQJCgAAACwAAAAAIAAgAAAE7xDISWlSqerNpyJKhWRdlSAVoVLCWk6JKlAqAavhO9UkUHsqlE6CwO1cRdCQ8iEIfzFVTzLdRAmZX3I2SfZiCqGk5dTESJeaOAlClzsJsqwiJwiqnFrb2nS9kmIcgEsjQydLiIlHehhpejaIjzh9eomSjZR%2BipslWIRLAgMDOR2DOqKogTB9pCUJBagDBXR6XB0EBkIIsaRsGGMMAxoDBgYHTKJiUYEGDAzHC9EACcUGkIgFzgwZ0QsSBcXHiQvOwgDdEwfFs0sDzt4S6BK4xYjkDOzn0unFeBzOBijIm1Dgmg5YFQwsCMjp1oJ8LyIAACH5BAkKAAAALAAAAAAgACAAAATwEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq%2BE71SRQeyqUToLA7VxF0JDyIQh%2FMVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiUd6GGl6NoiPOH16iZKNlH6KmyWFOggHhEEvAwwMA0N9GBsEC6amhnVcEwavDAazGwIDaH1ipaYLBUTCGgQDA8NdHz0FpqgTBwsLqAbWAAnIA4FWKdMLGdYGEgraigbT0OITBcg5QwPT4xLrROZL6AuQAPUS7bxLpoWidY0JtxLHKhwwMJBTHgPKdEQAACH5BAkKAAAALAAAAAAgACAAAATrEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq%2BE71SRQeyqUToLA7VxF0JDyIQh%2FMVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiUd6GAULDJCRiXo1CpGXDJOUjY%2BYip9DhToJA4RBLwMLCwVDfRgbBAaqqoZ1XBMHswsHtxtFaH1iqaoGNgAIxRpbFAgfPQSqpbgGBqUD1wBXeCYp1AYZ19JJOYgH1KwA4UBvQwXUBxPqVD9L3sbp2BNk2xvvFPJd%2BMFCN6HAAIKgNggY0KtEBAAh%2BQQJCgAAACwAAAAAIAAgAAAE6BDISWlSqerNpyJKhWRdlSAVoVLCWk6JKlAqAavhO9UkUHsqlE6CwO1cRdCQ8iEIfzFVTzLdRAmZX3I2SfYIDMaAFdTESJeaEDAIMxYFqrOUaNW4E4ObYcCXaiBVEgULe0NJaxxtYksjh2NLkZISgDgJhHthkpU4mW6blRiYmZOlh4JWkDqILwUGBnE6TYEbCgevr0N1gH4At7gHiRpFaLNrrq8HNgAJA70AWxQIH1%2BvsYMDAzZQPC9VCNkDWUhGkuE5PxJNwiUK4UfLzOlD4WvzAHaoG9nxPi5d%2BjYUqfAhhykOFwJWiAAAIfkECQoAAAAsAAAAACAAIAAABPAQyElpUqnqzaciSoVkXVUMFaFSwlpOCcMYlErAavhOMnNLNo8KsZsMZItJEIDIFSkLGQoQTNhIsFehRww2CQLKF0tYGKYSg%2BygsZIuNqJksKgbfgIGepNo2cIUB3V1B3IvNiBYNQaDSTtfhhx0CwVPI0UJe0%2Bbm4g5VgcGoqOcnjmjqDSdnhgEoamcsZuXO1aWQy8KAwOAuTYYGwi7w5h%2BKr0SJ8MFihpNbx%2B4Erq7BYBuzsdiH1jCAzoSfl0rVirNbRXlBBlLX%2BBP0XJLAPGzTkAuAOqb0WT5AH7OcdCm5B8TgRwSRKIHQtaLCwg1RAAAOwAAAAAAAAAAAA%3D%3D);
+  visibility: visible;
+  opacity: 0.6;
+  -webkit-transition: all 0.3s ease;
+          transition: all 0.3s ease; }
+
+.reveal .overlay header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  z-index: 2;
+  border-bottom: 1px solid #222; }
+
+.reveal .overlay header a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 36px;
+  padding: 0 10px;
+  float: right;
+  opacity: 0.6;
+  box-sizing: border-box; }
+
+.reveal .overlay header a:hover {
+  opacity: 1; }
+
+.reveal .overlay header a .icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-position: 50% 50%;
+  background-size: 100%;
+  background-repeat: no-repeat; }
+
+.reveal .overlay header a.close .icon {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABkklEQVRYR8WX4VHDMAxG6wnoJrABZQPYBCaBTWAD2g1gE5gg6OOsXuxIlr40d81dfrSJ9V4c2VLK7spHuTJ/5wpM07QXuXc5X0opX2tEJcadjHuV80li/FgxTIEK/5QBCICBD6xEhSMGHgQPgBgLiYVAB1dpSqKDawxTohFw4JSEA3clzgIBPCURwE2JucBR7rhPJJv5OpJwDX+SfDjgx1wACQeJG1aChP9K/IMmdZ8DtESV1WyP3Bt4MwM6sj4NMxMYiqUWHQu4KYA/SYkIjOsm3BXYWMKFDwU2khjCQ4ELJUJ4SmClRArOCmSXGuKma0fYD5CbzHxFpCSGAhfAVSSUGDUk2BWZaff2g6GE15BsBQ9nwmpIGDiyHQddwNTMKkbZaf9fajXQca1EX44puJZUsnY0ObGmITE3GVLCbEhQUjGVt146j6oasWN+49Vph2w1pZ5EansNZqKBm1txbU57iRRcZ86RWMDdWtBJUHBHwoQPi1GV+JCbntmvok7iTX4/Up9mgyTc/FJYDTcndgH/AA5A/CHsyEkVAAAAAElFTkSuQmCC); }
+
+.reveal .overlay header a.external .icon {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAcElEQVRYR+2WSQoAIQwEzf8f7XiOMkUQxUPlGkM3hVmiQfQR9GYnH1SsAQlI4DiBqkCMoNb9y2e90IAEJPAcgdznU9+engMaeJ7Azh5Y1U67gAho4DqBqmB1buAf0MB1AlVBek83ZPkmJMGc1wAR+AAqod/B97TRpQAAAABJRU5ErkJggg==); }
+
+.reveal .overlay .viewport {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  top: 40px;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+
+.reveal .overlay.overlay-preview .viewport iframe {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border: 0;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all 0.3s ease;
+          transition: all 0.3s ease; }
+
+.reveal .overlay.overlay-preview.loaded .viewport iframe {
+  opacity: 1;
+  visibility: visible; }
+
+.reveal .overlay.overlay-preview.loaded .viewport-inner {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 45%;
+  width: 100%;
+  text-align: center;
+  letter-spacing: normal; }
+
+.reveal .overlay.overlay-preview .x-frame-error {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease 0.3s;
+          transition: opacity 0.3s ease 0.3s; }
+
+.reveal .overlay.overlay-preview.loaded .x-frame-error {
+  opacity: 1; }
+
+.reveal .overlay.overlay-preview.loaded .spinner {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2); }
+
+.reveal .overlay.overlay-help .viewport {
+  overflow: auto;
+  color: #fff; }
+
+.reveal .overlay.overlay-help .viewport .viewport-inner {
+  width: 600px;
+  margin: auto;
+  padding: 20px 20px 80px 20px;
+  text-align: center;
+  letter-spacing: normal; }
+
+.reveal .overlay.overlay-help .viewport .viewport-inner .title {
+  font-size: 20px; }
+
+.reveal .overlay.overlay-help .viewport .viewport-inner table {
+  border: 1px solid #fff;
+  border-collapse: collapse;
+  font-size: 16px; }
+
+.reveal .overlay.overlay-help .viewport .viewport-inner table th,
+.reveal .overlay.overlay-help .viewport .viewport-inner table td {
+  width: 200px;
+  padding: 14px;
+  border: 1px solid #fff;
+  vertical-align: middle; }
+
+.reveal .overlay.overlay-help .viewport .viewport-inner table th {
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+/*********************************************
+ * PLAYBACK COMPONENT
+ *********************************************/
+.reveal .playback {
+  position: fixed;
+  left: 15px;
+  bottom: 20px;
+  z-index: 30;
+  cursor: pointer;
+  -webkit-transition: all 400ms ease;
+          transition: all 400ms ease; }
+
+.reveal.overview .playback {
+  opacity: 0;
+  visibility: hidden; }
+
+/*********************************************
+ * ROLLING LINKS
+ *********************************************/
+.reveal .roll {
+  display: inline-block;
+  line-height: 1.2;
+  overflow: hidden;
+  vertical-align: top;
+  -webkit-perspective: 400px;
+          perspective: 400px;
+  -webkit-perspective-origin: 50% 50%;
+          perspective-origin: 50% 50%; }
+
+.reveal .roll:hover {
+  background: none;
+  text-shadow: none; }
+
+.reveal .roll span {
+  display: block;
+  position: relative;
+  padding: 0 2px;
+  pointer-events: none;
+  -webkit-transition: all 400ms ease;
+          transition: all 400ms ease;
+  -webkit-transform-origin: 50% 0%;
+          transform-origin: 50% 0%;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden; }
+
+.reveal .roll:hover span {
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-transform: translate3d(0px, 0px, -45px) rotateX(90deg);
+          transform: translate3d(0px, 0px, -45px) rotateX(90deg); }
+
+.reveal .roll span:after {
+  content: attr(data-title);
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0 2px;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-transform-origin: 50% 0%;
+          transform-origin: 50% 0%;
+  -webkit-transform: translate3d(0px, 110%, 0px) rotateX(-90deg);
+          transform: translate3d(0px, 110%, 0px) rotateX(-90deg); }
+
+/*********************************************
+ * SPEAKER NOTES
+ *********************************************/
+.reveal aside.notes {
+  display: none; }
+
+.reveal .speaker-notes {
+  display: none;
+  position: absolute;
+  width: 70%;
+  max-height: 15%;
+  left: 15%;
+  bottom: 26px;
+  padding: 10px;
+  z-index: 1;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  box-sizing: border-box;
+  text-align: left;
+  font-family: Helvetica, sans-serif;
+  -webkit-overflow-scrolling: touch; }
+
+.reveal .speaker-notes.visible:not(:empty) {
+  display: block; }
+
+@media screen and (max-width: 1024px) {
+  .reveal .speaker-notes {
+    font-size: 14px; } }
+
+@media screen and (max-width: 600px) {
+  .reveal .speaker-notes {
+    width: 90%;
+    left: 5%; } }
+
+/*********************************************
+ * ZOOM PLUGIN
+ *********************************************/
+.zoomed .reveal *,
+.zoomed .reveal *:before,
+.zoomed .reveal *:after {
+  -webkit-backface-visibility: visible !important;
+          backface-visibility: visible !important; }
+
+.zoomed .reveal .progress,
+.zoomed .reveal .controls {
+  opacity: 0; }
+
+.zoomed .reveal .roll span {
+  background: none; }
+
+.zoomed .reveal .roll span:after {
+  visibility: hidden; }
+
+      
+      </style>
+      
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css">
+      
+      
+      
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/lib/js/head.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.4.1/js/reveal.min.js"></script>
+      
+      
+      
+      
+      
+
+      <style> 
+      @import url(../../lib/font/source-sans-pro/source-sans-pro.css);
+/* http://prismjs.com/download.html?themes=prism&languages=markup+css+clike+javascript+abap+actionscript+ada+apacheconf+apl+applescript+asciidoc+aspnet+autoit+autohotkey+bash+basic+batch+c+brainfuck+bro+bison+csharp+cpp+coffeescript+ruby+css-extras+d+dart+django+diff+docker+eiffel+elixir+erlang+fsharp+fortran+gherkin+git+glsl+go+graphql+groovy+haml+handlebars+haskell+haxe+http+icon+inform7+ini+j+jade+java+jolie+json+julia+keyman+kotlin+latex+less+livescript+lolcode+lua+makefile+markdown+matlab+mel+mizar+monkey+nasm+nginx+nim+nix+nsis+objectivec+ocaml+oz+parigp+parser+pascal+perl+php+php-extras+powershell+processing+prolog+properties+protobuf+puppet+pure+python+q+qore+r+jsx+reason+rest+rip+roboconf+crystal+rust+sas+sass+scss+scala+scheme+smalltalk+smarty+sql+stylus+swift+tcl+textile+twig+typescript+vbnet+verilog+vhdl+vim+wiki+xojo+yaml */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #a67f59;
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}/**
+ * White theme for reveal.js. This is the opposite of the 'black' theme.
+ *
+ * By Hakim El Hattab, http://hakim.se
+ */
+
+section.has-dark-background, section.has-dark-background h1, section.has-dark-background h2, section.has-dark-background h3, section.has-dark-background h4, section.has-dark-background h5, section.has-dark-background h6 {
+  color: #fff; }
+
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+body {
+  background: #fff;
+  background-color: #fff; }
+
+.reveal {
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  font-size: 42px;
+  font-weight: normal;
+  color: #222; }
+
+::selection {
+  color: #fff;
+  background: #98bdef;
+  text-shadow: none; }
+
+::-moz-selection {
+  color: #fff;
+  background: #98bdef;
+  text-shadow: none; }
+
+.reveal .slides > section,
+.reveal .slides > section > section {
+  line-height: 1.3;
+  font-weight: inherit; }
+
+/*********************************************
+ * HEADERS
+ *********************************************/
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  margin: 0 0 20px 0;
+  color: #222;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-shadow: none;
+  word-wrap: break-word; }
+
+.reveal h1 {
+  font-size: 2.5em; }
+
+.reveal h2 {
+  font-size: 1.6em; }
+
+.reveal h3 {
+  font-size: 1.3em; }
+
+.reveal h4 {
+  font-size: 1em; }
+
+.reveal h1 {
+  text-shadow: none; }
+
+/*********************************************
+ * OTHER
+ *********************************************/
+.reveal p {
+  margin: 20px 0;
+  line-height: 1.3; }
+
+/* Ensure certain elements are never larger than the slide itself */
+.reveal img,
+.reveal video,
+.reveal iframe {
+  max-width: 95%;
+  max-height: 95%; }
+
+.reveal strong,
+.reveal b {
+  font-weight: bold; }
+
+.reveal em {
+  font-style: italic; }
+
+.reveal ol,
+.reveal dl,
+.reveal ul {
+  display: inline-block;
+  text-align: left;
+  margin: 0 0 0 1em; }
+
+.reveal ol {
+  list-style-type: decimal; }
+
+.reveal ul {
+  list-style-type: disc; }
+
+.reveal ul ul {
+  list-style-type: square; }
+
+.reveal ul ul ul {
+  list-style-type: circle; }
+
+.reveal ul ul,
+.reveal ul ol,
+.reveal ol ol,
+.reveal ol ul {
+  display: block;
+  margin-left: 40px; }
+
+.reveal dt {
+  font-weight: bold; }
+
+.reveal dd {
+  margin-left: 40px; }
+
+.reveal q,
+.reveal blockquote {
+  quotes: none; }
+
+.reveal blockquote {
+  display: block;
+  position: relative;
+  width: 70%;
+  margin: 20px auto;
+  padding: 5px;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); }
+
+.reveal blockquote p:first-child,
+.reveal blockquote p:last-child {
+  display: inline-block; }
+
+.reveal q {
+  font-style: italic; }
+
+.reveal pre {
+  display: block;
+  position: relative;
+  width: 90%;
+  margin: 20px auto;
+  text-align: left;
+  font-size: 0.55em;
+  font-family: monospace;
+  line-height: 1.2em;
+  word-wrap: break-word;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3); }
+
+.reveal code {
+  font-family: monospace; }
+
+.reveal pre code {
+  display: block;
+  padding: 5px;
+  overflow: auto;
+  max-height: 400px;
+  word-wrap: normal; }
+
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+.reveal table th {
+  font-weight: bold; }
+
+.reveal table th,
+.reveal table td {
+  text-align: left;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-bottom: 1px solid; }
+
+.reveal table th[align="center"],
+.reveal table td[align="center"] {
+  text-align: center; }
+
+.reveal table th[align="right"],
+.reveal table td[align="right"] {
+  text-align: right; }
+
+.reveal table tbody tr:last-child th,
+.reveal table tbody tr:last-child td {
+  border-bottom: none; }
+
+.reveal sup {
+  vertical-align: super; }
+
+.reveal sub {
+  vertical-align: sub; }
+
+.reveal small {
+  display: inline-block;
+  font-size: 0.6em;
+  line-height: 1.2em;
+  vertical-align: top; }
+
+.reveal small * {
+  vertical-align: top; }
+
+/*********************************************
+ * LINKS
+ *********************************************/
+.reveal a {
+  color: #2a76dd;
+  text-decoration: none;
+  -webkit-transition: color .15s ease;
+  -moz-transition: color .15s ease;
+  transition: color .15s ease; }
+
+.reveal a:hover {
+  color: #6ca0e8;
+  text-shadow: none;
+  border: none; }
+
+.reveal .roll span:after {
+  color: #fff;
+  background: #1a53a1; }
+
+/*********************************************
+ * IMAGES
+ *********************************************/
+.reveal section img {
+  margin: 15px 0px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 4px solid #222;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+
+.reveal section img.plain {
+  border: 0;
+  box-shadow: none; }
+
+.reveal a img {
+  -webkit-transition: all .15s linear;
+  -moz-transition: all .15s linear;
+  transition: all .15s linear; }
+
+.reveal a:hover img {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #2a76dd;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
+
+/*********************************************
+ * NAVIGATION CONTROLS
+ *********************************************/
+.reveal .controls .navigate-left,
+.reveal .controls .navigate-left.enabled {
+  border-right-color: #2a76dd; }
+
+.reveal .controls .navigate-right,
+.reveal .controls .navigate-right.enabled {
+  border-left-color: #2a76dd; }
+
+.reveal .controls .navigate-up,
+.reveal .controls .navigate-up.enabled {
+  border-bottom-color: #2a76dd; }
+
+.reveal .controls .navigate-down,
+.reveal .controls .navigate-down.enabled {
+  border-top-color: #2a76dd; }
+
+.reveal .controls .navigate-left.enabled:hover {
+  border-right-color: #6ca0e8; }
+
+.reveal .controls .navigate-right.enabled:hover {
+  border-left-color: #6ca0e8; }
+
+.reveal .controls .navigate-up.enabled:hover {
+  border-bottom-color: #6ca0e8; }
+
+.reveal .controls .navigate-down.enabled:hover {
+  border-top-color: #6ca0e8; }
+
+/*********************************************
+ * PROGRESS BAR
+ *********************************************/
+.reveal .progress {
+  background: rgba(0, 0, 0, 0.2); }
+
+.reveal .progress span {
+  background: #2a76dd;
+  -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+  transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+html body .markdown-preview.markdown-preview .slides li.emphasis {
+  color: red;
+}
+html body .markdown-preview.markdown-preview .slides svg {
+  background: white;
+}
+html body .markdown-preview.markdown-preview .slides h1,
+html body .markdown-preview.markdown-preview .slides h2,
+html body .markdown-preview.markdown-preview .slides h3,
+html body .markdown-preview.markdown-preview .slides h4,
+html body .markdown-preview.markdown-preview .slides h5,
+html body .markdown-preview.markdown-preview .slides h6 {
+  text-transform: none;
+}
+ 
+      </style>
+    </head>
+    <body for="html-export" data-presentation-mode="">
+      <div class="mume markdown-preview   " data-presentation-mode="">
+      
+    <div style="display:none;"><link rel="stylesheet" href="css/theme/black.css" id="theme">
+</div>
+    <div class="reveal">
+      <div class="slides">
+        <section lineNo="9" class="slide " data-line="9" data-h="0" data-v="0">
+<h1 class="mume-header" id="%E4%BB%8A%E6%97%A5%E3%81%AE%E5%86%85%E5%AE%B9">今日の内容</h1>
+
+<p>Technical Overdrive</p>
+<ul>
+<li class="fragment" data-fragment-index="1">WebAuthentication API <!-- .element: class="fragment" data-fragment-index="1" --></li>
+<li class="fragment" data-fragment-index="2">CTAP2 <!-- .element: class="fragment" data-fragment-index="2" --></li>
+</ul>
+</section><section lineNo="18" class="slide " data-line="18" data-h="1" data-v="0">
+<h3 class="mume-header" id="webauthnentication-api">WebAuthnentication API</h3>
+
+<p>Working draft: <a href="https://w3c.github.io/webauthn/">https://w3c.github.io/webauthn/</a></p>
+<p><img src="./img/2018-08-14_20h40_51.png" alt="2018-08-14_20h40_51"></p>
+<ul>
+<li class="fragment" data-fragment-index="1">最終草案（Last Call Working Draft）<!-- .element: class="fragment" data-fragment-index="1" --></li>
+<li class="fragment emphasis" data-fragment-index="1">勧告候補（Candidate Recommendation）<!-- .element: class="fragment emphasis" data-fragment-index="1"  --></li>
+<li class="fragment" data-fragment-index="1">勧告案（Proposed Recommendation）<!-- .element: class="fragment" data-fragment-index="1" --></li>
+<li class="fragment" data-fragment-index="1">W3C勧告（Recommendation）<!-- .element: class="fragment" data-fragment-index="1" --></li>
+</ul>
+</section><section data-notes="&amp;#x30EF;&amp;#x30FC;&amp;#x30AD;&amp;#x30F3;&amp;#x30B0;&amp;#x30C9;&amp;#x30E9;&amp;#x30D5;&amp;#x30C8;" lineNo="31" class="slide " data-line="31" data-h="2" data-v="0">
+<h3 class="mume-header" id="credential-management-api">Credential Management API</h3>
+
+<p>Latest Version: <a href="https://www.w3.org/TR/credential-management-1/">https://www.w3.org/TR/credential-management-1/</a></p>
+<p><img src="./img/2018-08-17_11h28_10.png" alt="2018-08-17_11h28_10"></p>
+<ul>
+<li class="fragment emphasis" data-fragment-index="1">最終草案（Last Call Working Draft）<!-- .element: class="fragment emphasis" data-fragment-index="1" --></li>
+<li class="fragment" data-fragment-index="1">勧告候補（Candidate Recommendation）<!-- .element: class="fragment" data-fragment-index="1"  --></li>
+<li class="fragment" data-fragment-index="1">勧告案（Proposed Recommendation）<!-- .element: class="fragment" data-fragment-index="1" --></li>
+<li class="fragment" data-fragment-index="1">W3C勧告（Recommendation）<!-- .element: class="fragment" data-fragment-index="1" --></li>
+</ul>
+</section><section data-background-image="./img/publickey-crypto.png" data-transition="flow" data-background-size="auto" lineNo="44" class="slide " data-line="44" data-h="3" data-v="0">
+<div style="height:1180px;">
+<p style="position: absolute;top:0; font-size:0.6em">
+<a href="https://www.w3.org/Consortium/Hosts/Keio/20180629-fido-seminar/slides/JP_W3C-FIDO_Seminar_FIDO_Technical_Deep_Dive_V1.pdf">https://www.w3.org/Consortium/Hosts/Keio/20180629-fido-seminar/slides/JP_W3C-FIDO_Seminar_FIDO_Technical_Deep_Dive_V1.pdf</a>
+</p>
+</div>
+</section><section data-background-image="./img//2018-08-18_10h32_43.png" data-background-size="auto" lineNo="55" class="slide " data-line="55" data-h="4" data-v="0">
+<div style="height:1180px;">
+<p style="position: absolute;top:0; font-size:0.6em">
+<a href="https://www.w3.org/Consortium/Hosts/Keio/20180629-fido-seminar/slides/JP_W3C-FIDO_Seminar_FIDO_Technical_Deep_Dive_V1.pdf">https://www.w3.org/Consortium/Hosts/Keio/20180629-fido-seminar/slides/JP_W3C-FIDO_Seminar_FIDO_Technical_Deep_Dive_V1.pdf</a>
+</p>
+</div>
+</section><section lineNo="63" class="slide " data-line="63" data-h="5" data-v="0">
+<h2 class="mume-header" id="%E4%BB%8A%E6%97%A5%E3%81%AF-0-%E3%81%8B%E3%82%89-webauthn-%E3%82%92%E4%BD%9C%E3%82%8A%E3%81%BE%E3%81%99">今日は 0 から WebAuthn を作ります（！？）</h2>
+
+</section><section lineNo="68" class="slide " data-line="68" data-h="6" data-v="0">
+<h2 class="mume-header" id="~~0-%E3%81%8B%E3%82%89~~-%E7%B5%90%E8%AB%96%E3%81%8B%E3%82%89%E9%80%86%E7%AE%97%E3%81%9F%E7%B5%90%E6%9E%9C%E3%82%92%E8%A9%B1%E3%81%97%E3%81%BE%E3%81%99"><s>0 から</s> 結論から逆算た結果を話します</h2>
+
+<ul>
+<li class="fragment" data-fragment-index="1">今日の流れ<!-- .element: class="fragment" data-fragment-index="1" -->
+<ul>
+<li class="fragment" data-fragment-index="2">公開鍵暗号認証<!-- .element: class="fragment" data-fragment-index="2" --></li>
+<li class="fragment" data-fragment-index="3">U2F<!-- .element: class="fragment" data-fragment-index="3" --></li>
+<li class="fragment" data-fragment-index="4">FIDO2<!-- .element: class="fragment" data-fragment-index="4" --></li>
+</ul>
+</li>
+</ul>
+</section><section><section lineNo="77" class="slide " data-line="77" data-h="7" data-v="0">
+<h2 class="mume-header" id="%E5%85%AC%E9%96%8B%E9%8D%B5%E6%9A%97%E5%8F%B7%E8%AA%8D%E8%A8%BC">公開鍵暗号認証</h2>
+
+</section><section vertical="true" lineNo="81" class="slide " data-line="81" data-h="7" data-v="1">
+<h2 class="mume-header" id="%E5%83%95%E3%81%8C%E8%80%83%E3%81%88%E3%81%9F%E6%9C%80%E5%BC%B7%E3%81%AE%E5%85%AC%E9%96%8B%E9%8D%B5%E6%9A%97%E5%8F%B7%E8%AA%8D%E8%A8%BC">僕が考えた最強の公開鍵暗号認証</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="363.8px" preserveAspectRatio="none" style="width:399px;height:363px;" version="1.1" viewBox="0 0 399 363" width="399.5px" zoomAndPan="magnify"><defs><filter height="300%" id="f1xmnq3shzh00q" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="23.8" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="51" x="175.1" y="41.7064">登録</text><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="217.6" x2="217.6" y1="121.0719" y2="343.8648"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="355.3" x2="355.3" y1="121.0719" y2="343.8648"></line><rect fill="#FEFECE" filter="url(#f1xmnq3shzh00q)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="178.5" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="190.4" y="95.4424">User</text><rect fill="#FEFECE" filter="url(#f1xmnq3shzh00q)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="324.7" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="336.6" y="95.4424">RP</text><path d="M13.6,146.5719 L13.6,190.7719 L204,190.7719 L204,163.5719 L187,146.5719 L13.6,146.5719 " fill="#FBFB77" filter="url(#f1xmnq3shzh00q)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M187,146.5719 L187,163.5719 L204,163.5719 L187,146.5719 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="154.7" x="23.8" y="178.0136">キーペアの生成</text><path d="M64.6,215.1695 L64.6,259.3695 L202.3,259.3695 L202.3,232.1695 L185.3,215.1695 L64.6,215.1695 " fill="#FBFB77" filter="url(#f1xmnq3shzh00q)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M185.3,215.1695 L185.3,232.1695 L202.3,232.1695 L185.3,215.1695 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="102" x="74.8" y="246.6112">privateKey</text><polygon fill="#A80036" points="335.75,305.8672,352.75,312.6672,335.75,319.4672,342.55,312.6672" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="218.45" x2="345.95" y1="312.6672" y2="312.6672"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="96.9" x="230.35" y="305.0089">publicKey</text><!--
+@startuml
+Title: 登録
+scale 1.7
+hide footbox
+
+participant User
+participant RP
+Note left of User: キーペアの生成
+Note left of User: privateKey
+User->RP: publicKey
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="346.8px" preserveAspectRatio="none" style="width:343px;height:346px;" version="1.1" viewBox="0 0 343 346" width="343.4px" zoomAndPan="magnify"><defs><filter height="300%" id="f8z4890qsmmlc" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="23.8" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="51" x="147.05" y="41.7064">認証</text><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="164.9" x2="164.9" y1="121.0719" y2="326.8648"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="299.2" x2="299.2" y1="121.0719" y2="326.8648"></line><rect fill="#FEFECE" filter="url(#f8z4890qsmmlc)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="125.8" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="137.7" y="95.4424">User</text><rect fill="#FEFECE" filter="url(#f8z4890qsmmlc)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="268.6" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="280.5" y="95.4424">RP</text><polygon fill="#A80036" points="184.45,168.6719,167.45,175.4719,184.45,182.2719,177.65,175.4719" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="174.25" x2="298.35" y1="175.4719" y2="175.4719"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="93.5" x="194.65" y="167.8136">challenge</text><path d="M13.6,198.1695 L13.6,242.3695 L151.3,242.3695 L151.3,215.1695 L134.3,198.1695 L13.6,198.1695 " fill="#FBFB77" filter="url(#f8z4890qsmmlc)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M134.3,198.1695 L134.3,215.1695 L151.3,215.1695 L134.3,198.1695 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="102" x="23.8" y="229.6112">privateKey</text><polygon fill="#A80036" points="279.65,288.8672,296.65,295.6672,279.65,302.4672,286.45,295.6672" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="165.75" x2="289.85" y1="295.6672" y2="295.6672"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="40.8" x="177.65" y="288.0089">sign</text><!--
+@startuml
+Title: 認証
+scale 1.7
+hide footbox
+
+participant User
+participant RP
+
+RP->User: challenge
+Note left of User: privateKey
+User->RP: sign
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p>公開鍵認証で必要な最もシンプルな登録フェーズ</p>
+</section><section vertical="true" lineNo="114" class="slide " data-line="114" data-h="7" data-v="2">
+<h2 class="mume-header" id="%E3%82%82%E3%82%93%E3%81%A0%E3%81%84">もんだい</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="321px" preserveAspectRatio="none" style="width:352px;height:321px;" version="1.1" viewBox="0 0 352 321" width="352.5px" zoomAndPan="magnify"><defs><filter height="300%" id="f10kdlydjemcuw" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.0" dy="6.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="21" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="45" x="154.5" y="36.7998">登録</text><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="192" x2="192" y1="106.8281" y2="303.4102"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="313.5" x2="313.5" y1="106.8281" y2="303.4102"></line><rect fill="#FEFECE" filter="url(#f10kdlydjemcuw)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="64.5" x="157.5" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="43.5" x="168" y="84.2139">User</text><rect fill="#FEFECE" filter="url(#f10kdlydjemcuw)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="49.5" x="286.5" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="28.5" x="297" y="84.2139">RP</text><path d="M12,129.3281 L12,168.3281 L180,168.3281 L180,144.3281 L165,129.3281 L12,129.3281 " fill="#FBFB77" filter="url(#f10kdlydjemcuw)" style="stroke: #A80036; stroke-width: 1.5;"></path><path d="M165,129.3281 L165,144.3281 L180,144.3281 L165,129.3281 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.5;"></path><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="136.5" x="21" y="157.0708">キーペアの生成</text><path d="M57,189.8555 L57,228.8555 L178.5,228.8555 L178.5,204.8555 L163.5,189.8555 L57,189.8555 " fill="#FBFB77" filter="url(#f10kdlydjemcuw)" style="stroke: #A80036; stroke-width: 1.5;"></path><path d="M163.5,189.8555 L163.5,204.8555 L178.5,204.8555 L163.5,189.8555 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.5;"></path><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="90" x="66" y="217.5981">privateKey</text><polygon fill="#A80036" points="296.25,269.8828,311.25,275.8828,296.25,281.8828,302.25,275.8828" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="192.75" x2="305.25" y1="275.8828" y2="275.8828"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="85.5" x="203.25" y="269.1255">publicKey</text><!--
+@startuml
+Title: 登録
+scale 1.5
+hide footbox
+
+participant User
+participant RP
+Note left of User: キーペアの生成
+Note left of User: privateKey
+User->RP: publicKey
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="306px" preserveAspectRatio="none" style="width:303px;height:306px;" version="1.1" viewBox="0 0 303 306" width="303px" zoomAndPan="magnify"><defs><filter height="300%" id="f1eug8ubjqkna6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.0" dy="6.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="21" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="45" x="129.75" y="36.7998">認証</text><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="145.5" x2="145.5" y1="106.8281" y2="288.4102"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="264" x2="264" y1="106.8281" y2="288.4102"></line><rect fill="#FEFECE" filter="url(#f1eug8ubjqkna6)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="64.5" x="111" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="43.5" x="121.5" y="84.2139">User</text><rect fill="#FEFECE" filter="url(#f1eug8ubjqkna6)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="49.5" x="237" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="28.5" x="247.5" y="84.2139">RP</text><polygon fill="#A80036" points="162.75,148.8281,147.75,154.8281,162.75,160.8281,156.75,154.8281" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="153.75" x2="263.25" y1="154.8281" y2="154.8281"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="82.5" x="171.75" y="148.0708">challenge</text><path d="M12,174.8555 L12,213.8555 L133.5,213.8555 L133.5,189.8555 L118.5,174.8555 L12,174.8555 " fill="#FBFB77" filter="url(#f1eug8ubjqkna6)" style="stroke: #A80036; stroke-width: 1.5;"></path><path d="M118.5,174.8555 L118.5,189.8555 L133.5,189.8555 L118.5,174.8555 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.5;"></path><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="90" x="21" y="202.5981">privateKey</text><polygon fill="#A80036" points="246.75,254.8828,261.75,260.8828,246.75,266.8828,252.75,260.8828" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="146.25" x2="255.75" y1="260.8828" y2="260.8828"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="36" x="156.75" y="254.1255">sign</text><!--
+@startuml
+Title: 認証
+scale 1.5
+hide footbox
+
+participant User
+participant RP
+
+RP->User: challenge
+Note left of User: privateKey
+User->RP: sign
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><ul>
+<li class="fragment" data-fragment-index="1">秘密鍵が守られていない<!-- .element: class="fragment" data-fragment-index="1" --></li>
+<li class="fragment" data-fragment-index="2">どのサービスに対しても同じキーペア使う<!-- .element: class="fragment" data-fragment-index="2" --></li>
+<li class="fragment" data-fragment-index="3">どっからかくる challenge にサインし放題<!-- .element: class="fragment" data-fragment-index="3" --></li>
+</ul>
+</section><section vertical="true" lineNo="148" class="slide " data-line="148" data-h="7" data-v="3">
+<h2 class="mume-header" id="%E5%AF%BE%E7%AD%96%E3%81%97%E3%81%A6%E3%81%84%E3%81%8D%E3%81%BE%E3%81%99">対策していきます</h2>
+
+<p>※結論から逆算していきます。</p>
+</section><section vertical="true" lineNo="154" class="slide " data-line="154" data-h="7" data-v="4">
+<h2 class="mume-header" id="authenticator-%E3%81%A7%E7%A7%98%E5%AF%86%E9%8D%B5%E3%82%92%E4%BF%9D%E8%AD%B7">Authenticator で秘密鍵を保護</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="294.1px" preserveAspectRatio="none" style="width:377px;height:294px;" version="1.1" viewBox="0 0 377 294" width="377.4px" zoomAndPan="magnify"><defs><filter height="300%" id="f10mrrasn0jniw" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="23.8" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="51" x="164.475" y="41.7064">登録</text><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="52.7" x2="52.7" y1="121.0719" y2="275.2672"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="197.2" x2="197.2" y1="121.0719" y2="275.2672"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="334.05" x2="334.05" y1="121.0719" y2="275.2672"></line><rect fill="#FEFECE" filter="url(#f10mrrasn0jniw)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="13.6" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="25.5" y="95.4424">User</text><rect fill="#FEFECE" filter="url(#f10mrrasn0jniw)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="166.6" x="110.5" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="142.8" x="122.4" y="95.4424">Authenticator</text><rect fill="#FEFECE" filter="url(#f10mrrasn0jniw)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="303.45" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="315.35" y="95.4424">RP</text><path d="M124.1,146.5719 L124.1,190.7719 L261.8,190.7719 L261.8,163.5719 L244.8,146.5719 L124.1,146.5719 " fill="#FBFB77" filter="url(#f10mrrasn0jniw)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M244.8,146.5719 L244.8,163.5719 L261.8,163.5719 L244.8,146.5719 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="102" x="134.3" y="178.0136">privateKey</text><polygon fill="#A80036" points="314.5,237.2695,331.5,244.0695,314.5,250.8695,321.3,244.0695" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="197.2" x2="324.7" y1="244.0695" y2="244.0695"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="96.9" x="209.1" y="236.4112">publicKey</text><!--
+@startuml
+Title: 登録
+scale 1.7
+hide footbox
+
+participant User
+participant Authenticator
+participant RP
+
+Note over Authenticator: privateKey
+Authenticator->RP: publicKey
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="346.8px" preserveAspectRatio="none" style="width:375px;height:346px;" version="1.1" viewBox="0 0 375 346" width="375.7px" zoomAndPan="magnify"><defs><filter height="300%" id="fteshn6yxikh0" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="23.8" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="51" x="163.2" y="41.7064">認証</text><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="52.7" x2="52.7" y1="121.0719" y2="326.8648"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="197.2" x2="197.2" y1="121.0719" y2="326.8648"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="331.5" x2="331.5" y1="121.0719" y2="326.8648"></line><rect fill="#FEFECE" filter="url(#fteshn6yxikh0)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="13.6" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="25.5" y="95.4424">User</text><rect fill="#FEFECE" filter="url(#fteshn6yxikh0)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="166.6" x="110.5" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="142.8" x="122.4" y="95.4424">Authenticator</text><rect fill="#FEFECE" filter="url(#fteshn6yxikh0)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="300.9" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="312.8" y="95.4424">RP</text><polygon fill="#A80036" points="215.9,168.6719,198.9,175.4719,215.9,182.2719,209.1,175.4719" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="205.7" x2="330.65" y1="175.4719" y2="175.4719"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="93.5" x="226.1" y="167.8136">challenge</text><path d="M124.1,198.1695 L124.1,242.3695 L261.8,242.3695 L261.8,215.1695 L244.8,198.1695 L124.1,198.1695 " fill="#FBFB77" filter="url(#fteshn6yxikh0)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M244.8,198.1695 L244.8,215.1695 L261.8,215.1695 L244.8,198.1695 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="102" x="134.3" y="229.6112">privateKey</text><polygon fill="#A80036" points="311.95,288.8672,328.95,295.6672,311.95,302.4672,318.75,295.6672" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="197.2" x2="322.15" y1="295.6672" y2="295.6672"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="90.1" x="209.1" y="288.0089">signature</text><!--
+@startuml
+Title: 認証
+
+scale 1.7
+hide footbox
+
+participant User
+participant Authenticator
+participant RP
+RP->Authenticator: challenge
+Note over Authenticator: privateKey
+Authenticator->RP: signature
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p>PrivateKey は Authenticator 内で保護</p>
+<ul>
+<li class="emphasis">秘密鍵が守られている<!-- .element: class="emphasis" --></li>
+</ul>
+</section><section vertical="true" lineNo="189" class="slide " data-line="189" data-h="7" data-v="5">
+<h2 class="mume-header" id="up%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%81%AE%E5%AD%98%E5%9C%A8%E3%82%AA%E3%83%97%E3%82%B7%E3%83%A7%E3%83%B3">UP(ユーザーの存在)オプション</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="306px" preserveAspectRatio="none" style="width:333px;height:306px;" version="1.1" viewBox="0 0 333 306" width="333px" zoomAndPan="magnify"><defs><filter height="300%" id="fud0xjh79etwk" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.0" dy="6.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="21" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="45" x="145.125" y="36.7998">登録</text><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="46.5" x2="46.5" y1="106.8281" y2="288.4102"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="174" x2="174" y1="106.8281" y2="288.4102"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="294.75" x2="294.75" y1="106.8281" y2="288.4102"></line><rect fill="#FEFECE" filter="url(#fud0xjh79etwk)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="64.5" x="12" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="43.5" x="22.5" y="84.2139">User</text><rect fill="#FEFECE" filter="url(#fud0xjh79etwk)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="147" x="97.5" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="126" x="108" y="84.2139">Authenticator</text><rect fill="#FEFECE" filter="url(#fud0xjh79etwk)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="49.5" x="267.75" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="28.5" x="278.25" y="84.2139">RP</text><polygon fill="#A80036" points="156,148.8281,171,154.8281,156,160.8281,162,154.8281" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="47.25" x2="165" y1="154.8281" y2="154.8281"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="88.5" x="57.75" y="148.0708">UP Action</text><path d="M135,174.8555 L135,213.8555 L205.5,213.8555 L205.5,189.8555 L190.5,174.8555 L135,174.8555 " fill="#FBFB77" filter="url(#fud0xjh79etwk)" style="stroke: #A80036; stroke-width: 1.5;"></path><path d="M190.5,174.8555 L190.5,189.8555 L205.5,189.8555 L190.5,174.8555 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.5;"></path><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="13.5" x="144" y="202.5981">K</text><text fill="#000000" font-family="sans-serif" font-size="15" lengthAdjust="spacingAndGlyphs" textLength="25.5" x="157.5" y="203.5869">priv</text><polygon fill="#A80036" points="277.5,254.8828,292.5,260.8828,277.5,266.8828,283.5,260.8828" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="174" x2="286.5" y1="260.8828" y2="260.8828"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="85.5" x="184.5" y="254.1255">publicKey</text><!--
+@startuml
+Title: 登録
+scale 1.5
+hide footbox
+
+participant User
+participant Authenticator
+participant RP
+User->Authenticator: UP Action
+Note over Authenticator: K<size:10>priv</size>
+Authenticator->RP: publicKey
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="351px" preserveAspectRatio="none" style="width:331px;height:351px;" version="1.1" viewBox="0 0 331 351" width="331.5px" zoomAndPan="magnify"><defs><filter height="300%" id="fu1413eg33ii1" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.0" dy="6.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="21" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="45" x="144" y="36.7998">認証</text><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="46.5" x2="46.5" y1="106.8281" y2="333.9375"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="174" x2="174" y1="106.8281" y2="333.9375"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="292.5" x2="292.5" y1="106.8281" y2="333.9375"></line><rect fill="#FEFECE" filter="url(#fu1413eg33ii1)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="64.5" x="12" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="43.5" x="22.5" y="84.2139">User</text><rect fill="#FEFECE" filter="url(#fu1413eg33ii1)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="147" x="97.5" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="126" x="108" y="84.2139">Authenticator</text><rect fill="#FEFECE" filter="url(#fu1413eg33ii1)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="49.5" x="265.5" y="51.9141"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="28.5" x="276" y="84.2139">RP</text><polygon fill="#A80036" points="190.5,148.8281,175.5,154.8281,190.5,160.8281,184.5,154.8281" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="181.5" x2="291.75" y1="154.8281" y2="154.8281"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="82.5" x="199.5" y="148.0708">challenge</text><polygon fill="#A80036" points="156,194.3555,171,200.3555,156,206.3555,162,200.3555" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="47.25" x2="165" y1="200.3555" y2="200.3555"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="88.5" x="57.75" y="193.5981">UP Action</text><path d="M135,220.3828 L135,259.3828 L205.5,259.3828 L205.5,235.3828 L190.5,220.3828 L135,220.3828 " fill="#FBFB77" filter="url(#fu1413eg33ii1)" style="stroke: #A80036; stroke-width: 1.5;"></path><path d="M190.5,220.3828 L190.5,235.3828 L205.5,235.3828 L190.5,220.3828 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.5;"></path><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="13.5" x="144" y="248.1255">K</text><text fill="#000000" font-family="sans-serif" font-size="15" lengthAdjust="spacingAndGlyphs" textLength="25.5" x="157.5" y="249.1143">priv</text><polygon fill="#A80036" points="275.25,300.4102,290.25,306.4102,275.25,312.4102,281.25,306.4102" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="174" x2="284.25" y1="306.4102" y2="306.4102"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="79.5" x="184.5" y="299.6528">signature</text><!--
+@startuml
+Title: 認証
+
+scale 1.5
+hide footbox
+
+participant User
+participant Authenticator
+participant RP
+RP->Authenticator: challenge
+User->Authenticator: UP Action
+Note over Authenticator: K<size:10>priv</size>
+Authenticator->RP: signature
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p>UP: YubiKey であればボタンをタッチ(物理的な操作が必要)</p>
+<ul>
+<li class="emphasis">リモートから悪用を防ぐ<!-- .element: class="emphasis" --></li>
+</ul>
+</section><section vertical="true" lineNo="226" class="slide " data-line="226" data-h="7" data-v="6">
+<h2 class="mume-header" id="%E5%90%84rp%E3%81%94%E3%81%A8%E3%81%AB%E3%82%AD%E3%83%BC%E3%83%9A%E3%82%A2%E3%82%92%E7%94%9F%E6%88%90">各RPごとにキーペアを生成</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="409.5px" preserveAspectRatio="none" style="width:460px;height:409px;" version="1.1" viewBox="0 0 460 409" width="460.5px" zoomAndPan="magnify"><defs><filter height="300%" id="f7lwbgskbvbfo" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.0" dy="6.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="46.5" x2="46.5" y1="59.4141" y2="392.5781"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="174" x2="174" y1="59.4141" y2="392.5781"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="333.75" x2="333.75" y1="59.4141" y2="392.5781"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="416.25" x2="416.25" y1="59.4141" y2="392.5781"></line><rect fill="#FEFECE" filter="url(#f7lwbgskbvbfo)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="64.5" x="12" y="4.5"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="43.5" x="22.5" y="36.7998">User</text><rect fill="#FEFECE" filter="url(#f7lwbgskbvbfo)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="147" x="97.5" y="4.5"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="126" x="108" y="36.7998">Authenticator</text><rect fill="#FEFECE" filter="url(#f7lwbgskbvbfo)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="61.5" x="300.75" y="4.5"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="40.5" x="311.25" y="36.7998">RP1</text><rect fill="#FEFECE" filter="url(#f7lwbgskbvbfo)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="61.5" x="383.25" y="4.5"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="40.5" x="393.75" y="36.7998">RP2</text><polygon fill="#A80036" points="156,101.4141,171,107.4141,156,113.4141,162,107.4141" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="47.25" x2="165" y1="107.4141" y2="107.4141"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="88.5" x="57.75" y="100.6567">UP Action</text><path d="M90,127.4414 L90,166.4414 L250.5,166.4414 L250.5,142.4414 L235.5,127.4414 L90,127.4414 " fill="#FBFB77" filter="url(#f7lwbgskbvbfo)" style="stroke: #A80036; stroke-width: 1.5;"></path><path d="M235.5,127.4414 L235.5,142.4414 L250.5,142.4414 L235.5,127.4414 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.5;"></path><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="94.5" x="99" y="155.1841">CredID1: K</text><text fill="#000000" font-family="sans-serif" font-size="15" lengthAdjust="spacingAndGlyphs" textLength="34.5" x="193.5" y="156.1729">priv1</text><polygon fill="#A80036" points="316.5,207.4688,331.5,213.4688,316.5,219.4688,322.5,213.4688" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="174" x2="325.5" y1="213.4688" y2="213.4688"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="88.5" x="184.5" y="206.7114">CredID1,K</text><text fill="#000000" font-family="sans-serif" font-size="15" lengthAdjust="spacingAndGlyphs" textLength="36" x="273" y="207.7002">pub1</text><polygon fill="#A80036" points="156,252.9961,171,258.9961,156,264.9961,162,258.9961" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="47.25" x2="165" y1="258.9961" y2="258.9961"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="88.5" x="57.75" y="252.2388">UP Action</text><path d="M90,279.0234 L90,318.0234 L250.5,318.0234 L250.5,294.0234 L235.5,279.0234 L90,279.0234 " fill="#FBFB77" filter="url(#f7lwbgskbvbfo)" style="stroke: #A80036; stroke-width: 1.5;"></path><path d="M235.5,279.0234 L235.5,294.0234 L250.5,294.0234 L235.5,279.0234 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.5;"></path><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="94.5" x="99" y="306.7661">CredID2: K</text><text fill="#000000" font-family="sans-serif" font-size="15" lengthAdjust="spacingAndGlyphs" textLength="34.5" x="193.5" y="307.7549">priv2</text><polygon fill="#A80036" points="399,359.0508,414,365.0508,399,371.0508,405,365.0508" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="174" x2="408" y1="365.0508" y2="365.0508"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="88.5" x="184.5" y="358.2935">CredID2,K</text><text fill="#000000" font-family="sans-serif" font-size="15" lengthAdjust="spacingAndGlyphs" textLength="36" x="273" y="359.2822">pub2</text><!--
+@startuml
+scale 1.5
+hide footbox
+participant User
+participant Authenticator
+participant RP1
+participant RP2
+
+User->Authenticator: UP Action
+Note over Authenticator: CredID1: K<size:10>priv1</size>
+Authenticator->RP1: CredID1,K<size:10>pub1</size>
+User->Authenticator: UP Action
+Note over Authenticator: CredID2: K<size:10>priv2</size>
+Authenticator->RP2: CredID2,K<size:10>pub2</size>
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="304.5px" preserveAspectRatio="none" style="width:411px;height:304px;" version="1.1" viewBox="0 0 411 304" width="411px" zoomAndPan="magnify"><defs><filter height="300%" id="fudc6hj5palq3" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.0" dy="6.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="46.5" x2="46.5" y1="59.4141" y2="286.5234"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="174" x2="174" y1="59.4141" y2="286.5234"></line><line style="stroke: #A80036; stroke-width: 1.5; stroke-dasharray: 5.0,5.0;" x1="366.75" x2="366.75" y1="59.4141" y2="286.5234"></line><rect fill="#FEFECE" filter="url(#fudc6hj5palq3)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="64.5" x="12" y="4.5"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="43.5" x="22.5" y="36.7998">User</text><rect fill="#FEFECE" filter="url(#fudc6hj5palq3)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="147" x="97.5" y="4.5"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="126" x="108" y="36.7998">Authenticator</text><rect fill="#FEFECE" filter="url(#fudc6hj5palq3)" height="47.4141" style="stroke: #A80036; stroke-width: 2.25;" width="61.5" x="333.75" y="4.5"></rect><text fill="#000000" font-family="sans-serif" font-size="21" lengthAdjust="spacingAndGlyphs" textLength="40.5" x="344.25" y="36.7998">RP1</text><polygon fill="#A80036" points="190.5,101.4141,175.5,107.4141,190.5,113.4141,184.5,107.4141" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="181.5" x2="366" y1="107.4141" y2="107.4141"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="157.5" x="199.5" y="100.6567">CredID1,challenge</text><polygon fill="#A80036" points="156,146.9414,171,152.9414,156,158.9414,162,152.9414" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="47.25" x2="165" y1="152.9414" y2="152.9414"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="88.5" x="57.75" y="146.1841">UP Action</text><path d="M72,172.9688 L72,211.9688 L268.5,211.9688 L268.5,187.9688 L253.5,172.9688 L72,172.9688 " fill="#FBFB77" filter="url(#fudc6hj5palq3)" style="stroke: #A80036; stroke-width: 1.5;"></path><path d="M253.5,172.9688 L253.5,187.9688 L268.5,187.9688 L253.5,172.9688 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.5;"></path><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="130.5" x="81" y="200.7114">CredID1 ==&gt; K</text><text fill="#000000" font-family="sans-serif" font-size="15" lengthAdjust="spacingAndGlyphs" textLength="34.5" x="211.5" y="201.7002">priv1</text><polygon fill="#A80036" points="349.5,252.9961,364.5,258.9961,349.5,264.9961,355.5,258.9961" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="174" x2="358.5" y1="258.9961" y2="258.9961"></line><text fill="#000000" font-family="sans-serif" font-size="19.5" lengthAdjust="spacingAndGlyphs" textLength="88.5" x="184.5" y="252.2388">CredID1,K</text><text fill="#000000" font-family="sans-serif" font-size="15" lengthAdjust="spacingAndGlyphs" textLength="36" x="273" y="253.2275">pub1</text><!--
+@startuml
+scale 1.5
+hide footbox
+participant User
+participant Authenticator
+participant RP1
+
+RP1->Authenticator: CredID1,challenge
+User->Authenticator: UP Action
+Note over Authenticator: CredID1 ==> K<size:10>priv1</size>
+Authenticator->RP1: CredID1,K<size:10>pub1</size>
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p>Credential ID と Application Key Pair を紐づけて管理することで<br>
+各RPごとのキーペアを生成できるように。</p>
+<ul>
+<li class="emphasis">キーペアが別サービスとシェアない<!-- .element: class="emphasis" --></li>
+</ul>
+</section><section vertical="true" lineNo="263" class="slide " data-line="263" data-h="7" data-v="7">
+<h2 class="mume-header" id="rp%E3%81%A8credid%E3%81%AE%E7%B4%90%E3%81%A5%E3%81%91">RPとCredIDの紐づけ</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="345.1px" preserveAspectRatio="none" style="width:399px;height:345px;" version="1.1" viewBox="0 0 399 345" width="399.5px" zoomAndPan="magnify"><defs><filter height="300%" id="f1dv0f10a1zyqa" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="52.7" x2="52.7" y1="67.3359" y2="324.7266"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="197.2" x2="197.2" y1="67.3359" y2="324.7266"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="356.15" x2="356.15" y1="67.3359" y2="324.7266"></line><rect fill="#FEFECE" filter="url(#f1dv0f10a1zyqa)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="13.6" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="25.5" y="41.7064">User</text><rect fill="#FEFECE" filter="url(#f1dv0f10a1zyqa)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="166.6" x="110.5" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="142.8" x="122.4" y="41.7064">Authenticator</text><rect fill="#FEFECE" filter="url(#f1dv0f10a1zyqa)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="325.55" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="337.45" y="41.7064">RP</text><polygon fill="#A80036" points="215.9,114.9359,198.9,121.7359,215.9,128.5359,209.1,121.7359" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="205.7" x2="355.3" y1="121.7359" y2="121.7359"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="35.7" x="226.1" y="114.0776">rpId</text><polygon fill="#A80036" points="176.8,166.5336,193.8,173.3336,176.8,180.1336,183.6,173.3336" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="53.55" x2="187" y1="173.3336" y2="173.3336"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="100.3" x="65.45" y="165.6753">UP Action</text><path d="M61.2,196.0313 L61.2,240.2313 L324.7,240.2313 L324.7,213.0313 L307.7,196.0313 L61.2,196.0313 " fill="#FBFB77" filter="url(#f1dv0f10a1zyqa)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M307.7,196.0313 L307.7,213.0313 L324.7,213.0313 L307.7,196.0313 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="192.1" x="71.4" y="227.4729">(CredID) =&gt; (rpId, K</text><text fill="#000000" font-family="sans-serif" font-size="17" lengthAdjust="spacingAndGlyphs" textLength="28.9" x="263.5" y="228.5936">priv</text><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="6.8" x="292.4" y="227.4729">)</text><polygon fill="#A80036" points="336.6,286.7289,353.6,293.5289,336.6,300.3289,343.4,293.5289" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="197.2" x2="346.8" y1="293.5289" y2="293.5289"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="88.4" x="209.1" y="285.8706">CredID,K</text><text fill="#000000" font-family="sans-serif" font-size="17" lengthAdjust="spacingAndGlyphs" textLength="30.6" x="297.5" y="286.9912">pub</text><!--
+@startuml
+scale 1.7
+hide footbox
+participant User
+participant Authenticator
+participant RP
+
+RP->Authenticator:rpId
+User->Authenticator: UP Action
+Note over Authenticator: (CredID) => (rpId, K<size:10>priv</size>)
+Authenticator->RP: CredID,K<size:10>pub</size>
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><p>rpId と CredentialID を紐づける</p>
+<ul>
+<li>
+<p>Authenticator は CredentialID と key pair の組み合わせに加え、<strong>どの rpId に対して生成したキーペアか</strong> も覚えておく。</p>
+</li>
+<li class="emphasis">
+<p>キーペアが別サービスとシェアされない（RPに紐づけて管理）<!-- .element: class="emphasis" --></p>
+</li>
+</ul>
+</section><section vertical="true" lineNo="285" class="slide " data-line="285" data-h="7" data-v="8">
+<h2 class="mume-header" id="rp%E3%81%A8credid%E3%81%AE%E7%B4%90%E3%81%A5%E3%81%91-1">RPとCredIDの紐づけ</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="425px" preserveAspectRatio="none" style="width:503px;height:425px;" version="1.1" viewBox="0 0 503 425" width="503.2px" zoomAndPan="magnify"><defs><filter height="300%" id="fsm6mwiwsmd0e" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="23.8" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="51" x="227.375" y="41.7064">認証</text><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="52.7" x2="52.7" y1="121.0719" y2="406.2602"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="197.2" x2="197.2" y1="121.0719" y2="406.2602"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="459.85" x2="459.85" y1="121.0719" y2="406.2602"></line><rect fill="#FEFECE" filter="url(#fsm6mwiwsmd0e)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="13.6" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="25.5" y="95.4424">User</text><rect fill="#FEFECE" filter="url(#fsm6mwiwsmd0e)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="166.6" x="110.5" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="142.8" x="122.4" y="95.4424">Authenticator</text><rect fill="#FEFECE" filter="url(#fsm6mwiwsmd0e)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="429.25" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="441.15" y="95.4424">RP</text><polygon fill="#A80036" points="215.9,168.6719,198.9,175.4719,215.9,182.2719,209.1,175.4719" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="205.7" x2="459" y1="175.4719" y2="175.4719"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="222.7" x="226.1" y="167.8136">rpId, challenge, CredID</text><polygon fill="#A80036" points="176.8,220.2695,193.8,227.0695,176.8,233.8695,183.6,227.0695" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="53.55" x2="187" y1="227.0695" y2="227.0695"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="100.3" x="65.45" y="219.4112">UP Action</text><path d="M34,249.7672 L34,321.1672 L353.6,321.1672 L353.6,266.7672 L336.6,249.7672 L34,249.7672 " fill="#FBFB77" filter="url(#fsm6mwiwsmd0e)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M336.6,249.7672 L336.6,266.7672 L353.6,266.7672 L336.6,249.7672 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="283.9" x="44.2" y="281.2089">CredID が 認証先の rpId 用の</text><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="265.2" x="44.2" y="309.0065">クレデンシャルかチェック</text><polygon fill="#A80036" points="440.3,368.2625,457.3,375.0625,440.3,381.8625,447.1,375.0625" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="197.2" x2="450.5" y1="375.0625" y2="375.0625"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="90.1" x="209.1" y="367.4042">signature</text><!--
+@startuml
+title: 認証
+scale 1.7
+hide footbox
+participant User
+participant Authenticator
+participant RP
+
+RP->Authenticator:rpId, challenge, CredID
+User->Authenticator: UP Action
+Note over Authenticator: CredID が 認証先の rpId 用の\nクレデンシャルかチェック
+Authenticator->RP: signature
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><ul>
+<li>認証の際に、CredentialID が認証先 rpID ように発行されたものかをチェック</li>
+</ul>
+</section><section vertical="true" lineNo="306" class="slide " data-line="306" data-h="7" data-v="9">
+<h2 class="mume-header" id="client-%E3%81%A7-rpid-%E3%81%AE%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF">Client で rpID のチェック</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="423.3px" preserveAspectRatio="none" style="width:484px;height:423px;" version="1.1" viewBox="0 0 484 423" width="484.5px" zoomAndPan="magnify"><defs><filter height="300%" id="funh9rb1h8465" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="52.7" x2="52.7" y1="67.3359" y2="404.1219"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="197.2" x2="197.2" y1="67.3359" y2="404.1219"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="346.8" x2="346.8" y1="67.3359" y2="404.1219"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="440.3" x2="440.3" y1="67.3359" y2="404.1219"></line><rect fill="#FEFECE" filter="url(#funh9rb1h8465)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="13.6" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="25.5" y="41.7064">User</text><rect fill="#FEFECE" filter="url(#funh9rb1h8465)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="166.6" x="110.5" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="142.8" x="122.4" y="41.7064">Authenticator</text><rect fill="#FEFECE" filter="url(#funh9rb1h8465)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="85" x="300.9" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="61.2" x="312.8" y="41.7064">Client</text><rect fill="#FEFECE" filter="url(#funh9rb1h8465)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="409.7" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="421.6" y="41.7064">RP</text><polygon fill="#A80036" points="365.5,114.9359,348.5,121.7359,365.5,128.5359,358.7,121.7359" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="355.3" x2="439.45" y1="121.7359" y2="121.7359"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="35.7" x="375.7" y="114.0776">rpId</text><path d="M261.8,144.4336 L261.8,215.8336 L425,215.8336 L425,161.4336 L408,144.4336 L261.8,144.4336 " fill="#FBFB77" filter="url(#funh9rb1h8465)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M408,144.4336 L408,161.4336 L425,161.4336 L408,144.4336 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="127.5" x="272" y="175.8753">rpIDの正当性</text><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="110.5" x="272" y="203.6729">をチェック</text><polygon fill="#A80036" points="215.9,262.9289,198.9,269.7289,215.9,276.5289,209.1,269.7289" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="205.7" x2="345.1" y1="269.7289" y2="269.7289"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="35.7" x="226.1" y="262.0706">rpId</text><polygon fill="#A80036" points="176.8,314.5266,193.8,321.3266,176.8,328.1266,183.6,321.3266" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="53.55" x2="187" y1="321.3266" y2="321.3266"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="100.3" x="65.45" y="313.6683">UP Action</text><polygon fill="#A80036" points="420.75,366.1242,437.75,372.9242,420.75,379.7242,427.55,372.9242" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="197.2" x2="430.95" y1="372.9242" y2="372.9242"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="88.4" x="209.1" y="365.2659">CredID,K</text><text fill="#000000" font-family="sans-serif" font-size="17" lengthAdjust="spacingAndGlyphs" textLength="30.6" x="297.5" y="366.3865">pub</text><!--
+@startuml
+scale 1.7
+hide footbox
+participant User
+participant Authenticator
+participant Client
+participant RP
+
+RP->Client:rpId
+Note over Client : rpIDの正当性\nをチェック
+Client->Authenticator: rpId
+User->Authenticator: UP Action
+Authenticator->RP: CredID,K<size:10>pub</size>
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><ul>
+<li class="emphasis">RP と origin の整合性をチェック<!-- .element: class="emphasis" --></li>
+</ul>
+</section><section vertical="true" lineNo="327" class="slide " data-line="327" data-h="7" data-v="10">
+<h2 class="mume-header" id="attestation">Attestation</h2>
+
+<p>キーペアの信頼性を保証する</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="380.8px" preserveAspectRatio="none" style="width:598px;height:380px;" version="1.1" viewBox="0 0 598 380" width="598.4px" zoomAndPan="magnify"><defs><filter height="300%" id="f85sg98fw1pw7" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="23.8" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="51" x="274.975" y="41.7064">登録</text><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="52.7" x2="52.7" y1="121.0719" y2="361.4625"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="197.2" x2="197.2" y1="121.0719" y2="361.4625"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="379.1" x2="379.1" y1="121.0719" y2="361.4625"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="555.05" x2="555.05" y1="121.0719" y2="361.4625"></line><rect fill="#FEFECE" filter="url(#f85sg98fw1pw7)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="13.6" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="25.5" y="95.4424">User</text><rect fill="#FEFECE" filter="url(#f85sg98fw1pw7)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="166.6" x="110.5" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="142.8" x="122.4" y="95.4424">Authenticator</text><rect fill="#FEFECE" filter="url(#f85sg98fw1pw7)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="85" x="333.2" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="61.2" x="345.1" y="95.4424">Client</text><rect fill="#FEFECE" filter="url(#f85sg98fw1pw7)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="524.45" y="58.8359"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="536.35" y="95.4424">RP</text><polygon fill="#A80036" points="397.8,168.6719,380.8,175.4719,397.8,182.2719,391,175.4719" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="387.6" x2="554.2" y1="175.4719" y2="175.4719"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="136" x="408" y="167.8136">rpId,challenge</text><polygon fill="#A80036" points="215.9,220.2695,198.9,227.0695,215.9,233.8695,209.1,227.0695" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="205.7" x2="377.4" y1="227.0695" y2="227.0695"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="141.1" x="226.1" y="219.4112">rpId,clientData</text><polygon fill="#A80036" points="176.8,271.8672,193.8,278.6672,176.8,285.4672,183.6,278.6672" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="53.55" x2="187" y1="278.6672" y2="278.6672"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="100.3" x="65.45" y="271.0089">UP Action</text><polygon fill="#A80036" points="535.5,323.4648,552.5,330.2648,535.5,337.0648,542.3,330.2648" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="197.2" x2="545.7" y1="330.2648" y2="330.2648"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="95.2" x="209.1" y="322.6065">CredID, K</text><text fill="#000000" font-family="sans-serif" font-size="17" lengthAdjust="spacingAndGlyphs" textLength="30.6" x="304.3" y="323.7271">pub</text><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="120.7" x="334.9" y="322.6065">, Attestation</text><!--
+@startuml
+title: 登録
+scale 1.7
+hide footbox
+participant User
+participant Authenticator
+participant Client
+participant RP
+
+RP->Client:rpId,challenge
+Client->Authenticator: rpId,clientData
+User->Authenticator: UP Action
+Authenticator->RP: CredID, K<size:10>pub</size>, Attestation
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><ul>
+<li>キーペアの信頼性は Attestation signature で保証</li>
+</ul>
+<p><strong>今日は話しません</strong></p>
+</section><section vertical="true" lineNo="352" class="slide " data-line="352" data-h="7" data-v="11">
+<h2 class="mume-header" id="%E8%AA%8D%E8%A8%BC%E3%81%AE%E9%9A%9B%E3%81%AF">認証の際は</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="525.3px" preserveAspectRatio="none" style="width:737px;height:525px;" version="1.1" viewBox="0 0 737 525" width="737.8px" zoomAndPan="magnify"><defs><filter height="300%" id="f1qzgtxd3d9fi" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="52.7" x2="52.7" y1="67.3359" y2="505.6172"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="197.2" x2="197.2" y1="67.3359" y2="505.6172"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="448.8" x2="448.8" y1="67.3359" y2="505.6172"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="694.45" x2="694.45" y1="67.3359" y2="505.6172"></line><rect fill="#FEFECE" filter="url(#f1qzgtxd3d9fi)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="13.6" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="25.5" y="41.7064">User</text><rect fill="#FEFECE" filter="url(#f1qzgtxd3d9fi)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="166.6" x="110.5" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="142.8" x="122.4" y="41.7064">Authenticator</text><rect fill="#FEFECE" filter="url(#f1qzgtxd3d9fi)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="85" x="402.9" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="61.2" x="414.8" y="41.7064">Client</text><rect fill="#FEFECE" filter="url(#f1qzgtxd3d9fi)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="663.85" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="675.75" y="41.7064">RP</text><polygon fill="#A80036" points="467.5,114.9359,450.5,121.7359,467.5,128.5359,460.7,121.7359" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="457.3" x2="693.6" y1="121.7359" y2="121.7359"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="205.7" x="477.7" y="114.0776">credID,rpId,challenge</text><line style="stroke: #A80036; stroke-width: 1.7;" x1="448.8" x2="520.2" y1="173.9313" y2="173.9313"></line><line style="stroke: #A80036; stroke-width: 1.7;" x1="520.2" x2="520.2" y1="173.9313" y2="196.0313"></line><line style="stroke: #A80036; stroke-width: 1.7;" x1="450.5" x2="520.2" y1="196.0313" y2="196.0313"></line><polygon fill="#A80036" points="467.5,189.2313,450.5,196.0313,467.5,202.8312,460.7,196.0313" style="stroke: #A80036; stroke-width: 1.7;"></polygon><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="156.4" x="460.7" y="165.6753">rpID のチェック</text><polygon fill="#A80036" points="215.9,240.2313,198.9,247.0313,215.9,253.8312,209.1,247.0313" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="205.7" x2="447.1" y1="247.0313" y2="247.0313"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="210.8" x="226.1" y="239.3729">credID,rpId,clientData</text><polygon fill="#A80036" points="176.8,291.8289,193.8,298.6289,176.8,305.4289,183.6,298.6289" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="53.55" x2="187" y1="298.6289" y2="298.6289"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="100.3" x="65.45" y="290.9706">UP Action</text><path d="M34,321.3266 L34,421.6266 L353.6,421.6266 L353.6,338.3266 L336.6,321.3266 L34,321.3266 " fill="#FBFB77" filter="url(#f1qzgtxd3d9fi)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M336.6,321.3266 L336.6,338.3266 L353.6,338.3266 L336.6,321.3266 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="283.9" x="44.2" y="352.7683">credID から Apriv,rpId を復元</text><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="219.3" x="44.2" y="380.5659">rpId の整合性チェック</text><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="236.3" x="44.2" y="408.3636">rpId,clientData にサイン</text><polygon fill="#A80036" points="674.9,467.6195,691.9,474.4195,674.9,481.2195,681.7,474.4195" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="197.2" x2="685.1" y1="474.4195" y2="474.4195"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="205.7" x="209.1" y="466.7612">CredID,rpId,signature</text><!--
+@startuml
+scale 1.7
+hide footbox
+participant User
+participant Authenticator
+participant Client
+participant RP
+
+RP->Client:credID,rpId,challenge
+Client->Client: rpID のチェック
+Client->Authenticator: credID,rpId,clientData
+User->Authenticator: UP Action
+Note over Authenticator: credID から Apriv,rpId を復元\nrpId の整合性チェック\nrpId,clientData にサイン
+Authenticator->RP: CredID,rpId,signature
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><ul>
+<li class="fragment" data-fragment-index="1">認証リクエストとして <strong>credentialID</strong> を Client に送信<!-- .element: class="fragment" data-fragment-index="1" --></li>
+<li class="fragment" data-fragment-index="2">Authenticator は credentialID に紐づく private key, rpId を復元<!-- .element: class="fragment" data-fragment-index="2" --></li>
+<li class="fragment" data-fragment-index="3">origin binding で検証<!-- .element: class="fragment" data-fragment-index="3" --></li>
+</ul>
+</section><section vertical="true" lineNo="376" class="slide " data-line="376" data-h="7" data-v="12">
+<h2 class="mume-header" id="%E8%AA%8D%E8%A8%BC%E3%81%AE%E9%9A%9B%E3%81%AF-1">認証の際は</h2>
+
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="452.2px" preserveAspectRatio="none" style="width:737px;height:452px;" version="1.1" viewBox="0 0 737 452" width="737.8px" zoomAndPan="magnify"><defs><filter height="300%" id="f1tk1j9r6g6txd" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.4"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="6.8" dy="6.8" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="52.7" x2="52.7" y1="67.3359" y2="431.9195"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="197.2" x2="197.2" y1="67.3359" y2="431.9195"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="448.8" x2="448.8" y1="67.3359" y2="431.9195"></line><line style="stroke: #A80036; stroke-width: 1.7; stroke-dasharray: 5.0,5.0;" x1="694.45" x2="694.45" y1="67.3359" y2="431.9195"></line><rect fill="#FEFECE" filter="url(#f1tk1j9r6g6txd)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="73.1" x="13.6" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="49.3" x="25.5" y="41.7064">User</text><rect fill="#FEFECE" filter="url(#f1tk1j9r6g6txd)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="166.6" x="110.5" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="142.8" x="122.4" y="41.7064">Authenticator</text><rect fill="#FEFECE" filter="url(#f1tk1j9r6g6txd)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="85" x="402.9" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="61.2" x="414.8" y="41.7064">Client</text><rect fill="#FEFECE" filter="url(#f1tk1j9r6g6txd)" height="53.7359" style="stroke: #A80036; stroke-width: 2.55;" width="56.1" x="663.85" y="5.1"></rect><text fill="#000000" font-family="sans-serif" font-size="23.8" lengthAdjust="spacingAndGlyphs" textLength="32.3" x="675.75" y="41.7064">RP</text><polygon fill="#A80036" points="467.5,114.9359,450.5,121.7359,467.5,128.5359,460.7,121.7359" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="457.3" x2="693.6" y1="121.7359" y2="121.7359"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="205.7" x="477.7" y="114.0776">credID,rpId,challenge</text><polygon fill="#A80036" points="215.9,166.5336,198.9,173.3336,215.9,180.1336,209.1,173.3336" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="205.7" x2="447.1" y1="173.3336" y2="173.3336"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="210.8" x="226.1" y="165.6753">credID,rpId,clientData</text><polygon fill="#A80036" points="176.8,218.1313,193.8,224.9313,176.8,231.7313,183.6,224.9313" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="53.55" x2="187" y1="224.9313" y2="224.9313"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="100.3" x="65.45" y="217.2729">UP Action</text><path d="M34,247.6289 L34,347.9289 L353.6,347.9289 L353.6,264.6289 L336.6,247.6289 L34,247.6289 " fill="#FBFB77" filter="url(#f1tk1j9r6g6txd)" style="stroke: #A80036; stroke-width: 1.7;"></path><path d="M336.6,247.6289 L336.6,264.6289 L353.6,264.6289 L336.6,247.6289 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.7;"></path><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="283.9" x="44.2" y="279.0706">credID から Apriv,rpId を復元</text><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="219.3" x="44.2" y="306.8683">rpId の整合性チェック</text><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="236.3" x="44.2" y="334.6659">rpId,clientData にサイン</text><polygon fill="#A80036" points="674.9,393.9219,691.9,400.7219,674.9,407.5219,681.7,400.7219" style="stroke: #A80036; stroke-width: 1.7;"></polygon><line style="stroke: #A80036; stroke-width: 1.7;" x1="197.2" x2="685.1" y1="400.7219" y2="400.7219"></line><text fill="#000000" font-family="sans-serif" font-size="22.1" lengthAdjust="spacingAndGlyphs" textLength="205.7" x="209.1" y="393.0636">CredID,rpId,signature</text><!--
+@startuml
+scale 1.7
+hide footbox
+participant User
+participant Authenticator
+participant Client
+participant RP
+
+RP->Client:credID,rpId,challenge
+Client->Authenticator: credID,rpId,clientData
+User->Authenticator: UP Action
+Note over Authenticator: credID から Apriv,rpId を復元\nrpId の整合性チェック\nrpId,clientData にサイン
+Authenticator->RP: CredID,rpId,signature
+@enduml
+
+PlantUML version 1.2018.01(Mon Jan 29 03:08:22 JST 2018)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 10.0.1+10
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: MS932
+Language: ja
+Country: JP
+--></g></svg></p><pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token punctuation">{</span>
+  challenge <span class="token punctuation">:</span> <span class="token string">'xxxxxxxxxxxxxxxxxxxxx'</span><span class="token punctuation">,</span>
+  allowCredentials<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+        id<span class="token punctuation">:</span> <span class="token constant">XXXXXXXXXXXXXXXXX</span><span class="token punctuation">,</span>
+        type<span class="token punctuation">:</span> <span class="token string">"public-key"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre></section><section vertical="true" lineNo="406" class="slide " data-line="406" data-h="7" data-v="13">
+<h2 class="mume-header" id="%E3%81%BE%E3%81%A8%E3%82%81">まとめ</h2>
+
+<h3 class="mume-header" id="%E7%99%BB%E9%8C%B2%E6%99%82">登録時</h3>
+
+<p><img src="./img//Reg1.png" alt=""></p>
+<ul>
+<li class="fragment" data-fragment-index="1">秘密鍵は Authenticator 内に保存<!-- .element: class="fragment" data-fragment-index="1" --></li>
+<li class="fragment" data-fragment-index="2">キーペアはRPごとに一意の CredentialID を毎回新しく生成<!-- .element: class="fragment" data-fragment-index="2" --></li>
+<li class="fragment" data-fragment-index="3">ClientがRPID の正当性を検証<!-- .element: class="fragment" data-fragment-index="3" --></li>
+<li class="fragment" data-fragment-index="4">キーペアは Attestation によって信頼性を保証<!-- .element: class="fragment" data-fragment-index="4" --></li>
+</ul>
+</section><section vertical="true" lineNo="441" class="slide " data-line="441" data-h="7" data-v="14">
+<h2 class="mume-header" id="%E3%81%BE%E3%81%A8%E3%82%81-1">まとめ</h2>
+
+<h3 class="mume-header" id="%E8%AA%8D%E8%A8%BC%E6%99%82">認証時</h3>
+
+<p><img src="./img//Auth1.png" alt=""></p>
+<ul>
+<li>サーバーはチャレンジとともに CredentialID を送る</li>
+<li>Client は rpId の正当性をチェック</li>
+<li>Authenticator は Credential ID をもとにキーペアを復元</li>
+<li>認証対象の rpId に対して作成されたキーペアであるかを検証</li>
+<li>UP を検証</li>
+</ul>
+</section></section><section lineNo="455" class="slide " data-line="455" data-h="8" data-v="0">
+<h2 class="mume-header" id="%E3%81%93%E3%81%93%E3%81%BE%E3%81%A7%E3%81%8Cu2f%E8%AA%8D%E8%A8%BC%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AE-webauthn">ここまでがU2F認証ベースの WebAuthn</h2>
+
+</section><section><section lineNo="459" class="slide " data-line="459" data-h="9" data-v="0">
+<h2 class="mume-header" id="%E3%81%93%E3%81%93%E3%81%BE%E3%81%A7%E3%81%AF%E7%9F%A5%E3%81%A3%E3%81%A6%E3%82%8B">ここまでは知ってる</h2>
+
+</section><section vertical="true" lineNo="463" class="slide " data-line="463" data-h="9" data-v="1">
+<h2 class="mume-header" id="u2f-%E3%81%A8-fido2">U2F と FIDO2</h2>
+
+<p>なにが違うのか？</p>
+</section><section vertical="true" lineNo="469" class="slide " data-line="469" data-h="9" data-v="2">
+<h3 class="mume-header" id="u2f">U2F</h3>
+
+<ul>
+<li class="fragment" data-fragment-index="1">あくまで <strong>2nd</strong> Factor <!-- .element: class="fragment" data-fragment-index="1" --></li>
+</ul>
+</section><section vertical="true" lineNo="475" class="slide " data-line="475" data-h="9" data-v="3">
+<h3 class="mume-header" id="fido2">FIDO2</h3>
+
+<ul>
+<li class="fragment" data-fragment-index="2">Authenticator のみでの認証<!-- .element: class="fragment" data-fragment-index="2" --></li>
+<li class="fragment" data-fragment-index="3">2nd Factor Authentication<!-- .element: class="fragment" data-fragment-index="3" --></li>
+<li class="fragment" data-fragment-index="4"><strong>Multi Factor Authentication</strong><!-- .element: class="fragment" data-fragment-index="4" --></li>
+</ul>
+</section><section vertical="true" lineNo="483" class="slide " data-line="483" data-h="9" data-v="4">
+<h2 class="mume-header" id="fido2-webauthn-api">FIDO2 (WebAuthn API)</h2>
+
+<pre data-role="codeBlock" data-info="js" class="language-javascript">publicKey <span class="token operator">=</span> <span class="token punctuation">{</span>
+  rp<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> <span class="token string">'example.com'</span><span class="token punctuation">,</span>
+    name<span class="token punctuation">:</span> <span class="token string">'my example app'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  challenge <span class="token punctuation">:</span> <span class="token string">'xxxxxxxxxxxxxxxxxxxxx'</span><span class="token punctuation">,</span>
+  authenticatorSelection<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+     userVerification<span class="token punctuation">:</span> “required“<span class="token punctuation">,</span><span class="token comment">//PIN 生体認証</span>
+     requireResidentKey<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">//ユーザ情報の保存</span>
+     authenticatorAttachment<span class="token punctuation">:</span> “cross<span class="token operator">-</span>platform” <span class="token comment">//CTAP</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+credentials<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">{</span>publicKey<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</pre><ul>
+<li class="fragment" data-fragment-index="2">PIN,もしくは生体認証の要求<!-- .element: class="fragment" data-fragment-index="2" --></li>
+<li class="fragment" data-fragment-index="3">キーに認証情報を保存<!-- .element: class="fragment" data-fragment-index="3" --></li>
+</ul>
+</section><section vertical="true" lineNo="508" class="slide " data-line="508" data-h="9" data-v="5">
+<h2 class="mume-header" id="user-verification">User Verification</h2>
+
+<pre data-role="codeBlock" data-info="js" class="language-javascript">  authenticatorSelection<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+     userVerification<span class="token punctuation">:</span> “required“<span class="token punctuation">,</span><span class="token comment">//default preferred</span>
+  <span class="token punctuation">}</span>
+</pre><ul>
+<li>required: UVを要求する</li>
+<li>preferred: Authenticator が対応していれば要求する</li>
+<li>discouraged: Authenticator が対応していても要求しない</li>
+</ul>
+</section><section vertical="true" lineNo="522" class="slide " data-line="522" data-h="9" data-v="6">
+<h2 class="mume-header" id="user-verification-1">User Verification</h2>
+
+<pre data-role="codeBlock" data-info="js" class="language-javascript">  authenticatorSelection<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+     userVerification<span class="token punctuation">:</span> “required“<span class="token punctuation">,</span><span class="token comment">//default preferred</span>
+  <span class="token punctuation">}</span>
+</pre><table>
+<thead>
+<tr>
+<th style="text-align:center">AuthenticatorSelection<br>.userVerification</th>
+<th style="text-align:center">Authenticator<br>Capability</th>
+<th style="text-align:center">Authenticator's<br>PIN is set?</th>
+<th style="text-align:center">User <br> verification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">&quot;required&quot;</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">any</td>
+<td style="text-align:center">required</td>
+</tr>
+<tr>
+<td style="text-align:center">&quot;required&quot;</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">ConstraintError</td>
+</tr>
+<tr>
+<td style="text-align:center">&quot;preferred&quot;</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">any</td>
+<td style="text-align:center">required</td>
+</tr>
+<tr>
+<td style="text-align:center">&quot;preferred&quot;</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">not required</td>
+</tr>
+<tr>
+<td style="text-align:center">&quot;discouraged&quot;</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">set</td>
+<td style="text-align:center">required※</td>
+</tr>
+<tr>
+<td style="text-align:center">&quot;discouraged&quot;</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">not set</td>
+<td style="text-align:center">not required</td>
+</tr>
+<tr>
+<td style="text-align:center">&quot;discouraged&quot;</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">not required</td>
+</tr>
+</tbody>
+</table>
+<p>※スペック上はよくわからない</p>
+</section><section vertical="true" lineNo="544" class="slide " data-line="544" data-h="9" data-v="7">
+<h2 class="mume-header" id="residentkey">ResidentKey</h2>
+
+<p>Authenticator は 以下のような情報を保存できる</p>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token punctuation">{</span>
+  <span class="token comment">//※疑似コードです</span>
+  <span class="token comment">//rpId をキーとした認証情報リスト</span>
+  <span class="token string">"example.com"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      user<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        id<span class="token punctuation">:</span> <span class="token string">"1234567890abcdef"</span><span class="token punctuation">,</span> <span class="token comment">//specific id of RP user</span>
+        displayName<span class="token punctuation">:</span> <span class="token string">"hani"</span><span class="token punctuation">,</span> <span class="token comment">//optional</span>
+        icon<span class="token punctuation">:</span> <span class="token string">"https://example.com/icons/hani.png"</span> <span class="token comment">//optional</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      credentialId<span class="token punctuation">:</span> <span class="token string">"xxxxxxxxxxxxxxxxxxxx"</span><span class="token comment">//specific id to determine key pair</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</pre><ul>
+<li>rpId に対する
+<ul>
+<li>user情報 (id は必須)</li>
+<li>credentialId</li>
+</ul>
+</li>
+</ul>
+</section><section vertical="true" lineNo="571" class="slide " data-line="571" data-h="9" data-v="8">
+<h2 class="mume-header" id="residentkey-1">ResidentKey</h2>
+
+<p>保存できると何が嬉しいのか</p>
+<pre data-role="codeBlock" data-info="js" class="language-javascript"><span class="token punctuation">{</span>
+  <span class="token comment">//rpId をキーとした認証情報リストの疑似コード</span>
+  <span class="token string">"example.com"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      user<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        id<span class="token punctuation">:</span> <span class="token string">"1234567890abcdef"</span><span class="token punctuation">,</span> <span class="token comment">//specific id of RP user</span>
+        displayName<span class="token punctuation">:</span> <span class="token string">"hani"</span><span class="token punctuation">,</span> <span class="token comment">//optional</span>
+        icon<span class="token punctuation">:</span> <span class="token string">"https://example.com/icons/hani.png"</span> <span class="token comment">//optional</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      credentialId<span class="token punctuation">:</span> <span class="token string">"xxxxxxxxxxxxxxxxxxxx"</span><span class="token comment">//specific id to determine key pair</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</pre><ul>
+<li>認証の際に
+<ul>
+<li>user情報と CredentialID をRPを送らなくてもよい</li>
+<li>つまりユーザID入力なしで認証可能</li>
+</ul>
+</li>
+</ul>
+</section><section vertical="true" lineNo="597" class="slide " data-line="597" data-h="9" data-v="9">
+<h2 class="mume-header" id="residentkey-2">ResidentKey</h2>
+
+<p>保存できると何が嬉しいのか</p>
+<p><img src="./img/auth1_issue.png" alt=""></p>
+<ul>
+<li>認証の際に
+<ul>
+<li>user情報と CredentialID をRPを送らなくてもよい</li>
+<li>つまりユーザID入力なしで認証可能</li>
+</ul>
+</li>
+</ul>
+</section><section vertical="true" lineNo="609" class="slide " data-line="609" data-h="9" data-v="10">
+<p><img src="./img/Reg2.png" alt="Registration"></p>
+</section><section vertical="true" lineNo="613" class="slide " data-line="613" data-h="9" data-v="11">
+<p><img src="./img/Auth2.png" alt="Authentication"></p>
+</section><section vertical="true" lineNo="618" class="slide " data-line="618" data-h="9" data-v="12">
+<h3 class="mume-header" id="%E3%81%BE%E3%81%A8%E3%82%81-2">まとめ</h3>
+
+<ul>
+<li class="fragment" data-fragment-index="2">Authenticator のみでの認証<!-- .element: class="fragment" data-fragment-index="2" --></li>
+<li class="fragment" data-fragment-index="3">2nd Factor Authentication<!-- .element: class="fragment" data-fragment-index="3" --></li>
+<li class="fragment" data-fragment-index="4"><strong>Multi Factor Authentication</strong><!-- .element: class="fragment" data-fragment-index="4" --></li>
+</ul>
+</section></section>
+      </div>
+    </div>
+    
+      </div>
+      
+      
+    </body>
+    
+      <script>
+        Reveal.initialize({"margin":0.1,"width":1280,"height":980,"enableSpeakerNotes":true,"dependencies":[{"src":"revealjs_deps/notes.js","async":true}]})
+      </script>
+      
+    
+    
+    
+    
+    
+    
+  </html>

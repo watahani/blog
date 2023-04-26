@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="Microsoft Ignite 2019 が今年も開催されてましたね。 今年もセキュリティキーに関してアップデートがあったけど、ポケモン剣盾で時間とられて、余裕ないので雑にメモ。 孵化あまり、だれか交換しましょう。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Microsoft Ignite 2019 メモ">
+<meta property="og:url" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/index.html">
+<meta property="og:site_name" content="enjoy struggling">
+<meta property="og:description" content="Microsoft Ignite 2019 が今年も開催されてましたね。 今年もセキュリティキーに関してアップデートがあったけど、ポケモン剣盾で時間とられて、余裕ないので雑にメモ。 孵化あまり、だれか交換しましょう。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/auth-flow.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/winconf.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/winconffinger.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/funnel.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/roadmap.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/passwordlessjourney.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/firstlineworker.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/workday-provisioning.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/signin-with-phone-number.png">
+<meta property="article:published_time" content="2019-11-24T01:40:00.000Z">
+<meta property="article:modified_time" content="2022-05-18T13:45:29.097Z">
+<meta property="article:author" content="watahani">
+<meta property="article:tag" content="雑記">
+<meta property="article:tag" content="Azure AD">
+<meta property="article:tag" content="Microsoft">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.haniyama.com/2019/11/24/ms-ignite-2019/auth-flow.png">
+<meta name="twitter:creator" content="@watahani"><meta name="description"><meta name="keywords" content="Java, Javascript, AWS, GCP, PGP"><link rel="alternate" type="application/atom+xml" href="/atom.xml" title="enjoy struggling"><title>Microsoft Ignite 2019 メモ - enjoy struggling</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.png"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-113476970-1', 'auto');ga('send', 'pageview');</script><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a target="_blank" rel="noopener" href="https://github.com/watahani"><span>Github</span></a></li><li><a target="_blank" rel="noopener" href="https://qiita.com/watahani"><span>Qiita</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><link rel="amphtml" href="./amp/index.html"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://storage.googleapis.com/blog-haniyama/background-min.png"><div class="post-title"><h1 class="title">Microsoft Ignite 2019 メモ</h1><ul class="meta"><li><i class="icon icon-author"></i>watahani</li><li><i class="icon icon-clock"></i>5 Minutes</li><li><i class="icon icon-calendar"></i>November 24, 2019</li></ul></div></div><div class="article-content" style="max-width:800px"><p>Microsoft Ignite 2019 が今年も開催されてましたね。</p>
+<p>今年もセキュリティキーに関してアップデートがあったけど、ポケモン剣盾で時間とられて、余裕ないので雑にメモ。</p>
+<p>孵化あまり、だれか交換しましょう。</p>
+<span id="more"></span>
+
+<p>去年はセキュリティキーでのサインイン含む、WebAuthn, パスワードレス系のセッションを聞いてテンション上げてましたねー。もう一年か、早いもんだ。</p>
+<h2 id="BRK2130-Azure-Active-Directory-New-features-and-roadmap"><a href="#BRK2130-Azure-Active-Directory-New-features-and-roadmap" class="headerlink" title="BRK2130 Azure Active Directory: New features and roadmap"></a>BRK2130 Azure Active Directory: New features and roadmap</h2><p><a target="_blank" rel="noopener" href="https://myignite.techcommunity.microsoft.com/sessions/81713?source=sessions">https://myignite.techcommunity.microsoft.com/sessions/81713?source=sessions</a></p>
+<p>Azure AD の新機能のお話。</p>
+<ul>
+<li>SaaS アプリとの SCIM によるプロビジョニング<ul>
+<li>Salesforce, Facebook 等へは SCIM で接続済み</li>
+<li>なんか見てると、3rd Party の ID 管理システムから Azure AD への同期もできそうな雰囲気</li>
+<li>SaaS &#x3D;&gt; AAD も SCIM なのかな…？</li>
+</ul>
+</li>
+<li>オンプレとの同期ツール、Azure AD Cloud Provisioning<ul>
+<li>(ググラビリティ低くない？)</li>
+<li>軽量エージェントインストールするだけで設定はクラウド</li>
+<li>三井住友? の 200 フォレストあるテナントで試してた？ (英語聞き取れず)</li>
+<li>MIM とか知らないっす。</li>
+</ul>
+</li>
+<li>First Worker 向け機能<ul>
+<li>製造・小売り等の従業員向けっぽい</li>
+<li>プロビジョニングと <strong>電話番号でのサインイン!</strong></li>
+</ul>
+</li>
+<li>B2B ダイレクト フェデレーション (プレビュー))<ul>
+<li>Google, Okta, Ping Fed や、他社の AD FS から直接ゲストユーザーがサインインできる</li>
+<li>ドキュメントは<a target="_blank" rel="noopener" href="https://docs.microsoft.com/ja-jp/azure/active-directory/b2b/direct-federation">このへん</a></li>
+</ul>
+</li>
+<li>アクセスパネルのワークスペースによるグルーピング機能<ul>
+<li>なんで今までなかったんや…</li>
+</ul>
+</li>
+<li>Entitlement Management と外部ツールによる? 権限申請・承認フローのデモ</li>
+<li>Azure AD の Availability のはなし</li>
+<li>ハイブリッド環境への FIDO2 Security Key によるサインイン<ul>
+<li>Hybrid Azure AD Joined 環境でセキュリティキーでのサインインできる</li>
+<li>FY20Q1  Public Preview の予定…らしい</li>
+</ul>
+</li>
+<li>条件付きアクセスのレポート オンリーモード<ul>
+<li>条件付きアクセスの設定テストのために、サインインログに出すだけでブロックしないモード</li>
+</ul>
+</li>
+</ul>
+<p>盛りだくさんだけど、気になったのは First Worker 向けの電話番号でのサインインと、Hybrid Azure AD 環境での FIDO2 セキュリティキー。</p>
+<p>あと SCIM 触ったことないので、どっかで触っておきたい。</p>
+<h2 id="Eliminate-your-weakest-link-with-passwordless-authentication"><a href="#Eliminate-your-weakest-link-with-passwordless-authentication" class="headerlink" title="Eliminate your weakest link with passwordless authentication"></a>Eliminate your weakest link with passwordless authentication</h2><p><a target="_blank" rel="noopener" href="https://myignite.techcommunity.microsoft.com/sessions/81716?source=sessions">https://myignite.techcommunity.microsoft.com/sessions/81716?source=sessions</a></p>
+<p>Hybrid 環境での FIDO2 セキュリティキーのデプロイ。2020年の始めにパブリック プレビューの予定。</p>
+<p>Azure AD Connect の最新版 + Win10 の Insider Build + ドメコンへのパッチが必要らしい。</p>
+<p>フローはこんな感じ</p>
+<p><img src="/2019/11/24/ms-ignite-2019/auth-flow.png"></p>
+<ul>
+<li>(0) Azure AD Connect で Kerberos Server keys をクラウドにもっていく</li>
+<li>WebAuthn で認証</li>
+<li>AAD がユーザーネームだけ入った一時的な TGT チケットを同期した秘密鍵で生成して取得</li>
+<li>PRT と一緒に Windows 10 が受け取る</li>
+<li>オンプレの AD に 一時的な TGT チケットを提示</li>
+<li>オンプレ AD が完全な TGT チケットを返却</li>
+</ul>
+<p>これ、AD につながらないときはどんな動きするんだろう。普通に PRT 落ちてきてるから、Azure AD に対しては認証できそう。</p>
+<p>あとは Kerberos Server keys を組織の外に同期するって、どの程度のインパクトなのかよくわからん。</p>
+<p>そして動かんくなったときのデバッグつらそうｗ</p>
+<p>あとは、Windows と CTAP2 の統合。</p>
+<p><img src="/2019/11/24/ms-ignite-2019/winconf.png"></p>
+<p><img src="/2019/11/24/ms-ignite-2019/winconffinger.png"></p>
+<p>指紋や PIN の設定を Windows の設定から行えるようになったとのこと。デモでは失敗してたけど。</p>
+<p>Biometrics 系の API って標準化されてるんかな。この辺最近追ってないのでわからん。</p>
+<h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p><img src="/2019/11/24/ms-ignite-2019/funnel.png"></p>
+<p><img src="/2019/11/24/ms-ignite-2019/roadmap.png"></p>
+<p>パスワードレスへ移行するための道筋的なのはこっち</p>
+<ul>
+<li>THR3076 Get the most out of passwordless authentication and avoid pitfalls<br><a target="_blank" rel="noopener" href="https://myignite.techcommunity.microsoft.com/sessions/81735?source=sessions">https://myignite.techcommunity.microsoft.com/sessions/81735?source=sessions</a></li>
+</ul>
+<p>デバイスのアップデートサイクルに合わせて TPM 使えるマシンにしろとか、MSAL 使った OIDC の認証に切り替えろ見たいな話しをしていたと思う。(ちゃんと聞いてない)</p>
+<p><img src="/2019/11/24/ms-ignite-2019/passwordlessjourney.png"></p>
+<h2 id="BRK2261-Empower-firstline-worker-productivity-from-day-one"><a href="#BRK2261-Empower-firstline-worker-productivity-from-day-one" class="headerlink" title="BRK2261 Empower firstline worker productivity from day one"></a>BRK2261 Empower firstline worker productivity from day one</h2><p><a target="_blank" rel="noopener" href="https://myignite.techcommunity.microsoft.com/sessions/81630?source=sessions">https://myignite.techcommunity.microsoft.com/sessions/81630?source=sessions</a></p>
+<p>AAD 新機能のセッションみてちょっと気になったので。</p>
+<p><img src="/2019/11/24/ms-ignite-2019/firstlineworker.png"></p>
+<p>FirstLine Worker って言葉を知らなかったんだけど、小売店や製造業の、店舗従業員や作業員といった意味らしい。</p>
+<p>そういった人たちにも、Teams やら Shift (Staff Hub の後継) を使ってもらって、仕事効率高めようという話。</p>
+<p>MS シフト管理ツールまで持ってるんか…。Staff Hub とか聞いたことなかったわ。</p>
+<p>は、置いといて、プロビジョニングして使い始めてもらうっていう文脈で、管理者が設定した電話番号にワンタイム パスコード送ってサインインができるという機能。<br>Y!っぽいあれですね。</p>
+<p><img src="/2019/11/24/ms-ignite-2019/workday-provisioning.png"></p>
+<p>HR システムからユーザーをプロビジョニングして、Teams のチャネルに自動招待。あと電話番号も登録。</p>
+<p><img src="/2019/11/24/ms-ignite-2019/signin-with-phone-number.png"></p>
+<p>ユーザーは自分の電話番号でサインインするだけ。</p>
+<p>複数の組織に所属してたらどうなるんだろうとか、気になるところはあるけど、パスワード リセットのヘルプセンターの管理するよりずっといいんじゃないでしょうか。</p>
+<p>今日はヒバニーの孵化作業があるので、ここまで。</p>
+<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2021\01\14\202101\" title="2021-01-14 めも" rel="bookmark">2021-01-14 めも</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2021\11\05\azure-portal-change-language\" title="Azure ポータルの言語をワンクリックで切り替える" rel="bookmark">Azure ポータルの言語をワンクリックで切り替える</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\12\18\best-buy-2018\" title="BEST BUY 2018" rel="bookmark">BEST BUY 2018</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2021\04\24\cors\" title="自分的 CORS メモ" rel="bookmark">自分的 CORS メモ</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\02\04\job-change\" title="転職しました" rel="bookmark">転職しました</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-AD/" rel="tag">Azure AD</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft/" rel="tag">Microsoft</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9B%91%E8%A8%98/" rel="tag">雑記</a><span class="tag-list-count">7</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2019/12/06/azuread-b2c-fido2-custompolicy/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2019/09/23/azuread-b2c-can-not-connect-yahooid/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2023 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>

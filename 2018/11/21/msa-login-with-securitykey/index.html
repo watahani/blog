@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="Password-less Login with the YubiKey 5 Comes to Microsoft Accounts | Yubico  来たか！ ということで、MSA(Microsoft Account) で FIDO2&#x2F;WebAuthn 対応の YubiKey 5 or Security Key by Yubico でログイン可能になったらしいので早速試してみた。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Microsoft Account FIDO2 対応キーでログイン可能に">
+<meta property="og:url" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/index.html">
+<meta property="og:site_name" content="enjoy struggling">
+<meta property="og:description" content="Password-less Login with the YubiKey 5 Comes to Microsoft Accounts | Yubico  来たか！ ということで、MSA(Microsoft Account) で FIDO2&#x2F;WebAuthn 対応の YubiKey 5 or Security Key by Yubico でログイン可能になったらしいので早速試してみた。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/security-options.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/secop-ja.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/secop-en.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/setup-yubikey.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/enter-pin.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/login-option.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/login-with-yubikey.png">
+<meta property="article:published_time" content="2018-11-20T23:43:23.000Z">
+<meta property="article:modified_time" content="2022-05-18T13:45:29.107Z">
+<meta property="article:author" content="watahani">
+<meta property="article:tag" content="FIDO2">
+<meta property="article:tag" content="WebAuthn">
+<meta property="article:tag" content="Microsoft">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.haniyama.com/2018/11/21/msa-login-with-securitykey/security-options.png">
+<meta name="twitter:creator" content="@watahani"><meta name="description"><meta name="keywords" content="Java, Javascript, AWS, GCP, PGP"><link rel="alternate" type="application/atom+xml" href="/atom.xml" title="enjoy struggling"><title>Microsoft Account FIDO2 対応キーでログイン可能に - enjoy struggling</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.png"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-113476970-1', 'auto');ga('send', 'pageview');</script><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a target="_blank" rel="noopener" href="https://github.com/watahani"><span>Github</span></a></li><li><a target="_blank" rel="noopener" href="https://qiita.com/watahani"><span>Qiita</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><link rel="amphtml" href="./amp/index.html"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://storage.googleapis.com/blog-haniyama/background-min.png"><div class="post-title"><h1 class="title">Microsoft Account FIDO2 対応キーでログイン可能に</h1><ul class="meta"><li><i class="icon icon-author"></i>watahani</li><li><i class="icon icon-clock"></i>3 Minutes</li><li><i class="icon icon-calendar"></i>November 21, 2018</li></ul></div></div><div class="article-content" style="max-width:800px"><ul>
+<li><a target="_blank" rel="noopener" href="https://www.yubico.com/2018/11/password-less-login-with-the-yubikey-5-comes-to-microsoft-accounts/">Password-less Login with the YubiKey 5 Comes to Microsoft Accounts | Yubico</a></li>
+</ul>
+<p><strong>来たか！</strong></p>
+<p>ということで、MSA(Microsoft Account) で FIDO2&#x2F;WebAuthn 対応の YubiKey 5 or Security Key by Yubico でログイン可能になったらしいので早速試してみた。</p>
+<span id="more"></span>
+
+<p>MSA って何やねんって思ったけど、要はAzure ADじゃない、個人アカウントってことらしい。タブンネ。</p>
+<h2 id="アカウントページにアクセス"><a href="#アカウントページにアクセス" class="headerlink" title="アカウントページにアクセス"></a>アカウントページにアクセス</h2><p>まずはお手元に Windows10 versions1809 と Edge 、YubiKey 5 シリーズか Security Key by Yubico(2って刻印があるやつ） を用意。</p>
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=82p-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B07BYSB7FK&linkId=8a19153a421eb5ce6735b868823cdfbe"></iframe>
+
+<p>1809… うっ、アタマが…</p>
+<p>次に <a target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/help/4463210/windows-10-sign-in-microsoft-account-windows-hello-security-key">MS のサポートページ</a> に従って登録してみる。Microsoft Account でログインしてから</p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/security-options.png"><br>アカウントの<a target="_blank" rel="noopener" href="https://account.live.com/proofs/manage/additional">追加のセキュリティオプションページ</a>にアクセスして、</p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/secop-ja.png"></p>
+<p>が、無い！</p>
+<p>日本サポートはまだなのか…。</p>
+<p>しかし大体こういうときは<strong>言語を英語にすればええんやで</strong>と、私のゴーストが囁くのでおもむろに URL のパラメーター <code>mkt=ja-JP</code> を <code>mkt=en-US</code> に差し替える。</p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/secop-en.png"></p>
+<p><a target="_blank" rel="noopener" href="https://account.live.com/proofs/manage/additional?mkt=en-US">https://account.live.com/proofs/manage/additional?mkt=en-US</a></p>
+<p>登録できそうやね。</p>
+<h2 id="登録"><a href="#登録" class="headerlink" title="登録"></a>登録</h2><p>早速登録してみる。</p>
+<p>USBもしくはNFCに対応しているらしい（BLEは未対応）</p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/setup-yubikey.png"></p>
+<p>キーを挿入すると、PIN を設定しろと表示される。User Verification は必須らしい。<br>ちなみに <code>rp.id</code> は <code>login.microsoft.com</code> なのかな？</p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/enter-pin.png"></p>
+<p>PIN を設定して YubiKey に2回タッチすると登録完了。</p>
+<h2 id="ログイン"><a href="#ログイン" class="headerlink" title="ログイン"></a>ログイン</h2><p>この状態でログアウトするとログイン画面に見慣れない表示が…</p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/login-option.png"></p>
+<p><img src="/2018/11/21/msa-login-with-securitykey/login-with-yubikey.png"></p>
+<p>ログイン完了！</p>
+<h2 id="雑感"><a href="#雑感" class="headerlink" title="雑感"></a>雑感</h2><p>まだ MSA のみ対応なのと、Edge のみなので使い始める人は少ないだろうけど確かに登録＆ログインできた。<br>Yahoo!アカウントの  FIDO2 対応の時もそうだが、自分が関わってるコミュニティの新機能発表は、すごく興奮する。</p>
+<p>と同時に、何か自分もビジネスにかかわらないとなーと漠然とした焦りを感じる。</p>
+<p>でも、とりあえず今日は速報ってことで</p>
+<p>いじょう。</p>
+<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\05\07\windows-hello-fido2-certification\" title="Windows Hello が FIDO2 Certificate を取得" rel="bookmark">Windows Hello が FIDO2 Certificate を取得</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\06\17\edge-support-webauthn\" title="Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)" rel="bookmark">Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\09\28\ms-ignite-2018\" title="雑感 Microsoft Ignite What's new for Windows Hello for Business" rel="bookmark">雑感 Microsoft Ignite What's new for Windows Hello for Business</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\10\19\webauthn-residentkey\" title="Webauthn における ResidentKey と UserVerification について" rel="bookmark">Webauthn における ResidentKey と UserVerification について</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\12\06\azuread-b2c-fido2-custompolicy\" title="Azure B2C の FIDO2 サンプルを動かす" rel="bookmark">Azure B2C の FIDO2 サンプルを動かす</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/FIDO2/" rel="tag">FIDO2</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microsoft/" rel="tag">Microsoft</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebAuthn/" rel="tag">WebAuthn</a><span class="tag-list-count">11</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2018/12/18/best-buy-2018/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2018/11/19/webauthn-attestation/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2023 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>

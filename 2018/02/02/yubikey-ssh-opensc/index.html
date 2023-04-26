@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="Putty CAC で SSH に YubiKey を使う(OpenSC編)概要YubiKey 4 の PIV 機能を利用して SSH 接続を試してみる。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Putty CAC で SSH に YubiKey を使う(OpenSC編)">
+<meta property="og:url" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/index.html">
+<meta property="og:site_name" content="enjoy struggling">
+<meta property="og:description" content="Putty CAC で SSH に YubiKey を使う(OpenSC編)概要YubiKey 4 の PIV 機能を利用して SSH 接続を試してみる。">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-01_08h54_48.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_20h33_31.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_17.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_32.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_39.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h07_55.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h27_34.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h29_42.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_11.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_37.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_43.png">
+<meta property="article:published_time" content="2018-02-02T12:44:28.000Z">
+<meta property="article:modified_time" content="2022-05-18T13:45:29.151Z">
+<meta property="article:author" content="watahani">
+<meta property="article:tag" content="YubiKey">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.haniyama.com/2018/02/02/yubikey-ssh-opensc/2018-02-01_08h54_48.png">
+<meta name="twitter:creator" content="@watahani"><meta name="description"><meta name="keywords" content="Java, Javascript, AWS, GCP, PGP"><link rel="alternate" type="application/atom+xml" href="/atom.xml" title="enjoy struggling"><title>Putty CAC で SSH に YubiKey を使う(OpenSC編) - enjoy struggling</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.png"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-113476970-1', 'auto');ga('send', 'pageview');</script><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a target="_blank" rel="noopener" href="https://github.com/watahani"><span>Github</span></a></li><li><a target="_blank" rel="noopener" href="https://qiita.com/watahani"><span>Qiita</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><link rel="amphtml" href="./amp/index.html"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://storage.googleapis.com/blog-haniyama/background-min.png"><div class="post-title"><h1 class="title">Putty CAC で SSH に YubiKey を使う(OpenSC編)</h1><ul class="meta"><li><i class="icon icon-author"></i>watahani</li><li><i class="icon icon-clock"></i>9 Minutes</li><li><i class="icon icon-calendar"></i>February 2, 2018</li></ul></div></div><div class="article-content" style="max-width:800px"><h1 id="Putty-CAC-で-SSH-に-YubiKey-を使う-OpenSC編"><a href="#Putty-CAC-で-SSH-に-YubiKey-を使う-OpenSC編" class="headerlink" title="Putty CAC で SSH に YubiKey を使う(OpenSC編)"></a>Putty CAC で SSH に YubiKey を使う(OpenSC編)</h1><h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>YubiKey 4 の PIV 機能を利用して SSH 接続を試してみる。<br><span id="more"></span><br>YubiKey には PIV(Smart Card) 機能があり、 OpenSC などで実装される PKCS#11 と、 Windows の CAPI で利用できる minidriver 経由の API アクセスの2つの機能が利用できる。</p>
+<p>Windows 環境で PKCS#11 と CAPI を利用できる Putty CAC を利用して SSH 接続を試してみる。今回は OpenSC のほうを試す。</p>
+<p>Linux, Mac 環境については <a target="_blank" rel="noopener" href="https://developers.yubico.com/PIV/Guides/SSH_with_PIV_and_PKCS11.html">Yubico 公式サイト</a>に解説があるのでそちらを参照</p>
+<p>CAPI を利用して SSH もできるので、時間があればまた次回。</p>
+<h2 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h2><ul>
+<li>Windows 10 ver1709</li>
+<li>YubiKey 4</li>
+<li>Yubico PIV Manager</li>
+<li>Putty CAC</li>
+<li>Debian</li>
+</ul>
+<h2 id="お品書き"><a href="#お品書き" class="headerlink" title="お品書き"></a>お品書き</h2><ul>
+<li>各種ツールのインストール</li>
+<li>キーペア(証明書)の作成</li>
+<li>OpenSC を利用して SSH</li>
+<li>注意</li>
+</ul>
+<h2 id="下ごしらえ"><a href="#下ごしらえ" class="headerlink" title="下ごしらえ"></a>下ごしらえ</h2><h3 id="Putty-CAC-のインストール"><a href="#Putty-CAC-のインストール" class="headerlink" title="Putty CAC のインストール"></a>Putty CAC のインストール</h3><p>以前は <a target="_blank" rel="noopener" href="https://risacher.org/putty-cac/">Putty CAC</a> からダウンロードしていたが、最新版は <a target="_blank" rel="noopener" href="https://github.com/NoMoreFood/putty-cac/releases">Bryan Berns の git リポジトリ</a> にあるようだ。</p>
+<p>MSI Installers を落としてきてインストールする。</p>
+<h3 id="YubiKey-PIV-Manager-のインストール"><a href="#YubiKey-PIV-Manager-のインストール" class="headerlink" title="YubiKey PIV Manager のインストール"></a>YubiKey PIV Manager のインストール</h3><p>Yubico の PIV Manager <a target="_blank" rel="noopener" href="https://developers.yubico.com/yubikey-piv-manager/Releases/">Releases ページ</a> インストーラを取得してインストールする。</p>
+<p>YubiKey PIV Tool という CUI のツールもあるのだが、PIV Manager に含まれているし、私の環境ではキーペアの生成がうまくいかなかった（多分PUKがロックされているため）ので GUI で操作する。</p>
+<h3 id="OpenSC"><a href="#OpenSC" class="headerlink" title="OpenSC"></a>OpenSC</h3><p>OpenSC は OSS の PKCS#11 の実装らしい。<br>今回は Putty CAC を利用するので dll ファイルだけあればいい。<br>GitHub の<a target="_blank" rel="noopener" href="https://github.com/OpenSC/OpenSC/releases/tag/0.17.0">リリースページ</a>からダウンロードしてインストールする。</p>
+<p>インストール終了後 <code>%SystemRoot%\System32\opensc-pkcs11.dll</code> が作成されていればOK</p>
+<h2 id="調理"><a href="#調理" class="headerlink" title="調理"></a>調理</h2><h3 id="キーペアの生成"><a href="#キーペアの生成" class="headerlink" title="キーペアの生成"></a>キーペアの生成</h3><p>Yubico PIV Manager を起動する。<br>未使用の YubiKey を指した場合、PIN の変更を促されるので、適当に設定する。<br>忘れた場合どうしようもないので忘れないように。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-01_08h54_48.png" alt=""></p>
+<p><a target="_blank" rel="noopener" href="https://developers.yubico.com/yubikey-piv-manager/PIN_and_Management_Key.html">Management key</a> は一般的な利用では Use PIN as key でいいと思う。</p>
+<p>PIN の設定が終われば <code>certificates</code> をクリックして証明書一覧を開く。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_20h33_31.png" alt=""></p>
+<p>スロットが 9a, 9c, 9d, 9e とあり、それぞれ <a target="_blank" rel="noopener" href="https://developers.yubico.com/PIV/Introduction/Certificate_slots.html">Authentication, Sign, Key Management, Card Authentication ように 割り振られている</a> らしいが、SSH接続用にキーペアを使う分にはどのスロットを使っても同じ。</p>
+<p>とりあえず、 9a スロットと 9c スロットに SSH 用のキーを作成してみる。<br>まずは <code>Authentication</code> タブで <code>Generate new key</code> を選択する。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_17.png" alt=""></p>
+<p><code>self-signed certificate</code> を選択<br>SSH 接続に利用するだけなので、サブジェクト名などは不要ですが<br>まあ、ユーザ名やサーバー名でも付けときましょう。</p>
+<p>あとは PIN 入力して OK を押せば YubiKey 内でキーペアの生成が行われる。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_32.png" alt=""></p>
+<p>生成された証明書はこんな感じで表示される。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h14_39.png" alt=""></p>
+<p>Digital Signiture のタブでも同様に行う。</p>
+<p>終了すれば、 <code>yubico-piv-tool.exe</code> で 以下のコマンドを叩けば 2 つの証明書が入っていることが確認できる。<br>(<code>yubico-piv-tool.exe</code> は PIV Manager のインストールフォルダにある)</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token operator">></span>yubico-piv-tool.exe -a status
+
+CHUID:  3019d4e739da739ced39ce739d836858210842108421384210c3f5341072734954600b79360e9ac8846ccfa77d350832303330303130313e00fe00
+CCC:    f015a000000116ff02e21fa0f562302776846ac64ad39ff10121f20121f300f40100f50110f600f700fa00fb00fc00fd00fe00
+Slot 9a:
+        Algorithm:      ECCP256
+        Subject DN:     CN<span class="token operator">=</span>user1 sever1
+        Issuer DN:      CN<span class="token operator">=</span>user1 sever1
+        Fingerprint:    47f0d58bd734747f2d9f0a073fcb70c8cb5eec2413baeaca200e5de4199546c0
+        Not Before:     Feb  2 12:14:30 2018 GMT
+        Not After:      Feb  2 12:14:30 2019 GMT
+Slot 9c:
+        Algorithm:      ECCP256
+        Subject DN:     CN<span class="token operator">=</span>user2 server2
+        Issuer DN:      CN<span class="token operator">=</span>user2 server2
+        Fingerprint:    30c9009adb4b96330ac033d03d5b23154430f51e8e4684499c4b5611b993ee88
+        Not Before:     Feb  2 12:13:50 2018 GMT
+        Not After:      Feb  2 12:13:50 2019 GMT
+PIN tries left: 3
+</code></pre>
+<p>あとは Export certificate で証明書を export できるので、そこから公開鍵を作成して openssh 形式に変換すればいいのだが、ssh-keygen コマンドが Windows 環境だとうまく動かなかった。Linux 上ではうまくいったので手順だけメモっておく。</p>
+<blockquote>
+<p>2018-02-09 追記<br>Windows 環境でも pkcs15-tool で、証明書が RSA ならうまくいった。<br>OpenSC のインストールフォルダにある toolsフォルダ以下にある pkcs15-tool を利用して<br>pkcs15-tool.exe –read-ssh-key 1<br>今回は証明書をECDSA(楕円曲線署名)で作ってみたので↑はうまくいかなかった…。</p>
+</blockquote>
+<p>今回は後述する putty CAC の機能で変換する。</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 証明書から公開鍵を切り出し</span>
+<span class="token operator">></span>  openssl x509 -pubkey -noout -in cert.pem <span class="token operator">></span> pubkey.pem
+
+<span class="token comment" spellcheck="true"># openssh 形式に変換</span>
+<span class="token operator">></span> ssh-keygen -f pub1key.pem -i <span class="token operator">>></span> ~/.ssh/authorized_keys
+</code></pre>
+<h3 id="putty-で-OpenSC-を利用して公開鍵を取得する"><a href="#putty-で-OpenSC-を利用して公開鍵を取得する" class="headerlink" title="putty で OpenSC を利用して公開鍵を取得する"></a>putty で OpenSC を利用して公開鍵を取得する</h3><p>putty CAC を起動する。<a target="_blank" rel="noopener" href="https://risacher.org/putty-cac/">Putty CAC</a> のページにもあるが、左の <code>Connection</code> &gt; <code>Certificate</code>  を選択し <code>Set PKCS Cert</code> で dll を選択するダイアログが出たら <code>%SystemRoot%\System32\opensc-pkcs11.dll</code> を選択する。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h07_55.png" alt=""></p>
+<p>すると Windows のよく見る証明書選択ダイアログが出てくる。<br>デフォルトで 9a スロットの証明書が表示されるが、その他をクリックすると YubiKey に入っている証明書すべてが表示される。サブジェクト名をつけないとここで判別に困る。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h27_34.png" alt=""></p>
+<p>使いたい証明書を選択して OK を押す。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h29_42.png" alt=""></p>
+<p>証明書が読み込まれるので <code>Copy To Clipboard</code> を選択する。<br>コピペされた内容は以下のような感じ</p>
+<pre class=" language-ssh"><code class="language-ssh">ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDwrrmmyS/tvPdZ/i9oe6HT7+Z7h+/+FuLqQFDVq+5+Yj3lo6mkK35R3sYLvCHWIKVnL/gv5pEX3YCmzikPUZJc= PKCS:2f05561a3cde0620a7ba6edfddae6b73a757d12e=C:\Windows\System32\opensc-pkcs11.dll2f05561a3cde0620a7ba6edfddae6b73a757d12e CN=user1 sever1
+</code></pre>
+<p>このように openssh 形式の公開鍵が出力されるので サーバーの authorized_keys に追加する。</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token operator">></span> <span class="token keyword">echo</span> <span class="token string">"ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbm..."</span> <span class="token operator">>></span> ~./ssh/authorized_keys
+</code></pre>
+<h2 id="実食"><a href="#実食" class="headerlink" title="実食"></a>実食</h2><p>あとは putty に戻って接続できるかテストする。</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_11.png" alt=""></p>
+<p>ユーザ名入れて…</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_37.png" alt=""></p>
+<p>PIN 入れて…</p>
+<p><img src="/2018/02/02/yubikey-ssh-opensc/2018-02-02_21h37_43.png" alt=""></p>
+<p>ログイン完了！</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>Yubico PIV Tool で作成した証明書が入った YubiKey を利用して<br>CAPI 経由で証明書を発行すると、警告なしに上書きされる。<br>minidriver とは併用しないようにしよう。</p>
+<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\07\15\azuread-fido2-security-key-public-preview\" title="Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー" rel="bookmark">Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\04\26\fido2-security-key\" title="FIDO2 対応の Security Key ファーストインプレッション" rel="bookmark">FIDO2 対応の Security Key ファーストインプレッション</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\09\09\lost-securiykeys\" title="セキュリティキーをなくしたのでリカバリ方法を実践してみる" rel="bookmark">セキュリティキーをなくしたのでリカバリ方法を実践してみる</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\06\17\edge-support-webauthn\" title="Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)" rel="bookmark">Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\09\28\ms-ignite-2018\" title="雑感 Microsoft Ignite What's new for Windows Hello for Business" rel="bookmark">雑感 Microsoft Ignite What's new for Windows Hello for Business</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/YubiKey/" rel="tag">YubiKey</a><span class="tag-list-count">10</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2018/03/12/scoop-bucket/"><i class="icon icon-arror-left"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2023 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>

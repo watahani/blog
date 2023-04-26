@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="追記: 見つかりました。  出てきました！ pic.twitter.com&#x2F;U9DkvPkkNF&amp;mdash; 82@はに (@watahani) September 10, 2019  普段使いのバッグをなくした。たぶん置き引き ※1。 中には検証&amp;普段使いに利用していた YubiKey もあった。てか山ほど Authenticator 入ってた。 まさか、置き引き野郎も、カバン開けた">
+<meta property="og:type" content="article">
+<meta property="og:title" content="セキュリティキーをなくしたのでリカバリ方法を実践してみる">
+<meta property="og:url" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/index.html">
+<meta property="og:site_name" content="enjoy struggling">
+<meta property="og:description" content="追記: 見つかりました。  出てきました！ pic.twitter.com&#x2F;U9DkvPkkNF&amp;mdash; 82@はに (@watahani) September 10, 2019  普段使いのバッグをなくした。たぶん置き引き ※1。 中には検証&amp;普段使いに利用していた YubiKey もあった。てか山ほど Authenticator 入ってた。 まさか、置き引き野郎も、カバン開けた">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.haniyama.com/2019/02/04/job-change/keys.jpg">
+<meta property="og:image" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/google-securitykeys.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/msa-mfa.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/ms-securitykeys.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/github-settings.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/github-securitykeys.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/facebook-confirm.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/facebook-securitykeys.png">
+<meta property="og:image" content="http://blog.haniyama.com/2019/09/09/lost-securiykeys/twitter-securitykey.png">
+<meta property="article:published_time" content="2019-09-09T11:40:44.000Z">
+<meta property="article:modified_time" content="2022-05-18T13:45:29.082Z">
+<meta property="article:author" content="watahani">
+<meta property="article:tag" content="YubiKey">
+<meta property="article:tag" content="Account Recovery">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.haniyama.com/2019/02/04/job-change/keys.jpg">
+<meta name="twitter:creator" content="@watahani"><meta name="description"><meta name="keywords" content="Java, Javascript, AWS, GCP, PGP"><link rel="alternate" type="application/atom+xml" href="/atom.xml" title="enjoy struggling"><title>セキュリティキーをなくしたのでリカバリ方法を実践してみる - enjoy struggling</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.png"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-113476970-1', 'auto');ga('send', 'pageview');</script><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a target="_blank" rel="noopener" href="https://github.com/watahani"><span>Github</span></a></li><li><a target="_blank" rel="noopener" href="https://qiita.com/watahani"><span>Qiita</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><link rel="amphtml" href="./amp/index.html"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://storage.googleapis.com/blog-haniyama/background-min.png"><div class="post-title"><h1 class="title">セキュリティキーをなくしたのでリカバリ方法を実践してみる</h1><ul class="meta"><li><i class="icon icon-author"></i>watahani</li><li><i class="icon icon-clock"></i>5 Minutes</li><li><i class="icon icon-calendar"></i>September 9, 2019</li></ul></div></div><div class="article-content" style="max-width:800px"><blockquote>
+<p>追記: 見つかりました。</p>
+</blockquote>
+<p><blockquote class="twitter-tweet"><p lang="ja" dir="ltr">出てきました！ <a target="_blank" rel="noopener" href="https://t.co/U9DkvPkkNF">pic.twitter.com/U9DkvPkkNF</a></p>&mdash; 82@はに (@watahani) <a target="_blank" rel="noopener" href="https://twitter.com/watahani/status/1171410293634715648?ref_src=twsrc%5Etfw">September 10, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>普段使いのバッグをなくした。<del>たぶん置き引き</del> ※1。</p>
+<p>中には検証&amp;普段使いに利用していた YubiKey もあった。てか山ほど Authenticator 入ってた。</p>
+<p>まさか、置き引き野郎も、カバン開けたら金は一切入ってなくて、意味わからん USB 機器が山ほどはいってるとは思うまい ※1。</p>
+<blockquote>
+<p>※1 ランチに行った焼肉屋に置き忘れたことを忘れただけ。</p>
+</blockquote>
+<span id="more"></span>
+<p><img src="https://blog.haniyama.com/2019/02/04/job-change/keys.jpg" alt=""></p>
+<blockquote>
+<p>これ</p>
+</blockquote>
+<h2 id="あらすじ"><a href="#あらすじ" class="headerlink" title="あらすじ"></a>あらすじ</h2><p>土曜日の午前中に病院に行き、薬局で薬を出してもらって、家に帰った ※2。</p>
+<p>その時どうやらバッグを調剤薬局に忘れたらしい。<br>嫁には、小学校にランドセルしょって忘れてくるやつおるか？とあきれられたが、まさにそれをやってのけた私である。仕方がない。</p>
+<p>さて、やっと次の日になって、カバンがないことに気づき、薬局に電話したが見つからず。<br>これを置き引きと呼んでよいかはよくわからないが、中に入ってたもろもろをロストしてしまった。</p>
+<p>で、大量のセキュリティキーもなくしたので、各社のセキュリティキーの無効化手段について確認しておこうというのが本日の企画。</p>
+<blockquote>
+<p>※2 何度も言うが、ランチに行った焼肉屋に置き忘れたことを忘れただけ。</p>
+</blockquote>
+<h2 id="Google"><a href="#Google" class="headerlink" title="Google"></a>Google</h2><p><a target="_blank" rel="noopener" href="https://myaccount.google.com/">https://myaccount.google.com/</a> から、<code>セキュリティ</code> &gt; <code>二段階認証</code> に移動。</p>
+<p>サインインは信頼されたブラウザーからはパスワードだけで OK だった。<br>この辺は組織アカウントかどうかとかで動作が違うと思われる。</p>
+<p><img src="/2019/09/09/lost-securiykeys/google-securitykeys.png" alt=""></p>
+<p>信頼されたブラウザーって結構色々できるので気を付けたほうがいいなとコナミ。</p>
+<p>ちゃんと最終使用日があるため、不正ログインされていないか確認可能だった。また、おおよその最終仕様場所もわかる。<br>編集ボタンから Revoke して完了。</p>
+<h2 id="Microsoft-Account"><a href="#Microsoft-Account" class="headerlink" title="Microsoft Account"></a>Microsoft Account</h2><p><a target="_blank" rel="noopener" href="https://account.microsoft.com">https://account.microsoft.com</a> から、<code>セキュリティ</code> に移動。</p>
+<p>追加の認証はスマホへの通知にて。</p>
+<p><img src="/2019/09/09/lost-securiykeys/msa-mfa.png" alt=""></p>
+<p> <code>2 段階認証 (追加のセキュリティ オプション)</code> に移動して <code>Windows Hello とセキュリティキー</code> &gt; <code>サインイン方法の管理</code> にて一覧を確認可能。<br>MS って個人アカウントは MFA じゃなくて2段階認証やねんな。</p>
+<p><img src="/2019/09/09/lost-securiykeys/ms-securitykeys.png" alt=""></p>
+<p>最終利用日が分かる。削除ボタン押して revoke 完了。</p>
+<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><p><a target="_blank" rel="noopener" href="https://github.com/settings/">https://github.com/settings/</a> から <code>Security</code> &gt; <code>Two-factor authentication</code> &gt; <code>Security keys</code> にアクセス。</p>
+<p><img src="/2019/09/09/lost-securiykeys/github-settings.png" alt=""></p>
+<p>家にある YubiKey を登録してあったので、サインイン セッション + 追加の認証 YubiKey タッチでアクセスできた。<br>セキュリティキーまったくない場合は Authenticator アプリかリカバリコードでサインインかな。</p>
+<p>もしかすると信頼された端末からはパスワードだけで入れるかもしれないけど未確認。</p>
+<p><img src="/2019/09/09/lost-securiykeys/github-securitykeys.png" alt=""></p>
+<p>ゴミ箱アイコンで削除…した後の画面です。<br>というのも、他のアカウントに比べてサインインした際の通知が来ないイメージだったので、なんとなく一番不安に感じたから、GitHub のキーを真っ先にめに無効化したんです。</p>
+<h2 id="Facebook"><a href="#Facebook" class="headerlink" title="Facebook"></a>Facebook</h2><p><a target="_blank" rel="noopener" href="https://www.facebook.com/settings">https://www.facebook.com/settings</a> から、<code>セキュリティとログイン</code> &gt; <code>二段階認証を使用</code></p>
+<p>追加の確認はパスワードだった。これも信頼されたブラウザーとして保存しているからかな。</p>
+<p><img src="/2019/09/09/lost-securiykeys/facebook-confirm.png" alt=""></p>
+<p><code>セキュリティキー</code> から登録しているキーを削除…と思ったけど、いつ登録したかわからんやーつしかなかったので全部削除して手元のキーを登録しておく。</p>
+<p><img src="/2019/09/09/lost-securiykeys/facebook-securitykeys.png" alt=""></p>
+<h2 id="Twitter"><a href="#Twitter" class="headerlink" title="Twitter"></a>Twitter</h2><p><a target="_blank" rel="noopener" href="https://twitter.com/settings/account">https://twitter.com/settings/account</a> にアクセス。</p>
+<p>ログインは Authenticator アプリで。Chrome でプロファイル切り替えて使ってると、なぜか Twitter の認証が切れてしまうので最近はずっと Authenticator アプリ使ってた。</p>
+<p><code>Security</code> &gt; <code>Two-factor authentication</code> から Security Key のチェックを外すだけ。</p>
+<p><img src="/2019/09/09/lost-securiykeys/twitter-securitykey.png" alt=""></p>
+<p>ついでに手元のキーを登録しておくけど、相変わらず一本しか登録できないし名前も付けれないのできっとまた忘れる。</p>
+<h2 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h2><p>と、いうことで、限られたサンプルではあるがセキュリティキーをなくした場合のリカバリ手順でした。</p>
+<p>Google と Facebook は信頼された端末からの設定であればパスワードのみでリカバリ可能だけど、Microsoft アカウントは、Authenticator アプリでの追加認証が必要だった。Twitter は最近常にセッション切れてるのでよくわからず。</p>
+<p>もしかすると Microsoft アカウントについても信頼された端末にしてれば動作違うかもなのであくまで参考程度に。</p>
+<p>で、やっぱ最終使用日時と、サインイン時の通知が来るのは機能として良い。</p>
+<p>一番の問題は、なくしたキーを買うための予算が通るかである。あと、尼で買うと、前職にこいつキーなくしたなってバレる可能性があるのがつらい。</p>
+<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\07\15\azuread-fido2-security-key-public-preview\" title="Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー" rel="bookmark">Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\04\26\fido2-security-key\" title="FIDO2 対応の Security Key ファーストインプレッション" rel="bookmark">FIDO2 対応の Security Key ファーストインプレッション</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\06\17\edge-support-webauthn\" title="Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)" rel="bookmark">Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\09\28\ms-ignite-2018\" title="雑感 Microsoft Ignite What's new for Windows Hello for Business" rel="bookmark">雑感 Microsoft Ignite What's new for Windows Hello for Business</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\10\17\serviceprincipal-certauth-using-yubikey5\" title="YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証する" rel="bookmark">YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証する</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Account-Recovery/" rel="tag">Account Recovery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YubiKey/" rel="tag">YubiKey</a><span class="tag-list-count">10</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2019/09/23/azuread-b2c-can-not-connect-yahooid/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2019/07/15/azuread-fido2-security-key-public-preview/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2023 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>

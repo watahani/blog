@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="update 2018-06-25 userHandle に関して追記2018-10-20　この記事より詳細な記事書きました webauthn における ResidentKey について  とりあえず動画をみれば大体わかる">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)">
+<meta property="og:url" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/index.html">
+<meta property="og:site_name" content="enjoy struggling">
+<meta property="og:description" content="update 2018-06-25 userHandle に関して追記2018-10-20　この記事より詳細な記事書きました webauthn における ResidentKey について  とりあえず動画をみれば大体わかる">
+<meta property="og:locale">
+<meta property="og:image" content="https://developers.yubico.com/FIDO2/">
+<meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/01_pin.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/02_touch.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/03_loggedin.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/04_pin.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/05_loggedin.png">
+<meta property="og:image" content="http://blog.haniyama.com/2018/06/17/edge-support-webauthn/06_credentials.png">
+<meta property="article:published_time" content="2018-06-17T11:43:25.000Z">
+<meta property="article:modified_time" content="2023-04-25T15:26:16.762Z">
+<meta property="article:author" content="watahani">
+<meta property="article:tag" content="FIDO2">
+<meta property="article:tag" content="YubiKey">
+<meta property="article:tag" content="WebAuthn">
+<meta property="article:tag" content="FIDO">
+<meta property="article:tag" content="CTAP2">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://developers.yubico.com/FIDO2/">
+<meta name="twitter:creator" content="@watahani"><meta name="description"><meta name="keywords" content="Java, Javascript, AWS, GCP, PGP"><link rel="alternate" type="application/atom+xml" href="/atom.xml" title="enjoy struggling"><title>Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview) - enjoy struggling</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.png"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-113476970-1', 'auto');ga('send', 'pageview');</script><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a target="_blank" rel="noopener" href="https://github.com/watahani"><span>Github</span></a></li><li><a target="_blank" rel="noopener" href="https://qiita.com/watahani"><span>Qiita</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><link rel="amphtml" href="./amp/index.html"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://storage.googleapis.com/blog-haniyama/background-min.png"><div class="post-title"><h1 class="title">Edge が WebAuthN をサポートしたらしいので色々試してみた(Insider Preview)</h1><ul class="meta"><li><i class="icon icon-author"></i>watahani</li><li><i class="icon icon-clock"></i>34 Minutes</li><li><i class="icon icon-calendar"></i>June 17, 2018</li></ul></div></div><div class="article-content" style="max-width:800px"><blockquote>
+<p>update 2018-06-25 userHandle に関して追記<br>2018-10-20　この記事より詳細な記事書きました <a href="/2018/10/19/webauthn-residentkey/">webauthn における ResidentKey について</a></p>
+</blockquote>
+<h2 id="とりあえず動画をみれば大体わかる"><a href="#とりあえず動画をみれば大体わかる" class="headerlink" title="とりあえず動画をみれば大体わかる"></a>とりあえず動画をみれば大体わかる</h2><span id="more"></span>
+<p><blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr">Single Factor Login using Security Key by Yubico <a target="_blank" rel="noopener" href="https://twitter.com/hashtag/yubikey?src=hash&amp;ref_src=twsrc%5Etfw">#yubikey</a> <a target="_blank" rel="noopener" href="https://twitter.com/hashtag/webauthn?src=hash&amp;ref_src=twsrc%5Etfw">#webauthn</a><a target="_blank" rel="noopener" href="https://t.co/7rUjkoUmdK">https://t.co/7rUjkoUmdK</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a target="_blank" rel="noopener" href="https://twitter.com/watahani/status/1008280543933263872?ref_src=twsrc%5Etfw">2018年6月17日</a></blockquote></p>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>どうも、先日DMM英会話の退会を忘れていて、4万円ほど失った <a target="_blank" rel="noopener" href="https://twitter.com/watahani">@watahani</a> です。かなしい。</p>
+<p>さて、先日 <code>Insider Preview Build 17682</code> で WebAuthN のサポートがされたと聞いて、とりあえずは <a target="_blank" rel="noopener" href="https://webauthn.org">webauthn.org</a> で使えることまでは試しました。</p>
+<p><blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">試してみた（url張り間違えた)<a target="_blank" rel="noopener" href="https://t.co/c3SzRaqHsA">https://t.co/c3SzRaqHsA</a><a target="_blank" rel="noopener" href="https://t.co/UpTAmRJZ4l">https://t.co/UpTAmRJZ4l</a> <a target="_blank" rel="noopener" href="https://t.co/TLMYH8E5c2">https://t.co/TLMYH8E5c2</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a target="_blank" rel="noopener" href="https://twitter.com/watahani/status/1007628354067951616?ref_src=twsrc%5Etfw">2018年6月15日</a></blockquote></p>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>WebAuthN自体動くことは分かったけど、</p>
+<p><blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr">Edge support resident key?</p>&mdash; 82@FIDO2勉強会？ (@watahani) <a target="_blank" rel="noopener" href="https://twitter.com/watahani/status/1007627182817009664?ref_src=twsrc%5Etfw">2018年6月15日</a></blockquote></p>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>Resident Key のサポートとかいろいろ気になるよね…？</p>
+<p>ということで調べてみました。</p>
+<h2 id="Resident-Key-とは？"><a href="#Resident-Key-とは？" class="headerlink" title="Resident Key とは？"></a>Resident Key とは？</h2><p>FIDO2.0 から新しく追加された機能で、要はキーの中にユーザ情報を保存できる。</p>
+<p>細かく言うと、 <a target="_blank" rel="noopener" href="https://www.w3.org/TR/webauthn/#dictdef-publickeycredentialuserentity">PublicKeyCredentialUserEntity</a> と<a target="_blank" rel="noopener" href="https://www.w3.org/TR/webauthn/#credential-id"> Credential ID</a> を保存しておいて、次回以降のログインに利用することができる。</p>
+<p><blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr">Edge show Credentials in residentKey <a target="_blank" rel="noopener" href="https://t.co/SYNq6menui">pic.twitter.com/SYNq6menui</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a target="_blank" rel="noopener" href="https://twitter.com/watahani/status/1008219871396548609?ref_src=twsrc%5Etfw">2018年6月17日</a></blockquote></p>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>こんな感じ。</p>
+<p>キーの中に Challenge へのサインに必要な情報をキャッシュしておくことで、次回以降のログインに User 情報を入力する必要なくログインができる。</p>
+<p><img src="https://developers.yubico.com/FIDO2/" alt="](https://developers.yubico.com/FIDO2/index__2.png)"></p>
+<p>今回は、 Security Key by Yubico を利用しました。</p>
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=82p-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B07BYSB7FK&linkId=8a19153a421eb5ce6735b868823cdfbe"></iframe>
+
+<h2 id="U2F-と-FIDO2-の違い"><a href="#U2F-と-FIDO2-の違い" class="headerlink" title="U2F と FIDO2 の違い"></a>U2F と FIDO2 の違い</h2><p>ゼロからコードを書くスキルは無いので、<a target="_blank" rel="noopener" href="https://github.com/fido-alliance/webauthn-demo">https://github.com/fido-alliance/webauthn-demo</a> をベースに改造を加えてみる。</p>
+<h3 id="認証部分"><a href="#認証部分" class="headerlink" title="認証部分"></a>認証部分</h3><blockquote>
+<p>2018-06-19 Attestation を認証部分と書いてしまっていたので修正</p>
+</blockquote>
+<p>認証部分に関して、Yubico の Security Key は <code>fido-u2f</code> ではなく <code>packed</code> で動くので認証部分を追加する。</p>
+<p>UV も検証したほうがいいかもだけど、ほかのブラウザがどういう方針で行くのか不明なのでとりあえずそのまま</p>
+<pre class=" language-js"><code class="language-js">    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>authr<span class="token punctuation">.</span>fmt <span class="token operator">===</span> <span class="token string">'packed'</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//別にこれ fido-u2f と分ける必要ない、というか attestation ない場合もあるので...</span>
+        <span class="token keyword">let</span> authrDataStruct  <span class="token operator">=</span> <span class="token function">parseGetAssertAuthData</span><span class="token punctuation">(</span>authenticatorData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>authrDataStruct<span class="token punctuation">.</span>flags <span class="token operator">&amp;</span> U2F_USER_PRESENTED<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//FIDO2 の場合は UP に加え、UV をチェックすべき(0x05)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">'User was NOT presented durring authentication!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">let</span> clientDataHash   <span class="token operator">=</span> <span class="token function">hash</span><span class="token punctuation">(</span>base64url<span class="token punctuation">.</span><span class="token function">toBuffer</span><span class="token punctuation">(</span>webAuthnResponse<span class="token punctuation">.</span>response<span class="token punctuation">.</span>clientDataJSON<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">let</span> signatureBase    <span class="token operator">=</span> Buffer<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>
+            <span class="token punctuation">[</span>
+                authrDataStruct<span class="token punctuation">.</span>rpIdHash<span class="token punctuation">,</span> 
+                authrDataStruct<span class="token punctuation">.</span>flagsBuf<span class="token punctuation">,</span> 
+                authrDataStruct<span class="token punctuation">.</span>counterBuf<span class="token punctuation">,</span>
+                clientDataHash
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">let</span> publicKey <span class="token operator">=</span> <span class="token function">ASN1toPEM</span><span class="token punctuation">(</span>base64url<span class="token punctuation">.</span><span class="token function">toBuffer</span><span class="token punctuation">(</span>authr<span class="token punctuation">.</span>publicKey<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> signature <span class="token operator">=</span> base64url<span class="token punctuation">.</span><span class="token function">toBuffer</span><span class="token punctuation">(</span>webAuthnResponse<span class="token punctuation">.</span>response<span class="token punctuation">.</span>signature<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        response<span class="token punctuation">.</span>verified <span class="token operator">=</span> <span class="token function">verifySignature</span><span class="token punctuation">(</span>signature<span class="token punctuation">,</span> signatureBase<span class="token punctuation">,</span> publicKey<span class="token punctuation">)</span>
+
+        <span class="token keyword">if</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>verified<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>counter <span class="token operator">&lt;=</span> authr<span class="token punctuation">.</span>counter<span class="token punctuation">)</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">'Authr counter did not increase!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            authr<span class="token punctuation">.</span>counter <span class="token operator">=</span> authrDataStruct<span class="token punctuation">.</span>counter
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Attestation Data の検証に関しては、Extension がない場合、</p>
+<ul>
+<li>RP ID Hash</li>
+<li>Flags</li>
+<li>Counter</li>
+<li>aaguid,</li>
+<li>Credential ID Length</li>
+<li>Credential ID</li>
+<li>Public Key(CBOR)</li>
+<li>Client Data Hash</li>
+</ul>
+<p>に対して行う。あとは U2F と一緒っぽい。</p>
+<pre class=" language-js"><code class="language-js"><span class="token operator">+</span> <span class="token punctuation">(</span>ctapMakeCredResp<span class="token punctuation">.</span>fmt <span class="token operator">===</span> <span class="token string">'packed'</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>        <span class="token keyword">let</span> authrDataStruct <span class="token operator">=</span> <span class="token function">parseMakeCredAuthData</span><span class="token punctuation">(</span>ctapMakeCredResp<span class="token punctuation">.</span>authData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>
+<span class="token operator">+</span>        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>authrDataStruct<span class="token punctuation">.</span>flags <span class="token operator">&amp;</span> U2F_USER_PRESENTED<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token operator">+</span>            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">'User was NOT presented durring authentication!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>
+<span class="token operator">+</span>        <span class="token keyword">let</span> clientDataHash  <span class="token operator">=</span> <span class="token function">hash</span><span class="token punctuation">(</span>base64url<span class="token punctuation">.</span><span class="token function">toBuffer</span><span class="token punctuation">(</span>webAuthnResponse<span class="token punctuation">.</span>response<span class="token punctuation">.</span>clientDataJSON<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token operator">+</span>        <span class="token keyword">let</span> reservedByte    <span class="token operator">=</span> Buffer<span class="token punctuation">.</span><span class="token keyword">from</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0x00</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>        <span class="token keyword">let</span> publicKey       <span class="token operator">=</span> <span class="token function">COSEECDHAtoPKCS</span><span class="token punctuation">(</span>authrDataStruct<span class="token punctuation">.</span>COSEPublicKey<span class="token punctuation">)</span>
+<span class="token operator">+</span>        <span class="token keyword">let</span> signatureBase   <span class="token operator">=</span> Buffer<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>
+<span class="token operator">+</span>            <span class="token punctuation">[</span>
+<span class="token operator">+</span>                authrDataStruct<span class="token punctuation">.</span>rpIdHash<span class="token punctuation">,</span> 
+<span class="token operator">+</span>                authrDataStruct<span class="token punctuation">.</span>flagsBuf<span class="token punctuation">,</span> 
+<span class="token operator">+</span>                authrDataStruct<span class="token punctuation">.</span>counterBuf<span class="token punctuation">,</span> 
+<span class="token operator">+</span>                authrDataStruct<span class="token punctuation">.</span>aaguid<span class="token punctuation">,</span>
+<span class="token operator">+</span>                authrDataStruct<span class="token punctuation">.</span>credIDLenBuf<span class="token punctuation">,</span> 
+<span class="token operator">+</span>                authrDataStruct<span class="token punctuation">.</span>credID<span class="token punctuation">,</span> 
+<span class="token operator">+</span>                authrDataStruct<span class="token punctuation">.</span>COSEPublicKey<span class="token punctuation">,</span>
+<span class="token operator">+</span>                clientDataHash
+<span class="token operator">+</span>            <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>
+<span class="token operator">+</span>        <span class="token keyword">let</span> PEMCertificate <span class="token operator">=</span> <span class="token function">ASN1toPEM</span><span class="token punctuation">(</span>ctapMakeCredResp<span class="token punctuation">.</span>attStmt<span class="token punctuation">.</span>x5c<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>        <span class="token keyword">let</span> signature      <span class="token operator">=</span> ctapMakeCredResp<span class="token punctuation">.</span>attStmt<span class="token punctuation">.</span>sig<span class="token punctuation">;</span>
+<span class="token operator">+</span>
+<span class="token operator">+</span>        response<span class="token punctuation">.</span>verified <span class="token operator">=</span> <span class="token function">verifySignature</span><span class="token punctuation">(</span>signature<span class="token punctuation">,</span> signatureBase<span class="token punctuation">,</span> PEMCertificate<span class="token punctuation">)</span>
+<span class="token operator">+</span>
+<span class="token operator">+</span>        <span class="token keyword">if</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>verified<span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>            response<span class="token punctuation">.</span>authrInfo <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>                fmt<span class="token punctuation">:</span> <span class="token string">'packed'</span><span class="token punctuation">,</span>
+<span class="token operator">+</span>                publicKey<span class="token punctuation">:</span> base64url<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span>publicKey<span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token operator">+</span>                counter<span class="token punctuation">:</span> authrDataStruct<span class="token punctuation">.</span>counter<span class="token punctuation">,</span>
+<span class="token operator">+</span>                credID<span class="token punctuation">:</span> base64url<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span>authrDataStruct<span class="token punctuation">.</span>credID<span class="token punctuation">)</span>
+<span class="token operator">+</span>            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+     <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="WebAuthN-部分"><a href="#WebAuthN-部分" class="headerlink" title="WebAuthN 部分"></a>WebAuthN 部分</h3><p>WebAuthN 部分については、まず登録時に Resident Key が登録できるように <code>authenticatorSelection</code> に <code>requiredResidentKey</code>  <code>true</code> をセットするだけ。まあそんな難しくない。</p>
+<pre class=" language-js"><code class="language-js">    <span class="token function">getMakeCredentialsChallenge</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>username<span class="token punctuation">,</span> name<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+            <span class="token keyword">let</span> publicKey <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                <span class="token string">'challenge'</span> <span class="token punctuation">:</span> challenge<span class="token punctuation">,</span>
+                <span class="token string">'user'</span><span class="token punctuation">:</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                    <span class="token string">'id'</span><span class="token punctuation">:</span> <span class="token string">'xxxxxxxxxxxxxxxxxx'</span><span class="token punctuation">,</span>
+                    <span class="token string">'displayName'</span><span class="token punctuation">:</span> <span class="token string">'Hoge Fuga'</span><span class="token punctuation">,</span>
+                    <span class="token string">'user'</span><span class="token punctuation">:</span> <span class="token string">'hoge'</span>
+                <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>residentKey<span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                publicKey<span class="token punctuation">.</span>authenticatorSelection <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+                    <span class="token string">'requireResidentKey'</span><span class="token punctuation">:</span> <span class="token boolean">true</span>
+                <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> 
+            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> navigator<span class="token punctuation">.</span>credentials<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span> publicKey <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">)</span>
+        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">)</span>
+    <span class="token operator">...</span>
+</code></pre>
+<p>ただ、このままだと無限にキーを登録し続けられてしまう。実際には aaguid などから、キーがすでに登録済みか調べて除外するなどする必要があると思う。</p>
+<blockquote>
+<p>と思ったけど、 aaguid を <code>excludeCredentials</code> には追加できない ので、ユーザが重複登録してしまわないようにするにはサーバーに送ってから登録情報を見て登録済みならはじくとかかなあ…。<br>それだとキー自体に登録してしまってから送っちゃうしだめか…</p>
+</blockquote>
+<p>次に認証時だけど、これも簡単で credentials.get オプションに渡す allowCredentials を空にすればいい。</p>
+<pre class=" language-js"><code class="language-js"><span class="token keyword">let</span> publicKey <span class="token operator">=</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    <span class="token string">'challenge'</span><span class="token punctuation">:</span> challenge
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token keyword">return</span> navigator<span class="token punctuation">.</span>credentials<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>publicKey<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>当然 CredentialID 等はいらないのでこれでOK。</p>
+<p>U2F では Challenge と ユーザを紐づけて管理していたが、FIDO2 の One Factor Authentication の場合、セッションなどと紐づけて保存しておかなくてはならなくなった。</p>
+<p><del>また、サーバー側には CredentialID のみが送られるため、どのユーザがログインしようとしているかは CredentialID から逆引きする機構が必要になる。</del></p>
+<blockquote>
+<p>2018-06-25<br>Edgeの実装を確認していると getAssertion のレスポンス内に含まれる <code>user handle</code> 内に、 <code>user id</code> が含まれていた。<br>スペックでは nullable なので、使えたら使う？ってスタンスでよいのかなあ…。要調査。</p>
+</blockquote>
+<pre class=" language-js"><code class="language-js"><span class="token operator">+</span><span class="token keyword">let</span> getUsernameFromCredentialID <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>credentialId<span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>    <span class="token keyword">let</span> matchedUsername<span class="token punctuation">;</span>
+<span class="token operator">+</span>    Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>database<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>username<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>        <span class="token keyword">var</span> authenticators <span class="token operator">=</span> database<span class="token punctuation">[</span>username<span class="token punctuation">]</span><span class="token punctuation">.</span>authenticators
+<span class="token operator">+</span>        authenticators<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>authenticator<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>            <span class="token keyword">if</span><span class="token punctuation">(</span>authenticator<span class="token punctuation">.</span>credID <span class="token operator">===</span> credentialId<span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>                matchedUsername <span class="token operator">=</span> username<span class="token punctuation">;</span>
+<span class="token operator">+</span>            <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token operator">+</span>        <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">)</span>
+<span class="token operator">+</span>    <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">)</span>
+<span class="token operator">+</span>    <span class="token keyword">return</span> matchedUsername<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>追記し忘れていたけれども <a target="_blank" rel="noopener" href="https://fidoalliance.org/specs/fido-v2.0-rd-20180702/fido-client-to-authenticator-protocol-v2.0-rd-20180702.html#authenticatorGetAssertion">CTAP2 のスペック</a> に<br><code>FIDO devices - device resident credentials: For device resident keys on FIDO devices, at least user &quot;id&quot; is mandatory.</code><br>とあるので、Resident Key においては必ず UserHandle が帰ってくると考えてよいと思う<br>ということで上記のコードは不要なハズ</p>
+</blockquote>
+<h2 id="実際の動作"><a href="#実際の動作" class="headerlink" title="実際の動作"></a>実際の動作</h2><p>実際に Edge で動作確認をしてみる。</p>
+<h3 id="Resister"><a href="#Resister" class="headerlink" title="Resister"></a>Resister</h3><p>まずは、登録作業。</p>
+<p><img src="/2018/06/17/edge-support-webauthn/01_pin.png" alt=""></p>
+<p>どうも Edge では User Verify (PINの入力) は必須らしく、PIN 設定していないキーでも関らず PIN の設定をしろと言われてしまう。</p>
+<blockquote>
+<p>追記： User Verification はデフォルトで “preffered” です。<br>UV が不要であれば “discourage” オプションの指定が必要です。<br>詳しくは は <a href="/2018/10/19/webauthn-residentkey/">webauthn における ResidentKey について</a></p>
+</blockquote>
+<p>One Factor Authentication するには PIN なり、指紋なりで保護しないとだめなのはわかる。けど、認証レベルによってタップでログインして、重要な情報を変更するときのみ PIN の入力する…みたいな使い方は出来なさそう。</p>
+<p><img src="/2018/06/17/edge-support-webauthn/02_touch.png" alt=""></p>
+<p>User Verification の後は User Presence のためにタッチする。</p>
+<p>多分、生体認証などのキーでは User Verification は User Presence な動作を必要とするまず。つまりもう一度タッチしなくていいのかと思うけど、実機が無いのでわからない。誰か試してみてほしい。</p>
+<p><img src="/2018/06/17/edge-support-webauthn/03_loggedin.png" alt=""></p>
+<p>ともあれ、タッチまでして登録完了。</p>
+<h3 id="Assertion"><a href="#Assertion" class="headerlink" title="Assertion"></a>Assertion</h3><p>次にログインの場合。先ほども言った通り、<code>Credential ID</code> 等はキーに保存できるため <code>allowCredentials</code> を空にして、<code>getAssertion</code> を呼べばよい。</p>
+<p>PIN を入力すると、キーが与えられた <code>challenge</code> に対し、保存している Credentials すべてに対応する <code>attestationResponse</code> を Edge に返す。</p>
+<p><img src="/2018/06/17/edge-support-webauthn/04_pin.png" alt=""></p>
+<p>Edge は Credential が一つしかない場合、自動でログインするらしい。<br>正直どのユーザでログインしようとしているかは表示してほしい。</p>
+<p><img src="/2018/06/17/edge-support-webauthn/05_loggedin.png" alt=""></p>
+<p>Credential が複数ある場合はユーザリストが表示される。</p>
+<p><img src="/2018/06/17/edge-support-webauthn/06_credentials.png" alt=""></p>
+<p>ちなみに 25 ユーザほど登録した時点で、キーの登録容量が足りなくなった。</p>
+<p><blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">FIDO2 の residentKey 試してたらもう入らんくなった <a target="_blank" rel="noopener" href="https://t.co/xNLZxnO2nc">pic.twitter.com/xNLZxnO2nc</a></p>&mdash; 82@FIDO2勉強会？ (@watahani) <a target="_blank" rel="noopener" href="https://twitter.com/watahani/status/1008228775723560960?ref_src=twsrc%5Etfw">2018年6月17日</a></blockquote></p>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<h2 id="雑感"><a href="#雑感" class="headerlink" title="雑感"></a>雑感</h2><p>ソースはここに置いておいた。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/HWataru/webauthn-demo/tree/fido2-support">https://github.com/HWataru/webauthn-demo/tree/fido2-support</a></p>
+<p>キーの登録自体は動画の通りうまく動いたけども、実際の運用には重複登録への対策や、他のブラウザごとの実装などがどうなるかなど、検討しないといけないことは色々あると感じた。</p>
+<p>正直キーだけで Web認証のすべてを行うのは難しいと思う。実際には PC や スマホの platform Authenticator を利用したり、何かしらの IdP にのみキーを登録して、フェデレーションなどを利用していく必要があるだろう。</p>
+<p>何より DMM 英会話で失った 4万円が重くボディーブローのように響いてきてつらたん。</p>
+<p>記事がためになったらだれかご飯おごってください。</p>
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=000000&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=82p-22&o=9&p=8&l=as4&m=amazon&f=ifr&ref=as_ss_li_til&asins=B07BYSB7FK&linkId=8a19153a421eb5ce6735b868823cdfbe"></iframe><div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\09\28\ms-ignite-2018\" title="雑感 Microsoft Ignite What's new for Windows Hello for Business" rel="bookmark">雑感 Microsoft Ignite What's new for Windows Hello for Business</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\10\19\webauthn-residentkey\" title="Webauthn における ResidentKey と UserVerification について" rel="bookmark">Webauthn における ResidentKey と UserVerification について</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\07\15\azuread-fido2-security-key-public-preview\" title="Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー" rel="bookmark">Azure AD の FIDO2 Security Key 対応のパブリックプレビューが来たー</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2018\11\21\msa-login-with-securitykey\" title="Microsoft Account FIDO2 対応キーでログイン可能に" rel="bookmark">Microsoft Account FIDO2 対応キーでログイン可能に</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\05\07\windows-hello-fido2-certification\" title="Windows Hello が FIDO2 Certificate を取得" rel="bookmark">Windows Hello が FIDO2 Certificate を取得</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CTAP2/" rel="tag">CTAP2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FIDO/" rel="tag">FIDO</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FIDO2/" rel="tag">FIDO2</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebAuthn/" rel="tag">WebAuthn</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/YubiKey/" rel="tag">YubiKey</a><span class="tag-list-count">10</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2018/07/01/use-capi-with-yubikey/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2018/04/26/fido2-security-key/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2023 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>
