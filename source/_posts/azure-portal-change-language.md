@@ -10,9 +10,9 @@ tags:
 
 以下のリンクをブックマーク バーにでもドラッグアンドドロップしておけばよい。
 
-<a href="javascript:l%3Dnew%20URL(location.href)%3Bl.searchParams.set(%22l%22%2C%22ja.ja-jp%22)%3Bwindow.location.href%3Dl.toString()%3Bvoid(0);">日本語</a>
+<a href="javascript:l%3Dnew%20URL(location.href)%3Bif(l.host%3D%3D%3D'learn.microsoft.com')%7Bwindow.location.href%3Dl.origin%20%2B%20l.pathname.replace(%2F%5E%5C%2F.*%3F%5C%2F%2F%2C%22%2Fja-jp%2F%22)%3B%7Delse%7Bl.searchParams.set(%22l%22%2C%22ja.ja-jp%22)%3Bwindow.location.href%3Dl.toString()%3B%7Dvoid(0);">日本語</a>
 
-<a href="javascript:l%3Dnew%20URL(location.href)%3Bl.searchParams.set(%22l%22%2C%22en.en-us%22)%3Bwindow.location.href%3Dl.toString()%3Bvoid(0);">英語</a>
+<a href="javascript:l%3Dnew%20URL(location.href)%3Bif(l.host%3D%3D%3D'learn.microsoft.com')%7Bwindow.location.href%3Dl.origin%20%2B%20l.pathname.replace(%2F%5E%5C%2F.*%3F%5C%2F%2F%2C%22%2Fen-us%2F%22)%3B%7Delse%7Bl.searchParams.set(%22l%22%2C%22en.en-us%22)%3Bwindow.location.href%3Dl.toString()%3B%7Dvoid(0);">英語</a>
 
 <!-- more -->
 
@@ -27,3 +27,15 @@ window.location.href = l.toString();
 めんどいので URL チェックなどはやってない。ブックマーク レートの作成は、ググって以下のサイトを利用した。
 
 - [Bookmarklet スクリプト変換](https://ytyng.github.io/bookmarklet-script-compress/)
+
+Docs の変換も面倒なので追記。en-us を雑に変換してもいいんだけど一応ちゃんとパスの狙ったとこだけ
+
+```javascript
+l = new URL(location.href);
+if (l.host === 'learn.microsoft.com') {
+    window.location.href = l.origin + l.pathname.replace(/^\/.*?\//, "/ja-jp/");
+} else {
+    l.searchParams.set("l", "ja.ja-jp");
+    window.location.href = l.toString();
+}
+```
