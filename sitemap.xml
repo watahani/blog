@@ -4,14 +4,28 @@
   <url>
     <loc>http://blog.haniyama.com/2023/04/26/do-not-validate-ms-graph-token/</loc>
     
-    <lastmod>2023-04-26T08:07:11.304Z</lastmod>
+    <lastmod>2023-05-26T15:13:09.673Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.haniyama.com/2018/06/17/edge-support-webauthn/</loc>
     
-    <lastmod>2023-04-25T15:26:16.762Z</lastmod>
+    <lastmod>2023-05-26T15:13:02.470Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2021/10/30/github-secure-deployments-with-oidc-for-azure/</loc>
+    
+    <lastmod>2023-05-26T15:12:52.238Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.haniyama.com/2021/11/05/azure-portal-change-language/</loc>
+    
+    <lastmod>2023-05-26T15:12:05.739Z</lastmod>
     
   </url>
   
@@ -142,13 +156,6 @@
   </url>
   
   <url>
-    <loc>http://blog.haniyama.com/2021/10/30/github-secure-deployments-with-oidc-for-azure/</loc>
-    
-    <lastmod>2022-05-18T13:45:29.067Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.haniyama.com/2018/08/19/gitbook-pdf/</loc>
     
     <lastmod>2022-05-18T13:45:29.062Z</lastmod>
@@ -236,13 +243,6 @@
     <loc>http://blog.haniyama.com/2020/04/30/azure-storage-blob-content-type-nodejs/</loc>
     
     <lastmod>2022-05-18T13:45:28.994Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.haniyama.com/2021/11/05/azure-portal-change-language/</loc>
-    
-    <lastmod>2022-05-18T13:45:28.993Z</lastmod>
     
   </url>
   
