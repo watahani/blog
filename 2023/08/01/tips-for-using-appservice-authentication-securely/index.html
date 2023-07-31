@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="Azure の App Service や Functions などの Web サービスには、Azure AD と連携して認証を行う機能があります。App Service 認証と呼ばれる機能で、旧称？の EasyAuth の方が馴染みがあるかもしれない。最短ではほぼワンクリックでアプリに認証機能を追加できるため、とても便利だ。しかし、そのまま使うとセキュリティ上の問題が発生する可能性がある。 とい">
+<meta property="og:type" content="article">
+<meta property="og:title" content="App Service Authentication (aka EasyAuth) を安全に使うための Tips">
+<meta property="og:url" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/index.html">
+<meta property="og:site_name" content="enjoy struggling">
+<meta property="og:description" content="Azure の App Service や Functions などの Web サービスには、Azure AD と連携して認証を行う機能があります。App Service 認証と呼ばれる機能で、旧称？の EasyAuth の方が馴染みがあるかもしれない。最短ではほぼワンクリックでアプリに認証機能を追加できるため、とても便利だ。しかし、そのまま使うとセキュリティ上の問題が発生する可能性がある。 とい">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/tips-for-using-appservice-authentication/easyauth-settings.png">
+<meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/tips-for-using-appservice-authentication/app-secret.png">
+<meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/app-id.png">
+<meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/access-token-claims.png">
+<meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/assigned-required.png">
+<meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/users-and-groups.png">
+<meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/authsettingsV2.png">
+<meta property="article:published_time" content="2023-07-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-07-31T15:51:27.273Z">
+<meta property="article:author" content="watahani">
+<meta property="article:tag" content="Azure AD">
+<meta property="article:tag" content="App Service">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/tips-for-using-appservice-authentication/easyauth-settings.png">
+<meta name="twitter:creator" content="@watahani"><meta name="description"><meta name="keywords" content="Java, Javascript, AWS, GCP, PGP"><link rel="alternate" type="application/atom+xml" href="/atom.xml" title="enjoy struggling"><title>App Service Authentication (aka EasyAuth) を安全に使うための Tips - enjoy struggling</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.png"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-113476970-1', 'auto');ga('send', 'pageview');</script><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a target="_blank" rel="noopener" href="https://github.com/watahani"><span>Github</span></a></li><li><a target="_blank" rel="noopener" href="https://qiita.com/watahani"><span>Qiita</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><link rel="amphtml" href="./amp/index.html"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://storage.googleapis.com/blog-haniyama/background-min.png"><div class="post-title"><h1 class="title">App Service Authentication (aka EasyAuth) を安全に使うための Tips</h1><ul class="meta"><li><i class="icon icon-author"></i>watahani</li><li><i class="icon icon-clock"></i>14 Minutes</li><li><i class="icon icon-calendar"></i>August 1, 2023</li></ul></div></div><div class="article-content" style="max-width:800px"><p>Azure の App Service や Functions などの Web サービスには、Azure AD と連携して認証を行う機能があります。App Service 認証と呼ばれる機能で、旧称？の EasyAuth の方が馴染みがあるかもしれない。<br>最短ではほぼワンクリックでアプリに認証機能を追加できるため、とても便利だ。しかし、そのまま使うとセキュリティ上の問題が発生する可能性がある。</p>
+<p>ということで EasyAuth の機能が Azure AD から見てどのような機能なのか、どのようなセキュリティ上の懸念があるのか、どのように対策するのかをまとめてみた。</p>
+<span id="more"></span>
+<h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>既定ではテナントすべてのユーザーやアプリがアクセスできてしまうので、以下のいずれかの設定を実施することをお勧めする</p>
+<ul>
+<li>App Service 認証用に作成されたアプリの “ユーザーの割り当てを有効化” してアクセス可能なユーザーを制限する</li>
+<li>App Service 認証の組み込み認可ポリシーを使ってアクセス可能なユーザーを制限する</li>
+<li>App Service にデプロイしたアプリ側でトークンのクレームをチェックするビジネス ロジックを追加する</li>
+</ul>
+<h2 id="App-Service-認証とは"><a href="#App-Service-認証とは" class="headerlink" title="App Service 認証とは"></a>App Service 認証とは</h2><p>EasyAuth の基本についてはここでは記載しないが、ざっくり以下の機能を持っている</p>
+<ol>
+<li>OIDC/OAuth のクライアントとしての機能 (OP へのリダイレクトや、認可コードの取得と引き換え、トークンストアなど)</li>
+<li>OIDC/OAuth の RP としての機能 (アクセス トークンの検証、<strong>簡易的な</strong>認可ポリシーの作成)</li>
+</ol>
+<p>ほとんどの場合は 1 のクライアントとしての機能を利用するために有効化すると思うが、API としての機能を利用する場合は 2 の RP としての機能も利用することになる。<br>つまり、別のクライアントで取得したアクセス トークンを EasyAuth で保護された App Service に送信し、EasyAuth が検証してアクセスを許可するということができる。</p>
+<p>ここで注意が必要なのは EasyAuth は既定では aud の検証と署名検証しか行わないことだ。そして Azure AD では API 側で制限されていない限り、基本的にアプリは自由に特定の aud に対するトークンを取得できるので、テナントに登録されたすべてのアプリが EasyAuth が有効なアプリにアクセスができる。</p>
+<h2 id="試してみる"><a href="#試してみる" class="headerlink" title="試してみる"></a>試してみる</h2><p>ということで、簡単なコードで試してみる。まずは App Service なり Functions なりを作って EasyAuth を有効化する。<br>作成したらクライアント ID をメモっておく</p>
+<p><img src="./tips-for-using-appservice-authentication/easyauth-settings.png" alt=""></p>
+<p>作成したら、これとは別に <code>アプリの登録</code> から適当なアプリを登録して、シークレットを作成する。</p>
+<p><img src="./tips-for-using-appservice-authentication/app-secret.png" alt=""></p>
+<p>作成した方のクライアント ID とテナント ID もメモっておく</p>
+<p><img src="/2023/08/01/tips-for-using-appservice-authentication-securely/app-id.png" alt=""></p>
+<p>メモったクライアント ID とテナント ID、作成したシークレットを使って、おもむろにアクセス トークンを取得する。</p>
+<pre class=" language-posershell"><code class="language-posershell">$clientId = "e27ad7e4-f5a6-400f-ad8c-99079aaff560"
+$clientSecret = "************"
+$tenantId= 'c698d583-792e-44c6-8cd6-31dc9a64795a'
+$scope = '6c5dd842-bcfe-4a2e-9834-b19bfba1e26b/.default'
+$tokenEndpoint = "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token"
+$postParams = @&#123;
+    client_id = $clientId;
+    client_secret = $clientSecret;
+    grant_type = 'client_credentials';
+    scope = $scope
+&#125;
+
+$authResult = Invoke-RestMethod -UseBasicParsing -Uri $tokenEndpoint -Method POST -ContentType "application/x-www-form-urlencoded" -Body $postParams
+</code></pre>
+<p>取得したアクセス トークンを EasyAuth で保護されたアプリに送信してみる。</p>
+<pre class=" language-posershell"><code class="language-posershell">$headers = @&#123; Authorization = "Bearer $($authResult.access_token)" &#125;
+$res = Invoke-WebRequest -UseBasicParsing -Uri "https://easyauth-securely.azurewebsites.net/" -Headers $headers
+$res.StatusCode # => 200
+</code></pre>
+<p>ということで、何の権限も持たないアプリが EasyAuth で保護されたアプリにアクセスが出来た。これは直感に反する動作に思える。</p>
+<h2 id="なぜ権限がないのにも関わらずアクセスが出来たのか"><a href="#なぜ権限がないのにも関わらずアクセスが出来たのか" class="headerlink" title="なぜ権限がないのにも関わらずアクセスが出来たのか"></a>なぜ権限がないのにも関わらずアクセスが出来たのか</h2><p>シンプルに EasyAuth は既定では aud の検証と署名検証しか行わないからだ。つまり、アクセス トークンの aud が EasyAuth で保護されたアプリのものであって、署名の検証ができればアクセスが許可される。<br>先ほど取得したアクセス トークンの内容を <a target="_blank" rel="noopener" href="https://jwt.ms">https://jwt.ms</a> で見てみると、以下のような内容が確認できる</p>
+<p><img src="/2023/08/01/tips-for-using-appservice-authentication-securely/access-token-claims.png" alt=""></p>
+<p>Azure AD ではリソース側で制限がなされていない限り、アプリは特定リソースに対するアクセス トークンを発行可能である。<br>たとえば Microsoft Graph API に対するアクセス トークンは、テナントに登録されたすべてのアプリで取得可能である。先ほどのトークン取得コードの scope パラメーターを <code>&lt;appid&gt;/.default</code> の部分をテナントに登録された好きなアプリの ID に差し替えてみると、そのアプリに対するアクセス トークンが取得できることが確認できる。</p>
+<p>ではテナントに登録されたアプリは、どの API に対しても自由にアクセスが可能かというとそうではなく、API 側で通常は roles クレームをチェックし、必要なアクセス許可を持ったアプリかを判別する。<br>具体的には API のアクセス許可からアプリに対して必要なアクセス許可を付与することで、アクセス トークンに roles クレームを追加することが出来、アプリ側で検証に利用が出来る。</p>
+<p>たとえば、Microsoft Graph API をアプリ権限で呼び出そうとすると、API のアクセス許可から権限を追加し、管理者の同意を付与する必要があるが、あれは roles クレームを追加するための作業といえる。</p>
+<p>ただ、先ほども説明した通り、EasyAuth は既定では roles クレームの検証は行わない。つまり、アプリは特定の API に対するアクセス許可を持たなくても、その API に対するアクセス トークンを取得でき、EasyAuth で保護されたアプリにアクセスすることが出来る。</p>
+<h2 id="アクセスを制限するには"><a href="#アクセスを制限するには" class="headerlink" title="アクセスを制限するには"></a>アクセスを制限するには</h2><p>EasyAuth はあくまで簡易的な認証の仕組みであり、既定ではトークンの aud と署名を検証するのみなので、アクセスを制限するには以下のいずれかを行う必要がある。</p>
+<ul>
+<li>App Service 認証用に作成されたアプリの “ユーザーの割り当てを有効” にしてアクセス可能なユーザーを制限する</li>
+<li>App Service 認証の組み込み認可ポリシーを使ってアクセス可能なユーザーを制限する</li>
+<li>App Service にデプロイしたアプリ側でトークンのクレームをチェックするビジネス ロジックを追加する</li>
+</ul>
+<p>実施が簡単な順に並べたが、それぞれでの方法には一長一短がある。また複雑な要件を満たすには EasyAuth を利用するにしても、ビジネス ロジックを書く必要がある。</p>
+<h3 id="App-Service-認証用に作成されたアプリの-“ユーザーの割り当てを有効”-にしてアクセス可能なユーザーを制限する"><a href="#App-Service-認証用に作成されたアプリの-“ユーザーの割り当てを有効”-にしてアクセス可能なユーザーを制限する" class="headerlink" title="App Service 認証用に作成されたアプリの “ユーザーの割り当てを有効” にしてアクセス可能なユーザーを制限する"></a>App Service 認証用に作成されたアプリの “ユーザーの割り当てを有効” にしてアクセス可能なユーザーを制限する</h3><p>あなたが Azure AD の管理者であり、Azure AD に対する管理権限を持つ場合には最も手っ取り早い方法は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/develop/howto-restrict-your-app-to-a-set-of-users">ユーザーの割り当てを有効化</a> することだ。<br>既定では EasyAuth により作成されたアプリは <code>ユーザーの割り当てが有効ですか?</code> が <code>いいえ</code> になっているので、これを <code>はい</code> に変更する。</p>
+<p><img src="/2023/08/01/tips-for-using-appservice-authentication-securely/assigned-required.png" alt=""></p>
+<p>作業は <code>アプリの登録</code> ではなく <code>エンタープライズ アプリケーション</code> から行う必要があるので注意。</p>
+<p>この設定を実施後、再度先ほどのトークン取得コードを実行してみると、今度は 401 エラーが返ってくることが確認できる。</p>
+<pre class=" language-powershell"><code class="language-powershell"><span class="token variable">$authResult</span> = <span class="token function">Invoke-RestMethod</span> <span class="token operator">-</span>UseBasicParsing <span class="token operator">-</span>Uri <span class="token variable">$tokenEndpoint</span> <span class="token operator">-</span>Method POST <span class="token operator">-</span>ContentType <span class="token string">"application/x-www-form-urlencoded"</span> <span class="token operator">-</span>Body <span class="token variable">$postParams</span>
+<span class="token comment" spellcheck="true"># Invoke-RestMethod: &amp;#123;"error":"invalid_grant","error_description":"AADSTS501051: Application 'e27ad7e4-f5a6-400f-ad8c-99079aaff560'(EasyAuth Access App) is not assigned to a role for the application '6c5dd842-bcfe-4a2e-9834-b19bfba1e26b'(easyauth-securely).\r\nTrace ID: 31f83ef7-4e6e-4e4d-9ce7-4d3d04191c00\r\nCorrelation ID: a0ceee27-3cfb-4574-bf22-22289e6452f3\r\nTimestamp: 2023-07-31 14:23:05Z","error_codes":[501051],"timestamp":"2023-07-31 14:23:05Z","trace_id":"31f83ef7-4e6e-4e4d-9ce7-4d3d04191c00","correlation_id":"a0ceee27-3cfb-4574-bf22-22289e6452f3","error_uri":"https://login.microsoftonline.com/error?code=501051"&amp;#125;</span>
+```
+</code></pre>
+<p>アクセスを許可するにはユーザーと割り当てに対してロールの割り当てを実施する。ユーザーはそのまま割り当てればよいが、アプリケーションは GUI で直接割り当てができないので、アプリケーションが所属するグループを作って、そのグループに対してロールの割り当てを行う (要 Azure AD Premium ライセンス) か、ライセンスがないのであれば Graph API 経由で割り当てを実施する。</p>
+<pre class=" language-powershell"><code class="language-powershell">Connect<span class="token operator">-</span>MgGraph <span class="token operator">-</span>Scopes <span class="token string">"Application.ReadWrite.All, AppRoleAssignment.ReadWrite.All"</span>
+<span class="token variable">$easyAuthApp</span> = Get<span class="token operator">-</span>MgServicePrincipal <span class="token operator">-</span><span class="token keyword">Filter</span> <span class="token string">"appId eq '6c5dd842-bcfe-4a2e-9834-b19bfba1e26b'"</span><span class="token punctuation">;</span> 
+<span class="token variable">$clientApp</span> = Get<span class="token operator">-</span>MgServicePrincipal <span class="token operator">-</span><span class="token keyword">Filter</span> <span class="token string">"appId eq 'e27ad7e4-f5a6-400f-ad8c-99079aaff560'"</span><span class="token punctuation">;</span> 
+<span class="token variable">$defaultRoleId</span> = <span class="token punctuation">(</span><span class="token namespace">[guid]</span>::Empty<span class="token punctuation">)</span><span class="token punctuation">.</span>Guid
+New<span class="token operator">-</span>MgServicePrincipalAppRoleAssignedTo <span class="token operator">-</span>ServicePrincipalId <span class="token variable">$easyAuthApp</span><span class="token punctuation">.</span>Id <span class="token operator">-</span>AppRoleId <span class="token variable">$defaultRoleId</span> <span class="token operator">-</span>ResourceId <span class="token variable">$easyAuthApp</span><span class="token punctuation">.</span>Id <span class="token operator">-</span>PrincipalId <span class="token variable">$clientApp</span><span class="token punctuation">.</span>Id
+</code></pre>
+<p>上記のように権限を割り当てると、ユーザーとグループにクライアント アプリのサービス プリンシパルが追加され、アクセスが許可されるようになる。</p>
+<p><img src="/2023/08/01/tips-for-using-appservice-authentication-securely/users-and-groups.png" alt=""></p>
+<p>ユーザーも同様に制御ができるが、<code>ユーザーの割り当てが有効ですか?</code> を <code>はい</code> に設定した時点で一般ユーザーが EasyAuth の認可処理に同意が出来なくなり、実質管理者同意が必要になるのでで注意。<br>詳しくは <a target="_blank" rel="noopener" href="https://jpazureid.github.io/blog/azure-active-directory/azure-ad-consent-framework/#%E2%91%A2%E5%AF%BE%E8%B1%A1%E3%81%AE%E3%82%A2%E3%83%97%E3%83%AA%E3%81%A7%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%81%AE%E5%89%B2%E3%82%8A%E5%BD%93%E3%81%A6%E3%81%8C%E5%BF%85%E8%A6%81%E3%81%A8%E8%A8%AD%E5%AE%9A%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B">「管理者の承認が必要」のメッセージが表示された場合の対処法 | Japan Azure Identity Support Blog</a> を参照のこと。</p>
+<p>上記手順は手順自体はまあ簡単だが、Azure AD 側の管理権限がもろもろ必要になるのでアプリ開発者だと管理者に依頼することになるだろう。</p>
+<h3 id="App-Service-認証の組み込み認可ポリシーを使ってアクセス可能なユーザーを制限する"><a href="#App-Service-認証の組み込み認可ポリシーを使ってアクセス可能なユーザーを制限する" class="headerlink" title="App Service 認証の組み込み認可ポリシーを使ってアクセス可能なユーザーを制限する"></a>App Service 認証の組み込み認可ポリシーを使ってアクセス可能なユーザーを制限する</h3><p>最近できた EasyAuth の新機能だが、本当に必要最低限のことしかできないがとりあえず動く。<br>簡単に設定方法を書いておく。詳細は <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/app-service/configure-authentication-provider-aad?tabs=workforce-tenant#use-a-built-in-authorization-policy">組み込み認可ポリシーを使用する</a> のドキュメントを参照。<br>ARM API を叩くのでよくわからん人は <a target="_blank" rel="noopener" href="https://resoures.azure.com">https://resoures.azure.com</a> で設定すれば良い。</p>
+<p>App Service のリソースを探して、config/authsettingsV2 を開く。上部の Edit を押してから <code>identityProviders</code> &gt; <code>azureActiveDirectory</code> &gt; <code>validation</code> を編集する。</p>
+<p><img src="/2023/08/01/tips-for-using-appservice-authentication-securely/authsettingsV2.png" alt=""></p>
+<p>指定する ID は アプリケーション ID ではなくサービス プリンシパルの ObjectId であることに注意。つまりエンタープライズ アプリケーション ブレードから確認できるオブジェクト ID。ユーザーの場合は普通にオブジェクト ID を指定する。</p>
+<p>この設定を実施すると <code>allowedPrincipals</code> &gt; <code>identities</code> で設定したプリンシパルのみがアプリにアクセス可能となる。もう少し正確に言うとアクセス トークンの oid クレームが <code>allowedPrincipals</code> &gt; <code>identities</code> で設定したプリンシパルのいずれかの ObjectId と一致する場合にアクセスが許可される。</p>
+<p>ちなみに <code>jwtClaimChecks</code> とかいうそれっぽい名前空間が定義されているが今のところ使い方は不明。<br>この設定は、サブスクリプションの管理権限があればいいのでアプリ管理者が大抵できると思われるが、まあ機能不足感は否めない。せめて scp や roles クレームの検証ぐらいしてくれたらいいのだが…。</p>
+<h3 id="App-Service-にデプロイしたアプリ側でトークンのクレームをチェックするビジネス-ロジックを追加する"><a href="#App-Service-にデプロイしたアプリ側でトークンのクレームをチェックするビジネス-ロジックを追加する" class="headerlink" title="App Service にデプロイしたアプリ側でトークンのクレームをチェックするビジネス ロジックを追加する"></a>App Service にデプロイしたアプリ側でトークンのクレームをチェックするビジネス ロジックを追加する</h3><p>より複雑な要件を満たすためには、Azure AD や EasyAuth の機能だけでは不足なので、独自のコードを書く必要がある。<br>やりたいことによって実装難易度は異なるが EasyAuth 組み込みの機能レベルを実現するだけなら、リクエスト ヘッダーの <code>X-MS-CLIENT-PRINCIPAL-ID</code> をチェックすればよい。ここに ID トークン/アクセス トークンのオブジェクト ID が含まれるので、アクセス許可する ID のリストをアプリ側で持っておいて、合致するかをチェックすれば OK だ。</p>
+<p>ただ、上記だけであれば前述の 2 つの方法を使ったほうが良いので、ビジネス ロジックを書く場合は追加のクレームを構成しチェックすることになるだろう。</p>
+<p>例えば、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/develop/optional-claims#configure-groups-optional-claims">groups クレームを追加</a> して検証すれば、特定のグループに所属するユーザーにのみ権限を付与したり、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/develop/howto-add-app-roles-in-apps">アプリ ロール</a> は、アプリ独自の権限を Azure AD 上で定義し、特定のユーザーやサービス プリンシパルに付与して App Service 上のアプリ内の権限を AAD で管理するといったことができる。</p>
+<p>その他のクレームをチェックするには <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/app-service/configure-authentication-user-identities#decoding-the-client-principal-header">X-MS-CLIENT-PRINCIPAL</a> をチェックするか、素直にアクセス トークン or ID トークンをデコードして値を取り出して検証する。あと .NET なら ClaimsPrincipal に特定のクレームは勝手に入るので、それをチェックするでも良い。</p>
+<p>この辺の詳細は前提の知識とか含め記事にすると面倒なので、今回は割愛。</p>
+<p>ということで、EasyAuth はあくまで Easy な Auth なので、既定では結構だれでもアクセスが可能な状態で、ちょっと思ってたのと違う！ってなることがあるので注意しましょうという話。</p>
+<div class="related-post"><h3>関連記事</h3><ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\09\27\aad-external-identity-api-connector\" title="Azure AD External Identity のセルフ サインアップと API コネクター" rel="bookmark">Azure AD External Identity のセルフ サインアップと API コネクター</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\02\16\customize-aad-token-claims\" title="Azure AD で OAuth/OIDC トークンのクレームをカスタマイズする" rel="bookmark">Azure AD で OAuth/OIDC トークンのクレームをカスタマイズする</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2019\11\24\ms-ignite-2019\" title="Microsoft Ignite 2019 メモ" rel="bookmark">Microsoft Ignite 2019 メモ</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="\2020\10\17\serviceprincipal-certauth-using-yubikey5\" title="YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証する" rel="bookmark">YubiKey 5 シリーズで Azure AD のサービス プリンシパルの証明書認証する</a></h3></div></li></ul></div></div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/App-Service/" rel="tag">App Service</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Azure-AD/" rel="tag">Azure AD</a><span class="tag-list-count">5</span></li></ul></div></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2023/04/26/do-not-validate-ms-graph-token/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/82p" title="Github" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="https://twitter.com/watahani" title="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li><li><a href="https://www.facebook.com/haniyama.wataru" title="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2023 enjoy struggling<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>
