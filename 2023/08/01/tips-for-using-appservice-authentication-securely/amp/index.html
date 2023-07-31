@@ -10,7 +10,7 @@
 	<meta property="og:type" content="article">
 	<meta property="og:url" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/">
 	
-		<meta property="og:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
+		<meta property="og:image" content="http://blog.haniyama.com\2023\08\01\tips-for-using-appservice-authentication-securely\easyauth-settings.png">
 	
 	<meta property="og:site_name" content="enjoy struggling">
 	
@@ -26,7 +26,7 @@
 &lt;p&gt;ということで EasyAuth の機能が Azure AD から見てどのような機能なのか、どのようなセキュリティ上の懸念があるのか、どのように対策するのかをまとめてみた。&lt;/p&gt;">
 	
     
-    	<meta name="twitter:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
+    	<meta name="twitter:image" content="http://blog.haniyama.com\2023\08\01\tips-for-using-appservice-authentication-securely\easyauth-settings.png">
 	
 	
 	
@@ -61,13 +61,13 @@
 			    "@id":"http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/"
 			},
 			"datePublished": "2023-07-31T16:00:00.000Z",
-			"dateModified": "2023-07-31T16:05:10.212Z",
+			"dateModified": "2023-07-31T16:10:49.535Z",
 			
 			"image": {
 				"@type": "ImageObject",
-				"url": "\amp-dist\sample\sample-substituteTitleImage.png",
-				"width" : "1024",
-				"height" : "800"
+				"url": "http://blog.haniyama.com\2023\08\01\tips-for-using-appservice-authentication-securely\easyauth-settings.png",
+				"width" : "1369",
+				"height" : "830"
 			},
 			
 			"author": {
@@ -1786,7 +1786,7 @@ h6.categories {
 						
 			          	<div class="header-thumb flx">
 			          		<div class="thumbImg-w circle">
-			          			<amp-img class="thumbImg" layout="fixed" width="128" height="100" src="\amp-dist\sample\sample-substituteTitleImage.png">
+			          			<amp-img class="thumbImg" layout="fixed" width="164" height="100" src="http://blog.haniyama.com\2023\08\01\tips-for-using-appservice-authentication-securely\easyauth-settings.png">
 			          			</amp-img>
 			          		</div>
 			          	</div>
@@ -1839,9 +1839,9 @@ h6.categories {
 <p>&#x307B;&#x3068;&#x3093;&#x3069;&#x306E;&#x5834;&#x5408;&#x306F; 1 &#x306E;&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x3068;&#x3057;&#x3066;&#x306E;&#x6A5F;&#x80FD;&#x3092;&#x5229;&#x7528;&#x3059;&#x308B;&#x305F;&#x3081;&#x306B;&#x6709;&#x52B9;&#x5316;&#x3059;&#x308B;&#x3068;&#x601D;&#x3046;&#x304C;&#x3001;API &#x3068;&#x3057;&#x3066;&#x306E;&#x6A5F;&#x80FD;&#x3092;&#x5229;&#x7528;&#x3059;&#x308B;&#x5834;&#x5408;&#x306F; 2 &#x306E; RP &#x3068;&#x3057;&#x3066;&#x306E;&#x6A5F;&#x80FD;&#x3082;&#x5229;&#x7528;&#x3059;&#x308B;&#x3053;&#x3068;&#x306B;&#x306A;&#x308B;&#x3002;<br>&#x3064;&#x307E;&#x308A;&#x3001;&#x5225;&#x306E;&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8;&#x3067;&#x53D6;&#x5F97;&#x3057;&#x305F;&#x30A2;&#x30AF;&#x30BB;&#x30B9; &#x30C8;&#x30FC;&#x30AF;&#x30F3;&#x3092; EasyAuth &#x3067;&#x4FDD;&#x8B77;&#x3055;&#x308C;&#x305F; App Service &#x306B;&#x9001;&#x4FE1;&#x3057;&#x3001;EasyAuth &#x304C;&#x691C;&#x8A3C;&#x3057;&#x3066;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3092;&#x8A31;&#x53EF;&#x3059;&#x308B;&#x3068;&#x3044;&#x3046;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x308B;&#x3002;</p>
 <p>&#x3053;&#x3053;&#x3067;&#x6CE8;&#x610F;&#x304C;&#x5FC5;&#x8981;&#x306A;&#x306E;&#x306F; EasyAuth &#x306F;&#x65E2;&#x5B9A;&#x3067;&#x306F; aud &#x306E;&#x691C;&#x8A3C;&#x3068;&#x7F72;&#x540D;&#x691C;&#x8A3C;&#x3057;&#x304B;&#x884C;&#x308F;&#x306A;&#x3044;&#x3053;&#x3068;&#x3060;&#x3002;&#x305D;&#x3057;&#x3066; Azure AD &#x3067;&#x306F; API &#x5074;&#x3067;&#x5236;&#x9650;&#x3055;&#x308C;&#x3066;&#x3044;&#x306A;&#x3044;&#x9650;&#x308A;&#x3001;&#x57FA;&#x672C;&#x7684;&#x306B;&#x30A2;&#x30D7;&#x30EA;&#x306F;&#x81EA;&#x7531;&#x306B;&#x7279;&#x5B9A;&#x306E; aud &#x306B;&#x5BFE;&#x3059;&#x308B;&#x30C8;&#x30FC;&#x30AF;&#x30F3;&#x3092;&#x53D6;&#x5F97;&#x3067;&#x304D;&#x308B;&#x306E;&#x3067;&#x3001;&#x30C6;&#x30CA;&#x30F3;&#x30C8;&#x306B;&#x767B;&#x9332;&#x3055;&#x308C;&#x305F;&#x3059;&#x3079;&#x3066;&#x306E;&#x30A2;&#x30D7;&#x30EA;&#x304C; EasyAuth &#x304C;&#x6709;&#x52B9;&#x306A;&#x30A2;&#x30D7;&#x30EA;&#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x304C;&#x3067;&#x304D;&#x308B;&#x3002;</p>
 <h2 id="&#x8A66;&#x3057;&#x3066;&#x307F;&#x308B;"><a href="#&#x8A66;&#x3057;&#x3066;&#x307F;&#x308B;" class="headerlink" title="&#x8A66;&#x3057;&#x3066;&#x307F;&#x308B;"></a>&#x8A66;&#x3057;&#x3066;&#x307F;&#x308B;</h2><p>&#x3068;&#x3044;&#x3046;&#x3053;&#x3068;&#x3067;&#x3001;&#x7C21;&#x5358;&#x306A;&#x30B3;&#x30FC;&#x30C9;&#x3067;&#x8A66;&#x3057;&#x3066;&#x307F;&#x308B;&#x3002;&#x307E;&#x305A;&#x306F; App Service &#x306A;&#x308A; Functions &#x306A;&#x308A;&#x3092;&#x4F5C;&#x3063;&#x3066; EasyAuth &#x3092;&#x6709;&#x52B9;&#x5316;&#x3059;&#x308B;&#x3002;<br>&#x4F5C;&#x6210;&#x3057;&#x305F;&#x3089;&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8; ID &#x3092;&#x30E1;&#x30E2;&#x3063;&#x3066;&#x304A;&#x304F;</p>
-<p><!-- This img tag couldn't replace. src: <img src="./tips-for-using-appservice-authentication/easyauth-settings.png" alt="">--></p>
+<div class="amp-img-wrapper"><amp-img src="/2023/08/01/tips-for-using-appservice-authentication-securely/easyauth-settings.png" width="1369" height="830" layout="responsive"></amp-img></div>
 <p>&#x4F5C;&#x6210;&#x3057;&#x305F;&#x3089;&#x3001;&#x3053;&#x308C;&#x3068;&#x306F;&#x5225;&#x306B; <code>&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x767B;&#x9332;</code> &#x304B;&#x3089;&#x9069;&#x5F53;&#x306A;&#x30A2;&#x30D7;&#x30EA;&#x3092;&#x767B;&#x9332;&#x3057;&#x3066;&#x3001;&#x30B7;&#x30FC;&#x30AF;&#x30EC;&#x30C3;&#x30C8;&#x3092;&#x4F5C;&#x6210;&#x3059;&#x308B;&#x3002;</p>
-<p><!-- This img tag couldn't replace. src: <img src="./tips-for-using-appservice-authentication/app-secret.png" alt="">--></p>
+<div class="amp-img-wrapper"><amp-img src="/2023/08/01/tips-for-using-appservice-authentication-securely/app-secret.png" width="1369" height="830" layout="responsive"></amp-img></div>
 <p>&#x4F5C;&#x6210;&#x3057;&#x305F;&#x65B9;&#x306E;&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8; ID &#x3068;&#x30C6;&#x30CA;&#x30F3;&#x30C8; ID &#x3082;&#x30E1;&#x30E2;&#x3063;&#x3066;&#x304A;&#x304F;</p>
 <div class="amp-img-wrapper"><amp-img src="/2023/08/01/tips-for-using-appservice-authentication-securely/app-id.png" width="1369" height="830" layout="responsive"></amp-img></div>
 <p>&#x30E1;&#x30E2;&#x3063;&#x305F;&#x30AF;&#x30E9;&#x30A4;&#x30A2;&#x30F3;&#x30C8; ID &#x3068;&#x30C6;&#x30CA;&#x30F3;&#x30C8; ID&#x3001;&#x4F5C;&#x6210;&#x3057;&#x305F;&#x30B7;&#x30FC;&#x30AF;&#x30EC;&#x30C3;&#x30C8;&#x3092;&#x4F7F;&#x3063;&#x3066;&#x3001;&#x304A;&#x3082;&#x3080;&#x308D;&#x306B;&#x30A2;&#x30AF;&#x30BB;&#x30B9; &#x30C8;&#x30FC;&#x30AF;&#x30F3;&#x3092;&#x53D6;&#x5F97;&#x3059;&#x308B;&#x3002;</p>
