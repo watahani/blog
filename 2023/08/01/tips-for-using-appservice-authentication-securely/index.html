@@ -13,7 +13,7 @@
 <meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/users-and-groups.png">
 <meta property="og:image" content="http://blog.haniyama.com/2023/08/01/tips-for-using-appservice-authentication-securely/authsettingsV2.png">
 <meta property="article:published_time" content="2023-07-31T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-07-31T16:10:49.535Z">
+<meta property="article:modified_time" content="2023-08-01T00:01:21.713Z">
 <meta property="article:author" content="watahani">
 <meta property="article:tag" content="Azure AD">
 <meta property="article:tag" content="App Service">
@@ -34,7 +34,7 @@
 <li>OIDC/OAuth の RP としての機能 (アクセス トークンの検証、<strong>簡易的な</strong>認可ポリシーの作成)</li>
 </ol>
 <p>ほとんどの場合は 1 のクライアントとしての機能を利用するために有効化すると思うが、API としての機能を利用する場合は 2 の RP としての機能も利用することになる。<br>つまり、別のクライアントで取得したアクセス トークンを EasyAuth で保護された App Service に送信し、EasyAuth が検証してアクセスを許可するということができる。</p>
-<p>ここで注意が必要なのは EasyAuth は既定では aud の検証と署名検証しか行わないことだ。そして Azure AD では API 側で制限されていない限り、基本的にアプリは自由に特定の aud に対するトークンを取得できるので、テナントに登録されたすべてのアプリが EasyAuth が有効なアプリにアクセスができる。</p>
+<p>ここで注意が必要なのは EasyAuth は既定では aud の検証と iss および署名検証しか行わないことだ。そして Azure AD では API 側で制限されていない限り、基本的にアプリは自由に特定の aud に対するトークンを取得できるので、テナントに登録されたすべてのアプリが EasyAuth が有効なアプリにアクセスができる。</p>
 <h2 id="試してみる"><a href="#試してみる" class="headerlink" title="試してみる"></a>試してみる</h2><p>ということで、簡単なコードで試してみる。まずは App Service なり Functions なりを作って EasyAuth を有効化する。<br>作成したらクライアント ID をメモっておく</p>
 <p><img src="/2023/08/01/tips-for-using-appservice-authentication-securely/easyauth-settings.png" alt=""></p>
 <p>作成したら、これとは別に <code>アプリの登録</code> から適当なアプリを登録して、シークレットを作成する。</p>
@@ -62,11 +62,11 @@ $res = Invoke-WebRequest -UseBasicParsing -Uri "https://easyauth-securely.azurew
 $res.StatusCode # => 200
 </code></pre>
 <p>ということで、何の権限も持たないアプリが EasyAuth で保護されたアプリにアクセスが出来た。これは直感に反する動作に思える。</p>
-<h2 id="なぜ権限がないのにも関わらずアクセスが出来たのか"><a href="#なぜ権限がないのにも関わらずアクセスが出来たのか" class="headerlink" title="なぜ権限がないのにも関わらずアクセスが出来たのか"></a>なぜ権限がないのにも関わらずアクセスが出来たのか</h2><p>シンプルに EasyAuth は既定では aud の検証と署名検証しか行わないからだ。つまり、アクセス トークンの aud が EasyAuth で保護されたアプリのものであって、署名の検証ができればアクセスが許可される。<br>先ほど取得したアクセス トークンの内容を <a target="_blank" rel="noopener" href="https://jwt.ms">https://jwt.ms</a> で見てみると、以下のような内容が確認できる</p>
+<h2 id="なぜ権限がないのにも関わらずアクセスが出来たのか"><a href="#なぜ権限がないのにも関わらずアクセスが出来たのか" class="headerlink" title="なぜ権限がないのにも関わらずアクセスが出来たのか"></a>なぜ権限がないのにも関わらずアクセスが出来たのか</h2><p>シンプルに EasyAuth は既定では aud の検証と iss, 署名検証しか行わないからだ。つまり、アクセス トークンの aud が EasyAuth で保護されたアプリのものであって、署名の検証ができればアクセスが許可される。<br>先ほど取得したアクセス トークンの内容を <a target="_blank" rel="noopener" href="https://jwt.ms">https://jwt.ms</a> で見てみると、以下のような内容が確認できる</p>
 <p><img src="/2023/08/01/tips-for-using-appservice-authentication-securely/access-token-claims.png" alt=""></p>
 <p>Azure AD ではリソース側で制限がなされていない限り、アプリは特定リソースに対するアクセス トークンを発行可能である。<br>たとえば Microsoft Graph API に対するアクセス トークンは、テナントに登録されたすべてのアプリで取得可能である。先ほどのトークン取得コードの scope パラメーターを <code>&lt;appid&gt;/.default</code> の部分をテナントに登録された好きなアプリの ID に差し替えてみると、そのアプリに対するアクセス トークンが取得できることが確認できる。</p>
 <p>ではテナントに登録されたアプリは、どの API に対しても自由にアクセスが可能かというとそうではなく、API 側で通常はトークンに含まれるクレームをチェックし権限を持ったプリンシパルからのアクセスかを判定する。<br>良く使われるのは scp (scope) や roles クレームだろう。</p>
-<p>たとえば、Microsoft Graph API をアプリ権限で呼び出そうとすると、API のアクセス許可から権限を追加し、管理者の同意を付与する必要があるが、あれは roles クレームを追加するための作業といえるし、ユーザー権限での Graph API 呼び出しをするアプリをじっそするときに scope を指定するのは scp クレームを追加するための作業といえる。</p>
+<p>たとえば、Microsoft Graph API をアプリ権限で呼び出そうとすると、API のアクセス許可から権限を追加し、管理者の同意を付与する必要があるが、あれは roles クレームを追加するための作業といえるし、ユーザー権限での Graph API 呼び出しをするアプリを実装するときに scope を指定するのは scp クレームを追加するための作業といえる。</p>
 <p>ただ、先ほども説明した通り、EasyAuth は既定では aud クレームの検証しかしない。つまり scp や roles クレームがないトークン、つまり特に権限を付与していないアプリが取得できるアクセス トークンでも、EasyAuth で保護されたアプリにアクセスすることが出来る。</p>
 <h2 id="アクセスを制限するには"><a href="#アクセスを制限するには" class="headerlink" title="アクセスを制限するには"></a>アクセスを制限するには</h2><p>EasyAuth はあくまで簡易的な認証の仕組みであり、既定ではトークンの aud と署名を検証するのみなので、アクセスを制限するには以下のいずれかを行う必要がある。</p>
 <ul>
@@ -102,7 +102,7 @@ New<span class="token operator">-</span>MgServicePrincipalAppRoleAssignedTo <spa
 <p>ちなみに <code>jwtClaimChecks</code> とかいうそれっぽい名前空間が定義されているが今のところ使い方は不明。<br>この設定は、サブスクリプションの管理権限があればいいのでアプリ管理者が大抵できると思われるが、まあ機能不足感は否めない。せめて scp や roles クレームの検証ぐらいしてくれたらいいのだが…。</p>
 <h3 id="App-Service-にデプロイしたアプリ側でトークンのクレームをチェックするビジネス-ロジックを追加する"><a href="#App-Service-にデプロイしたアプリ側でトークンのクレームをチェックするビジネス-ロジックを追加する" class="headerlink" title="App Service にデプロイしたアプリ側でトークンのクレームをチェックするビジネス ロジックを追加する"></a>App Service にデプロイしたアプリ側でトークンのクレームをチェックするビジネス ロジックを追加する</h3><p>より複雑な要件を満たすためには、Azure AD や EasyAuth の機能だけでは不足なので、独自のコードを書く必要がある。<br>やりたいことによって実装難易度は異なるが EasyAuth 組み込みの機能レベルを実現するだけなら、リクエスト ヘッダーの <code>X-MS-CLIENT-PRINCIPAL-ID</code> をチェックすればよい。ここに ID トークン/アクセス トークンのオブジェクト ID が含まれるので、アクセス許可する ID のリストをアプリ側で持っておいて、合致するかをチェックすれば OK だ。</p>
 <p>ただ、上記だけであれば前述の 2 つの方法を使ったほうが良いので、ビジネス ロジックを書く場合は追加のクレームを構成しチェックすることになるだろう。</p>
-<p>例えば、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/develop/optional-claims#configure-groups-optional-claims">groups クレームを追加</a> して検証すれば、特定のグループに所属するユーザーにのみ権限を付与したり、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/develop/howto-add-app-roles-in-apps">アプリ ロール</a> は、アプリ独自の権限を Azure AD 上で定義し、特定のユーザーやサービス プリンシパルに付与して App Service 上のアプリ内の権限を AAD で管理するといったことができる。</p>
+<p>例えば、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/develop/optional-claims#configure-groups-optional-claims">groups クレームを追加</a> して検証すれば、特定のグループに所属するユーザーにのみ権限を付与したり、<a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/active-directory/develop/howto-add-app-roles-in-apps">アプリ ロール</a> を定義すれば、アプリ独自の権限を Azure AD 上で、特定のユーザーやサービス プリンシパルに付与して App Service 上のアプリで割り当てた権限によった応答を返すといったことが可能だ。</p>
 <p>その他のクレームをチェックするには <a target="_blank" rel="noopener" href="https://learn.microsoft.com/ja-jp/azure/app-service/configure-authentication-user-identities#decoding-the-client-principal-header">X-MS-CLIENT-PRINCIPAL</a> をチェックするか、素直にアクセス トークン or ID トークンをデコードして値を取り出して検証する。あと .NET なら ClaimsPrincipal に特定のクレームは勝手に入るので、それをチェックするでも良い。</p>
 <p>この辺の詳細は前提の知識とか含め記事にすると面倒なので、今回は割愛。</p>
 <p>ということで、EasyAuth はあくまで Easy な Auth なので、既定では結構だれでもアクセスが可能な状態で、ちょっと思ってたのと違う！ってなることがあるので注意しましょうという話。</p>
