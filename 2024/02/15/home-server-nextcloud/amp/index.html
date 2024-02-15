@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html ⚡>
+  <head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/" >
+    <title>久しぶりに自宅サーバーを立てて Nextcloud を動かす - enjoy struggling</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    
+    <meta property="og:title" content="久しぶりに自宅サーバーを立てて Nextcloud を動かす">
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/">
+	
+		<meta property="og:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
+	
+	<meta property="og:site_name" content="enjoy struggling">
+	
+		<meta property="og:description" content="&lt;p&gt;以前買ったミニ PC を自宅サーバーにしようとしていたのだが、まったく時間が無くて放置していた。育休中に少し時間が取れたので、とりあえず Ubuntu をインストールして Nextcloud を動かしてみた。docker を使って構成したが結構ハマったので、その辺のメモ。&lt;/p&gt;">
+	
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="enjoy struggling">
+	<meta name="twitter:url" content="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/">
+	<meta name="twitter:title" content="久しぶりに自宅サーバーを立てて Nextcloud を動かす - enjoy struggling">
+	
+		<meta name="twitter:description" content="&lt;p&gt;以前買ったミニ PC を自宅サーバーにしようとしていたのだが、まったく時間が無くて放置していた。育休中に少し時間が取れたので、とりあえず Ubuntu をインストールして Nextcloud を動かしてみた。docker を使って構成したが結構ハマったので、その辺のメモ。&lt;/p&gt;">
+	
+    
+    	<meta name="twitter:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
+	
+	
+	
+    
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+    <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+    <!--
+  	<script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script>
+    -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script type="application/ld+json">
+		{
+			"@context": "http://schema.org",
+			"@type": "BlogPosting",
+			"headline": "久しぶりに自宅サーバーを立てて Nextcloud を動かす",
+			
+			"description": "&lt;p&gt;以前買ったミニ PC を自宅サーバーにしようとしていたのだが、まったく時間が無くて放置していた。育休中に少し時間が取れたので、とりあえず Ubuntu をインストールして Nextcloud を動かしてみた。docker を使って構成したが結構ハマったので、その辺のメモ。&lt;/p&gt;",
+			
+			"mainEntityOfPage":{
+			    "@type":"WebPage",
+			    "@id":"http://blog.haniyama.com/2024/02/15/home-server-nextcloud/"
+			},
+			"datePublished": "2024-02-15T03:00:00.000Z",
+			"dateModified": "2024-02-15T02:55:58.453Z",
+			
+			"image": {
+				"@type": "ImageObject",
+				"url": "\amp-dist\sample\sample-substituteTitleImage.png",
+				"width" : "1024",
+				"height" : "800"
+			},
+			
+			"author": {
+			    "@type": "Person",
+			    "name": "watahani"
+			},
+			"publisher": {
+			    "@type": "Organization",
+			    "name": "enjoy struggling"
+			    
+			    ,
+			    "logo": {
+			      "@type": "ImageObject",
+			      "url": "http://blog.haniyama.com\amp-dist\imgs\background-min.png",
+			      "width": 600,
+			      "height": 60
+			    }
+			    
+			}
+		}
+	</script>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<style amp-custom>
+		
+abbr,
+acronym,
+address,
+applet,
+big,
+blockquote,
+body,
+caption,
+cite,
+code,
+dd,
+del,
+dfn,
+div,
+dl,
+dt,
+em,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+html,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+object,
+ol,
+p,
+pre,
+q,
+s,
+samp,
+small,
+span,
+strike,
+strong,
+sub,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr,
+tt,
+ul,
+var {
+  border: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+abbr {
+  cursor: help;
+  border-bottom: 1px dotted;
+  font-variant: normal;
+}
+acronym {
+  border-bottom: 1px dotted;
+  font-variant: normal;
+}
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  background: #fff;
+  color: #2d3d40;
+  font-family: sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 2rem;
+  text-rendering: optimizelegibility;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner,
+figure.highlight td,
+.post .entry-content figure.highlight th {
+  border: 0;
+  padding: 0;
+}
+caption,
+table,
+td,
+th {
+  vertical-align: middle;
+}
+caption,
+td,
+th,
+.table-align-left {
+  text-align: left;
+}
+del {
+  text-decoration: line-through;
+}
+html {
+  font-size: 14px;
+}
+:root sub,
+:root sup {
+  vertical-align: baseline;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+a {
+  color: #e91e63;
+  text-decoration: none;
+  -webkit-transition: 0.7s;
+  -ms-transition: 0.7s;
+  -moz-transition: 0.7s;
+  -o-transition: 0.7s;
+  -webkit-transition: 0.7s;
+  -moz-transition: 0.7s;
+  -o-transition: 0.7s;
+  -ms-transition: 0.7s;
+  transition: 0.7s;
+  border: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+a img {
+  border: none;
+}
+a:hover {
+  -webkit-transition: 0.2s;
+  -ms-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  -ms-transition: 0.2s;
+  transition: 0.2s;
+  color: #930e3b;
+}
+@media (min-width: 481px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media (min-width: 0px) and (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}
+.clearfix:after {
+  clear: both;
+  visibility: hidden;
+  content: ".";
+  display: block;
+  height: 0;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.circle {
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+.thumbImg-w {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.thumbImg {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.__web-inspector-hide-shortcut__ {
+  visibility: hidden ;
+}
+button {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -o-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  text-align: center;
+  cursor: default;
+  color: buttontext;
+  background-color: buttonface;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 2px 6px 3px;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonface;
+  -webkit-border-image: initial;
+  -moz-border-image: initial;
+  -o-border-image: initial;
+  border-image: initial;
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  margin: 0em 0em 0em 0em;
+  font: 11px system-ui;
+  -webkit-writing-mode: horizontal-tb;
+  -webkit-appearance: button;
+}
+.hamburger {
+  display: inline-block;
+  background-color: transparent;
+  background-image: url("data:image/svg+xmlutf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"-3 -6 24 24\"><path fill=\"#4A4A4A\" d=\"M0 12h18v-2H0v2M0 7h18V5H0v2M0 0v2h18V0H0\"/></svg>");
+  background-repeat: no-repeat;
+  -webkit-background-size: 30px 24px;
+  -moz-background-size: 30px 24px;
+  background-size: 30px 24px;
+  background-position: center center;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  -webkit-align-self: center;
+  align-self: center;
+  -ms-flex-item-align: center;
+}
+.nav ul:after {
+  clear: both;
+  visibility: hidden;
+}
+.nav,
+.nav-icon {
+  position: relative;
+}
+.nav ul {
+  display: block;
+}
+.nav ul li {
+  display: block;
+}
+.nav ul li a {
+  display: block;
+}
+.tab {
+  position: relative;
+  color: #424242;
+  padding: 6px;
+  margin: 0 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 400;
+  -webkit-transition: 0.1s ease color;
+  -webkit-transition: 0.1s ease color;
+  -moz-transition: 0.1s ease color;
+  -o-transition: 0.1s ease color;
+  -ms-transition: 0.1s ease color;
+  transition: 0.1s ease color;
+}
+amp-sidebar {
+  width: 200px;
+}
+amp-sidebar ul {
+  padding: 10px 0;
+}
+amp-sidebar li a {
+  display: block;
+  padding: 10px 20px;
+}
+header {
+  height: 60px;
+  background-color: #222f31;
+  -webkit-box-shadow: 0 -1px 0 #3c5155 inset, 0 -3px 0 #1e292b inset;
+  box-shadow: 0 -1px 0 #3c5155 inset, 0 -3px 0 #1e292b inset;
+  -webkit-box-shadow: 0 -1px 0 #3c5155 inset, 0 -3px 0 #1e292b inset;
+}
+header .header-title a {
+  padding: 0 0 0 20px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: 0.2em;
+}
+header .nav-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -o-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+header .left-nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  -o-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  font-size: 20px;
+  margin-left: 0;
+  font-weight: 300;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  -o-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  text-align: left;
+  width: auto;
+  font-size: 15px;
+}
+header .right {
+  font-size: 15px;
+}
+header .alt {
+  padding: 0;
+  text-align: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  -o-box-align: stretch;
+  -ms-flex-align: stretch;
+  -webkit-align-items: stretch;
+  align-items: stretch;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.blog-title a {
+  position: relative;
+}
+button {
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -o-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  text-align: center;
+  cursor: default;
+  color: buttontext;
+  background-color: buttonface;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 2px 6px 3px;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonface;
+  -webkit-border-image: initial;
+  -moz-border-image: initial;
+  -o-border-image: initial;
+  border-image: initial;
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+  margin: 0em 0em 0em 0em;
+  font: 11px system-ui;
+  -webkit-writing-mode: horizontal-tb;
+  -webkit-appearance: button;
+}
+.__web-inspector-hide-shortcut__ {
+  visibility: hidden ;
+}
+.hamburger {
+  display: inline-block;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"-3 -6 24 24\"><path fill=\"#FFF\" d=\"M0 12h18v-2H0v2M0 7h18V5H0v2M0 0v2h18V0H0\"/></svg>");
+  background-repeat: no-repeat;
+  -webkit-background-size: 30px 24px;
+  -moz-background-size: 30px 24px;
+  background-size: 30px 24px;
+  background-position: center center;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
+  -webkit-align-self: center;
+  align-self: center;
+  -ms-flex-item-align: center;
+}
+.tab {
+  position: relative;
+  color: #2d3d40;
+  padding: 6px;
+  margin: 0 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 400;
+  -webkit-transition: 0.1s ease color;
+  -webkit-transition: 0.1s ease color;
+  -moz-transition: 0.1s ease color;
+  -o-transition: 0.1s ease color;
+  -ms-transition: 0.1s ease color;
+  transition: 0.1s ease color;
+}
+amp-sidebar {
+  width: 250px;
+  background-color: #182022;
+}
+amp-sidebar ul {
+  padding: 10px 0;
+}
+amp-sidebar li {
+  border-top: 1px solid #2f4043;
+}
+amp-sidebar li:last-child {
+  border-bottom: 1px solid #2f4043;
+}
+amp-sidebar li a {
+  color: #fff;
+  font-weight: bold;
+  display: block;
+  padding: 10px 20px;
+}
+amp-sidebar li a:hover {
+  color: #ccc;
+  background-color: #030404;
+}
+.categories-header {
+  background-color: #2d3d40;
+  padding: 0rem 0.8rem;
+}
+.categories-header a {
+  color: #fff;
+}
+.categories-header a:hover {
+  color: #fff;
+}
+.categories-header .breadcrumb ol li {
+  list-style: none;
+  display: inline-block;
+  margin: 0;
+}
+.categories-header .breadcrumb ol li span {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.categories-header .breadcrumb ol li:after {
+  content: "/";
+  color: #fff;
+  display: inline-block;
+  margin: 0 0.4rem;
+}
+.categories-header .breadcrumb ol li:last-child:after {
+  content: "";
+  margin: 0;
+}
+.entry-header {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.entry-header .flx:first-child {
+  margin: 0 1rem 0 0;
+}
+.header-cap {
+  -webkit-flex-grow: 3;
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -o-box-flex: 3;
+  -ms-box-flex: 3;
+  box-flex: 3;
+  -webkit-flex-grow: 3;
+  flex-grow: 3;
+}
+.title-cover {
+  background-color: #fff;
+  color: #2d3d40;
+  padding: 1.5rem 0.8rem 0 0.8rem;
+}
+.title-cover a {
+  font-size: 1.2rem;
+  color: #2d3d40;
+  text-align: left;
+  font-weight: bold;
+}
+.entry-title {
+  margin: 0;
+}
+.entry-meta-header {
+  font-size: 0.85rem;
+  text-align: center;
+}
+.entry-meta-header .date {
+  font-family: sans-serif;
+}
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  color: #2d3d40;
+  text-decoration: none;
+}
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+h6 a:hover {
+  color: #e91e63;
+}
+#container {
+  margin-left: auto;
+  margin-right: auto;
+}
+#main {
+  margin-bottom: 3em;
+  padding-left: 0;
+}
+.post {
+  margin-bottom: 3rem;
+  position: relative;
+}
+.entry-content {
+  margin: 0 0.6rem;
+  font-size: 1rem;
+}
+.entry-content h1 {
+  font-size: 1.7rem;
+  line-height: 1.5;
+  margin: 1em 0 0.8em;
+}
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6,
+.entry-content h2 span,
+.entry-content h3 span,
+.entry-content h4 span,
+.entry-content h5 span,
+.entry-content h6 span {
+  color: #98b8be;
+  font-weight: bold;
+}
+.entry-content h2,
+.entry-content h2 span {
+  font-size: 1.8rem;
+  line-height: 2.6rem;
+  text-align: center;
+}
+.entry-content h2 {
+  border-bottom: 2px solid #cce4e8;
+  margin: 4.5rem 0 0.5em;
+  padding: 0.8em 0;
+}
+.entry-content h3,
+.entry-content h3 span {
+  font-size: 1.6rem;
+  line-height: 2.2rem;
+  text-align: center;
+}
+.entry-content h3 {
+  margin: 3.6rem 0.8rem 3rem 0.8rem;
+  padding: 0;
+}
+.entry-content h4,
+.entry-content h4 span {
+  font-size: 1.4rem;
+  line-height: 2rem;
+  text-align: center;
+}
+.entry-content h4 {
+  margin: 3.6rem 0.8rem 3rem 0.8rem;
+  padding: 0;
+}
+.entry-content h5,
+.entry-content h5 span {
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  text-align: center;
+}
+.entry-content h5 {
+  margin: 3.6rem 0.8rem 3rem 0.8rem;
+  padding: 0;
+}
+.entry-content h6,
+.entry-content h6 span {
+  font-size: 1.1rem;
+  line-height: 1.6rem;
+  text-align: center;
+}
+.entry-content h6 {
+  margin: 3.6rem 0.8rem 3rem 0.8rem;
+  padding: 0;
+}
+.entry-content p {
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  line-height: 2.2rem;
+  margin: 3rem 0.8rem;
+}
+.entry-content p a {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: inline;
+  border-bottom: 1px dashed #f1729d;
+  padding-bottom: 0.3rem;
+}
+.entry-content p a:hover {
+  border-bottom: 1px dashed #9c0f3f;
+  padding-bottom: 0.4rem;
+}
+.entry-content em {
+  background-color: #f9f5d1;
+  color: #886d00;
+  font-style: normal;
+  margin: 0 2px;
+  padding: 0.4em;
+}
+.entry-content strong {
+  color: #871c1c;
+  font-style: normal;
+  margin: 0 2px;
+  padding: 0.4em;
+  background-color: #fadcdc;
+}
+.entry-content hr {
+  border: 0;
+  border-top: 3px solid #cce4e8;
+  margin: 3rem auto;
+  width: 20%;
+}
+.entry-content img,
+.entry-content video {
+  display: block;
+  height: auto;
+  margin: auto;
+  max-width: 100%;
+}
+.entry-content iframe {
+  width: 100% ;
+}
+.entry-content blockquote {
+  margin: 3rem 0.8rem;
+  padding: 1rem 1.8rem;
+  position: relative;
+  background-color: none;
+  border-left: 3px solid #98b8be;
+  font-style: italic;
+}
+.entry-content blockquote p {
+  margin: 0.5rem 0;
+}
+.entry-content blockquote blockquote {
+  border-left: none;
+}
+.entry-content .table-wrapper {
+  margin: 3rem 0.8rem;
+}
+.entry-content table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow: auto;
+  display: block;
+  font-size: 0.85rem;
+  margin: 0 auto;
+  width: auto;
+}
+.entry-content td,
+.entry-content th {
+  line-height: 1.8em;
+  padding: 0.8rem 0.8rem;
+  font-size: 0.85rem;
+}
+.entry-content td em,
+.entry-content th em,
+.entry-content td strong,
+.entry-content th strong,
+.entry-content td a,
+.entry-content th a {
+  font-size: 0.85rem;
+}
+.entry-content td {
+  border: 1px solid #c4c4c4;
+}
+.entry-content th {
+  background-color: #ecf5f7;
+  border: 1px solid #c4c4c4;
+}
+.entry-content .table-align-center {
+  text-align: center;
+}
+.entry-content .table-align-right {
+  text-align: right;
+}
+.entry-content ul,
+.entry-content ol,
+.entry-content dl {
+  margin: 3rem 0 3rem 1.6rem;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+}
+.entry-content ul li,
+.entry-content ol li,
+.entry-content dl li {
+  line-height: 2rem;
+  position: relative;
+  padding: 0;
+}
+.entry-content ul li p,
+.entry-content ol li p,
+.entry-content dl li p {
+  line-height: 2rem;
+  margin: 0;
+}
+.entry-content ul li p:not(:first-child),
+.entry-content ol li p:not(:first-child),
+.entry-content dl li p:not(:first-child) {
+  color: #57767c;
+  margin: 0.5rem;
+}
+.entry-content ul li ul,
+.entry-content ol li ul,
+.entry-content dl li ul,
+.entry-content ul li ol,
+.entry-content ol li ol,
+.entry-content dl li ol,
+.entry-content ul li dl,
+.entry-content ol li dl,
+.entry-content dl li dl {
+  margin: 1rem;
+}
+.entry-content ul li {
+  margin: 0.4rem 0 0.4rem 0.8rem;
+}
+.entry-content ul li::after {
+  position: absolute;
+  display: block;
+  content: '';
+  top: 0.75rem;
+  left: -1rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #cce4e8;
+  border-radius: 100%;
+}
+.entry-content ol {
+  counter-reset: number;
+}
+.entry-content ol li {
+  margin: 0.4rem 0 0.4rem 2rem;
+}
+.entry-content ol li p:first-child {
+  display: inline-block;
+  line-height: 1.6rem;
+  height: 1.6rem;
+}
+.entry-content ol li:before {
+  position: absolute;
+  display: inline-block;
+  float: left;
+  margin: 0 0.2rem 0 0;
+  padding: 0;
+  counter-increment: number;
+  content: counter(number);
+  left: -2.2rem;
+  top: 0.2rem;
+  background-color: #98b8be;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  line-height: 1.6rem;
+}
+kbd {
+  font-family: sans-serif;
+  text-align: center;
+  display: inline-block;
+  color: #425a5e;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-border-radius: 3px;
+  -webkit-box-shadow: 0 0 10px #e8e8e8 inset, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 3px 3px #333;
+  box-shadow: 0 0 10px #e8e8e8 inset, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 3px 3px #333;
+  -webkit-box-shadow: 0 0 10px #e2e2e2 inset, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 3px 3px #333;
+  -webkit-font-smoothing: subpixel-antialiased;
+  background: #fff;
+  border-left: 1px solid #fff;
+  border-radius: 3px;
+  border-right: 1px solid #e6e6e6;
+  border-top: 1px solid #fff;
+  font-size: 0.85rem;
+  line-height: 1rem;
+  margin: 5px;
+  padding: 6px 8px 3px;
+  text-shadow: 0 1px 0 #fff;
+  vertical-align: baseline;
+  
+}
+img.responsive-img {
+  height: auto;
+  max-width: 100%;
+}
+video.responsive-video {
+  height: auto;
+  max-width: 100%;
+}
+amp-instagram,
+amp-vimeo,
+amp-video,
+amp-youtube,
+amp-twitter,
+.soundcloud-wrapper,
+.amp-img-wrapper,
+.googleAdPost,
+.ad-footer {
+  margin: 3rem 0.8rem;
+}
+code,
+figure.highlight .code,
+pre {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+code,
+pre,
+samp {
+  font-family: Menlo, Consolas, Monaco, Consolas, monospace;
+}
+p code {
+  font-size: 1rem;
+}
+code,
+pre {
+  font-size: 0.85rem;
+  letter-spacing: 0.05rem;
+  background-color: #ecf5f7;
+  color: #007e96;
+}
+code {
+  margin: 0 3px;
+  padding: 0.4em;
+}
+samp {
+  font-size: 0.85rem;
+  letter-spacing: 0.05rem;
+}
+sub,
+sup {
+  font-size: 0.75rem;
+  line-height: 0;
+  position: relative;
+}
+sub {
+  bottom: -0.2em;
+}
+sup {
+  top: -0.5em;
+}
+pre {
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  margin: 0 3px;
+  padding: 15px;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  border: 0;
+  line-height: 1.3rem;
+  overflow-x: auto;
+}
+pre .addition,
+pre .css .tag,
+pre .keyword,
+pre .method,
+pre .nginx .title,
+pre .request,
+pre .status,
+pre .winutils {
+  color: #66d9ef;
+}
+pre .attr_selector,
+pre .cdata,
+pre .clojure .title,
+pre .diff .change,
+pre .important {
+  color: #9882eb;
+}
+pre .preprocessor {
+  color: #9882eb;
+}
+pre .preprocessor .keyword {
+  color: #9882eb;
+}
+pre .shebang,
+pre .special,
+pre .subst {
+  color: #9882eb;
+}
+pre .symbol {
+  color: #9882eb;
+}
+pre .symbol .string {
+  color: #9882eb;
+}
+pre .attribute,
+pre .class .title,
+pre .constant,
+pre .haskell .type,
+pre .lisp .body,
+pre .parent,
+pre .smalltalk .number,
+pre .variable {
+  color: #a6e22e;
+}
+pre .built_in,
+pre .chunk,
+pre .decorator,
+pre .id,
+pre .identifier,
+pre .literal,
+pre .localvars,
+pre .title,
+pre .vhdl,
+pre .deletion {
+  color: #f92672;
+}
+pre .command,
+pre .hexcolor,
+pre .number,
+pre .phpdoc,
+pre .regexp,
+pre .string,
+pre .tag .value,
+pre .tex .formula {
+  color: #e6db74;
+}
+pre .comment,
+pre .diff .header,
+pre .doctype,
+pre .javadoc,
+pre .lisp .string,
+pre .pi,
+pre .template_comment {
+  color: #75715e;
+  font-weight: normal;
+}
+.line {
+  font-size: 0.85rem;
+  letter-spacing: 0.05rem;
+  line-height: 2rem;
+  color: #f8f8f2;
+}
+.line span {
+  font-size: 0.85rem;
+  letter-spacing: 0.05rem;
+}
+.gist {
+  background: #fff;
+  border: 1px solid color-gutter;
+  color: #f8f8f2;
+  line-height: 1.6rem;
+  margin-top: 15px;
+  overflow: auto;
+  padding: 7px 15px;
+}
+.gist .gist-file {
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0;
+  margin: 0;
+}
+.gist .gist-file .gist-data {
+  background: 0 0;
+  border-bottom: none;
+}
+.gist .gist-file .gist-data pre {
+  font-family: Menlo, Consolas, Monaco, Consolas, monospace;
+  padding: 0 ;
+}
+.gist .gist-file .gist-meta {
+  background: 0 0;
+  color: #f8f8f2;
+  font-size: 1rem;
+  margin-top: 5px;
+  padding: 0;
+}
+.gist .gist-file .gist-meta a {
+  color: #f8f8f2;
+}
+.gist .gist-file .gist-meta a:visited {
+  color: #f8f8f2;
+}
+figure.highlight {
+  font-size: 0.95rem;
+  margin: 3rem 0.8rem;
+  background: #263338;
+  border: 1px solid color-gutter;
+  line-height: 2rem;
+  overflow: auto;
+  position: relative;
+}
+figure.highlight .code {
+  padding: 0 1em 1em 1em;
+  color: #f8f8f2;
+}
+figure.highlight .gutter {
+  display: none;
+}
+figure.highlight figcaption {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #e9e9d6;
+  background-color: #1e282c;
+  padding: 0.6em 1em;
+}
+figure.highlight figcaption a {
+  position: absolute;
+  right: 1rem;
+}
+figure.highlight figcaption:before {
+  content: "\f121";
+  font-family: "fontawesome";
+  text-align: center;
+  display: inline-block;
+  margin-right: 0.6em;
+}
+figure.highlight pre {
+  background: 0 0;
+  border: none;
+  margin: 0;
+  padding: 0.5rem;
+}
+figure.highlight table {
+  border-spacing: 0;
+  margin: 0;
+}
+figure.highlight th {
+  border: 0;
+  font-weight: 400;
+  padding: 0;
+}
+figure.highlight td {
+  border: 0;
+  font-size: 1.1rem;
+  padding: 0;
+}
+.entry-content .toc {
+  background: #fff;
+  padding: 0.5rem;
+  margin: 3rem 0;
+  border: 1px solid #cce4e8;
+  border-radius: 2px;
+}
+.entry-content .toc ul {
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #5d8b93;
+  border-radius: 2px;
+}
+.entry-content .toc ul:first-child {
+  border-top: none;
+}
+.entry-content .toc ul ul,
+.entry-content .toc ul ol {
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
+}
+.entry-content .toc ul li {
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #5d8b93;
+}
+.entry-content .toc ul li:first-child {
+  border-top: none;
+}
+.entry-content .toc ul li::after,
+.entry-content .toc ul li::before {
+  content: normal;
+}
+.entry-content .toc ul li a {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: block;
+  padding: 1rem;
+  background-color: #3d5b61;
+  color: #fff;
+  -webkit-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  -ms-transition: 0.3s;
+  transition: 0.3s;
+}
+.entry-content .toc ul li a:hover {
+  color: #fff;
+  background-color: #2c4145;
+}
+.entry-content .toc ul li a:before {
+  content: "\f02d";
+  font-family: "fontawesome";
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  margin-right: 0.8rem;
+}
+.entry-content .toc ul li ul,
+.entry-content .toc ul li ol {
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
+}
+.entry-content .toc ul li ul li a,
+.entry-content .toc ul li ol li a {
+  padding: 0.5rem 0.75rem 0.5rem 2rem;
+  font-size: 0.9rem;
+  background-color: #416167;
+}
+.entry-content .toc ul li ul li a:before,
+.entry-content .toc ul li ol li a:before {
+  content: "\f0da";
+  font-family: "fontawesome";
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  margin-right: 0.6rem;
+}
+.entry-content .toc ul li ul li ul li a,
+.entry-content .toc ul li ol li ul li a {
+  padding: 0.5rem 0.75rem 0.5rem 4rem;
+}
+.entry-content .toc ul li ul li ul li a:before,
+.entry-content .toc ul li ol li ul li a:before {
+  content: none;
+}
+.meta-content {
+  background-color: #fff;
+  margin: 1.5rem 0.8rem;
+  padding: 0;
+  border-top: 1px dotted #cce4e8;
+  letter-spacing: 0.05rem;
+}
+.meta-wrapper {
+  margin: 3rem 0.8rem;
+  padding: 0;
+  background-color: #fff;
+}
+h6.tag,
+h6.categories {
+  color: #2d3d40;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.article-tag-list {
+  padding: 0;
+}
+.article-tag,
+.article-tag-list,
+.article-categories,
+.article-categories-list {
+  padding: 0;
+  margin: 0;
+}
+.article-categories {
+  margin-bottom: 1.6em;
+}
+.article-tag-list li,
+.article-categories-list li {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0.2rem 0.1rem;
+}
+.article-tag-list li a,
+.article-categories-list li a {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.4rem 0.8rem;
+  margin: 0;
+  background-color: #ecf5f7;
+  color: #2d3d40;
+  border-radius: 2px;
+  display: block;
+}
+.article-tag-list li a:before,
+.article-categories-list li a:before {
+  content: "#";
+}
+.article-tag-list li a:hover,
+.article-categories-list li a:hover {
+  color: #fff;
+  background-color: #2d3d40;
+}
+.widget {
+  margin: 1.5rem 0.8rem;
+  padding: 0;
+}
+.widget-h {
+  text-align: center;
+  margin: 1.6rem 0;
+}
+.widget-h h6 {
+  color: #fff;
+  background-color: #2d3d40;
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.posts-list li {
+  list-style: none;
+  margin: 0.8rem 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.posts-list li .posts-list-link {
+  -webkit-flex-grow: 3;
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -o-box-flex: 3;
+  -ms-box-flex: 3;
+  box-flex: 3;
+  -webkit-flex-grow: 3;
+  flex-grow: 3;
+}
+.posts-list li .posts-list-link a {
+  color: #2d3d40;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.posts-list li .posts-list-link a:hover {
+  color: #e91e63;
+}
+.posts-list li .posts-list-meta {
+  font-size: 0.7rem;
+}
+.posts-list li .flx:first-child {
+  margin: 0 1rem 0 0;
+}
+.posts-list li amp-img {
+  border-radius: 2px;
+}
+#footer {
+  background-color: #2d3d40;
+  color: #fff;
+  display: block;
+  font-size: 1rem;
+  letter-spacing: 0.05rem;
+  line-height: 2rem;
+  margin: 3rem 0 0 0;
+  padding: 0;
+}
+.site-author-info {
+  margin: 0;
+  padding: 3rem 1.6rem;
+}
+.site-author-info h6 {
+  font-size: 1rem;
+  color: #fff;
+  font-weight: bold;
+  display: inline-block;
+  background-color: #222f31;
+  padding: 0.4rem 0.8rem;
+}
+.site-author-info-wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.site-author-info-wrapper .flx:first-child {
+  margin: 0 1rem 0 0;
+}
+.authorCap-wrapper {
+  -webkit-flex-grow: 3;
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -o-box-flex: 3;
+  -ms-box-flex: 3;
+  box-flex: 3;
+  -webkit-flex-grow: 3;
+  flex-grow: 3;
+}
+.authorCap {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.authorReading {
+  font-size: 0.7rem;
+}
+.site-author-desc {
+  font-size: 0.8rem;
+  line-height: 1.6rem;
+  margin: 1.4rem 0;
+}
+.copyright-tool {
+  margin: 0;
+  padding: 1.5rem 1.6rem;
+  border-top: 1px solid #384b4f;
+}
+.copyright-notice p {
+  font-size: 0.6rem;
+  letter-spacing: 0.05rem;
+  line-height: 1.2rem;
+  color: #8ba8ae;
+}
+.copyright-title {
+  font-size: 1rem;
+  text-align: center;
+  margin: 0.8rem 0 0.4rem 0;
+}
+.copyright-license {
+  margin: 0.4rem 0 0.8rem 0;
+  font-size: 0.7rem;
+  text-align: center;
+}
+.copyright-license a {
+  color: #e6e6e6;
+  font-size: 0.7rem;
+}
+.copyright-license a:hover {
+  color: #b3b3b3;
+}
+.sns-link {
+  margin: 0;
+  text-align: center;
+}
+.sns-link a {
+  display: inline-block;
+  font-size: 1.6rem;
+  text-align: center;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0.6rem;
+  margin: 0 0.1rem;
+  background-color: #222f31;
+  color: #fff;
+  border-radius: 4px;
+}
+.sns-link a:hover {
+  color: #ccc;
+  background-color: #030404;
+}
+.footer-menu {
+  padding: 1.5rem 0.8rem;
+  border-top: 1px solid #384b4f;
+}
+.footer-menu ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.footer-menu ul li a {
+  display: block;
+  padding: 0.6rem;
+  margin: 0.2rem 1.6rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #222f31;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+}
+.footer-menu ul li a:hover {
+  color: #ccc;
+  background-color: #030404;
+}
+.social-share {
+  margin: 1.5rem 0.8rem;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.social-share amp-social-share,
+.social-share .sbtn {
+  margin: 5px;
+}
+.sbtn {
+  padding: 0;
+  width: 4rem;
+  height: 3rem;
+  line-height: 3rem;
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+  border-radius: 4px;
+}
+.sbtn:hover {
+  color: #fff;
+}
+.tw {
+  background-color: #1cafe8;
+}
+.tw:hover {
+  background-color: #0f6b8f;
+}
+.fb {
+  background-color: #4f677f;
+}
+.fb:hover {
+  background-color: #283440;
+}
+.ht {
+  background-color: #35acda;
+}
+.ht:hover {
+  background-color: #1a6e8f;
+}
+.gp {
+  background-color: #d56153;
+}
+.gp:hover {
+  background-color: #9c3326;
+}
+.tb {
+  background-color: #465f79;
+}
+.tb:hover {
+  background-color: #212c38;
+}
+.icon-hatena:before {
+  content: "B";
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+#totop {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.6rem;
+  font-size: 1.2rem;
+  z-index: 995;
+}
+#totop a {
+  background: rgba(152,184,190,0.6);
+  text-decoration: none;
+  color: #fff;
+  padding: 0.8rem;
+  border-radius: 50%;
+}
+#totop a:before {
+  content: "\f062";
+  font-family: "fontawesome";
+  font-size: 1.2rem;
+}
+#totop a:hover {
+  text-decoration: none;
+  background: #5d8b93;
+  color: #fff;
+  line-height: 2.3em;
+}
+@media (min-width: 800px) {
+  .title-cover,
+  .entry-content,
+  .categories,
+  .meta-content,
+  .site-author-info {
+    width: 780px;
+    margin: 0 auto;
+  }
+  .nav-container {
+    width: 800px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 0px) and (max-width: 480px) {
+  .site-author-info-wrapper {
+    display: block;
+  }
+  .gravatar-area {
+    text-align: center;
+  }
+  .gravatar-area amp-img {
+    display: inline-block;
+  }
+  .entry-content td,
+  .entry-content th {
+    line-height: 1.8em;
+    padding: 0.6rem 0.6rem;
+    font-size: 0.5rem;
+  }
+  .entry-content td em,
+  .entry-content th em,
+  .entry-content td strong,
+  .entry-content th strong,
+  .entry-content td a,
+  .entry-content th a {
+    font-size: 0.5rem;
+  }
+}
+
+	</style>
+	
+  </head>
+  <body>
+  	
+  	
+  	<!-- google analytics -->
+  	
+  	
+  	
+  	<!-- menu -->
+  	<header>
+  		<div class="nav-container">
+	  		<div class="left-nav">
+	  			<div class="header-title">
+	  				<a href="/">enjoy struggling</a>
+	  			</div>
+	  		</div>
+	  		
+	  	</div>
+    </header>
+  	
+  	
+  	<!-- sidebar -->
+  	
+  	
+  	<!-- container -->
+  	<div id="container">
+	  	<div id="main">
+		    <article id="post-home-server-nextcloud" class="post">
+		    
+		   		<!-- categories and bread crumb -->
+		    	
+		    
+		    	<!-- entry title -->
+				<div class="title-cover">
+					<div class="entry-header">
+						
+						
+						
+			          	<div class="header-thumb flx">
+			          		<div class="thumbImg-w circle">
+			          			<amp-img class="thumbImg" layout="fixed" width="128" height="100" src="\amp-dist\sample\sample-substituteTitleImage.png">
+			          			</amp-img>
+			          		</div>
+			          	</div>
+			            
+			            
+			            <div class="header-cap flx">
+							
+							  <h1 class="article-title entry-title" itemprop="name">
+							    <a href="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/" target="_blank" itemprop="url">久しぶりに自宅サーバーを立てて Nextcloud を動かす</a>
+							  </h1>
+							
+						</div>
+					</div>
+					
+					<!-- datePublished -->
+					<div class="entry-meta-header">
+						<span class="meta-elements date">
+							<span class="fa fa-fw fa-clock-o"></span>
+							<time datetime="2024-02-15" itemprop="datePublished">2024.02.15</time>
+						</span>
+					</div>
+				</div>
+				
+				
+				
+				<!-- entry content -->
+			    <div class="entry-content ecp">
+			    	<!-- social share button -->
+			    	
+			    	
+			    	
+                    <!-- google Adsense Matched content -->
+                    
+                    
+			    	<!-- content -->
+			  		<p>&#x4EE5;&#x524D;&#x8CB7;&#x3063;&#x305F;&#x30DF;&#x30CB; PC &#x3092;&#x81EA;&#x5B85;&#x30B5;&#x30FC;&#x30D0;&#x30FC;&#x306B;&#x3057;&#x3088;&#x3046;&#x3068;&#x3057;&#x3066;&#x3044;&#x305F;&#x306E;&#x3060;&#x304C;&#x3001;&#x307E;&#x3063;&#x305F;&#x304F;&#x6642;&#x9593;&#x304C;&#x7121;&#x304F;&#x3066;&#x653E;&#x7F6E;&#x3057;&#x3066;&#x3044;&#x305F;&#x3002;&#x80B2;&#x4F11;&#x4E2D;&#x306B;&#x5C11;&#x3057;&#x6642;&#x9593;&#x304C;&#x53D6;&#x308C;&#x305F;&#x306E;&#x3067;&#x3001;&#x3068;&#x308A;&#x3042;&#x3048;&#x305A; Ubuntu &#x3092;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3057;&#x3066; Nextcloud &#x3092;&#x52D5;&#x304B;&#x3057;&#x3066;&#x307F;&#x305F;&#x3002;docker &#x3092;&#x4F7F;&#x3063;&#x3066;&#x69CB;&#x6210;&#x3057;&#x305F;&#x304C;&#x7D50;&#x69CB;&#x30CF;&#x30DE;&#x3063;&#x305F;&#x306E;&#x3067;&#x3001;&#x305D;&#x306E;&#x8FBA;&#x306E;&#x30E1;&#x30E2;&#x3002;</p>
+<span id="more"></span>
+<h2 id="&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x69CB;&#x6210;&#x306B;&#x3064;&#x3044;&#x3066;"><a href="#&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x69CB;&#x6210;&#x306B;&#x3064;&#x3044;&#x3066;" class="headerlink" title="&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x69CB;&#x6210;&#x306B;&#x3064;&#x3044;&#x3066;"></a>&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x69CB;&#x6210;&#x306B;&#x3064;&#x3044;&#x3066;</h2><p>IIJMio &#x3072;&#x304B;&#x308A;&#x3092;&#x4F7F;&#x3063;&#x3066;&#x3044;&#x308B;&#x306E;&#x3067;&#x3001;&#x666E;&#x6BB5;&#x306F; DS-Lite IPv4 over IPv6 &#x3067;&#x306E;&#x901A;&#x4FE1;&#x3092;&#x3057;&#x3066;&#x3044;&#x308B;&#x3002;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x306F;&#x8A73;&#x3057;&#x304F;&#x306A;&#x3044;&#x304C;&#x3001;DS-Lite &#x3067;&#x306F;&#x8907;&#x6570;&#x306E;&#x30E6;&#x30FC;&#x30B6;&#x30FC;&#x304C;&#x540C;&#x4E00;&#x306E; IPv4 &#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x3092;&#x5171;&#x6709;&#x3059;&#x308B;&#x3053;&#x3068;&#x306B;&#x306A;&#x308B;&#x306E;&#x3067;&#x3001;&#x30DD;&#x30FC;&#x30C8;&#x30D5;&#x30A9;&#x30EF;&#x30FC;&#x30C9;&#x304C;&#x3067;&#x304D;&#x306A;&#x3044;&#x3002;</p>
+<p>&#x5F53;&#x521D;&#x306F; IPv4 &#x3067;&#x306E;&#x5916;&#x90E8;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x3068; DS-Lite &#x306E;&#x4E21;&#x7ACB;&#x3092;&#x76EE;&#x6307;&#x3057;&#x305F;&#x304C;&#x5B9F;&#x969B;&#x306B; PPPoE &#x63A5;&#x7D9A;&#x3092;&#x8A66;&#x3057;&#x305F;&#x3068;&#x3053;&#x308D;&#x3001;&#x65E5;&#x4E2D;&#x3084;&#x5915;&#x65B9;&#x306E;&#x6DF7;&#x96D1;&#x968A;&#x3067;&#x3082; DS-Lite &#x3068;&#x905C;&#x8272;&#x304C;&#x306A;&#x3044;&#x3053;&#x3068;&#x304C;&#x5206;&#x304B;&#x3063;&#x305F;&#x3002;&#x3068;&#x3044;&#x3046;&#x3053;&#x3068;&#x3067;&#x3001;PPPoE &#x3067;&#x666E;&#x901A;&#x306B;&#x30EB;&#x30FC;&#x30BF;&#x30FC;&#x3067; NAT &#x3059;&#x308B;&#x3002;</p>
+<p>&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x304C;&#x9045;&#x3044;&#x3068;&#x611F;&#x3058;&#x305F;&#x3089;&#x305D;&#x306E;&#x6642;&#x306B;&#x52C9;&#x5F37;&#x3057;&#x307E;&#x3059;&#x3002;&#x4E00;&#x822C;&#x306E;&#x3054;&#x5BB6;&#x5EAD;&#x306A;&#x306E;&#x3067;&#x2026;&#x3002;</p>
+<p>&#x901F;&#x5EA6;&#x6E2C;&#x5B9A;&#x306F; <a href="https://www.speedtest.net/ja/apps/cli">speedtest-cli</a> &#x3067;&#x884C;&#x3063;&#x305F;&#x3002;</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> curl
+curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">bash</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> speedtest
+</code></pre>
+<p>cron &#x3067;&#x5B9A;&#x671F;&#x7684;&#x306B;&#x6E2C;&#x5B9A;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x3057;&#x305F;&#x306E;&#x3060;&#x304C;&#x3001;sppedtest &#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3060;&#x3051;&#x3067;&#x306F;&#x65E5;&#x4ED8;&#x304C;&#x51FA;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;3&#x65E5;&#x3050;&#x3089;&#x3044;&#x7121;&#x99C4;&#x306B;&#x3057;&#x305F;&#x3002;&#x3042;&#x3089;&#x304B;&#x3058;&#x3081;&#x9069;&#x5F53;&#x306B;&#x30D8;&#x30C3;&#x30C0;&#x30FC;&#x3092;&#x8FFD;&#x52A0;&#x3057;&#x3066;&#x304A;&#x304F;&#x3053;&#x3068;&#x3002;</p>
+<pre class=" language-cron"><code class="language-cron">24  *   *   *   *   now=\&quot;$(date +&quot;\%Y-\%m-\%d \%H:\%M:\%S&quot;)\&quot;,; /usr/bin/speedtest -f csv -s 48463 | sed &quot;s/^/$now/&quot; &gt;&gt; /home/user/speedtest.csv
+</code></pre>
+<p>jupyter notebook &#x3067; pandas &#x3067;&#x8AAD;&#x307F;&#x8FBC;&#x3093;&#x3067;&#x30B0;&#x30E9;&#x30D5;&#x5316;&#x3002;&#x3053;&#x3046;&#x3044;&#x3046;&#x306E;&#x306F; Copilot Chat &#x306B;&#x805E;&#x3051;&#x3070;&#x52DD;&#x624B;&#x306B;&#x3084;&#x3063;&#x3066;&#x304F;&#x308C;&#x308B;&#x306E;&#x3067;&#x5B09;&#x3057;&#x3044;&#x3002;</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
+
+<span class="token comment" spellcheck="true"># Load the CSV file</span>
+data <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">&apos;speedtest.csv&apos;</span><span class="token punctuation">)</span>
+
+data<span class="token punctuation">[</span><span class="token string">&apos;download Mbps&apos;</span><span class="token punctuation">]</span> <span class="token operator">=</span> data<span class="token punctuation">[</span><span class="token string">&apos;download&apos;</span><span class="token punctuation">]</span> <span class="token operator">/</span> <span class="token number">125000</span>
+data<span class="token punctuation">[</span><span class="token string">&apos;upload Mbps&apos;</span><span class="token punctuation">]</span> <span class="token operator">=</span> data<span class="token punctuation">[</span><span class="token string">&apos;upload&apos;</span><span class="token punctuation">]</span> <span class="token operator">/</span> <span class="token number">125000</span>
+<span class="token comment" spellcheck="true"># Assuming &apos;time&apos; is the column with time information</span>
+data<span class="token punctuation">[</span><span class="token string">&apos;time jst&apos;</span><span class="token punctuation">]</span> <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token string">&apos;datetime utc&apos;</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>dt<span class="token punctuation">.</span>tz_localize<span class="token punctuation">(</span><span class="token string">&apos;UTC&apos;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>dt<span class="token punctuation">.</span>tz_convert<span class="token punctuation">(</span><span class="token string">&apos;Asia/Tokyo&apos;</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># Extract hour from time</span>
+data<span class="token punctuation">[</span><span class="token string">&apos;hour&apos;</span><span class="token punctuation">]</span> <span class="token operator">=</span> data<span class="token punctuation">[</span><span class="token string">&apos;time jst&apos;</span><span class="token punctuation">]</span><span class="token punctuation">.</span>dt<span class="token punctuation">.</span>hour
+
+<span class="token comment" spellcheck="true"># Set &apos;time jst&apos; as the index of the DataFrame</span>
+data<span class="token punctuation">.</span>set_index<span class="token punctuation">(</span><span class="token string">&apos;time jst&apos;</span><span class="token punctuation">,</span> inplace<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># Plot &apos;download Mbps&apos; and &apos;upload Mbps&apos; over time</span>
+data<span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">&apos;download Mbps&apos;</span><span class="token punctuation">,</span> <span class="token string">&apos;upload Mbps&apos;</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">.</span>plot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># Show the plot</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Group by hour and calculate mean download speed</span>
+average_speed_by_hour <span class="token operator">=</span> data<span class="token punctuation">.</span>groupby<span class="token punctuation">(</span><span class="token string">&apos;hour&apos;</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">&apos;download Mbps&apos;</span><span class="token punctuation">]</span><span class="token punctuation">.</span>mean<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># Plot the average download speed by hour</span>
+average_speed_by_hour<span class="token punctuation">.</span>plot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p><!-- This img tag couldn't replace. src: <img src="./docker-nginx-certbot-ddns/timechart.png" alt="">--></p>
+<p>&#x9045;&#x3044;&#x3068;&#x304D;&#x3067;&#x3082;&#x4E0A;&#x4E0B; 500Mbps &#x3050;&#x3089;&#x3044;&#x51FA;&#x3066;&#x3044;&#x308B;&#x306E;&#x3067;&#x3001;&#x7279;&#x306B;&#x554F;&#x984C;&#x306F;&#x306A;&#x3055;&#x305D;&#x3046;&#x3060;&#x3002;</p>
+<h2 id="Ubuntu-20-04-&#x306E;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x308B;-Docker-&#x304C;&#x53E4;&#x3044;"><a href="#Ubuntu-20-04-&#x306E;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x308B;-Docker-&#x304C;&#x53E4;&#x3044;" class="headerlink" title="Ubuntu 20.04 &#x306E;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x308B; Docker &#x304C;&#x53E4;&#x3044;"></a>Ubuntu 20.04 &#x306E;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x308B; Docker &#x304C;&#x53E4;&#x3044;</h2><p>Ubuntu 20.04 &#x306E;&#x521D;&#x671F;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x4E2D;&#x306B;&#x8272;&#x3005;&#x3068;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x306E;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x304C;&#x3067;&#x304D;&#x308B;&#x306E;&#x3060;&#x304C;&#x3001;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x30DE;&#x30CD;&#x30FC;&#x30B8;&#x30E3;&#x30FC;&#x306B; snap &#x304C;&#x63A1;&#x7528;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x3002;snap &#x3067; Docker &#x3092;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3059;&#x308B;&#x3068;&#x3001;&#x6700;&#x65B0;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3067;&#x306F;&#x306A;&#x3044;&#x53E4;&#x3044;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x304C;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x3066;&#x3057;&#x307E;&#x3046;&#x3002;</p>
+<p>&#x3042;&#x307E;&#x308A;&#x554F;&#x984C;&#x306B;&#x306A;&#x308B;&#x3053;&#x3068;&#x306F;&#x306A;&#x3044;&#x3068;&#x601D;&#x3046;&#x304C;&#x3001;&#x79C1;&#x306E;&#x74B0;&#x5883;&#x3067;&#x306F;&#x4EE5;&#x4E0B;&#x306E;&#x30D0;&#x30B0;&#x3092;&#x8E0F;&#x3093;&#x3067;&#x3057;&#x307E;&#x3044; docker compose exec &#x304C;&#x4F7F;&#x3048;&#x306A;&#x304F;&#x306A;&#x3063;&#x3066;&#x3057;&#x307E;&#x3063;&#x305F;&#x3002;</p>
+<p><a href="https://github.com/docker/compose/issues/11154">[BUG] docker-compose http: invalid Host header &#xB7; Issue #11154 &#xB7; docker/compose</a></p>
+<p><code>sudo snap refresh docker --channel=latest/edge</code> &#x3067;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3092;&#x66F4;&#x65B0;&#x3067;&#x304D;&#x308B;&#x3089;&#x3057;&#x3044;&#x304C;&#x3001;&#x305D;&#x306E;&#x60C5;&#x5831;&#x3092;&#x898B;&#x3064;&#x3051;&#x308B;&#x524D;&#x306B; snap &#x306E; docker &#x3092;&#x30A2;&#x30F3;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3057;&#x3066;&#x3001;&#x516C;&#x5F0F;&#x306E;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x624B;&#x9806;&#x3092;&#x53C2;&#x8003;&#x306B;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3057;&#x76F4;&#x3057;&#x3066;&#x3057;&#x307E;&#x3063;&#x305F;&#x3002;</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> aa-remove-unknown
+snap list 
+<span class="token function">sudo</span> snap remove docker
+
+<span class="token comment" spellcheck="true"># &#x518D;&#x8D77;&#x52D5;&#x5F8C; Docker &#x516C;&#x5F0F;&#x306E;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x624B;&#x9806;&#x3092;&#x5B9F;&#x65BD;</span>
+</code></pre>
+<h2 id="Nextcloud-&#x3092;-Docker-&#x3067;&#x52D5;&#x304B;&#x3059;"><a href="#Nextcloud-&#x3092;-Docker-&#x3067;&#x52D5;&#x304B;&#x3059;" class="headerlink" title="Nextcloud &#x3092; Docker &#x3067;&#x52D5;&#x304B;&#x3059;"></a>Nextcloud &#x3092; Docker &#x3067;&#x52D5;&#x304B;&#x3059;</h2><p>&#x30B0;&#x30B0;&#x308C;&#x3070;&#x8272;&#x3005;&#x8A18;&#x4E8B;&#x304C;&#x3042;&#x308B;&#x304C;&#x3001;<a href="https://github.com/nextcloud/all-in-one">Nextcloud All-in-One</a> (Nextcloud AIO) &#x3092;&#x5229;&#x7528;&#x3059;&#x308B;&#x304B; snap &#x3067;&#x30DB;&#x30B9;&#x30C8;&#x306B;&#x76F4;&#x63A5;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3059;&#x308B;&#x306E;&#x304C;&#x4E00;&#x756A;&#x697D;&#x305D;&#x3046;&#x3060;&#x3063;&#x305F;&#x3002;&#x7279;&#x306B; AIO &#x7248;&#x306F;&#x6A5F;&#x80FD;&#x30E2;&#x30EA;&#x30E2;&#x30EA;&#x3067;&#x4FBF;&#x5229;&#x306A;&#x306E;&#x3060;&#x304C;&#x3001;AIO &#x81EA;&#x4F53;&#x304C; docker &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3092;&#x8907;&#x6570;&#x7ACB;&#x3061;&#x4E0A;&#x3052;&#x308B;&#x3088;&#x3046;&#x306A;&#x30AA;&#x30FC;&#x30B1;&#x30B9;&#x30C8;&#x30EC;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x30C4;&#x30FC;&#x30EB;&#x306E;&#x3088;&#x3046;&#x306A;&#x611F;&#x3058;&#x3067;&#x3001;&#x91CD;&#x539A;&#x904E;&#x304E;&#x308B;&#x306E;&#x3067;&#x4ECA;&#x56DE;&#x306F;&#x30D1;&#x30B9;&#x3002;<br>&#x305D;&#x3082;&#x305D;&#x3082;&#x3001;&#x30D5;&#x30ED;&#x30F3;&#x30C8;&#x306B; nginx-proxy &#x3092;&#x7F6E;&#x3044;&#x3066;&#x691C;&#x8A3C;&#x30A2;&#x30D7;&#x30EA;&#x3092;&#x8272;&#x3005;&#x52D5;&#x304B;&#x3057;&#x305F;&#x304B;&#x3063;&#x305F;&#x305F;&#x3081;&#x3001;&#x81EA;&#x5206;&#x3067; docker-compose.yml &#x3092;&#x66F8;&#x304F;&#x3053;&#x3068;&#x306B;&#x3057;&#x305F;&#x3002;</p>
+<h3 id="ngix-proxy"><a href="#ngix-proxy" class="headerlink" title="ngix-proxy"></a>ngix-proxy</h3><p><a href="https://github.com/nginx-proxy/nginx-proxy">nginx-proxy</a> &#x306F; docker.sock &#x3092;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3057;&#x3066;&#x3001;&#x8D77;&#x52D5;&#x4E2D;&#x306E;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3092;&#x76E3;&#x8996;&#x3057;&#x3066;&#x81EA;&#x52D5;&#x3067;&#x30EA;&#x30D0;&#x30FC;&#x30B9;&#x30D7;&#x30ED;&#x30AD;&#x30B7;&#x306E;&#x8A2D;&#x5B9A;&#x3092;&#x884C;&#x3063;&#x3066;&#x304F;&#x308C;&#x308B;&#x3002;nginxproxy/acme-companion &#x306F; nginx-proxy &#x304C;&#x8A2D;&#x5B9A;&#x3057;&#x305F;&#x30EA;&#x30D0;&#x30FC;&#x30B9;&#x30D7;&#x30ED;&#x30AD;&#x30B7;&#x306E;&#x8A2D;&#x5B9A;&#x3092;&#x5143;&#x306B; Let&#x2019;s Encrypt &#x306E;&#x8A3C;&#x660E;&#x66F8;&#x3092;&#x81EA;&#x52D5;&#x3067;&#x53D6;&#x5F97;&#x3057;&#x3066;&#x304F;&#x308C;&#x308B;<br>&#x3042;&#x3089;&#x304B;&#x3058;&#x3081; <code>docker network create proxy-network --subnet 172.18.0.0/16</code> &#x3067;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x3066;&#x304A;&#x304F;&#x3002;&#x30B5;&#x30D6;&#x30CD;&#x30C3;&#x30C8;&#x306F; Nextcloud &#x306E; Trusted Proxy &#x306E;&#x305F;&#x3081;&#x306B;&#x5B9A;&#x7FA9;&#x3059;&#x308B;&#x3002;</p>
+<pre class=" language-yml"><code class="language-yml">version: &apos;3&apos;
+
+services:
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - &quot;80:80&quot;
+      - &quot;443:443&quot;
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs:rw
+      - ./vhost.d:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+      - ./custom-nginx.conf:/etc/nginx/conf.d/custom-nginx.conf:ro
+    networks:
+      proxy-network:
+        ipv4_address: 172.18.0.2
+    labels:
+      - com.github.nginx-proxy.nginx-proxy.keepalive=auto
+
+  letsencrypt:
+    image: nginxproxy/acme-companion
+    container_name: nginx-acme    
+    depends_on:
+      - nginx-proxy
+    environment:
+      - DEFAULT_EMAIL=${MAILADDRESS}
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs:rw
+      - ./vhost.d:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+    networks:
+      - proxy-network
+
+  ddclient:
+    image: lscr.io/linuxserver/ddclient:latest
+    container_name: ddclient
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./ddclient_conf:/config
+    restart: unless-stopped
+
+networks:
+  proxy-network:
+    external: true
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+</code></pre>
+<p>&#x30A6;&#x30C1;&#x306E; IP &#x306F;&#x52D5;&#x7684;&#x30A2;&#x30C9;&#x30EC;&#x30B9;&#x306A;&#x306E;&#x3067;&#x3001;ddclient &#x3067; DNS &#x3092;&#x66F4;&#x65B0;&#x3059;&#x308B;&#x3002;CloudFlare &#x306E;&#x5834;&#x5408;&#x306F;&#x3053;&#x3093;&#x306A;&#x611F;&#x3058;&#x3002;CloudFlare &#x306E; API &#x30C8;&#x30FC;&#x30AF;&#x30F3;&#x306F; DNS Read, Write &#x306E;&#x6A29;&#x9650;&#x3067;&#x5341;&#x5206;&#x3060;&#x3063;&#x305F;&#x3002;<br>&#x306A;&#x304A;&#x3001;&#x3042;&#x3089;&#x304B;&#x3058;&#x3081; DNS &#x30EC;&#x30B3;&#x30FC;&#x30C9;&#x304C;&#x306A;&#x3044;&#x3068;&#x52D5;&#x4F5C;&#x3057;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;&#x624B;&#x52D5;&#x3067;&#x4F5C;&#x6210;&#x3057;&#x3066;&#x304A;&#x304F;&#x3053;&#x3068;&#x3002;</p>
+<pre class=" language-conf"><code class="language-conf"># Even though we use -foreground, daemon= is still needed.
+# It&apos;s value here is ignored, but it&apos;s needed. The value used is set in
+# ddclient.in in the dockerfile.
+daemon=0
+verbose=no
+ssl=yes
+use=web, web=he   # checkip.dns.he.net
+protocol=cloudflare
+login=token
+password=&apos;yourtoken&apos;
+zone=example.com
+dns1.example.com, dns2.example.com
+</code></pre>
+<p><code>/etc/nginx/vhost.d</code> &#x306B;&#x30DB;&#x30B9;&#x30C8;&#x540D;&#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x7F6E;&#x304F;&#x3053;&#x3068;&#x3067;&#x3001;&#x5404;&#x30DB;&#x30B9;&#x30C8;&#x3054;&#x3068;&#x306B;&#x8FFD;&#x52A0;&#x8A2D;&#x5B9A;&#x304C;&#x3067;&#x304D;&#x308B;&#x3002;&#x4F8B;&#x3048;&#x3070; example.com &#x5411;&#x3051;&#x306E;&#x8A2D;&#x5B9A;&#x3092;&#x8FFD;&#x52A0;&#x3057;&#x305F;&#x3051;&#x308C;&#x3070; <code>/etc/nginx/vhost.d/example.com</code> &#x306E;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x8FFD;&#x52A0;&#x3059;&#x308B;&#x3002;Nextcloud &#x306E;&#x30DB;&#x30B9;&#x30C8;&#x540D;&#x3067;&#x30BF;&#x30A4;&#x30E0;&#x30A2;&#x30A6;&#x30C8;&#x3084; Body &#x4E0A;&#x9650;&#x306E;&#x5909;&#x66F4;&#x306A;&#x3069;&#x3092;&#x3057;&#x3066;&#x304A;&#x304F;&#x3002;</p>
+<pre class=" language-ini"><code class="language-ini">send_timeout 300;
+keepalive_timeout 300;
+proxy_read_timeout 300;
+proxy_connect_timeout 300;
+proxy_send_timeout 300;
+client_max_body_size 1G;
+</code></pre>
+<h3 id="Nextcloud-&#x672C;&#x4F53;"><a href="#Nextcloud-&#x672C;&#x4F53;" class="headerlink" title="Nextcloud &#x672C;&#x4F53;"></a>Nextcloud &#x672C;&#x4F53;</h3><p>ngix-proxy &#x3092;&#x4F7F;&#x3063;&#x3066;&#x3044;&#x3066; nginx &#x5074;&#x306F;&#x3044;&#x3058;&#x308A;&#x305F;&#x304F;&#x306A;&#x304B;&#x3063;&#x305F;&#x306E;&#x3067;&#x3001;apache &#x7248;&#x3092; <a href="https://github.com/nextcloud/docker/blob/master/.examples/docker-compose/insecure/mariadb/apache/docker-compose.yml">&#x516C;&#x5F0F;&#x306E;&#x30B5;&#x30F3;&#x30D7;&#x30EB;</a> &#x3092;&#x3082;&#x3068;&#x306B;&#x4F5C;&#x6210;&#x3057;&#x305F;&#x3002;<br>nginx-proxy &#x306E; vhost.d/ &#x306B;&#x9811;&#x5F35;&#x3063;&#x3066;&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x66F8;&#x3051;&#x3070; nextcloud:fpm &#x7248;&#x3092;&#x826F;&#x3044;&#x611F;&#x3058;&#x306B;&#x4F7F;&#x3048;&#x305D;&#x3046;&#x3060;&#x3063;&#x305F;&#x3051;&#x3069;&#x3001;php &#x306B;&#x3082; nginx &#x306E;&#x8A2D;&#x5B9A;&#x3082;&#x8A73;&#x3057;&#x304F;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;&#x3068;&#x308A;&#x3042;&#x3048;&#x305A; apache &#x7248;&#x3067;&#x3002;</p>
+<p>&#x51FA;&#x6765;&#x4E0A;&#x304C;&#x3063;&#x305F;&#x306E;&#x304C;&#x3053;&#x308C;&#x3002;</p>
+<pre class=" language-yml"><code class="language-yml">version: &apos;3&apos;
+
+services:
+  nextcloud:
+    build: ./customimages/nextcloud
+    container_name: nextcloud
+    volumes:
+      - nextcloud_data:/var/www/html
+      # - ./config:/var/www/html/config # for debug
+      - ./log/:/var/log/nextcloud/
+      - ./skeleton/:/var/skeleton/
+      - /mnt/hdd01/:/mnt/hdd01/
+    env_file:
+      - ./.env
+      - ./env/db.env
+      - ./env/nextcloud.env
+    secrets:
+      - nextcloud_admin_password
+      - nextcloud_admin_user
+      - mysql_password
+      - mysql_user
+      - mysql_database
+      - smtp_password
+    networks:
+      - proxy-network
+      - nextcloud-network
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+
+  nextcloud-cron:
+    build: ./customimages/nextcloud
+    container_name: nextcloud-cron
+    restart: unless-stopped
+    env_file:
+      - ./.env
+      - ./env/db.env
+      - ./env/nextcloud.env
+    volumes:
+      - nextcloud_data:/var/www/html
+      # - ./config:/var/www/html/config # for debug
+      - ./log/:/var/log/nextcloud/
+      - ./skeleton/:/var/skeleton/
+      - /mnt/hdd01/:/mnt/hdd01/
+      # if customize cron file
+      # https://help.nextcloud.com/t/docker-setup-cron/78547/5
+      # https://github.com/nextcloud/docker/blob/ccdf46609ff8419ffd7c5ce4e51a117e378b72b6/Dockerfile-debian.template#L15
+      # - ./mycronfile:/var/spool/cron/crontabs/www-data
+    secrets:
+      - nextcloud_admin_password
+      - nextcloud_admin_user
+      - mysql_password
+      - mysql_user
+      - mysql_database
+      - smtp_password
+    networks:
+      - nextcloud-network
+    entrypoint: /cron.sh
+    depends_on:
+      - nextcloud
+
+  db:
+    image: mariadb
+    container_name: nextcloud-db
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file:
+      - ./.env
+      - ./env/db.env
+    secrets:
+      - mysql_database
+      - mysql_password
+      - mysql_user
+      - mysql_root_password
+    networks:
+      - nextcloud-network
+
+  redis:
+    image: redis:6
+    container_name: nextcloud_redis
+    restart: always
+    command: [&quot;--databases&quot;, &quot;1&quot;]
+    healthcheck:
+      test: [&quot;CMD&quot;, &quot;redis-cli&quot;, &quot;ping&quot;]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis_data:/data
+    networks:
+      - nextcloud-network
+
+  elasticsearch:
+    build: ./customimages/elasticsearch
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - &quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - nextcloud-network
+
+secrets:
+  nextcloud_admin_password:
+    file: ./secrets/nextcloud_admin_password
+  nextcloud_admin_user:
+    file: ./secrets/nextcloud_admin_user
+  mysql_password:
+    file: ./secrets/mysql_password
+  mysql_user:
+    file: ./secrets/mysql_user
+  mysql_database:
+    file: ./secrets/mysql_database
+  mysql_root_password:
+    file: ./secrets/mysql_root_password
+  smtp_password:
+    file: ./secrets/smtp_password
+
+volumes:
+  nextcloud_data:
+  db_data:
+  redis_data:
+  elasticsearch_data:
+
+networks:
+  proxy-network:
+    external: true
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+  nextcloud-network:
+    driver: bridge
+
+</code></pre>
+<h3 id="&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x30E1;&#x30E2;"><a href="#&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x30E1;&#x30E2;" class="headerlink" title="&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x30E1;&#x30E2;"></a>&#x30DD;&#x30A4;&#x30F3;&#x30C8;&#x30E1;&#x30E2;</h3><p>Nextcloud &#x672C;&#x4F53;&#x306F; nginx-proxy &#x3068;&#x540C;&#x4E00;&#x306E;&#x30CD;&#x30C3;&#x30C8;&#x30EF;&#x30FC;&#x30AF;&#x306B;&#x304A;&#x3044;&#x3066;&#x3001;&#x305D;&#x308C;&#x4EE5;&#x5916;&#x306E;&#x30B3;&#x30F3;&#x30C6;&#x30CA; nextcloud-network &#x3092;&#x4F5C;&#x6210;&#x3057;&#x3066;&#x305D;&#x3053;&#x306B;&#x914D;&#x7F6E;&#x3057;&#x305F;&#x3002;</p>
+<h4 id="&#x74B0;&#x5883;&#x5909;&#x6570;"><a href="#&#x74B0;&#x5883;&#x5909;&#x6570;" class="headerlink" title="&#x74B0;&#x5883;&#x5909;&#x6570;"></a>&#x74B0;&#x5883;&#x5909;&#x6570;</h4><p>.env &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306A;&#x3069;&#x306E;&#x4E2D;&#x8EAB;&#x306F;&#x3053;&#x3093;&#x306A;&#x611F;&#x3058;&#x3002;</p>
+<pre class=" language-ini"><code class="language-ini">#for nginx-proxy
+<span class="token constant">VIRTUAL_HOST</span><span class="token attr-value"><span class="token punctuation">=</span>$&amp;#123;YOUR_DOMAIN&amp;#125;</span>
+<span class="token constant">LETSENCRYPT_HOST</span><span class="token attr-value"><span class="token punctuation">=</span>$&amp;#123;YOUR_DOMAIN&amp;#125;</span>
+<span class="token constant">LETSENCRYPT_EMAIL</span><span class="token attr-value"><span class="token punctuation">=</span>$&amp;#123;MAIL_ADDRESS&amp;#125;</span>
+# trust nginx proxy
+<span class="token constant">TRUSTED_PROXIES</span><span class="token attr-value"><span class="token punctuation">=</span>172.18.0.2/32</span>
+<span class="token constant">OVERWRITEHOST</span><span class="token attr-value"><span class="token punctuation">=</span>$&amp;#123;YOUR_DOMAIN&amp;#125;</span>
+<span class="token constant">OVERWRITEPROTOCOL</span><span class="token attr-value"><span class="token punctuation">=</span>https</span>
+#admin password
+<span class="token constant">NEXTCLOUD_ADMIN_PASSWORD_FILE</span><span class="token attr-value"><span class="token punctuation">=</span>/run/secrets/nextcloud_admin_password</span>
+<span class="token constant">NEXTCLOUD_ADMIN_USER_FILE</span><span class="token attr-value"><span class="token punctuation">=</span>/run/secrets/nextcloud_admin_user</span>
+<span class="token constant">NEXTCLOUD_TRUSTED_DOMAINS</span><span class="token attr-value"><span class="token punctuation">=</span>$&amp;#123;YOUR_DOMAIN&amp;#125;</span>
+
+# redis settings
+<span class="token constant">REDIS_HOST</span><span class="token attr-value"><span class="token punctuation">=</span>nextcloud_redis</span>
+
+# smtp settings
+<span class="token constant">SMTP_HOST</span><span class="token attr-value"><span class="token punctuation">=</span>smtp.sendgrid.net</span>
+<span class="token constant">SMTP_NAME</span><span class="token attr-value"><span class="token punctuation">=</span>apikey</span>
+<span class="token constant">SMTP_PASSWORD_FILE</span><span class="token attr-value"><span class="token punctuation">=</span>/run/secrets/smtp_password</span>
+<span class="token constant">MAIL_FROM_ADDRESS</span><span class="token attr-value"><span class="token punctuation">=</span>noreply</span>
+<span class="token constant">SMTP_SECURE</span><span class="token attr-value"><span class="token punctuation">=</span>tls</span>
+<span class="token constant">SMTP_AUTHTYPE</span><span class="token attr-value"><span class="token punctuation">=</span>LOGIN</span>
+<span class="token constant">MAIL_DOMAIN</span><span class="token attr-value"><span class="token punctuation">=</span>$&amp;#123;MAIL_DOMAIN&amp;#125;</span>
+# other settings
+<span class="token constant">PHP_UPLOAD_LIMIT</span><span class="token attr-value"><span class="token punctuation">=</span>10G</span>
+<span class="token constant">NC_default_phone_region</span><span class="token attr-value"><span class="token punctuation">=</span>JP</span>
+<span class="token constant">NC_logtype</span><span class="token attr-value"><span class="token punctuation">=</span>file</span>
+<span class="token constant">NC_logfile</span><span class="token attr-value"><span class="token punctuation">=</span>/var/log/nextcloud/nextcloud.log</span>
+<span class="token constant">NC_loglevel</span><span class="token attr-value"><span class="token punctuation">=</span>0</span>
+<span class="token constant">NC_default_language</span><span class="token attr-value"><span class="token punctuation">=</span>ja</span>
+<span class="token constant">NC_default_locale</span><span class="token attr-value"><span class="token punctuation">=</span>ja_JP</span>
+<span class="token constant">NC_default_timezone</span><span class="token attr-value"><span class="token punctuation">=</span>Asia/Tokyo</span>
+<span class="token constant">NC_skeletondirectory</span><span class="token attr-value"><span class="token punctuation">=</span>/var/skeleton/</span>
+<span class="token constant">NC_maintenance_window_start</span><span class="token attr-value"><span class="token punctuation">=</span>16</span>
+</code></pre>
+<p>NC_ &#x30D7;&#x30EC;&#x30D5;&#x30A3;&#x30C3;&#x30AF;&#x30B9;&#x304C;&#x3064;&#x304F;&#x74B0;&#x5883;&#x5909;&#x6570;&#x306F; config.php &#x306E;&#x8A2D;&#x5B9A;&#x3092;&#x4E0A;&#x66F8;&#x304D;&#x3059;&#x308B;&#x3002;&#x74B0;&#x5883;&#x5909;&#x6570;&#x542B;&#x3081; config.php &#x306B;&#x76F4;&#x63A5;&#x66F8;&#x304D;&#x8FBC;&#x3080;&#x306E;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001;&#x5024;&#x3092;&#x7121;&#x8996;&#x3057;&#x3066;&#x74B0;&#x5883;&#x5909;&#x6570;&#x304C;&#x4E0A;&#x66F8;&#x304D;&#x3055;&#x308C;&#x308B;&#x306E;&#x3067;&#x6CE8;&#x610F;&#x3002;&#x306A;&#x306E;&#x3067;&#x8A2D;&#x5B9A;&#x304C;&#x9593;&#x9055;&#x3063;&#x3066;&#x3044;&#x305F;&#x5834;&#x5408;&#x3001;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x5185;&#x306E; confing.php &#x3092;&#x76F4;&#x63A5;&#x66F8;&#x304D;&#x63DB;&#x3048;&#x3066;&#x3082;&#x53CD;&#x6620;&#x3055;&#x308C;&#x306A;&#x3044;&#x3002;&#x3053;&#x308C;&#x306B;&#x30CF;&#x30DE;&#x3063;&#x3066; 2, 3 &#x6642;&#x9593;&#x7121;&#x99C4;&#x306B;&#x3057;&#x305F;&#x3002;&#x4E0A;&#x8A18;&#x8A2D;&#x5B9A;&#x3092;&#x3059;&#x308C;&#x3070;&#x6700;&#x4F4E;&#x9650;&#x7BA1;&#x7406;&#x753B;&#x9762;&#x3067;&#x8B66;&#x544A;&#x304C;&#x51FA;&#x306A;&#x304F;&#x306A;&#x308B;&#x306F;&#x305A;&#x3002;</p>
+<p>&#x3061;&#x306A;&#x307F;&#x306B;&#x3001;Nextcloud &#x306E;&#x74B0;&#x5883;&#x5909;&#x6570;&#x306F;&#x5909;&#x6570;&#x540D;&#x306E;&#x672B;&#x5C3E;&#x306B; _FILE &#x3068;&#x3064;&#x3051;&#x308B;&#x3053;&#x3068;&#x3067;&#x3001;docker &#x306E; secrets &#x3067;&#x7BA1;&#x7406;&#x3067;&#x304D;&#x308B;&#x3002;Nextcloud &#x3084;&#x62E1;&#x5F35;&#x6A5F;&#x80FD;&#x306E;&#x306E;&#x8106;&#x5F31;&#x6027;&#x306A;&#x3069;&#x3067;&#x74B0;&#x5883;&#x5909;&#x6570;&#x304C;&#x6F0F;&#x308C;&#x305F;&#x6642;&#x306B;&#x5099;&#x3048;&#x3066;&#x3001;&#x30D1;&#x30B9;&#x30EF;&#x30FC;&#x30C9;&#x7CFB;&#x306F; secrets &#x3067;&#x7BA1;&#x7406;&#x3059;&#x308B;&#x3053;&#x3068;&#x306B;&#x3057;&#x305F;&#x3002;</p>
+<h4 id="SendGrid"><a href="#SendGrid" class="headerlink" title="SendGrid"></a>SendGrid</h4><p>&#x30E1;&#x30FC;&#x30EB;&#x306E;&#x914D;&#x4FE1;&#x306F; SendGrid &#x3092;&#x4F7F;&#x3063;&#x3066;&#x3044;&#x308B;&#x3002;SMTP_NAME &#x306F; apikey, SMTP_PASSWORD &#x306B;&#x306F; SendGrid &#x306E; API &#x30AD;&#x30FC;&#x3092;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x3002;</p>
+<ul>
+<li>&#x53C2;&#x8003;: <a href="https://docs.sendgrid.com/ja/for-developers/sending-email/getting-started-smtp">SMTP&#x30E1;&#x30FC;&#x30EB;&#x306E;&#x9001;&#x4FE1;&#x65B9;&#x6CD5; | Twilio</a></li>
+</ul>
+<h4 id="skelton-&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;"><a href="#skelton-&#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;" class="headerlink" title="skelton &#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;"></a>skelton &#x30C7;&#x30A3;&#x30EC;&#x30AF;&#x30C8;&#x30EA;</h4><p>&#x65B0;&#x898F;&#x4F5C;&#x6210;&#x3057;&#x305F;&#x30E6;&#x30FC;&#x30B6;&#x30FC;&#x306B;&#x5BFE;&#x3057;&#x3066;&#x30C7;&#x30D5;&#x30A9;&#x30EB;&#x30C8;&#x3067;&#x914D;&#x7F6E;&#x3055;&#x308C;&#x308B;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x6307;&#x5B9A;&#x3067;&#x304D;&#x308B;&#x3002;&#x65E2;&#x5B9A;&#x3060;&#x3068;&#x30B5;&#x30F3;&#x30D7;&#x30EB;&#x306E;&#x753B;&#x50CF;&#x306A;&#x3069;&#x304C;&#x5165;&#x3063;&#x3066;&#x3044;&#x308B;&#x306E;&#x3067; NC_skeletondirectory=/var/skeleton/ &#x3067;&#x6307;&#x5B9A;&#x3057;&#x3066;&#x3001;docker-compose.yml &#x3067;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3057;&#x3066;&#x304A;&#x304F;&#x3002;&#x4F7F;&#x3044;&#x65B9;&#x306E; PDF &#x3067;&#x3082;&#x3064;&#x304F;&#x3063;&#x3066;&#x30C4;&#x30C3;&#x30B3;&#x3093;&#x3067;&#x304A;&#x304F;</p>
+<h4 id="&#x30ED;&#x30B0;"><a href="#&#x30ED;&#x30B0;" class="headerlink" title="&#x30ED;&#x30B0;"></a>&#x30ED;&#x30B0;</h4><p>apache &#x7248;&#x306E; docker &#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x306F; apache &#x306E;&#x30ED;&#x30B0;&#x3057;&#x304B; stdout &#x306B;&#x51FA;&#x529B;&#x3057;&#x306A;&#x3044;&#x306E;&#x3067; docker compose logs &#x306A;&#x3069;&#x3067; Nextcloud &#x5074;&#x306E;&#x30ED;&#x30B0;&#x304C;&#x78BA;&#x8A8D;&#x3067;&#x304D;&#x306A;&#x3044;&#x3002;&#x307E;&#x305F;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x51FA;&#x529B;&#x3055;&#x308C;&#x3066;&#x3044;&#x306A;&#x3051;&#x308C;&#x3070;&#x3001;Web &#x306E;&#x7BA1;&#x7406;&#x30B3;&#x30F3;&#x30BD;&#x30FC;&#x30EB;&#x3067;&#x30ED;&#x30B0;&#x304C;&#x898B;&#x3048;&#x306A;&#x304F;&#x3066;&#x4E0D;&#x4FBF;&#x306A;&#x306E;&#x3067;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306B;&#x51FA;&#x529B;&#x3059;&#x308B;&#x3088;&#x3046;&#x4FEE;&#x6B63;&#x3002;&#x51FA;&#x529B;&#x5148;&#x306E; /var/log/nextcloud/ &#x30D5;&#x30A9;&#x30EB;&#x30C0;&#x30FC;&#x306F;&#x30AB;&#x30B9;&#x30BF;&#x30E0;&#x30A4;&#x30E1;&#x30FC;&#x30B8;&#x5185;&#x3067;&#x4F5C;&#x6210;&#x3057;&#x3066; www-data &#x306B;&#x30AA;&#x30FC;&#x30CA;&#x30FC;&#x3092;&#x5909;&#x66F4;&#x3057;&#x3066;&#x304A;&#x304F;&#x3002; &#x5B89;&#x5B9A;&#x7A3C;&#x50CD;&#x307E;&#x3067;&#x306F; NC_loglevel &#x3067;&#x30ED;&#x30B0;&#x30EC;&#x30D9;&#x30EB;&#x3092; 0 (DEBUG) &#x306B;&#x3057;&#x3066;&#x3042;&#x308B;&#x3002;&#x3057;&#x3070;&#x3089;&#x304F;&#x3057;&#x305F;&#x3089; 3 (ERROR) &#x306B;&#x623B;&#x3059;&#x3002;</p>
+<h4 id="&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;"><a href="#&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;" class="headerlink" title="&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;"></a>&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;</h4><p>&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;&#x306F;&#x96D1;&#x306B; docker volume &#x3092; tar &#x3067;&#x56FA;&#x3081;&#x3066;&#x3001;&#x5916;&#x90E8;&#x30B9;&#x30C8;&#x30EC;&#x30FC;&#x30B8; &amp; Azure Blob &#x306B;&#x4FDD;&#x5B58;&#x3057;&#x3066;&#x3044;&#x308B;&#x3002;&#x30EA;&#x30B9;&#x30C8;&#x30A2;&#x306F;&#x51FA;&#x6765;&#x308B;&#x3053;&#x3068;&#x3092;&#x78BA;&#x8A8D;&#x3057;&#x305F;&#x3051;&#x3069;&#x3001;&#x96D1;&#x306F;&#x96D1;&#x3002;</p>
+<pre class=" language-sh"><code class="language-sh"># maintenance mode on
+# https://doc.owncloud.com/server/next/admin_manual/maintenance/enable_maintenance.html
+cd /home/watahani/docker_apps/nextcloud
+docker compose exec -u www-data nextcloud php occ maintenance:mode --on
+
+date=`date &apos;+%Y-%m-%d&apos;`
+
+VOLUMES=(&quot;nextcloud_db_data&quot; &quot;nextcloud_nextcloud_data&quot; &quot;nextcloud_redis_data&quot; &quot;elasticsearch_data&quot;)
+for VOLUME_NAME in ${VOLUMES[@]}; do
+    echo back up $VOLUME_NAME start
+    BACKUP_DESTINATION=/mnt/hdd01/owncloud_backup/$VOLUME_NAME.tar.gz
+    sudo tar -czf &quot;$BACKUP_DESTINATION&quot; -C &quot;/var/lib/docker/volumes/$VOLUME_NAME&quot; _data
+    echo upload $VOLUME_NAME start
+    azcopy copy $BACKUP_DESTINATION &quot;https://watahaniownvcloud.blob.core.windows.net/backup/$VOLUME_NAME-$date.tar.gz&quot;
+    echo back up $VOLUME_NAME finish!
+done
+
+docker compose exec -u www-data nextcloud php occ maintenance:mode --off
+</code></pre>
+<p>azcopy login &#x304C;&#x5EC3;&#x6B62;&#x4E88;&#x5B9A;&#x306B;&#x306A;&#x308B;&#x3089;&#x3057;&#x304F;&#x3001;&#x30B5;&#x30FC;&#x30D3;&#x30B9; &#x30D7;&#x30EA;&#x30F3;&#x30B7;&#x30D1;&#x30EB;&#x3067;&#x306E;&#x8A8D;&#x8A3C;&#x306E;&#x5834;&#x5408;&#x3001;&#x3042;&#x3089;&#x304B;&#x3058;&#x3081;&#x74B0;&#x5883;&#x5909;&#x6570;&#x306B; AZCOPY_SPA_APPLICATION_ID, AZCOPY_SPA_CLIENT_SECRET, AZCOPY_TENANT_ID, AZCOPY_AUTO_LOGIN_TYPE=SPN &#x3092;&#x8A2D;&#x5B9A;&#x3057;&#x3066;&#x304A;&#x304F;&#x3053;&#x3068;&#x3002;</p>
+<pre class=" language-sh"><code class="language-sh">INFO: &apos;azcopy login&apos; command will be deprecated starting release 10.22. Use auto-login instead. Visit https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-authorize-azure-active-directory#authorize-without-a-secret-store  to know more.
+</code></pre>
+<p>&#x30A4;&#x30F3;&#x30BF;&#x30E9;&#x30AF;&#x30C6;&#x30A3;&#x30D6;&#x306A;&#x8A8D;&#x8A3C;&#x306F; azure-cli &#x3067;&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x3057;&#x3066;&#x304A;&#x3044;&#x3066;&#x305D;&#x306E;&#x8A8D;&#x8A3C;&#x60C5;&#x5831;&#x3092;&#x4F7F;&#x3044;&#x307E;&#x308F;&#x3059;&#x5B9F;&#x88C5;&#x306B;&#x79FB;&#x884C;&#x3057;&#x3066;&#x3044;&#x304F;&#x3088;&#x3046;&#x3060;&#x3002;</p>
+<ul>
+<li>&#x53C2;&#x8003;: <a href="https://zenn.dev/ciffelia/articles/docker-volume-backup-restore">&#x30D1;&#x30FC;&#x30DF;&#x30C3;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x4FDD;&#x6301;&#x3057;&#x305F;&#x307E;&#x307E;Docker&#x306E;&#x30DC;&#x30EA;&#x30E5;&#x30FC;&#x30E0;&#x3092;&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;&#x30FB;&#x5FA9;&#x5143;&#x3059;&#x308B;</a></li>
+</ul>
+<p>&#x6700;&#x60AA;&#x30A2;&#x30C3;&#x30D7;&#x30ED;&#x30FC;&#x30C9;&#x3057;&#x305F;&#x5199;&#x771F;&#x30C7;&#x30FC;&#x30BF;&#x304C;&#x7121;&#x4E8B;&#x306A;&#x3089;&#x826F;&#x3044;&#x306E;&#x3067;&#x307E;&#x3042;&#x3053;&#x308C;&#x3067;&#x30E8;&#x30B7;&#x3002;</p>
+<h4 id="&#x30AB;&#x30B9;&#x30BF;&#x30E0;&#x30A2;&#x30D7;&#x30EA;"><a href="#&#x30AB;&#x30B9;&#x30BF;&#x30E0;&#x30A2;&#x30D7;&#x30EA;" class="headerlink" title="&#x30AB;&#x30B9;&#x30BF;&#x30E0;&#x30A2;&#x30D7;&#x30EA;"></a>&#x30AB;&#x30B9;&#x30BF;&#x30E0;&#x30A2;&#x30D7;&#x30EA;</h4><p>&#x3053;&#x306E;&#x8FBA;&#x3092;&#x5165;&#x308C;&#x305F;</p>
+<ul>
+<li>memories</li>
+<li>fulltextsearch</li>
+<li>fulltextsearch_elasticsearch</li>
+<li>previewgenerator</li>
+</ul>
+<p>&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x5165;&#x308C;&#x308B;&#x306A;&#x3089; <code>docker compose exec -u www-data nextcloud php occ app:install memories</code> &#x306E;&#x3088;&#x3046;&#x306B;&#x3059;&#x308B;&#x3002;</p>
+<p>&#x69CB;&#x7BC9;&#x3057;&#x3066;&#x3044;&#x305F;&#x5F53;&#x6642;&#x3001;<a href="https://apps.nextcloud.com/">https://apps.nextcloud.com/</a> &#x304C;&#x7570;&#x5E38;&#x306B;&#x91CD;&#x304F;&#x3001;&#x30A2;&#x30D7;&#x30EA;&#x306E;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x304C;&#x30BF;&#x30A4;&#x30E0;&#x30A2;&#x30A6;&#x30C8;&#x3067;&#x51FA;&#x6765;&#x306A;&#x304B;&#x3063;&#x305F;&#x3002;</p>
+<pre class=" language-json"><code class="language-json">&amp;#<span class="token number">123</span><span class="token punctuation">;</span><span class="token property">&quot;reqId&quot;</span><span class="token operator">:</span><span class="token string">&quot;CIl2uB04J5qvKBuCFJOe&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;level&quot;</span><span class="token operator">:</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token property">&quot;time&quot;</span><span class="token operator">:</span><span class="token string">&quot;2024-02-03T13:31:32+00:00&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;remoteAddr&quot;</span><span class="token operator">:</span><span class="token string">&quot;&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;user&quot;</span><span class="token operator">:</span><span class="token string">&quot;--&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;app&quot;</span><span class="token operator">:</span><span class="token string">&quot;appstoreFetcher&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;method&quot;</span><span class="token operator">:</span><span class="token string">&quot;&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;url&quot;</span><span class="token operator">:</span><span class="token string">&quot;--&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;message&quot;</span><span class="token operator">:</span><span class="token string">&quot;Could not connect to appstore: cURL error 28: Operation timed out after 60000 milliseconds with 2514944 out of 6055936 bytes received (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for https://apps.nextcloud.com/api/v1/apps.json&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;userAgent&quot;</span><span class="token operator">:</span><span class="token string">&quot;--&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;version&quot;</span><span class="token operator">:</span><span class="token string">&quot;28.0.2.5&quot;</span><span class="token punctuation">,</span><span class="token property">&quot;data&quot;</span><span class="token operator">:</span>&amp;#<span class="token number">123</span><span class="token punctuation">;</span><span class="token property">&quot;app&quot;</span><span class="token operator">:</span><span class="token string">&quot;appstoreFetcher&quot;</span>&amp;#<span class="token number">125</span><span class="token punctuation">;</span>&amp;#<span class="token number">125</span><span class="token punctuation">;</span>
+</code></pre>
+<p>&#x5E78;&#x3044;&#x4F55;&#x5EA6;&#x304B;&#x8A66;&#x305B;&#x3070;&#x901A;&#x4FE1;&#x3067;&#x5207;&#x308B;&#x3068;&#x304D;&#x304C;&#x3042;&#x3063;&#x305F;&#x306E;&#x3067;&#x3001;&#x4E00;&#x6642;&#x7684;&#x306B;&#x30AA;&#x30EA;&#x30B8;&#x30CA;&#x30EB;&#x306E; json &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092; Blob &#x306B;&#x304A;&#x3044;&#x3066;&#x5BFE;&#x51E6;&#x3057;&#x305F;&#x3002;&#x5177;&#x4F53;&#x7684;&#x306B;&#x306F; <a href="https://apps.nextcloud.com/api/v1/apps.json">https://apps.nextcloud.com/api/v1/apps.json</a> &#x3068; <a href="https://apps.nextcloud.com/api/v1/categories.json">https://apps.nextcloud.com/api/v1/categories.json</a> &#x3092;&#x30C0;&#x30A6;&#x30F3;&#x30ED;&#x30FC;&#x30C9;&#x3057;&#x3066;&#x3001;&#x9069;&#x5F53;&#x306A;&#x30B5;&#x30A4;&#x30C8;&#x3001;&#x540C;&#x3058;&#x30D1;&#x30B9;&#x3067;&#x516C;&#x958B;&#x3059;&#x308B;&#x3002;</p>
+<p>&#x305D;&#x306E;&#x5F8C;&#x3001;config.php &#x306E; appstoreurl &#x306B;&#x3001;https://&lt;&#x9069;&#x5F53;&#x306A;&#x30B5;&#x30A4;&#x30C8;&gt;/api/v1 &#x3092;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x3002;</p>
+<pre class=" language-sh"><code class="language-sh">docker compose exec -u www-data nextcloud php occ --no-warnings config:system:set appstoreurl --value=&quot;https://&lt;&#x9069;&#x5F53;&#x306A;&#x30B5;&#x30A4;&#x30C8;&gt;/api/v1&quot;
+</code></pre>
+<p>&#x5143;&#x306E;&#x30B5;&#x30A4;&#x30C8;&#x304C;&#x5FA9;&#x65E7;&#x3057;&#x305F;&#x3089;&#x5143;&#x306B;&#x623B;&#x3059;</p>
+<pre class=" language-sh"><code class="language-sh">docker compose exec -u www-data nextcloud php occ --no-warnings config:system:delete appstoreurl
+</code></pre>
+<h4 id="Elastic-Search"><a href="#Elastic-Search" class="headerlink" title="Elastic Search"></a>Elastic Search</h4><p>Elastic Search &#x306F;&#x65E5;&#x672C;&#x8A9E;&#x691C;&#x7D22;&#x306E;&#x305F;&#x3081;&#x306B; kuromoji_tokenizer &#x3092;&#x4F7F;&#x3046;&#x3088;&#x3046;&#x306B;&#x8A2D;&#x5B9A;&#x3057;&#x3066;&#x304A;&#x304F;&#x3002;&#x305D;&#x306E;&#x305F;&#x3081;&#x306B; Dockerfile &#x306B;&#x3064;&#x3044;&#x3066;&#x3082;&#x30AB;&#x30B9;&#x30BF;&#x30DE;&#x30A4;&#x30BA;&#x3057;&#x3066;&#x3044;&#x308B;&#x3002;</p>
+<pre class=" language-dockerfile"><code class="language-dockerfile"># Probably from here https://github.com/elastic/elasticsearch/blob/main/distribution/docker/src/docker/Dockerfile
+FROM elasticsearch:8.12.0
+
+USER root
+
+# hadolint ignore=DL3008
+RUN set -ex; \
+    \
+    export DEBIAN_FRONTEND=noninteractive; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        tzdata \
+    ; \
+    rm -rf /var/lib/apt/lists/*; \
+    elasticsearch-plugin install --batch ingest-attachment;\
+    elasticsearch-plugin install --batch analysis-kuromoji;\
+    elasticsearch-plugin install --batch analysis-icu
+
+USER 1000:0
+
+HEALTHCHECK CMD nc -z localhost 9200 || exit 1
+LABEL com.centurylinklabs.watchtower.enable=&quot;false&quot;
+</code></pre>
+<p>fulltextsearch &#x3092;&#x5165;&#x308C;&#x305F;&#x3089;&#x3001;Web &#x306E;&#x7BA1;&#x7406;&#x30B3;&#x30F3;&#x30BD;&#x30FC;&#x30EB;&#x304B;&#x3089; <a href="http://elasticsearch:9200">http://elasticsearch:9200</a> &#x3068;&#x3001;&#x30C8;&#x30FC;&#x30AF;&#x30CA;&#x30A4;&#x30B6;&#x30FC;&#x306B; kuromoji_tokenizer &#x3092;&#x6307;&#x5B9A;&#x3059;&#x308B;&#x3002;<br>&#x305D;&#x306E;&#x5F8C;&#x3001;&#x4EE5;&#x4E0B;&#x306E;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x30A4;&#x30F3;&#x30C7;&#x30C3;&#x30AF;&#x30B9;&#x306E;&#x521D;&#x671F;&#x4F5C;&#x6210;&#x3092;&#x3057;&#x3066;&#x304A;&#x304F;</p>
+<pre class=" language-sh"><code class="language-sh">docker compose exec -u www-data nextcloud php occ fulltextsearch:reset
+docker compose exec -u www-data nextcloud php occ fulltextsearch:index
+</code></pre>
+<p>&#x30A4;&#x30F3;&#x30C7;&#x30C3;&#x30AF;&#x30B9;&#x306E;&#x5B9A;&#x671F;&#x4F5C;&#x6210;&#x306B;&#x3064;&#x3044;&#x3066;&#x306F;&#x3001;<a href="https://rohhie.net/ubuntu22-04-implementing-nextcloud-with-docker/">Ubuntu22.04 Docker&#x3067;Nextcloud | &#x308D;&#x3063;&#x3072;&#x30FC;</a> &#x3092;&#x53C2;&#x8003;&#x306B; /var/www/html/occ fulltextsearch:live &#x2013;service &#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092;&#x8D77;&#x52D5;&#x30B9;&#x30AF;&#x30EA;&#x30D7;&#x30C8;&#x304B;&#x3089;&#x547C;&#x3073;&#x3060;&#x3059;&#x3088;&#x3046; Dockerfile &#x3092;&#x30AB;&#x30B9;&#x30BF;&#x30DE;&#x30A4;&#x30BA;&#x3057;&#x305F;&#x3002;<br>&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x304C;&#x591A;&#x304F;&#x51E6;&#x7406;&#x306B;&#x6642;&#x9593;&#x304C;&#x304B;&#x304B;&#x3063;&#x305F;&#x308A;&#x3001;&#x30D0;&#x30C3;&#x30C1;&#x51E6;&#x7406;&#x3092;&#x3057;&#x305F;&#x3044;&#x306E;&#x3067;&#x3042;&#x308C;&#x3070;&#x5F8C;&#x8FF0;&#x306E; cron &#x306B; fulltextsearch:index &#x3092;&#x30B8;&#x30E7;&#x30D6;&#x3068;&#x3057;&#x3066;&#x8FFD;&#x52A0;&#x3059;&#x308C;&#x3070;&#x826F;&#x3044;&#x3060;&#x308D;&#x3046;&#x3002;</p>
+<h4 id="memories-&#x3068;-previewgenerator"><a href="#memories-&#x3068;-previewgenerator" class="headerlink" title="memories &#x3068; previewgenerator"></a>memories &#x3068; previewgenerator</h4><p>memories &#x3092;&#x5165;&#x308C;&#x308B;&#x3053;&#x3068;&#x306B;&#x3088;&#x308A; Google Photo &#x306E;&#x3088;&#x3046;&#x306B;&#x65E5;&#x4ED8;&#x3054;&#x3068;&#x306B;&#x5199;&#x771F;&#x3092;&#x8868;&#x793A;&#x3057;&#x305F;&#x308A;&#x3001;&#x4EBA;&#x7269;&#x3084;&#x5834;&#x6240;&#x3054;&#x3068;&#x306B;&#x5199;&#x771F;&#x3092;&#x8868;&#x793A;&#x3057;&#x305F;&#x308A;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x306A;&#x308B;&#x3002;&#x753B;&#x50CF;&#x8A8D;&#x8B58;&#x306F;&#x5225;&#x9014;&#x30D7;&#x30E9;&#x30B0;&#x30A4;&#x30F3;&#x304C;&#x5FC5;&#x8981;&#x306A;&#x306E;&#x3067;&#x3001;&#x4ECA;&#x56DE;&#x306F;&#x8A66;&#x3057;&#x3066;&#x3044;&#x306A;&#x3044;&#x3002;<br>&#x307E;&#x305F;&#x3001;memories &#x306E;&#x30D7;&#x30EC;&#x30D3;&#x30E5;&#x30FC;&#x751F;&#x6210;&#x306B;&#x306F; ffmpeg &#x304C;&#x5FC5;&#x8981;&#x306A;&#x306E;&#x3067;&#x3001;Dockerfile &#x306B; ffmpeg &#x3092;&#x8FFD;&#x52A0;&#x3057;&#x305F;&#x3002;</p>
+<p>memories &#x306E;&#x30C9;&#x30AD;&#x30E5;&#x30E1;&#x30F3;&#x30C8;&#x306B;&#x3088;&#x308B;&#x3068; Nextcloud &#x65E2;&#x5B9A;&#x3067;&#x306F; 2048px &#x306E;&#x30D7;&#x30EC;&#x30D3;&#x30E5;&#x30FC;&#x753B;&#x50CF;&#x3092;&#x751F;&#x6210;&#x3059;&#x308B;&#x3089;&#x3057;&#x3044;&#x306E;&#x3067;&#x3001;&#x5C11;&#x3057;&#x5C0F;&#x3055;&#x304F;&#x3002;</p>
+<pre class=" language-sh"><code class="language-sh">docker compose exec -u www-data nextcloud php occ config:system:set preview_max_x --value=&quot;1024&quot;
+docker compose exec -u www-data nextcloud php occ config:system:set preview_max_y --value=&quot;1024&quot;
+</code></pre>
+<p>previewgenerator &#x3082;&#x521D;&#x671F;&#x4F5C;&#x6210;&#x3092;&#x3057;&#x3066;&#x304A;&#x304F;</p>
+<pre class=" language-sh"><code class="language-sh">docker compose exec -it -u www-data nextcloud php occ config:app:set --value=&quot;64 256 1024&quot; previewgenerator squareSizes
+docker compose exec -it -u www-data nextcloud php occ config:app:set --value=&quot;64 256 1024&quot; previewgenerator widthSizes
+docker compose exec -it -u www-data nextcloud php occ config:app:set --value=&quot;64 256 1024&quot; previewgenerator heightSizes
+</code></pre>
+<p>&#x51FA;&#x6765;&#x305F;&#x3089;&#x521D;&#x56DE;&#x306E;&#x30D7;&#x30EC;&#x30D3;&#x30E5;&#x30FC;&#x751F;&#x6210;&#x3092;&#x884C;&#x3046;</p>
+<pre class=" language-sh"><code class="language-sh">nohup docker compose exec -u www-data nextcloud php occ preview:generate-all&amp;
+</code></pre>
+<p>&#x7D42;&#x308F;&#x3063;&#x305F;&#x3089;&#x4EE5;&#x4E0B;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3092; nextcloud-cron &#x306B;&#x8FFD;&#x52A0;&#x3057;&#x3066;&#x5B9A;&#x671F;&#x7684;&#x306B;&#x5DEE;&#x5206;&#x751F;&#x6210;&#x3059;&#x308B;&#x3088;&#x3046;&#x69CB;&#x6210;&#x3059;&#x308B;&#x3002;</p>
+<pre class=" language-sh"><code class="language-sh">php /var/www/nextcloud/occ preview:pre-generate
+</code></pre>
+<h4 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h4><p>Nextcloud &#x306E; cron &#x30B8;&#x30E7;&#x30D6;&#x306F;&#x3001;nextcloud-cron &#x3068;&#x3057;&#x3066;&#x5225;&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x3067;&#x8D77;&#x52D5;&#x3057;&#x3066;&#x3044;&#x308B;&#x3002;</p>
+<p>&#x53C2;&#x8003;: <a href="https://help.nextcloud.com/t/docker-setup-cron/78547/5">Docker setup &amp; cron - Reiner_Nippes &#x306E; #5 - &#x1F4E6; Appliances (Docker, Snappy, VM, NCP, AIO) - Nextcloud community</a></p>
+<p>&#x65E2;&#x5B9A;&#x3067;&#x306F; <a href="https://github.com/nextcloud/docker/blob/ccdf46609ff8419ffd7c5ce4e51a117e378b72b6/Dockerfile-debian.template#L15">php -f /var/www/html/cron.php</a> &#x304C; 5 &#x5206;&#x3054;&#x3068;&#x306B;&#x5B9F;&#x884C;&#x3055;&#x308C;&#x308B;&#x3002;&#x4E0A;&#x66F8;&#x304D;&#x3057;&#x305F;&#x3051;&#x308C;&#x3070; <code>/var/spool/cron/crontabs/www-data</code> &#x3092;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3059;&#x308B;&#x306A;&#x3069;&#x3057;&#x3066;&#x30AB;&#x30B9;&#x30BF;&#x30DE;&#x30A4;&#x30BA;&#x3059;&#x308B;&#x3002;</p>
+<p>memories &#x3084; previewgenerator &#x3092;&#x9069;&#x5F53;&#x306B;&#x5B9A;&#x671F;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x8A2D;&#x5B9A;&#x3059;&#x308B;&#x3002;&#x3053;&#x306E;&#x6642; cron &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306E;&#x6240;&#x6709;&#x8005;&#x304C; root &#x3067;&#x306A;&#x3051;&#x308C;&#x3070;&#x5931;&#x6557;&#x3059;&#x308B;&#x306E;&#x3067;&#x6CE8;&#x610F;&#x3002;</p>
+<ul>
+<li>&#x53C2;&#x8003;: <a href="https://keep-memory.com/docker-busybox-crond">docker&#x3067;BusyBox crond&#x304C;&#x52D5;&#x304B;&#x306A;&#x3044; &#x2013; numa blog</a></li>
+</ul>
+<pre class=" language-sh"><code class="language-sh">docker compose cp nextcloud-cron:/var/spool/cron/crontabs/www-data ./mycronfile
+echo &apos;30 18 * * * php /var/www/html/occ preview:pre-generate&apos; &gt;&gt; ./mycronfile
+echo &apos;5 * * * * php /var/www/html/occ memories:index&apos; &gt;&gt; ./mycronfile
+sudo chown root:root ./mycronfile
+</code></pre>
+<p>&#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x306B;&#x30DE;&#x30A6;&#x30F3;&#x30C8;</p>
+<pre class=" language-yaml"><code class="language-yaml">  <span class="token key atrule">nextcloud-cron</span><span class="token punctuation">:</span>
+    <span class="token key atrule">build</span><span class="token punctuation">:</span> ./customimages/nextcloud
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> nextcloud<span class="token punctuation">-</span>cron
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
+    <span class="token key atrule">env_file</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./.env
+      <span class="token punctuation">-</span> ./env/db.env
+      <span class="token punctuation">-</span> ./env/nextcloud.env
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud_data<span class="token punctuation">:</span>/var/www/html
+      <span class="token comment" spellcheck="true"># - ./config:/var/www/html/config # for debug</span>
+      <span class="token punctuation">-</span> ./log/<span class="token punctuation">:</span>/var/log/nextcloud/
+      <span class="token punctuation">-</span> ./skeleton/<span class="token punctuation">:</span>/var/skeleton/
+      <span class="token punctuation">-</span> /mnt/hdd01/<span class="token punctuation">:</span>/mnt/hdd01/
+      <span class="token comment" spellcheck="true"># if customize cron file</span>
+      <span class="token comment" spellcheck="true"># https://help.nextcloud.com/t/docker-setup-cron/78547/5</span>
+      <span class="token comment" spellcheck="true"># https://github.com/nextcloud/docker/blob/ccdf46609ff8419ffd7c5ce4e51a117e378b72b6/Dockerfile-debian.template#L15</span>
+      <span class="token punctuation">-</span> ./mycronfile<span class="token punctuation">:</span>/var/spool/cron/crontabs/www<span class="token punctuation">-</span>data
+</code></pre>
+<h4 id="Google-Taskout-&#x304B;&#x3089;&#x306E;&#x79FB;&#x884C;"><a href="#Google-Taskout-&#x304B;&#x3089;&#x306E;&#x79FB;&#x884C;" class="headerlink" title="Google Taskout &#x304B;&#x3089;&#x306E;&#x79FB;&#x884C;"></a>Google Taskout &#x304B;&#x3089;&#x306E;&#x79FB;&#x884C;</h4><p>&#x4ECA;&#x56DE;&#x306F; Google Photo &#x304B;&#x3089;&#x306E;&#x79FB;&#x884C;&#x306A;&#x306E;&#x3067;&#x3001;<a href="https://takeout.google.com/settings/takeout">Google Takeout</a> &#x304B;&#x3089;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x30A8;&#x30AF;&#x30B9;&#x30DD;&#x30FC;&#x30C8;&#x3057;&#x3066;&#x3001;Nextcloud &#x306B;&#x53D6;&#x308A;&#x8FBC;&#x3080;&#x3002;&#x4FDD;&#x5B58;&#x3057;&#x305F;&#x30D1;&#x30B9;&#x3092;&#x5916;&#x90E8;&#x30B9;&#x30C8;&#x30EC;&#x30FC;&#x30B8;&#x3068;&#x3057;&#x3066;&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3057;&#x3066;&#x3082;&#x826F;&#x3044;&#x306E;&#x3060;&#x304C;&#x3001;&#x4ECA;&#x5F8C;&#x30A2;&#x30C3;&#x30D7;&#x30ED;&#x30FC;&#x30C9;&#x3059;&#x308B;&#x30B9;&#x30DE;&#x30DB;&#x306E;&#x30AB;&#x30E1;&#x30E9;&#x753B;&#x50CF;&#x3068;&#x540C;&#x69D8;&#x306E;&#x6271;&#x3044;&#x306B;&#x3057;&#x305F;&#x304B;&#x3063;&#x305F;&#x306E;&#x3067;&#x3001;Nextcloud &#x306B;&#x76F4;&#x63A5;&#x53D6;&#x308A;&#x8FBC;&#x3080;&#x3002;</p>
+<p>memories &#x304C;&#x30E1;&#x30BF;&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x8AAD;&#x307F;&#x8FBC;&#x3093;&#x3067;&#x304F;&#x308C;&#x308B;&#x3089;&#x3057;&#x3044;&#x306E;&#x3067;&#x3001;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092; Nextcloud &#x306B;&#x8EE2;&#x9001;&#x5F8C;&#x306B;&#x4EE5;&#x4E0B;&#x3092;&#x5B9F;&#x884C;&#x3059;&#x308B;&#x3002;</p>
+<pre class=" language-sh"><code class="language-sh"># &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;&#x76F4;&#x63A5; docker volume &#x306B;&#x8EE2;&#x9001;
+sudo mv ./Takeout /var/lib/docker/volumes/{volume_name}/_data/data/{username}/
+# &#x30A4;&#x30F3;&#x30C7;&#x30C3;&#x30AF;&#x30B9;&#x3092;&#x4F5C;&#x6210;
+docker compose exec -u www-data nextcloud php occ files:scan --path=&quot;{username}/files/Takeout&quot;
+# Google Takeout &#x306E;&#x30E1;&#x30BF;&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x8AAD;&#x307F;&#x8FBC;&#x3080;
+docker compose exec -u www-data nextcloud sh -c &apos;yes | php occ memories:migrate-google-takeout&apos;
+</code></pre>
+<p>&#x304C;&#x3001;&#x624B;&#x5143;&#x306E;&#x74B0;&#x5883;&#x3067;&#x306F;&#x3046;&#x307E;&#x304F;&#x52D5;&#x304B;&#x306A;&#x3044;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x304C;&#x3042;&#x3063;&#x305F;&#x306E;&#x3067;&#x3001;<a href="https://github.com/TheLastGimbus/GooglePhotosTakeoutHelper">TheLastGimbus/GooglePhotosTakeoutHelper: Script that organizes the Google Takeout archive into one big chronological folder</a> &#x3092;&#x4F7F;&#x3063;&#x3066;&#x30E1;&#x30BF;&#x30C7;&#x30FC;&#x30BF;&#x3092;&#x66F8;&#x304D;&#x8FBC;&#x3093;&#x3060;&#x3002;</p>
+<p>guess-from-name &#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x306F;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x540D;&#x306A;&#x3069;&#x304B;&#x3089;&#x65E5;&#x4ED8;&#x3092;&#x63A8;&#x6E2C;&#x3057;&#x3066;&#x304F;&#x308C;&#x308B;&#x3089;&#x3057;&#x3044;&#x3002;&#x5B9F;&#x969B;&#x306B; memories &#x3067;&#x53D6;&#x308A;&#x8FBC;&#x3081;&#x306A;&#x304B;&#x3063;&#x305F;&#x30C7;&#x30FC;&#x30BF;&#x306A;&#x3069;&#x304C;&#x3001;&#x30D5;&#x30A9;&#x30EB;&#x30C0;&#x540D;&#x306E;&#x65E5;&#x4ED8;&#x3092;&#x5143;&#x306B;&#x53D6;&#x308A;&#x8FBC;&#x307E;&#x308C;&#x305F;&#x306E;&#x3067;&#x52A9;&#x304B;&#x3063;&#x305F;&#x3002;&#x30A2;&#x30EB;&#x30D0;&#x30E0;&#x306F;&#x65E2;&#x5B9A;&#x3067;&#x306F;&#x5143;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306F;&#x65E5;&#x4ED8;&#x30D5;&#x30A9;&#x30EB;&#x30C0;&#x306B;&#x5165;&#x308C;&#x3066;&#x30A2;&#x30EB;&#x30D0;&#x30E0;&#x7528;&#x306B;&#x30B7;&#x30F3;&#x30DC;&#x30EA;&#x30C3;&#x30AF;&#x30EA;&#x30F3;&#x30AF;&#x3092;&#x5F35;&#x308B;&#x8A2D;&#x5B9A;&#x3089;&#x3057;&#x3044;&#x306E;&#x3067;&#x3001;nothing &#x306B;&#x3057;&#x3066;&#x304A;&#x304F;&#x3002;</p>
+<pre class=" language-sh"><code class="language-sh">wget https://github.com/TheLastGimbus/GooglePhotosTakeoutHelper/releases/download/v3.4.3/gpth-linux
+chmod +x gpth-linux
+./gpth-linux -i ./Takeout/ -o ./output --divide-to-dates --guess-from-name --albums nothing
+</code></pre>
+<p>&#x30E1;&#x30BF;&#x30C7;&#x30FC;&#x30BF;&#x306E;&#x5909;&#x63DB;&#x5F8C;&#x3001;&#x5FF5;&#x306E;&#x305F;&#x3081;&#x30D0;&#x30C3;&#x30AF;&#x30A2;&#x30C3;&#x30D7;&#x5F8C;&#x306B;&#x30D5;&#x30A9;&#x30EB;&#x30C0;&#x30FC;&#x3092;&#x76F4;&#x63A5; Docker Volume &#x306E;&#x4E2D;&#x306B;&#x79FB;&#x52D5;&#x3002;</p>
+<pre class=" language-sh"><code class="language-sh">sudo mv ./output/ALL_PHOTOS  /var/lib/docker/volumes/{volume_name}/_data/data/{username}/
+docker compose exec nextcloud chown -R www-data:www-data /var/lib/docker/volumes/{volume_name}/_data/data/{username}/Takeout
+</code></pre>
+<p>&#x30A4;&#x30F3;&#x30C7;&#x30C3;&#x30AF;&#x30B9;&#x4F5C;&#x308B;</p>
+<pre class=" language-sh"><code class="language-sh">docker compose exec -u www-data nextcloud php occ files:scan --path=&quot;{username}/files/Takeout&quot;
+</code></pre>
+<p>&#x96D1;&#x3060;&#x3051;&#x3069;&#x52D5;&#x3044;&#x305F;&#x306E;&#x3067;&#x30E8;&#x30B7;&#x30C3;&#xFF01;&#x305D;&#x3082;&#x305D;&#x3082;&#x30E1;&#x30BF;&#x30C7;&#x30FC;&#x30BF;&#x304C;&#x3046;&#x307E;&#x304F;&#x53D6;&#x308A;&#x8FBC;&#x3081;&#x306A;&#x3044;&#x53E4;&#x3044;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x306F;&#x3001;&#x5BB6;&#x306E; HDD &#x306B;&#x30AA;&#x30EA;&#x30B8;&#x30CA;&#x30EB;&#x304C;&#x3042;&#x308B;&#x306E;&#x3067;&#x3069;&#x3053;&#x304B;&#x306E;&#x30BF;&#x30A4;&#x30DF;&#x30F3;&#x30B0;&#x3067;&#x305D;&#x308C;&#x306B;&#x5DEE;&#x3057;&#x66FF;&#x3048;&#x3088;&#x3046;&#x3002;</p>
+<h2 id="&#x6700;&#x5F8C;&#x306B;"><a href="#&#x6700;&#x5F8C;&#x306B;" class="headerlink" title="&#x6700;&#x5F8C;&#x306B;"></a>&#x6700;&#x5F8C;&#x306B;</h2><p>Docker &#x3067; Nextcloud &#x3092;&#x52D5;&#x304B;&#x3059;&#x30E1;&#x30E2;&#x3002;&#x30D5;&#x30A9;&#x30FC;&#x30E9;&#x30E0;&#x3082;&#x516C;&#x5F0F;&#x30C9;&#x30AD;&#x30E5;&#x30E1;&#x30F3;&#x30C8;&#x3082;&#x304B;&#x306A;&#x308A;&#x5145;&#x5B9F;&#x3057;&#x3066;&#x3044;&#x308B;&#x3082;&#x306E;&#x306E;&#x3001;docker &#x3067;&#x52D5;&#x304B;&#x3059;&#x306B;&#x306F;&#x305D;&#x308C;&#x306A;&#x308A;&#x306B;&#x82E6;&#x52B4;&#x3057;&#x305F;&#x3002;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x30A2;&#x30C3;&#x30D7;&#x3084;&#x76E3;&#x8996;&#x306B;&#x3064;&#x3044;&#x3066;&#x306F;&#x307E;&#x3060;&#x51FA;&#x6765;&#x3066;&#x3044;&#x306A;&#x3044;&#x306E;&#x3067;&#x3001;&#x5358;&#x306B; Nextcloud &#x3060;&#x3051;&#x304C;&#x76EE;&#x7684;&#x3067;&#x3042;&#x308C;&#x3070; snap &#x3067;&#x5165;&#x308C;&#x308B;&#x306E;&#x304C;&#x4E00;&#x756A;&#x697D;&#x3060;&#x308D;&#x3046;&#x3002;</p>
+<p>&#x6700;&#x5F8C;&#x306B;&#x8A8D;&#x8A3C;&#x306E;&#x8A71;&#x3092;&#x3057;&#x3066;&#x304A;&#x304F;&#x3068; Nextcloud &#x81EA;&#x4F53;&#x306F; Passkey &#x306B;&#x5BFE;&#x5FDC;&#x3057;&#x3066;&#x3044;&#x308B;&#x3088;&#x3046;&#x3067;&#x3001;&#x500B;&#x4EBA;&#x8A2D;&#x5B9A;&#x304B;&#x3089; Android &#x30C7;&#x30D0;&#x30A4;&#x30B9;&#x3084; Windows Hello &#x3092;&#x8FFD;&#x52A0;&#x3067;&#x304D;&#x305F;&#x3002;<br>&#x305F;&#x3060;&#x30E2;&#x30D0;&#x30A4;&#x30EB; &#x30A2;&#x30D7;&#x30EA;&#x3067;&#x306F;&#x30ED;&#x30B0;&#x30A4;&#x30F3;&#x6642;&#x306B; Chrome &#x306A;&#x3069;&#x304C;&#x8D77;&#x52D5;&#x3059;&#x308B;&#x306E;&#x3067;&#x306F;&#x306A;&#x304F;&#x3001;hwsecurity.dev &#x3068;&#x3044;&#x3046;&#x4F1A;&#x793E;&#x304C;&#x63D0;&#x4F9B;&#x3057;&#x3066;&#x3044;&#x308B; SDK &#x304C;&#x7D44;&#x307F;&#x8FBC;&#x307E;&#x308C;&#x305F;&#x72EC;&#x81EA;&#x30D6;&#x30E9;&#x30A6;&#x30B6;&#x30FC;&#x304C;&#x8D77;&#x52D5;&#x3057;&#x3066;&#x3001;Security Key &#x3057;&#x304B;&#x4F7F;&#x3048;&#x306A;&#x3044; UX &#x306B;&#x306A;&#x3063;&#x3066;&#x3044;&#x305F;&#x3002;&#x305D;&#x306E;&#x305F;&#x3081; 2FA &#x3092;&#x6709;&#x52B9;&#x306B;&#x3057;&#x305F;&#x3046;&#x3048;&#x3067;&#x30E2;&#x30D0;&#x30A4;&#x30EB;&#x30A2;&#x30D7;&#x30EA;&#x3092;&#x5229;&#x7528;&#x3059;&#x308B;&#x5834;&#x5408;&#x3001;PC &#x3067;&#x30A2;&#x30D7;&#x30EA;&#x30D1;&#x30B9;&#x30EF;&#x30FC;&#x30C9;&#x3092;&#x767A;&#x884C;&#x3059;&#x308B;&#x304B;&#x3001;&#x30BB;&#x30AD;&#x30E5;&#x30EA;&#x30C6;&#x30A3; &#x30AD;&#x30FC;&#x3084; OTP &#x306A;&#x3069;&#x5225;&#x306E;&#x8A8D;&#x8A3C;&#x8981;&#x7D20;&#x3092;&#x767B;&#x9332;&#x3057;&#x3066;&#x304A;&#x304F;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308B;&#x306E;&#x3067;&#x6CE8;&#x610F;&#x3002;</p>
+
+			  		
+			  		<!-- google Adsense -->
+			  		
+					
+					
+					
+					
+			    	
+					
+					<!-- google Adsense Matched content -->
+			  		
+			  	</div>
+				
+		  	</article>
+		  	
+		  	
+		  	<!-- TAGS -->
+		  	
+		  	
+		  	<!-- Categories posts -->
+		  	
+		  	
+		  	
+		  	<!-- Detailed categories  posts -->
+		  	
+		  	
+		  	
+		  	<!-- Latests -->
+		  	
+			
+		</div>
+		
+		
+		<footer id="footer">
+		
+			
+			
+			
+			
+			<div class="copyright-tool">
+				
+				
+				
+				<div class="copyright-title">
+					<span>
+					&copy; 2024&nbsp;enjoy struggling
+					</span>
+				</div>
+				
+				<div class="copyright-license">
+					<aside>
+						Powered by <a href="https://hexo.io/">Hexo</a>. <a href="https://github.com/tea3/hexo-generator-amp">AMP-Theme</a> designed by <a href="https://photo-tea.com/">tea</a>.
+					</aside>
+				</div>
+			</div>
+			
+		</footer>
+		
+		
+	</div>
+	
+	
+  	<div id="totop"><a href="#"></a></div>
+  	
+  	
+  </body>
+</html>
