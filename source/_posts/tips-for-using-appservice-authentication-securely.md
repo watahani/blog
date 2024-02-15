@@ -7,7 +7,7 @@ date: 2023-08-01 01:00:00
 ---
 
 Azure の App Service や Functions などの Web サービスには、Azure AD と連携して認証を行う機能があります。App Service 認証と呼ばれる機能で、旧称？の EasyAuth の方が馴染みがあるかもしれない。
-最短ではほぼワンクリックでアプリに認証機能を追加できるため、とても便利だ。しかし、そのまま使うとセキュリティ上の問題が発生する可能性がある。
+最短ではほぼワンクリックでアプリに認証機能を追加できるため、とても便利だ。しかし、既定の設定ではテナントのすべてのユーザーおよびアプリがアクセス可能になっているため、要件によってはセキュリティ上の懸念がある。
 
 ということで EasyAuth の機能が Azure AD から見てどのような機能なのか、どのようなセキュリティ上の懸念があるのか、どのように対策するのかをまとめてみた。
 
@@ -31,18 +31,18 @@ EasyAuth の基本についてはここでは記載しないが、ざっくり�
 ほとんどの場合は 1 のクライアントとしての機能を利用するために有効化すると思うが、API としての機能を利用する場合は 2 の RP としての機能も利用することになる。
 つまり、別のクライアントで取得したアクセス トークンを EasyAuth で保護された App Service に送信し、EasyAuth が検証してアクセスを許可するということができる。
 
-ここで注意が必要なのは EasyAuth は既定では aud の検証と署名検証しか行わないことだ。そして Azure AD では API 側で制限されていない限り、基本的にアプリは自由に特定の aud に対するトークンを取得できるので、テナントに登録されたすべてのアプリが EasyAuth が有効なアプリにアクセスができる。
+ここで注意が必要なのは EasyAuth は既定では aud の検証と iss および署名検証しか行わないことだ。そして Azure AD では API 側で制限されていない限り、基本的にアプリは自由に特定の aud に対するトークンを取得できるので、テナントに登録されたすべてのアプリが EasyAuth が有効なアプリにアクセスができる。
 
 ## 試してみる
 
 ということで、簡単なコードで試してみる。まずは App Service なり Functions なりを作って EasyAuth を有効化する。
 作成したらクライアント ID をメモっておく
 
-![](./tips-for-using-appservice-authentication/easyauth-settings.png)
+![](./tips-for-using-appservice-authentication-securely/easyauth-settings.png)
 
 作成したら、これとは別に `アプリの登録` から適当なアプリを登録して、シークレットを作成する。
 
-![](./tips-for-using-appservice-authentication/app-secret.png)
+![](./tips-for-using-appservice-authentication-securely/app-secret.png)
 
 作成した方のクライアント ID とテナント ID もメモっておく
 
@@ -78,7 +78,7 @@ $res.StatusCode # => 200
 
 ## なぜ権限がないのにも関わらずアクセスが出来たのか
 
-シンプルに EasyAuth は既定では aud の検証と署名検証しか行わないからだ。つまり、アクセス トークンの aud が EasyAuth で保護されたアプリのものであって、署名の検証ができればアクセスが許可される。
+シンプルに EasyAuth は既定では aud の検証と iss, 署名検証しか行わないからだ。つまり、アクセス トークンの aud が EasyAuth で保護されたアプリのものであって、署名の検証ができればアクセスが許可される。
 先ほど取得したアクセス トークンの内容を <https://jwt.ms> で見てみると、以下のような内容が確認できる
 
 ![](./tips-for-using-appservice-authentication-securely/access-token-claims.png)
@@ -86,12 +86,12 @@ $res.StatusCode # => 200
 Azure AD ではリソース側で制限がなされていない限り、アプリは特定リソースに対するアクセス トークンを発行可能である。
 たとえば Microsoft Graph API に対するアクセス トークンは、テナントに登録されたすべてのアプリで取得可能である。先ほどのトークン取得コードの scope パラメーターを `<appid>/.default` の部分をテナントに登録された好きなアプリの ID に差し替えてみると、そのアプリに対するアクセス トークンが取得できることが確認できる。
 
-ではテナントに登録されたアプリは、どの API に対しても自由にアクセスが可能かというとそうではなく、API 側で通常は roles クレームをチェックし、必要なアクセス許可を持ったアプリかを判別する。
-具体的には API のアクセス許可からアプリに対して必要なアクセス許可を付与することで、アクセス トークンに roles クレームを追加することが出来、アプリ側で検証に利用が出来る。
+ではテナントに登録されたアプリは、どの API に対しても自由にアクセスが可能かというとそうではなく、API 側で通常はトークンに含まれるクレームをチェックし権限を持ったプリンシパルからのアクセスかを判定する。
+良く使われるのは scp (scope) や roles クレームだろう。
 
-たとえば、Microsoft Graph API をアプリ権限で呼び出そうとすると、API のアクセス許可から権限を追加し、管理者の同意を付与する必要があるが、あれは roles クレームを追加するための作業といえる。
+たとえば、Microsoft Graph API をアプリ権限で呼び出そうとすると、API のアクセス許可から権限を追加し、管理者の同意を付与する必要があるが、あれは roles クレームを追加するための作業といえるし、ユーザー権限での Graph API 呼び出しをするアプリを実装するときに scope を指定するのは scp クレームを追加するための作業といえる。
 
-ただ、先ほども説明した通り、EasyAuth は既定では roles クレームの検証は行わない。つまり、アプリは特定の API に対するアクセス許可を持たなくても、その API に対するアクセス トークンを取得でき、EasyAuth で保護されたアプリにアクセスすることが出来る。
+ただ、先ほども説明した通り、EasyAuth は既定では aud クレームの検証しかしない。つまり scp や roles クレームがないトークン、つまり特に権限を付与していないアプリが取得できるアクセス トークンでも、EasyAuth で保護されたアプリにアクセスすることが出来る。
 
 ## アクセスを制限するには
 
@@ -163,7 +163,7 @@ App Service のリソースを探して、config/authsettingsV2 を開く。上�
 
 ただ、上記だけであれば前述の 2 つの方法を使ったほうが良いので、ビジネス ロジックを書く場合は追加のクレームを構成しチェックすることになるだろう。
 
-例えば、[groups クレームを追加](https://learn.microsoft.com/ja-jp/azure/active-directory/develop/optional-claims#configure-groups-optional-claims) して検証すれば、特定のグループに所属するユーザーにのみ権限を付与したり、[アプリ ロール](https://learn.microsoft.com/ja-jp/azure/active-directory/develop/howto-add-app-roles-in-apps) は、アプリ独自の権限を Azure AD 上で定義し、特定のユーザーやサービス プリンシパルに付与して App Service 上のアプリ内の権限を AAD で管理するといったことができる。
+例えば、[groups クレームを追加](https://learn.microsoft.com/ja-jp/azure/active-directory/develop/optional-claims#configure-groups-optional-claims) して検証すれば、特定のグループに所属するユーザーにのみ権限を付与したり、[アプリ ロール](https://learn.microsoft.com/ja-jp/azure/active-directory/develop/howto-add-app-roles-in-apps) を定義すれば、アプリ独自の権限を Azure AD 上で、特定のユーザーやサービス プリンシパルに付与して App Service 上のアプリで割り当てた権限によった応答を返すといったことが可能だ。
 
 その他のクレームをチェックするには [X-MS-CLIENT-PRINCIPAL](https://learn.microsoft.com/ja-jp/azure/app-service/configure-authentication-user-identities#decoding-the-client-principal-header) をチェックするか、素直にアクセス トークン or ID トークンをデコードして値を取り出して検証する。あと .NET なら ClaimsPrincipal に特定のクレームは勝手に入るので、それをチェックするでも良い。
 
