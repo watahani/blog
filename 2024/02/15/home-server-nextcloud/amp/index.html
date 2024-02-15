@@ -10,7 +10,7 @@
 	<meta property="og:type" content="article">
 	<meta property="og:url" content="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/">
 	
-		<meta property="og:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
+		<meta property="og:image" content="http://blog.haniyama.com\2024\02\15\home-server-nextcloud\timechart.png">
 	
 	<meta property="og:site_name" content="enjoy struggling">
 	
@@ -24,7 +24,7 @@
 		<meta name="twitter:description" content="&lt;p&gt;以前買ったミニ PC を自宅サーバーにしようとしていたのだが、まったく時間が無くて放置していた。育休中に少し時間が取れたので、とりあえず Ubuntu をインストールして Nextcloud を動かしてみた。docker を使って構成したが結構ハマったので、その辺のメモ。&lt;/p&gt;">
 	
     
-    	<meta name="twitter:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
+    	<meta name="twitter:image" content="http://blog.haniyama.com\2024\02\15\home-server-nextcloud\timechart.png">
 	
 	
 	
@@ -58,13 +58,13 @@
 			    "@id":"http://blog.haniyama.com/2024/02/15/home-server-nextcloud/"
 			},
 			"datePublished": "2024-02-15T03:00:00.000Z",
-			"dateModified": "2024-02-15T02:55:58.453Z",
+			"dateModified": "2024-02-15T02:59:14.914Z",
 			
 			"image": {
 				"@type": "ImageObject",
-				"url": "\amp-dist\sample\sample-substituteTitleImage.png",
-				"width" : "1024",
-				"height" : "800"
+				"url": "http://blog.haniyama.com\2024\02\15\home-server-nextcloud\timechart.png",
+				"width" : "1226",
+				"height" : "947"
 			},
 			
 			"author": {
@@ -1783,7 +1783,7 @@ h6.categories {
 						
 			          	<div class="header-thumb flx">
 			          		<div class="thumbImg-w circle">
-			          			<amp-img class="thumbImg" layout="fixed" width="128" height="100" src="\amp-dist\sample\sample-substituteTitleImage.png">
+			          			<amp-img class="thumbImg" layout="fixed" width="129" height="100" src="http://blog.haniyama.com\2024\02\15\home-server-nextcloud\timechart.png">
 			          			</amp-img>
 			          		</div>
 			          	</div>
@@ -1862,7 +1862,7 @@ average_speed_by_hour <span class="token operator">=</span> data<span class="tok
 average_speed_by_hour<span class="token punctuation">.</span>plot<span class="token punctuation">(</span><span class="token punctuation">)</span>
 plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre>
-<p><!-- This img tag couldn't replace. src: <img src="./docker-nginx-certbot-ddns/timechart.png" alt="">--></p>
+<div class="amp-img-wrapper"><amp-img src="/2024/02/15/home-server-nextcloud/timechart.png" width="1226" height="947" layout="responsive"></amp-img></div>
 <p>&#x9045;&#x3044;&#x3068;&#x304D;&#x3067;&#x3082;&#x4E0A;&#x4E0B; 500Mbps &#x3050;&#x3089;&#x3044;&#x51FA;&#x3066;&#x3044;&#x308B;&#x306E;&#x3067;&#x3001;&#x7279;&#x306B;&#x554F;&#x984C;&#x306F;&#x306A;&#x3055;&#x305D;&#x3046;&#x3060;&#x3002;</p>
 <h2 id="Ubuntu-20-04-&#x306E;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x308B;-Docker-&#x304C;&#x53E4;&#x3044;"><a href="#Ubuntu-20-04-&#x306E;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x308B;-Docker-&#x304C;&#x53E4;&#x3044;" class="headerlink" title="Ubuntu 20.04 &#x306E;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x308B; Docker &#x304C;&#x53E4;&#x3044;"></a>Ubuntu 20.04 &#x306E;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x3067;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x308B; Docker &#x304C;&#x53E4;&#x3044;</h2><p>Ubuntu 20.04 &#x306E;&#x521D;&#x671F;&#x30BB;&#x30C3;&#x30C8;&#x30A2;&#x30C3;&#x30D7;&#x4E2D;&#x306B;&#x8272;&#x3005;&#x3068;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x306E;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x304C;&#x3067;&#x304D;&#x308B;&#x306E;&#x3060;&#x304C;&#x3001;&#x30D1;&#x30C3;&#x30B1;&#x30FC;&#x30B8;&#x30DE;&#x30CD;&#x30FC;&#x30B8;&#x30E3;&#x30FC;&#x306B; snap &#x304C;&#x63A1;&#x7528;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x3002;snap &#x3067; Docker &#x3092;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3059;&#x308B;&#x3068;&#x3001;&#x6700;&#x65B0;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x3067;&#x306F;&#x306A;&#x3044;&#x53E4;&#x3044;&#x30D0;&#x30FC;&#x30B8;&#x30E7;&#x30F3;&#x304C;&#x30A4;&#x30F3;&#x30B9;&#x30C8;&#x30FC;&#x30EB;&#x3055;&#x308C;&#x3066;&#x3057;&#x307E;&#x3046;&#x3002;</p>
 <p>&#x3042;&#x307E;&#x308A;&#x554F;&#x984C;&#x306B;&#x306A;&#x308B;&#x3053;&#x3068;&#x306F;&#x306A;&#x3044;&#x3068;&#x601D;&#x3046;&#x304C;&#x3001;&#x79C1;&#x306E;&#x74B0;&#x5883;&#x3067;&#x306F;&#x4EE5;&#x4E0B;&#x306E;&#x30D0;&#x30B0;&#x3092;&#x8E0F;&#x3093;&#x3067;&#x3057;&#x307E;&#x3044; docker compose exec &#x304C;&#x4F7F;&#x3048;&#x306A;&#x304F;&#x306A;&#x3063;&#x3066;&#x3057;&#x307E;&#x3063;&#x305F;&#x3002;</p>
