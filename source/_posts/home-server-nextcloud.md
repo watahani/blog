@@ -63,13 +63,13 @@ average_speed_by_hour.plot()
 plt.show()
 ```
 
-![](./docker-nginx-certbot-ddns/timechart.png)
+![](./home-server-nextcloud/timechart.png)
 
 遅いときでも上下 500Mbps ぐらい出ているので、特に問題はなさそうだ。
 
-## Ubuntu 20.04 のセットアップでインストールされる Docker が古い
+## Ubuntu 22.04 のセットアップでインストールされる Docker が古い
 
-Ubuntu 20.04 の初期セットアップ中に色々とパッケージのインストールができるのだが、パッケージマネージャーに snap が採用されている。snap で Docker をインストールすると、最新バージョンではない古いバージョンがインストールされてしまう。
+Ubuntu 22.04 の初期セットアップ中に色々とパッケージのインストールができるのだが、パッケージマネージャーに snap が採用されている。snap で Docker をインストールすると、最新バージョンではない古いバージョンがインストールされてしまう。
 
 あまり問題になることはないと思うが、私の環境では以下のバグを踏んでしまい docker compose exec が使えなくなってしまった。
 
@@ -410,10 +410,10 @@ date=`date '+%Y-%m-%d'`
 VOLUMES=("nextcloud_db_data" "nextcloud_nextcloud_data" "nextcloud_redis_data" "elasticsearch_data")
 for VOLUME_NAME in ${VOLUMES[@]}; do
     echo back up $VOLUME_NAME start
-    BACKUP_DESTINATION=/mnt/hdd01/owncloud_backup/$VOLUME_NAME.tar.gz
+    BACKUP_DESTINATION=/mnt/exthdd/owncloud_backup/$VOLUME_NAME.tar.gz
     sudo tar -czf "$BACKUP_DESTINATION" -C "/var/lib/docker/volumes/$VOLUME_NAME" _data
     echo upload $VOLUME_NAME start
-    azcopy copy $BACKUP_DESTINATION "https://watahaniownvcloud.blob.core.windows.net/backup/$VOLUME_NAME-$date.tar.gz"
+    azcopy copy $BACKUP_DESTINATION "https://example.blob.core.windows.net/backup/$VOLUME_NAME-$date.tar.gz"
     echo back up $VOLUME_NAME finish!
 done
 
