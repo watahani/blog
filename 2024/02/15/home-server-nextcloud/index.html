@@ -7,7 +7,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/timechart.png">
 <meta property="article:published_time" content="2024-02-15T03:00:00.000Z">
-<meta property="article:modified_time" content="2024-02-15T02:59:14.914Z">
+<meta property="article:modified_time" content="2024-02-15T03:01:17.571Z">
 <meta property="article:author" content="watahani">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/timechart.png">
@@ -345,10 +345,10 @@ date=`date '+%Y-%m-%d'`
 VOLUMES=("nextcloud_db_data" "nextcloud_nextcloud_data" "nextcloud_redis_data" "elasticsearch_data")
 for VOLUME_NAME in $&#123;VOLUMES[@]&#125;; do
     echo back up $VOLUME_NAME start
-    BACKUP_DESTINATION=/mnt/hdd01/owncloud_backup/$VOLUME_NAME.tar.gz
+    BACKUP_DESTINATION=/mnt/exthdd/owncloud_backup/$VOLUME_NAME.tar.gz
     sudo tar -czf "$BACKUP_DESTINATION" -C "/var/lib/docker/volumes/$VOLUME_NAME" _data
     echo upload $VOLUME_NAME start
-    azcopy copy $BACKUP_DESTINATION "https://watahaniownvcloud.blob.core.windows.net/backup/$VOLUME_NAME-$date.tar.gz"
+    azcopy copy $BACKUP_DESTINATION "https://example.blob.core.windows.net/backup/$VOLUME_NAME-$date.tar.gz"
     echo back up $VOLUME_NAME finish!
 done
 

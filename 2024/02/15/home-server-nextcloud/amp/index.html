@@ -58,7 +58,7 @@
 			    "@id":"http://blog.haniyama.com/2024/02/15/home-server-nextcloud/"
 			},
 			"datePublished": "2024-02-15T03:00:00.000Z",
-			"dateModified": "2024-02-15T02:59:14.914Z",
+			"dateModified": "2024-02-15T03:01:17.571Z",
 			
 			"image": {
 				"@type": "ImageObject",
@@ -2153,10 +2153,10 @@ date=`date &apos;+%Y-%m-%d&apos;`
 VOLUMES=(&quot;nextcloud_db_data&quot; &quot;nextcloud_nextcloud_data&quot; &quot;nextcloud_redis_data&quot; &quot;elasticsearch_data&quot;)
 for VOLUME_NAME in ${VOLUMES[@]}; do
     echo back up $VOLUME_NAME start
-    BACKUP_DESTINATION=/mnt/hdd01/owncloud_backup/$VOLUME_NAME.tar.gz
+    BACKUP_DESTINATION=/mnt/exthdd/owncloud_backup/$VOLUME_NAME.tar.gz
     sudo tar -czf &quot;$BACKUP_DESTINATION&quot; -C &quot;/var/lib/docker/volumes/$VOLUME_NAME&quot; _data
     echo upload $VOLUME_NAME start
-    azcopy copy $BACKUP_DESTINATION &quot;https://watahaniownvcloud.blob.core.windows.net/backup/$VOLUME_NAME-$date.tar.gz&quot;
+    azcopy copy $BACKUP_DESTINATION &quot;https://example.blob.core.windows.net/backup/$VOLUME_NAME-$date.tar.gz&quot;
     echo back up $VOLUME_NAME finish!
 done
 
