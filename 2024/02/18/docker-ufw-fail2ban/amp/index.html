@@ -14,10 +14,14 @@
 	
 	<meta property="og:site_name" content="enjoy struggling">
 	
+		<meta property="og:description" content="&lt;p&gt;Ubuntu 22.04 を使っているサーバーでは、基本的に Firewall として ufw を使っていると思う。しかしながら、Docker コンテナーへのアクセスは Docker が自動的に iptables のチェーンを作成し、ufw を迂回するため、ufw での制限が効かない。知らずにめちゃくちゃハマった。&lt;/p&gt;">
+	
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="enjoy struggling">
 	<meta name="twitter:url" content="http://blog.haniyama.com/2024/02/18/docker-ufw-fail2ban/">
 	<meta name="twitter:title" content="Docker コンテナーへのアクセスを fail2ban で制限する (ufw 環境) - enjoy struggling">
+	
+		<meta name="twitter:description" content="&lt;p&gt;Ubuntu 22.04 を使っているサーバーでは、基本的に Firewall として ufw を使っていると思う。しかしながら、Docker コンテナーへのアクセスは Docker が自動的に iptables のチェーンを作成し、ufw を迂回するため、ufw での制限が効かない。知らずにめちゃくちゃハマった。&lt;/p&gt;">
 	
     
     	<meta name="twitter:image" content="\amp-dist\sample\sample-substituteTitleImage.png">
@@ -47,12 +51,14 @@
 			"@type": "BlogPosting",
 			"headline": "Docker コンテナーへのアクセスを fail2ban で制限する (ufw 環境)",
 			
+			"description": "&lt;p&gt;Ubuntu 22.04 を使っているサーバーでは、基本的に Firewall として ufw を使っていると思う。しかしながら、Docker コンテナーへのアクセスは Docker が自動的に iptables のチェーンを作成し、ufw を迂回するため、ufw での制限が効かない。知らずにめちゃくちゃハマった。&lt;/p&gt;",
+			
 			"mainEntityOfPage":{
 			    "@type":"WebPage",
 			    "@id":"http://blog.haniyama.com/2024/02/18/docker-ufw-fail2ban/"
 			},
 			"datePublished": "2024-02-18T03:00:00.000Z",
-			"dateModified": "2024-02-18T07:06:48.703Z",
+			"dateModified": "2024-02-18T07:09:58.555Z",
 			
 			"image": {
 				"@type": "ImageObject",
@@ -1814,6 +1820,7 @@ h6.categories {
                     
 			    	<!-- content -->
 			  		<p>Ubuntu 22.04 &#x3092;&#x4F7F;&#x3063;&#x3066;&#x3044;&#x308B;&#x30B5;&#x30FC;&#x30D0;&#x30FC;&#x3067;&#x306F;&#x3001;&#x57FA;&#x672C;&#x7684;&#x306B; Firewall &#x3068;&#x3057;&#x3066; ufw &#x3092;&#x4F7F;&#x3063;&#x3066;&#x3044;&#x308B;&#x3068;&#x601D;&#x3046;&#x3002;&#x3057;&#x304B;&#x3057;&#x306A;&#x304C;&#x3089;&#x3001;Docker &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x30FC;&#x3078;&#x306E;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x306F; Docker &#x304C;&#x81EA;&#x52D5;&#x7684;&#x306B; iptables &#x306E;&#x30C1;&#x30A7;&#x30FC;&#x30F3;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x3001;ufw &#x3092;&#x8FC2;&#x56DE;&#x3059;&#x308B;&#x305F;&#x3081;&#x3001;ufw &#x3067;&#x306E;&#x5236;&#x9650;&#x304C;&#x52B9;&#x304B;&#x306A;&#x3044;&#x3002;&#x77E5;&#x3089;&#x305A;&#x306B;&#x3081;&#x3061;&#x3083;&#x304F;&#x3061;&#x3083;&#x30CF;&#x30DE;&#x3063;&#x305F;&#x3002;</p>
+<span id="more"></span>
 <p><a href="https://github.com/linuxserver/docker-fail2ban">GitHub - linuxserver/docker-fail2ban</a> &#x3092;&#x5229;&#x7528;&#x3059;&#x308B;&#x3053;&#x3068;&#x3067; Docker &#x304C;&#x81EA;&#x52D5;&#x3067;&#x4F5C;&#x6210;&#x3059;&#x308B; DOKCER-USER &#x30C1;&#x30A7;&#x30FC;&#x30F3;&#x3092;&#x8003;&#x616E;&#x3057;&#x305F; iptables &#x306E;&#x69CB;&#x6210;&#x3092;&#x8FFD;&#x52A0;&#x3057;&#x3066;&#x304F;&#x308C;&#x308B;&#x3088;&#x3046; (iptables &#x76F4;&#x63A5;&#x7DE8;&#x96C6;&#x3060;&#x3068; FOWARD &#x3082;&#x307E;&#x3068;&#x3081;&#x3066;&#x30D6;&#x30ED;&#x30C3;&#x30AF;&#x3057;&#x3066;&#x304F;&#x308C;&#x308B;&#x306E;&#x304B;&#xFF1F;&#x7406;&#x89E3;&#x3067;&#x304D;&#x3066;&#x3044;&#x306A;&#x3044;&#x3002;) &#x3060;&#x304C;&#x3001;<a href="https://github.com/linuxserver/fail2ban-confs">&#x8A2D;&#x5B9A;&#x30D5;&#x30A1;&#x30A4;&#x30EB;</a> &#x306E;&#x3069;&#x306E;&#x8FBA;&#x304C;&#x52B9;&#x3044;&#x3066;&#x3044;&#x308B;&#x306E;&#x304B;&#x89E3;&#x8AAD;&#x3059;&#x308B;&#x306E;&#x304C;&#x30AD;&#x30C4;&#x304B;&#x3063;&#x305F;&#x3002;</p>
 <h2 id="&#x6700;&#x7D42;&#x7684;&#x306A;&#x69CB;&#x6210;"><a href="#&#x6700;&#x7D42;&#x7684;&#x306A;&#x69CB;&#x6210;" class="headerlink" title="&#x6700;&#x7D42;&#x7684;&#x306A;&#x69CB;&#x6210;"></a>&#x6700;&#x7D42;&#x7684;&#x306A;&#x69CB;&#x6210;</h2><p>fail2ban &#x306F;&#x5143;&#x3005;&#x30DB;&#x30B9;&#x30C8;&#x30DE;&#x30B7;&#x30F3;&#x3067;&#x52D5;&#x304B;&#x3059;&#x3064;&#x3082;&#x308A;&#x3060;&#x3063;&#x305F;&#x306E;&#x3067;&#x3001;&#x4EE5;&#x4E0B;&#x306E;&#x30B5;&#x30A4;&#x30C8;&#x3092;&#x53C2;&#x8003;&#x306B; <code>/etc/ufw/after.rules</code> &#x3092;&#x8FFD;&#x52A0;&#x3057;&#x3066; ufw route &#x3067;&#x901A;&#x4FE1;&#x3092;&#x5236;&#x5FA1;&#x3067;&#x304D;&#x308B;&#x3088;&#x3046;&#x306B;&#x3057;&#x305F;&#x3002;&#x6B63;&#x76F4;&#x3053;&#x3061;&#x3089;&#x306E;&#x8A2D;&#x5B9A;&#x3082;&#x6B63;&#x76F4;&#x6B63;&#x78BA;&#x306A;&#x7406;&#x89E3;&#x304C;&#x51FA;&#x6765;&#x3066;&#x3044;&#x306A;&#x3044;&#x3002;</p>
 <ul>
@@ -1821,7 +1828,7 @@ h6.categories {
 <li>&#x53C2;&#x8003;: <a href="https://github.com/chaifeng/ufw-docker">chaifeng/ufw-docker: To fix the Docker and UFW security flaw without disabling iptables</a></li>
 </ul>
 <h3 id="etc-ufw-after-rules-&#x306B;&#x8FFD;&#x8A18;"><a href="#etc-ufw-after-rules-&#x306B;&#x8FFD;&#x8A18;" class="headerlink" title="/etc/ufw/after.rules &#x306B;&#x8FFD;&#x8A18;"></a><code>/etc/ufw/after.rules</code> &#x306B;&#x8FFD;&#x8A18;</h3><p><a href="https://github.com/chaifeng/ufw-docker">chaifeng/ufw-docker: To fix the Docker and UFW security flaw without disabling iptables</a> &#x305D;&#x306E;&#x307E;&#x307E;&#x30B3;&#x30D4;&#x30DA;&#x3067;&#x8FFD;&#x52A0;</p>
-<pre><code># BEGIN UFW AND DOCKER
+<pre class=" language-iptables"><code class="language-iptables"># BEGIN UFW AND DOCKER
 *filter
 :ufw-user-forward - [0:0]
 :ufw-docker-logging-deny - [0:0]
@@ -1848,7 +1855,8 @@ h6.categories {
 
 COMMIT
 # END UFW AND DOCKER
-</code></pre><h3 id="ufw-&#x306E;&#x52D5;&#x4F5C;&#x691C;&#x8A3C;"><a href="#ufw-&#x306E;&#x52D5;&#x4F5C;&#x691C;&#x8A3C;" class="headerlink" title="ufw &#x306E;&#x52D5;&#x4F5C;&#x691C;&#x8A3C;"></a>ufw &#x306E;&#x52D5;&#x4F5C;&#x691C;&#x8A3C;</h3><p>&#x4EE5;&#x4E0B;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x7279;&#x5B9A; IP &#x304B;&#x3089; Docker &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x30FC;&#x3078;&#x306E;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x304C;&#x5236;&#x9650;&#x3067;&#x304D;&#x308B;&#x3053;&#x3068;&#x3092;&#x78BA;&#x8A8D;</p>
+</code></pre>
+<h3 id="ufw-&#x306E;&#x52D5;&#x4F5C;&#x691C;&#x8A3C;"><a href="#ufw-&#x306E;&#x52D5;&#x4F5C;&#x691C;&#x8A3C;" class="headerlink" title="ufw &#x306E;&#x52D5;&#x4F5C;&#x691C;&#x8A3C;"></a>ufw &#x306E;&#x52D5;&#x4F5C;&#x691C;&#x8A3C;</h3><p>&#x4EE5;&#x4E0B;&#x30B3;&#x30DE;&#x30F3;&#x30C9;&#x3067;&#x7279;&#x5B9A; IP &#x304B;&#x3089; Docker &#x30B3;&#x30F3;&#x30C6;&#x30CA;&#x30FC;&#x3078;&#x306E;&#x30A2;&#x30AF;&#x30BB;&#x30B9;&#x304C;&#x5236;&#x9650;&#x3067;&#x304D;&#x308B;&#x3053;&#x3068;&#x3092;&#x78BA;&#x8A8D;</p>
 <pre class=" language-bash"><code class="language-bash">ufw route insert 1 deny from <span class="token operator">&lt;</span>ip<span class="token operator">&gt;</span> to any
 ufw reload
 </code></pre>

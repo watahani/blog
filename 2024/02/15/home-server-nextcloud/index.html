@@ -7,13 +7,13 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/timechart.png">
 <meta property="article:published_time" content="2024-02-15T03:00:00.000Z">
-<meta property="article:modified_time" content="2024-02-18T06:11:33.498Z">
+<meta property="article:modified_time" content="2024-02-18T07:10:26.505Z">
 <meta property="article:author" content="watahani">
 <meta property="article:tag" content="Docker">
 <meta property="article:tag" content="home-server">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.haniyama.com/2024/02/15/home-server-nextcloud/timechart.png">
-<meta name="twitter:creator" content="@watahani"><meta name="description"><meta name="keywords" content="Java, Javascript, AWS, GCP, PGP"><link rel="alternate" type="application/atom+xml" href="/atom.xml" title="enjoy struggling"><title>久しぶりに自宅サーバーを立てて Nextcloud を動かす - enjoy struggling</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.png"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-113476970-1', 'auto');ga('send', 'pageview');</script><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a target="_blank" rel="noopener" href="https://github.com/watahani"><span>Github</span></a></li><li><a target="_blank" rel="noopener" href="https://qiita.com/watahani"><span>Qiita</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><link rel="amphtml" href="./amp/index.html"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://storage.googleapis.com/blog-haniyama/background-min.png"><div class="post-title"><h1 class="title">久しぶりに自宅サーバーを立てて Nextcloud を動かす</h1><ul class="meta"><li><i class="icon icon-author"></i>watahani</li><li><i class="icon icon-clock"></i>39 Minutes</li><li><i class="icon icon-calendar"></i>February 15, 2024</li></ul></div></div><div class="article-content" style="max-width:800px"><p>以前買ったミニ PC を自宅サーバーにしようとしていたのだが、まったく時間が無くて放置していた。育休中に少し時間が取れたので、とりあえず Ubuntu をインストールして Nextcloud を動かしてみた。docker を使って構成したが結構ハマったので、その辺のメモ。</p>
+<meta name="twitter:creator" content="@watahani"><meta name="description"><meta name="keywords" content="Java, Javascript, AWS, GCP, PGP"><link rel="alternate" type="application/atom+xml" href="/atom.xml" title="enjoy struggling"><title>久しぶりに自宅サーバーを立てて Nextcloud を動かす - enjoy struggling</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.png"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-113476970-1', 'auto');ga('send', 'pageview');</script><meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a target="_blank" rel="noopener" href="https://github.com/watahani"><span>Github</span></a></li><li><a target="_blank" rel="noopener" href="https://qiita.com/watahani"><span>Qiita</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><link rel="amphtml" href="./amp/index.html"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://storage.googleapis.com/blog-haniyama/background-min.png"><div class="post-title"><h1 class="title">久しぶりに自宅サーバーを立てて Nextcloud を動かす</h1><ul class="meta"><li><i class="icon icon-author"></i>watahani</li><li><i class="icon icon-clock"></i>54 Minutes</li><li><i class="icon icon-calendar"></i>February 15, 2024</li></ul></div></div><div class="article-content" style="max-width:800px"><p>以前買ったミニ PC を自宅サーバーにしようとしていたのだが、まったく時間が無くて放置していた。育休中に少し時間が取れたので、とりあえず Ubuntu をインストールして Nextcloud を動かしてみた。docker を使って構成したが結構ハマったので、その辺のメモ。</p>
 <span id="more"></span>
 <h2 id="ネットワーク構成について"><a href="#ネットワーク構成について" class="headerlink" title="ネットワーク構成について"></a>ネットワーク構成について</h2><p>IIJMio ひかりを使っているので、普段は DS-Lite IPv4 over IPv6 での通信をしている。ネットワークは詳しくないが、DS-Lite では複数のユーザーが同一の IPv4 アドレスを共有することになるので、ポートフォワードができない。</p>
 <p>当初は IPv4 での外部アクセスと DS-Lite の両立を目指したが実際に PPPoE 接続を試したところ、日中や夕方の混雑隊でも DS-Lite と遜色がないことが分かった。ということで、PPPoE で普通にルーターで NAT する。</p>
@@ -70,61 +70,61 @@ snap list
 </code></pre>
 <h2 id="Nextcloud-を-Docker-で動かす"><a href="#Nextcloud-を-Docker-で動かす" class="headerlink" title="Nextcloud を Docker で動かす"></a>Nextcloud を Docker で動かす</h2><p>ググれば色々記事があるが、<a target="_blank" rel="noopener" href="https://github.com/nextcloud/all-in-one">Nextcloud All-in-One</a> (Nextcloud AIO) を利用するか snap でホストに直接インストールするのが一番楽そうだった。特に AIO 版は機能モリモリで便利なのだが、AIO 自体が docker コンテナを複数立ち上げるようなオーケストレーションツールのような感じで、重厚過ぎるので今回はパス。<br>そもそも、フロントに nginx-proxy を置いて検証アプリを色々動かしたかったため、自分で docker-compose.yml を書くことにした。</p>
 <h3 id="ngix-proxy"><a href="#ngix-proxy" class="headerlink" title="ngix-proxy"></a>ngix-proxy</h3><p><a target="_blank" rel="noopener" href="https://github.com/nginx-proxy/nginx-proxy">nginx-proxy</a> は docker.sock をマウントして、起動中のコンテナを監視して自動でリバースプロキシの設定を行ってくれる。nginxproxy/acme-companion は nginx-proxy が設定したリバースプロキシの設定を元に Let’s Encrypt の証明書を自動で取得してくれる<br>あらかじめ <code>docker network create proxy-network --subnet 172.18.0.0/16</code> でネットワークを作成しておく。サブネットは Nextcloud の Trusted Proxy のために定義する。</p>
-<pre class=" language-yml"><code class="language-yml">version: '3'
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3'</span>
 
-services:
-  nginx-proxy:
-    image: nginxproxy/nginx-proxy
-    container_name: nginx-proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs:rw
-      - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
-      - ./custom-nginx.conf:/etc/nginx/conf.d/custom-nginx.conf:ro
-    networks:
-      proxy-network:
-        ipv4_address: 172.18.0.2
-    labels:
-      - com.github.nginx-proxy.nginx-proxy.keepalive=auto
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">nginx-proxy</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> nginxproxy/nginx<span class="token punctuation">-</span>proxy
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>proxy
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"80:80"</span>
+      <span class="token punctuation">-</span> <span class="token string">"443:443"</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /var/run/docker.sock<span class="token punctuation">:</span>/tmp/docker.sock<span class="token punctuation">:</span>ro
+      <span class="token punctuation">-</span> ./certs<span class="token punctuation">:</span>/etc/nginx/certs<span class="token punctuation">:</span>rw
+      <span class="token punctuation">-</span> ./vhost.d<span class="token punctuation">:</span>/etc/nginx/vhost.d
+      <span class="token punctuation">-</span> ./html<span class="token punctuation">:</span>/usr/share/nginx/html
+      <span class="token punctuation">-</span> ./custom<span class="token punctuation">-</span>nginx.conf<span class="token punctuation">:</span>/etc/nginx/conf.d/custom<span class="token punctuation">-</span>nginx.conf<span class="token punctuation">:</span>ro
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token key atrule">proxy-network</span><span class="token punctuation">:</span>
+        <span class="token key atrule">ipv4_address</span><span class="token punctuation">:</span> 172.18.0.2
+    <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> com.github.nginx<span class="token punctuation">-</span>proxy.nginx<span class="token punctuation">-</span>proxy.keepalive=auto
 
-  letsencrypt:
-    image: nginxproxy/acme-companion
-    container_name: nginx-acme    
-    depends_on:
-      - nginx-proxy
-    environment:
-      - DEFAULT_EMAIL=$&#123;MAILADDRESS&#125;
-      - NGINX_PROXY_CONTAINER=nginx-proxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certs:/etc/nginx/certs:rw
-      - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
-    networks:
-      - proxy-network
+  <span class="token key atrule">letsencrypt</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> nginxproxy/acme<span class="token punctuation">-</span>companion
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>acme    
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nginx<span class="token punctuation">-</span>proxy
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> DEFAULT_EMAIL=$&amp;<span class="token comment" spellcheck="true">#123;MAILADDRESS&amp;#125;</span>
+      <span class="token punctuation">-</span> NGINX_PROXY_CONTAINER=nginx<span class="token punctuation">-</span>proxy
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /var/run/docker.sock<span class="token punctuation">:</span>/var/run/docker.sock<span class="token punctuation">:</span>ro
+      <span class="token punctuation">-</span> ./certs<span class="token punctuation">:</span>/etc/nginx/certs<span class="token punctuation">:</span>rw
+      <span class="token punctuation">-</span> ./vhost.d<span class="token punctuation">:</span>/etc/nginx/vhost.d
+      <span class="token punctuation">-</span> ./html<span class="token punctuation">:</span>/usr/share/nginx/html
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> proxy<span class="token punctuation">-</span>network
 
-  ddclient:
-    image: lscr.io/linuxserver/ddclient:latest
-    container_name: ddclient
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-    volumes:
-      - ./ddclient_conf:/config
-    restart: unless-stopped
+  <span class="token key atrule">ddclient</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> lscr.io/linuxserver/ddclient<span class="token punctuation">:</span>latest
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> ddclient
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> PUID=1000
+      <span class="token punctuation">-</span> PGID=1000
+      <span class="token punctuation">-</span> TZ=Etc/UTC
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./ddclient_conf<span class="token punctuation">:</span>/config
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
 
-networks:
-  proxy-network:
-    external: true
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.18.0.0/16
+<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+  <span class="token key atrule">proxy-network</span><span class="token punctuation">:</span>
+    <span class="token key atrule">external</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token key atrule">driver</span><span class="token punctuation">:</span> bridge
+    <span class="token key atrule">ipam</span><span class="token punctuation">:</span>
+      <span class="token key atrule">config</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">subnet</span><span class="token punctuation">:</span> 172.18.0.0/16
 </code></pre>
 <p>ウチの IP は動的アドレスなので、ddclient で DNS を更新する。CloudFlare の場合はこんな感じ。CloudFlare の API トークンは DNS Read, Write の権限で十分だった。<br>なお、あらかじめ DNS レコードがないと動作しないので、手動で作成しておくこと。</p>
 <pre class=" language-conf"><code class="language-conf"># Even though we use -foreground, daemon= is still needed.
@@ -150,144 +150,144 @@ client_max_body_size 1G;
 </code></pre>
 <h3 id="Nextcloud-本体"><a href="#Nextcloud-本体" class="headerlink" title="Nextcloud 本体"></a>Nextcloud 本体</h3><p>ngix-proxy を使っていて nginx 側はいじりたくなかったので、apache 版を <a target="_blank" rel="noopener" href="https://github.com/nextcloud/docker/blob/master/.examples/docker-compose/insecure/mariadb/apache/docker-compose.yml">公式のサンプル</a> をもとに作成した。<br>nginx-proxy の vhost.d/ に頑張って設定ファイルを書けば nextcloud:fpm 版を良い感じに使えそうだったけど、php にも nginx の設定も詳しくないので、とりあえず apache 版で。</p>
 <p>出来上がったのがこれ。</p>
-<pre class=" language-yml"><code class="language-yml">version: '3'
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3'</span>
 
-services:
-  nextcloud:
-    build: ./customimages/nextcloud
-    container_name: nextcloud
-    volumes:
-      - nextcloud_data:/var/www/html
-      # - ./config:/var/www/html/config # for debug
-      - ./log/:/var/log/nextcloud/
-      - ./skeleton/:/var/skeleton/
-      - /mnt/hdd01/:/mnt/hdd01/
-    env_file:
-      - ./.env
-      - ./env/db.env
-      - ./env/nextcloud.env
-    secrets:
-      - nextcloud_admin_password
-      - nextcloud_admin_user
-      - mysql_password
-      - mysql_user
-      - mysql_database
-      - smtp_password
-    networks:
-      - proxy-network
-      - nextcloud-network
-    depends_on:
-      - db
-      - redis
-      - elasticsearch
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">nextcloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">build</span><span class="token punctuation">:</span> ./customimages/nextcloud
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> nextcloud
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud_data<span class="token punctuation">:</span>/var/www/html
+      <span class="token comment" spellcheck="true"># - ./config:/var/www/html/config # for debug</span>
+      <span class="token punctuation">-</span> ./log/<span class="token punctuation">:</span>/var/log/nextcloud/
+      <span class="token punctuation">-</span> ./skeleton/<span class="token punctuation">:</span>/var/skeleton/
+      <span class="token punctuation">-</span> /mnt/hdd01/<span class="token punctuation">:</span>/mnt/hdd01/
+    <span class="token key atrule">env_file</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./.env
+      <span class="token punctuation">-</span> ./env/db.env
+      <span class="token punctuation">-</span> ./env/nextcloud.env
+    <span class="token key atrule">secrets</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud_admin_password
+      <span class="token punctuation">-</span> nextcloud_admin_user
+      <span class="token punctuation">-</span> mysql_password
+      <span class="token punctuation">-</span> mysql_user
+      <span class="token punctuation">-</span> mysql_database
+      <span class="token punctuation">-</span> smtp_password
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> proxy<span class="token punctuation">-</span>network
+      <span class="token punctuation">-</span> nextcloud<span class="token punctuation">-</span>network
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> db
+      <span class="token punctuation">-</span> redis
+      <span class="token punctuation">-</span> elasticsearch
 
-  nextcloud-cron:
-    build: ./customimages/nextcloud
-    container_name: nextcloud-cron
-    restart: unless-stopped
-    env_file:
-      - ./.env
-      - ./env/db.env
-      - ./env/nextcloud.env
-    volumes:
-      - nextcloud_data:/var/www/html
-      # - ./config:/var/www/html/config # for debug
-      - ./log/:/var/log/nextcloud/
-      - ./skeleton/:/var/skeleton/
-      - /mnt/hdd01/:/mnt/hdd01/
-      # if customize cron file
-      # https://help.nextcloud.com/t/docker-setup-cron/78547/5
-      # https://github.com/nextcloud/docker/blob/ccdf46609ff8419ffd7c5ce4e51a117e378b72b6/Dockerfile-debian.template#L15
-      # - ./mycronfile:/var/spool/cron/crontabs/www-data
-    secrets:
-      - nextcloud_admin_password
-      - nextcloud_admin_user
-      - mysql_password
-      - mysql_user
-      - mysql_database
-      - smtp_password
-    networks:
-      - nextcloud-network
-    entrypoint: /cron.sh
-    depends_on:
-      - nextcloud
+  <span class="token key atrule">nextcloud-cron</span><span class="token punctuation">:</span>
+    <span class="token key atrule">build</span><span class="token punctuation">:</span> ./customimages/nextcloud
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> nextcloud<span class="token punctuation">-</span>cron
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
+    <span class="token key atrule">env_file</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./.env
+      <span class="token punctuation">-</span> ./env/db.env
+      <span class="token punctuation">-</span> ./env/nextcloud.env
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud_data<span class="token punctuation">:</span>/var/www/html
+      <span class="token comment" spellcheck="true"># - ./config:/var/www/html/config # for debug</span>
+      <span class="token punctuation">-</span> ./log/<span class="token punctuation">:</span>/var/log/nextcloud/
+      <span class="token punctuation">-</span> ./skeleton/<span class="token punctuation">:</span>/var/skeleton/
+      <span class="token punctuation">-</span> /mnt/hdd01/<span class="token punctuation">:</span>/mnt/hdd01/
+      <span class="token comment" spellcheck="true"># if customize cron file</span>
+      <span class="token comment" spellcheck="true"># https://help.nextcloud.com/t/docker-setup-cron/78547/5</span>
+      <span class="token comment" spellcheck="true"># https://github.com/nextcloud/docker/blob/ccdf46609ff8419ffd7c5ce4e51a117e378b72b6/Dockerfile-debian.template#L15</span>
+      <span class="token comment" spellcheck="true"># - ./mycronfile:/var/spool/cron/crontabs/www-data</span>
+    <span class="token key atrule">secrets</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud_admin_password
+      <span class="token punctuation">-</span> nextcloud_admin_user
+      <span class="token punctuation">-</span> mysql_password
+      <span class="token punctuation">-</span> mysql_user
+      <span class="token punctuation">-</span> mysql_database
+      <span class="token punctuation">-</span> smtp_password
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud<span class="token punctuation">-</span>network
+    <span class="token key atrule">entrypoint</span><span class="token punctuation">:</span> /cron.sh
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud
 
-  db:
-    image: mariadb
-    container_name: nextcloud-db
-    volumes:
-      - db_data:/var/lib/mysql
-    env_file:
-      - ./.env
-      - ./env/db.env
-    secrets:
-      - mysql_database
-      - mysql_password
-      - mysql_user
-      - mysql_root_password
-    networks:
-      - nextcloud-network
+  <span class="token key atrule">db</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mariadb
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> nextcloud<span class="token punctuation">-</span>db
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> db_data<span class="token punctuation">:</span>/var/lib/mysql
+    <span class="token key atrule">env_file</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./.env
+      <span class="token punctuation">-</span> ./env/db.env
+    <span class="token key atrule">secrets</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql_database
+      <span class="token punctuation">-</span> mysql_password
+      <span class="token punctuation">-</span> mysql_user
+      <span class="token punctuation">-</span> mysql_root_password
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud<span class="token punctuation">-</span>network
 
-  redis:
-    image: redis:6
-    container_name: nextcloud_redis
-    restart: always
-    command: ["--databases", "1"]
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - redis_data:/data
-    networks:
-      - nextcloud-network
+  <span class="token key atrule">redis</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> redis<span class="token punctuation">:</span><span class="token number">6</span>
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> nextcloud_redis
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"--databases"</span><span class="token punctuation">,</span> <span class="token string">"1"</span><span class="token punctuation">]</span>
+    <span class="token key atrule">healthcheck</span><span class="token punctuation">:</span>
+      <span class="token key atrule">test</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"CMD"</span><span class="token punctuation">,</span> <span class="token string">"redis-cli"</span><span class="token punctuation">,</span> <span class="token string">"ping"</span><span class="token punctuation">]</span>
+      <span class="token key atrule">interval</span><span class="token punctuation">:</span> 10s
+      <span class="token key atrule">timeout</span><span class="token punctuation">:</span> 5s
+      <span class="token key atrule">retries</span><span class="token punctuation">:</span> <span class="token number">5</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> redis_data<span class="token punctuation">:</span>/data
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud<span class="token punctuation">-</span>network
 
-  elasticsearch:
-    build: ./customimages/elasticsearch
-    container_name: elasticsearch
-    restart: always
-    environment:
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - xpack.security.enabled=false
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-    networks:
-      - nextcloud-network
+  <span class="token key atrule">elasticsearch</span><span class="token punctuation">:</span>
+    <span class="token key atrule">build</span><span class="token punctuation">:</span> ./customimages/elasticsearch
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> elasticsearch
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> discovery.type=single<span class="token punctuation">-</span>node
+      <span class="token punctuation">-</span> bootstrap.memory_lock=true
+      <span class="token punctuation">-</span> <span class="token string">"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span>
+      <span class="token punctuation">-</span> xpack.security.enabled=false
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> elasticsearch_data<span class="token punctuation">:</span>/usr/share/elasticsearch/data
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> nextcloud<span class="token punctuation">-</span>network
 
-secrets:
-  nextcloud_admin_password:
-    file: ./secrets/nextcloud_admin_password
-  nextcloud_admin_user:
-    file: ./secrets/nextcloud_admin_user
-  mysql_password:
-    file: ./secrets/mysql_password
-  mysql_user:
-    file: ./secrets/mysql_user
-  mysql_database:
-    file: ./secrets/mysql_database
-  mysql_root_password:
-    file: ./secrets/mysql_root_password
-  smtp_password:
-    file: ./secrets/smtp_password
+<span class="token key atrule">secrets</span><span class="token punctuation">:</span>
+  <span class="token key atrule">nextcloud_admin_password</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span> ./secrets/nextcloud_admin_password
+  <span class="token key atrule">nextcloud_admin_user</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span> ./secrets/nextcloud_admin_user
+  <span class="token key atrule">mysql_password</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span> ./secrets/mysql_password
+  <span class="token key atrule">mysql_user</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span> ./secrets/mysql_user
+  <span class="token key atrule">mysql_database</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span> ./secrets/mysql_database
+  <span class="token key atrule">mysql_root_password</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span> ./secrets/mysql_root_password
+  <span class="token key atrule">smtp_password</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span> ./secrets/smtp_password
 
-volumes:
-  nextcloud_data:
-  db_data:
-  redis_data:
-  elasticsearch_data:
+<span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+  <span class="token key atrule">nextcloud_data</span><span class="token punctuation">:</span>
+  <span class="token key atrule">db_data</span><span class="token punctuation">:</span>
+  <span class="token key atrule">redis_data</span><span class="token punctuation">:</span>
+  <span class="token key atrule">elasticsearch_data</span><span class="token punctuation">:</span>
 
-networks:
-  proxy-network:
-    external: true
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.18.0.0/16
-  nextcloud-network:
-    driver: bridge
+<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+  <span class="token key atrule">proxy-network</span><span class="token punctuation">:</span>
+    <span class="token key atrule">external</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token key atrule">driver</span><span class="token punctuation">:</span> bridge
+    <span class="token key atrule">ipam</span><span class="token punctuation">:</span>
+      <span class="token key atrule">config</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">subnet</span><span class="token punctuation">:</span> 172.18.0.0/16
+  <span class="token key atrule">nextcloud-network</span><span class="token punctuation">:</span>
+    <span class="token key atrule">driver</span><span class="token punctuation">:</span> bridge
 
 </code></pre>
 <h3 id="ポイントメモ"><a href="#ポイントメモ" class="headerlink" title="ポイントメモ"></a>ポイントメモ</h3><p>Nextcloud 本体は nginx-proxy と同一のネットワークにおいて、それ以外のコンテナ nextcloud-network を作成してそこに配置した。</p>
